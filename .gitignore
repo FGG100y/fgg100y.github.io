@@ -3,3 +3,7 @@ _site
 node_modules
 Gemfile.lock
 *.gem
+.jekyll-cache/
+_drafts/
+*.swp
+Session.vim
