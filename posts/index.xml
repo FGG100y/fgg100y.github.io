@@ -1,19 +1,4 @@
-<!doctype html><html><head lang=en><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><title>fgg blog | Home </title><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content><meta property="og:image" content><link rel=alternate type=application/rss+xml href=https://fgg100y.github.io/index.xml title="fgg blog"><meta property="og:url" content="https://fgg100y.github.io/"><meta property="og:site_name" content="fgg blog"><meta property="og:title" content="fgg blog"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="website"><meta name=twitter:card content="summary"><meta name=twitter:title content="fgg blog"><script src=https://fgg100y.github.io/js/feather.min.js></script><link href=https://fgg100y.github.io/css/fonts.2c2227b81b1970a03e760aa2e6121cd01f87c88586803cbb282aa224720a765f.css rel=stylesheet><link rel=stylesheet type=text/css media=screen href=https://fgg100y.github.io/css/main.ac08a4c9714baa859217f92f051deb58df2938ec352b506df655005dcaf98cc0.css><link id=darkModeStyle rel=stylesheet type=text/css href=https://fgg100y.github.io/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)"><script type=text/javascript src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script type=text/x-mathjax-config>
-		MathJax.Hub.Config({
-			tex2jax: {
-				inlineMath: [['$','$'], ['\\(','\\)']],
-				displayMath: [['$$','$$'], ['\[','\]']],
-				processEscapes: true,
-				processEnvironments: true,
-				skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-				TeX: { equationNumbers: { autoNumber: "AMS" },
-						 extensions: ["AMSmath.js", "AMSsymbols.js"] }
-			}
-		});
-		</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js onload=renderMathInElement(document.body)></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}]})})</script></head><body><div class=content><header><div class=main><a href=https://fgg100y.github.io/>fgg blog</a></div><nav><a href=/>Home</a>
-<a href=/posts>All posts</a>
-<a href=/about>About</a>
-<a href=/tags>Tags</a></nav></header><main class=list><div class=site-description></div><section class=list-item><h1 class=title><a href=/posts/notes4resume/>tech interview prepare (for my resume)</a></h1><time>Apr 27, 2024</time><br><div class=description>自我介绍 在自我介绍时，确保你提到的项目和技能与你申请的职位紧密相关，这样可以更好地展示你的专业 能力和对职位的适应性。同时，保持自信和热情，让面试官感受到你对工作和团队的承诺。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>Recent content in Posts on fgg blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 27 Apr 2024 22:35:53 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Sat, 27 Apr 2024 22:35:53 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>自我介绍 在自我介绍时，确保你提到的项目和技能与你申请的职位紧密相关，这样可以更好地展示你的专业 能力和对职位的适应性。同时，保持自信和热情，让面试官感受到你对工作和团队的承诺。
 尊敬的面试官，您好！
 我叫范明华，拥有6年在机器学习领域的工作经验。我于2017年硕士毕业于中山大学，专业是生态学， 这为我在实验设计、统计分析以及数据挖掘方面打下了扎实的基础。在过去的6年中，我一直致力于 将机器学习技术应用于实际问题，并取得了一些的成果。
 我在目前公司担任高级数据挖掘工程师，期间我主导了多个机器学习项目的开发和交付，包括时序预 测模型， 图像识别/目标检测模型，以及基于大数据挖掘的普通机器学习模型等，并预研NLP以及语 音识别方面的技术, 同时也取得了授权的发明专利、软件著作、地方标准等成果。在这些项目的实战 中，不仅提升了我的技术深度，也锻炼了代码管理和团队领导能力。
@@ -21,7 +6,7 @@
 除了技术专长，我还是一个注重团队合作和务实负责的人。我相信，我的专业技能和丰富经验，能够为贵公司带来直接的价值。
 我对贵公司在机器学习/大模型应用/自然语言处理方面等方面的工作非常感兴趣，并且我相信我的背景和技能可以为贵公司的发展做出贡献。 我期待能够加入贵公司，并与团队一起解决更多有趣的技术挑战。
 感谢您给我这次面试的机会，我期待在接下来的讨论中分享更多我的经验和想法。谢谢！
-Project 01 &ndash; NLP sklearn randomforest model 当谈到随机森林时，我们需要理解它的基础算法：决策树。随机森林是基于决策树的集成学习方法。所以，让我们首先来了解决策树的基本算法，然后再深入探讨随机森林。
+Project 01 &amp;ndash; NLP sklearn randomforest model 当谈到随机森林时，我们需要理解它的基础算法：决策树。随机森林是基于决策树的集成学习方法。所以，让我们首先来了解决策树的基本算法，然后再深入探讨随机森林。
 1. 决策树算法: 1.1 CART算法 (Classification and Regression Trees): CART算法是一种用于构建分类和回归树的决策树算法。它通过对数据集递归地进行二分来构建决策树。具体步骤如下：
 特征选择：对于分类问题，通常使用基尼指数（Gini index）或信息增益（Information Gain）来选择最佳的特征进行分裂；对于回归问题，通常使用平方误差来选择最佳的特征。
 节点分裂：根据选择的特征，将数据集分成两部分，使得每个子集的样本属于同一类别（对于分类问题）或具有相似的回归值（对于回归问题）。
@@ -34,9 +19,8 @@ Project 01 &ndash; NLP sklearn randomforest model 当谈到随机森林时，我
 2.2 集成决策树: 构建多棵决策树后，随机森林采用不同的方式来集成它们的预测结果：
 分类任务：采用投票的方式，即每棵树投票选择最终的类别。 回归任务：采用平均值的方式，即多棵树的预测结果取平均值。 总结: 随机森林是一种强大的机器学习方法，基于决策树的集成学习。通过利用决策树的随机性和集成策略，随机森林能够有效地应对分类和回归问题，并在许多实际应用中表现优异。
 在 CART (Classification and Regression Trees) 算法中，节点的分裂依据是基于贪心算法。CART 算法通过贪心地选择每次分裂时能够最大程度减少不纯度（对于分类问题）或者最小化误差（对于回归问题）的特征来进行节点的分裂。这种贪心策略保证了在每个节点分裂时都选择了最优的特征来进行分裂。
-节点分裂的依据： 对于分类问题： 在分类问题中，CART 算法通常使用以下两种方法作为节点分裂的依据：&mldr;</div><a class=readmore href=/posts/notes4resume/>Read more ⟶</a></section><section class=list-item><h1 class=title><a href=/posts/hmm_viterbi_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/></a></h1><time>Jan 1, 0001</time><br><div class=description>动态规划是一种解决具有重叠子问题和最优子结构性质的问题的优化技术。在这种方法中，问题被分解为若干个子问题，然后通过求解子问题并将其结果保存在表格中，以避免重复计算。这种自底向上的方法可以大大减少问题的复杂度，并且通常可以在多项式时间内解决问题。
+节点分裂的依据： 对于分类问题： 在分类问题中，CART 算法通常使用以下两种方法作为节点分裂的依据：</description></item><item><title/><link>https://fgg100y.github.io/posts/hmm_viterbi_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://fgg100y.github.io/posts/hmm_viterbi_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid><description>动态规划是一种解决具有重叠子问题和最优子结构性质的问题的优化技术。在这种方法中，问题被分解为若干个子问题，然后通过求解子问题并将其结果保存在表格中，以避免重复计算。这种自底向上的方法可以大大减少问题的复杂度，并且通常可以在多项式时间内解决问题。
 Viterbi 算法就是基于动态规划思想来解决隐马尔可夫模型中的最优路径问题。在这个问题中，我们希望找到观测序列的最有可能的隐藏状态序列。为了达到这个目标，我们将问题分解为每个时刻的子问题，并递归地求解每个子问题以找到最优解。
 具体来说，Viterbi 算法利用了两个重要的性质：
 最优子结构：当前时刻的最优路径可以通过前一时刻的最优路径推导得出。 重叠子问题：在计算每个时刻的最优路径时，我们会多次用到相同的子问题，因此可以通过保存子问题的结果来避免重复计算。 通过利用这两个性质，Viterbi 算法在动态规划的框架下，逐步计算每个时刻每个可能的隐藏状态的最大概率路径，并最终选择具有最大概率的路径作为最优解。
-因此，Viterbi 算法展示了动态规划思想的核心：将复杂问题分解为简单的子问题，并通过保存子问题的结果来避免重复计算，从而在多项式时间内解决问题。&mldr;</div><a class=readmore href=/posts/hmm_viterbi_%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/>Read more ⟶</a></section></main><footer><div style=display:flex><a class=soc href=https://github.com/fgg100y/hugo-blog/ rel=me title=GitHub><i data-feather=github></i></a>
-<a class=border></a></div><div class=footer-info>2024 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a></div></footer><script>feather.replace()</script></div></body></html>
+因此，Viterbi 算法展示了动态规划思想的核心：将复杂问题分解为简单的子问题，并通过保存子问题的结果来避免重复计算，从而在多项式时间内解决问题。</description></item></channel></rss>
