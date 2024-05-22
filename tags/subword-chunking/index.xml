@@ -1,3 +1,209 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Subword Chunking on fgg blog</title><link>https://fgg100y.github.io/tags/subword-chunking/</link><description>Recent content in Subword Chunking on fgg blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 22 Apr 2024 15:41:56 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/subword-chunking/index.xml" rel="self" type="application/rss+xml"/><item><title>Tokenization: BPE, Unigram and more</title><link>https://fgg100y.github.io/posts/llm_tokenization/</link><pubDate>Mon, 22 Apr 2024 15:41:56 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_tokenization/</guid><description>There is more than one way to tokenize a sentence word-level chunks/tokens
-A big vocabulary is needed We combine words: what exactly constitutes a word (&amp;ldquo;bachelor of science&amp;rdquo;, or isolated words) Abbreviated words: &amp;ldquo;LOL&amp;rdquo;, &amp;ldquo;IMO&amp;rdquo;, are these collections of words or new words? Languages that don&amp;rsquo;t segment by spaces character-level chunks/tokens
-Lack of meaning: Unlike words, characters don&amp;rsquo;t have any inherent meaning, model may lose the semantic-specific feature of words. Increased input computation Limits netword+k choices: It&amp;rsquo;s difficult to use architectures which process input sequentially since the input sequences will be much longer.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Subword Chunking on fgg blog</title><link>https://fgg100y.github.io/tags/subword-chunking/</link><description>fgg blog (Subword Chunking)</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 22 Apr 2024 15:41:56 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/subword-chunking/index.xml" rel="self" type="application/rss+xml"/><item><title>Tokenization: BPE, Unigram and more</title><link>https://fgg100y.github.io/posts/llm_tokenization/</link><pubDate>Mon, 22 Apr 2024 15:41:56 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_tokenization/</guid><description>&lt;h1 id="there-is-more-than-one-way-to-tokenize-a-sentence" >
+&lt;div>
+&lt;a href="#there-is-more-than-one-way-to-tokenize-a-sentence">
+##
+&lt;/a>
+There is more than one way to tokenize a sentence
+&lt;/div>
+&lt;/h1>&lt;ul>
+&lt;li>
+&lt;p>word-level chunks/tokens&lt;/p>
+&lt;ul>
+&lt;li>A big vocabulary is needed&lt;/li>
+&lt;li>We combine words: what exactly constitutes a word (&amp;ldquo;bachelor of science&amp;rdquo;, or
+isolated words)&lt;/li>
+&lt;li>Abbreviated words: &amp;ldquo;LOL&amp;rdquo;, &amp;ldquo;IMO&amp;rdquo;, are these collections of words or new words?&lt;/li>
+&lt;li>Languages that don&amp;rsquo;t segment by spaces&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>character-level chunks/tokens&lt;/p>
+&lt;ul>
+&lt;li>Lack of meaning: Unlike words, characters don&amp;rsquo;t have any inherent meaning, model
+may lose the semantic-specific feature of words.&lt;/li>
+&lt;li>Increased input computation&lt;/li>
+&lt;li>Limits netword+k choices: It&amp;rsquo;s difficult to use architectures which process input
+sequentially since the input sequences will be much longer.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Subword-level chunks/tokens&lt;/p>
+&lt;ul>
+&lt;li>We want a tokenization scheme that deals with an infinite potential vocabulary via
+a finite list of known words. Make up the word “unfortunately” via “un” + “for”+
+“tun” + “ate” + “ly”.&lt;/li>
+&lt;li>Subword tokenisation will break the text into chunks based on the word frequency.
+In practice what happens is that common words will be tokenized generally as
+whole words, e.g. “the”, “at”, “and”, etc., while rarer words will be broken
+into smaller chunks and can be used to create the rest of the words in the
+relevant dataset.&lt;/li>
+&lt;li>BPE(Byte Pair Encoding): One popular algorithm for subword tokenisation which
+follows the above approach is BPE. BPE was originally used to help compress data
+by finding common byte pair combinations. It can also be applied to NLP to find
+the most efficient way of representing text.
+&lt;ul>
+&lt;li>What is merging?
+The main goal of the BPE subword algorithm is to find a way to represent
+your entire text dataset with the least amount of tokens. Similar to a
+compression algorithm, you want to find the best way to represent your image,
+text or whatever you are encoding, which uses the least amount of data, or
+in our case tokens. In the BPE algorithm merging is the way we try and
+“compress” the text into subword units.&lt;/li>
+&lt;li>There are a few steps to these merging actions:
+&lt;ol>
+&lt;li>Get the word &lt;strong>count&lt;/strong> frequency&lt;/li>
+&lt;li>Get the &lt;strong>initial token count&lt;/strong> and frequency (i.e., how many times each
+character occurs)&lt;/li>
+&lt;li>Merge the &lt;strong>most common byte pairing&lt;/strong>&lt;/li>
+&lt;li>Add this to the list of tokens and &lt;strong>recalculate the frequency count&lt;/strong>
+for each token (this will change with each merging step)&lt;/li>
+&lt;li>&lt;strong>Rinse and repeat&lt;/strong> until get reached pre-defined token limits (vocab
+size) or a set of number of iterations&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Greedy algorithm: BPE ensures that the most common words will be represented in
+the new vocabulary as a single token, while less common words will be broken
+down into two or more subword tokens. To achieve this, BPE will go through every
+potential option at each step and pick the tokens to merge based on the highest
+frequency.One downside of BPE’s greedy approach is it can result in a potentially
+ambiguous final token vocabulary.
+For instance GPT has a vocabulary size of 40,478 since they have 478 base
+characters and chose to stop training after 40,000 merges.&lt;/li>
+&lt;li>BBPE(byte-level PBE): A base vocabulary that includes all possible base characters
+can be quite large if e.g. all unicode characters are considered as base
+characters. To have a better base vocabulary, GPT-2 uses bytes as the base
+vocabulary, which is a clever trick to force the base vocabulary to be of size
+256 while ensuring that every base character is included in the vocabulary. With
+some additional rules to deal with punctuation, the GPT2’s tokenizer can
+tokenize every text without the need for the &lt;unk> symbol. GPT-2 has a
+vocabulary size of 50,257, which corresponds to the 256 bytes base tokens, a
+special end-of-text token and the symbols learned with 50,000 merges.
+&lt;a href="https://huggingface.co/docs/transformers/en/tokenizer_summary#byte-pair-encoding-bpe">from hf doc&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="probabilistic-subword-tokenization" >
+&lt;div>
+&lt;a href="#probabilistic-subword-tokenization">
+##
+&lt;/a>
+Probabilistic Subword Tokenization
+&lt;/div>
+&lt;/h1>&lt;p>Using the frequency of subword patterns for tokenization can result in ambiguous final
+encodings. The problem is that we have no way to predict which particular token is more
+likely to be the best one when encoding any new input text.
+Luckily, needing to predict the most likely sequence of text is not a unique problem to
+tokenization. We can leverage this knowledge to build a better tokenizer.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Unigram Subword Tokenization&lt;/p>
+&lt;ul>
+&lt;li>The goal for a subword model, however, is different from a LM that is trying to
+predict a full sentence. We only want something that generates unambiguous
+tokenization.&lt;/li>
+&lt;li>The unigram approach differs from BPE in that it attempts to choose the most
+likely option rather than the best option at each iteration. To generate a
+unigram subword token set you need to first define the desired final size of
+your token set and also a starting seed subword token set.&lt;/li>
+&lt;li>You can choose the seed subword token set in a similar way to BPE and choose
+the most frequently occurring substrings. Once you have this in place then
+you need to:
+&lt;ol>
+&lt;li>Work out the probability for each subword token&lt;/li>
+&lt;li>Work out a loss value which would result if each subwork token were to be
+dropped. The loss is worked out via Expectation Maximization algorithm.&lt;/li>
+&lt;li>Drop the tokens which have the largest loss value (e.g., the bottom 10%
+or 20% of subword tokens based on their loss calculations).&lt;/li>
+&lt;li>Repeat these steps until reach the desired final vocabulary size or there
+is no change in token numbers after successive iterations.&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>WordPiece (greedy approach tokenzier, BERT partner)
+Think of WordPiece as an intermediary between the BPE approach and the unigram approach.&lt;/p>
+&lt;ul>
+&lt;li>BPE, if you remember, takes two tokens, looks at the frequency of each pair and then
+merges the pairs that have the highest combined frequency count. It only considers
+the most frequent pair combinations at each step, nothing else.&lt;/li>
+&lt;li>An alternate approach is to check the potential impact of merging that particular
+pair. You can do this using the probabilistic LM approach. At each iterative step,
+choose the character pair which will result in the largest increase in likelihood
+once merged. This is the difference between the probability of the new meged pair
+occurring minus the probability of both individual tokens occurring individually.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>The main difference is that WordPiece is a greedy approach. It still tries to build a
+tokenizer from the bottom up, picking the best pair at each iteration to merge.
+WordPiece uses the likelihood rather than count frequency but otherwise it is a similar
+approach. Unigram in contrast is a fully probabilistic approach which uses probability
+to both choose the pairs to merge and whether to merge them or not. It also removes
+tokens based on the fact that they add the least to the overall likelihood of the
+unigram model.&lt;/p>
+&lt;h1 id="briefly-summarize" >
+&lt;div>
+&lt;a href="#briefly-summarize">
+##
+&lt;/a>
+briefly summarize:
+&lt;/div>
+&lt;/h1>&lt;ul>
+&lt;li>
+&lt;p>BPE: Just uses the frequency of occurrences to identify the best match at every
+iteration until it reaches the predefined vocabulary size.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>WordPiece: Similar to BPE and uses frequency occurrences to identify potential
+merges but makes the final decision based on the likelihood of the merged token&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Unigram: A fully probabilistic model which does not use frequency
+occurrences. Instead, it trains a LM using a probabilistic model, removing
+the token which improves the overall likelihood the least and then starting
+over until it reaches the final token limit.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="sentencepiece" >
+&lt;div>
+&lt;a href="#sentencepiece">
+##
+&lt;/a>
+SentencePiece
+&lt;/div>
+&lt;/h1>&lt;p>SentencePiece basically tries to bring all the subword tokenization tools and techniques
+under one banner. It’s kind of like the Swiss Army knife for subword tokenization. To be
+a Swiss Army-like tool something has to be capable of solving multiple problems. So what
+problems is SentencePiece addressing:&lt;/p>
+&lt;ol>
+&lt;li>All other models assume input is already tokenized: BPE and Unigram are great model
+but they share one big disadvantage: they both need to have their input already
+tokenized. SentencePiece deals with this by simply taking in an input in raw text and
+then doing everything needed on that input to perform subword tokenization.&lt;/li>
+&lt;li>Language agnostic: Since all other subword algorithms need to have their input
+pre-tokenized, it limits their applicability to many languages.&lt;/li>
+&lt;li>Decoding is difficult: Another problem which is caused by model like BPE and unigram
+requiring already tokenized inputs is that you do not know what encoding rules were
+used. For example, how were spaces encoded in the tokens? So you cannot decode the
+input and return it to is original format.&lt;/li>
+&lt;li>No end to end solution: You cannot just plug in a raw input to BPE (or Unigram) and
+get an output.&lt;/li>
+&lt;/ol>
+&lt;p>Some of the techniques SentencePiece uses to address the above shortcomings:&lt;/p>
+&lt;ol>
+&lt;li>Encode everything as unicode: SentencePiece first converts all the input into unicode
+characters. This makes it a language agnostic tool.&lt;/li>
+&lt;li>&amp;ldquo;space&amp;rdquo; encoded as &amp;ldquo;_&amp;quot;(U+2581): To get around the word segmenting issues.&lt;/li>
+&lt;li>And it&amp;rsquo;s faster: One of the issues preventing other subword algorithms from being used
+to tokenize raw sentences as part of model training was that there lack of speed. If
+you processed input in real time and performed your tokenization on the raw input it
+would be too slow. SentencePiece addresses this by using a priority queue for the BPE
+algorithm to speed it up so that you can use it as part of an end-to-end solution.&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>&lt;a href="https://www.openteams.com/tokenizers-how-machines-read/">https://www.openteams.com/tokenizers-how-machines-read/&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>TODO: 补充中文&lt;/p></description></item></channel></rss>

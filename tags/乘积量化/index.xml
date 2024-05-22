@@ -1,2 +1,83 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>乘积量化 on fgg blog</title><link>https://fgg100y.github.io/tags/%E4%B9%98%E7%A7%AF%E9%87%8F%E5%8C%96/</link><description>Recent content in 乘积量化 on fgg blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Wed, 22 May 2024 11:15:40 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/%E4%B9%98%E7%A7%AF%E9%87%8F%E5%8C%96/index.xml" rel="self" type="application/rss+xml"/><item><title>FAISS-IVFPQ</title><link>https://fgg100y.github.io/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/faiss101/</guid><description>Plain and Simple: IndexFlatL2 Given a set of vectors, we can index them using Faiss — then using another vector (the query vector), we search for the most similar vectors within the index. Now, Faiss not only allows us to build an index and search — but it also speeds up search times to ludicrous performance levels.
-IndexFlatL2: simple but not scalable Partitioning the index: for speed when scale up Quantization: for more speed Inverted File Index (IVF) index The Inverted File Index (IVF) index consists of search scope reduction through clustering.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>乘积量化 on fgg blog</title><link>https://fgg100y.github.io/tags/%E4%B9%98%E7%A7%AF%E9%87%8F%E5%8C%96/</link><description>fgg blog (乘积量化)</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 22 May 2024 11:15:40 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/%E4%B9%98%E7%A7%AF%E9%87%8F%E5%8C%96/index.xml" rel="self" type="application/rss+xml"/><item><title>FAISS-IVFPQ</title><link>https://fgg100y.github.io/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
+&lt;div>
+&lt;a href="#plain-and-simple-indexflatl2">
+#
+&lt;/a>
+Plain and Simple: IndexFlatL2
+&lt;/div>
+&lt;/h2>&lt;blockquote>
+&lt;p>Given a set of vectors, we can index them using Faiss — then using another vector (the query vector), we search for the most similar vectors within the index.
+Now, Faiss not only allows us to build an index and search — but it also speeds up search times to ludicrous performance levels.&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>IndexFlatL2: simple but not scalable&lt;/li>
+&lt;li>Partitioning the index: for speed when scale up&lt;/li>
+&lt;li>Quantization: for more speed&lt;/li>
+&lt;/ul>
+&lt;h2 id="inverted-file-index-ivf-index" >
+&lt;div>
+&lt;a href="#inverted-file-index-ivf-index">
+#
+&lt;/a>
+Inverted File Index (IVF) index
+&lt;/div>
+&lt;/h2>&lt;p>The Inverted File Index (IVF) index consists of search scope reduction through clustering.&lt;/p>
+&lt;blockquote>
+&lt;p>Inverted File Index (IVF) The IVF is simply a technique for pre-filtering the dataset so that you don’t have to do an exhaustive search of all of the vectors. It’s pretty straightforward–you cluster the dataset ahead of time with k-means clustering to produce a large number (e.g., 100) of dataset partitions. Then, at query time, you compare your query vector to the partition centroids to find, e.g., the 10 closest clusters, and then you search against only the vectors in those partitions.&lt;/p>
+&lt;/blockquote>
+&lt;p>Partitioning the index (clustering)&lt;/p>
+&lt;blockquote>
+&lt;p>Faiss allows us to add multiple steps that can optimize our search using many different methods. A popular approach is to partition the index into Voronoi cells.
+We can imagine our vectors as each being contained within a Voronoi cell — when we introduce a new query vector, we first measure its distance between centroids, then restrict our search scope to that centroid’s cell.
+But there is a problem if our query vector lands near the edge of a cell — there’s a good chance that its closest other datapoint is contained within a neighboring cell.&lt;/p>
+&lt;/blockquote>
+&lt;p>what we can do to mitigate this issue and increase search-quality is increase an index parameter known as the nprobe value. With nprobe we can set the number of cells to search. I.e., Increasing nprobe increases our search scope.&lt;/p>
+&lt;p>进行聚类的结果，一方面可以极大提升查询速度，但另一方面，可能会造成落在聚类簇边缘的“query向量”只在本聚类簇内查找匹配的结果（实际上，它可能与邻近的聚类簇的其他向量更靠近），从而导致匹配质量的降低。
+一个缓解这个问题的方法是：调整参数 nprobe. 通过增加 nprobe (增加用于匹配查询向量的邻近聚类簇数量）来提升匹配质量。（同时，也会增加查询耗时）&lt;/p>
+&lt;h2 id="product-quantization" >
+&lt;div>
+&lt;a href="#product-quantization">
+#
+&lt;/a>
+Product Quantization
+&lt;/div>
+&lt;/h2>&lt;blockquote>
+&lt;p>All of our indexes so far have stored our vectors as full (eg Flat) vectors. Now, in very large datasets this can quickly become a problem.
+Fortunately, Faiss comes with the ability to compress our vectors using Product Quantization (PQ).
+But, what is PQ? Well, we can view it as an additional approximation step with a similar outcome to our use of IVF. Where IVF allowed us to approximate by reducing the scope of our search, PQ approximates the distance/similarity calculation instead.
+PQ achieves this approximated similarity operation by compressing the vectors themselves, which consists of three steps.&lt;/p>
+&lt;/blockquote>
+&lt;ol>
+&lt;li>Original vector&lt;/li>
+&lt;li>Sliced sub-vector&lt;/li>
+&lt;li>slice clustering&lt;/li>
+&lt;li>centroid ID vector&lt;/li>
+&lt;/ol>
+&lt;p>PQ（乘积量化）不是对嵌入向量空间进行降维，而是对向量本身进行压缩：&lt;/p>
+&lt;ul>
+&lt;li>01 向量分段，例如：1024 -&amp;gt; 128x8 (8个片段)；&lt;/li>
+&lt;li>02 如果数据量是50k，则从单个50k x 1024 的矩阵，变成 8个 50k x 128 的矩阵；&lt;/li>
+&lt;li>03 然后分别用k=256的k-means进行聚类，得到8组256个centroids；则每个原始向量可以用长度为8的向量进行表征（8组与各个向量片段最近的centroid的ID）；&lt;/li>
+&lt;li>04 查询向量（query）同样进行片段化，并找到各组的centroids，然后计算片段向量与centroid的距离，并保存为距离表（partial query subvector-to-centroid distances table)；&lt;/li>
+&lt;li>05 查询向量与数据向量的距离？将数据向量的centroid-ID向量，用于 partial-query-distance-table 的表查询（table lookup），就能得到对应的一系列距离，然后计算其总和L2距离；&lt;/li>
+&lt;li>06 将查询向量与所有数据向量的距离计算出来，排序，即可得到 top-k 最近距离，亦即 top-k 最近似结果 （实际就是 KNN 算法）。&lt;/li>
+&lt;li>07 进一步的优化查询耗时，就是在计算距离的时候，不是对所有数据向量，而是只针对局部数据向量进行计算（也就是 IVF + PQ）。&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bits &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of bits in each centroid&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells/blocks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d) &lt;span style="color:#78787e"># we keep the same L2 distance flat index&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFPQ(quantizer, d, nlist, m, bits)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>train(sentence_embeddings)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>add(sentence_embeddings)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>nprobe &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">10&lt;/span> &lt;span style="color:#78787e"># align to previous IndexIVFFlat nprobe value&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># %%time # jupyterlab cell magic&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i]) &lt;span style="color:#78787e"># sample of original texts/sentences&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>
