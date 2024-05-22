@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>https://fgg100y.github.io/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 22 May 2024 11:15:40 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>FAISS-IVFPQ</title><link>https://fgg100y.github.io/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>https://fgg100y.github.io/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 22 May 2024 11:15:40 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>FAISS-IVFPQ</title><link>https://fgg100y.github.io/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
 &lt;div>
 &lt;a href="#plain-and-simple-indexflatl2">
 #
@@ -1421,7 +1421,7 @@ dimension, for each element and instance independently.
 NOTE By &amp;quot;element&amp;quot; and &amp;quot;instance,&amp;quot; I mean &amp;quot;word&amp;quot; and &amp;quot;sentence&amp;quot;
 respectively for an NLP task, and &amp;quot;pixel&amp;quot; and &amp;quot;image&amp;quot; for a CV task.
 &lt;/code>&lt;/pre>
-&lt;p>&lt;img src="images/LLMs_layerNorm_batchNorm.png" alt="IMG: LayerNorm &amp;amp; BatchNorm">&lt;/p>
+&lt;p>&lt;img alt="IMG: LayerNorm &amp;amp; BatchNorm" src="https://fgg100y.github.io/posts/post_llms_faq/images/LLMs_layerNorm_batchNorm.png">&lt;/p>
 &lt;h2 id="04-注意力机制的改良版本们" >
 &lt;div>
 &lt;a href="#04-%e6%b3%a8%e6%84%8f%e5%8a%9b%e6%9c%ba%e5%88%b6%e7%9a%84%e6%94%b9%e8%89%af%e7%89%88%e6%9c%ac%e4%bb%ac">
