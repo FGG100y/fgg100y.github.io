@@ -217,7 +217,7 @@ sklearn randomforest model
 &lt;ol>
 &lt;li>
 &lt;p>&lt;strong>基尼指数 (Gini index)&lt;/strong>：基尼指数衡量了从一个数据集中随机抽取两个样本，它们类别不一致的概率。具体地，对于一个节点 $t$，基尼指数可以计算为：&lt;/p>
-&lt;p>[ Gini(t) = 1 - \sum_{i=1}^{c} p(i|t)^2 ]&lt;/p>
+&lt;p>$$ Gini(t) = 1 - \sum_{i=1}^{c} p(i|t)^2 $$&lt;/p>
 &lt;p>其中，$c$ 是类别的数量，$p(i|t)$ 是在节点 $t$ 中属于类别 $i$ 的样本的比例。选择能够最大程度降低基尼指数的特征来进行节点分裂。&lt;/p>
 &lt;/li>
 &lt;li>
