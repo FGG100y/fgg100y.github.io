@@ -12,19 +12,21 @@ Now, Faiss not only allows us to build an index and search — but it also speed
 &lt;p>IndexFlatL2 measures the L2 (or Euclidean) distance between all given points between our
 query vector, and the vectors loaded into the index. It’s simple, very accurate, but not
 too fast.&lt;/p>
-&lt;p>&lt;img alt="IMG:indexFlat2" src="https://fgg100y.github.io/posts/faiss101/images/faiss-IndexFlat2.webp">&lt;/p>
+&lt;p>&lt;img alt="IMG:indexFlat2" src="https://fgg100y.github.io/posts/faiss101/images/faiss-IndexFlat2.webp">
+&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
 &lt;ul>
 &lt;li>IndexFlatL2: simple but not scalable&lt;/li>
 &lt;li>Partitioning the index: for speed when scale up&lt;/li>
 &lt;li>Quantization: for more speed&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img alt="IMG:index&amp;rsquo;s performance" src="https://fgg100y.github.io/posts/faiss101/images/faiss-three-indexes-performance.webp">&lt;/p>
-&lt;h2 id="inverted-file-index-ivf-index" >
+&lt;p>&lt;img alt="IMG:index&amp;rsquo;s performance" src="https://fgg100y.github.io/posts/faiss101/images/faiss-three-indexes-performance.webp">
+&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
+&lt;h2 id="inerted-file-index-ivf-index" >
 &lt;div>
-&lt;a href="#inverted-file-index-ivf-index">
+&lt;a href="#inerted-file-index-ivf-index">
 #
 &lt;/a>
-Inverted File Index (IVF) index
+Inerted File Index (IVF) index
 &lt;/div>
 &lt;/h2>&lt;p>The Inverted File Index (IVF) index consists of search scope reduction through clustering.&lt;/p>
 &lt;blockquote>
@@ -37,10 +39,12 @@ We can imagine our vectors as each being contained within a Voronoi cell — whe
 But there is a problem if our query vector lands near the edge of a cell — there’s a good chance that its closest other datapoint is contained within a neighboring cell.&lt;/p>
 &lt;/blockquote>
 &lt;p>what we can do to mitigate this issue and increase search-quality is increase an index parameter known as the nprobe value. With nprobe we can set the number of cells to search. I.e., Increasing nprobe increases our search scope.&lt;/p>
-&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-voronoi-cells.webp">&lt;/p>
+&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-voronoi-cells.webp">
+&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
 &lt;p>进行聚类的结果，一方面可以极大提升查询速度，但另一方面，可能会造成落在聚类簇边缘的“query向量”只在本聚类簇内查找匹配的结果（实际上，它可能与邻近的聚类簇的其他向量更靠近），从而导致匹配质量的降低。
 一个缓解这个问题的方法是：调整参数 nprobe. 通过增加 nprobe (增加用于匹配查询向量的邻近聚类簇数量）来提升匹配质量。（同时，也会增加查询耗时）&lt;/p>
-&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-voronoi-cells-search-scope.webp">&lt;/p>
+&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-voronoi-cells-search-scope.webp">
+&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
 &lt;h2 id="product-quantization" >
 &lt;div>
 &lt;a href="#product-quantization">
@@ -70,7 +74,8 @@ PQ achieves this approximated similarity operation by compressing the vectors th
 &lt;li>06 将查询向量与所有数据向量的距离计算出来，排序，即可得到 top-k 最近距离，亦即 top-k 最近似结果 （实际就是 KNN 算法）。&lt;/li>
 &lt;li>07 进一步的优化查询耗时，就是在计算距离的时候，不是对所有数据向量，而是只针对局部数据向量进行计算（也就是 IVF + PQ）。&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-three-steps-of-PQ.webp">&lt;/p>
+&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-three-steps-of-PQ.webp">
+&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
 &lt;h2 id="show-me-the-code" >
 &lt;div>
 &lt;a href="#show-me-the-code">
@@ -78,21 +83,46 @@ PQ achieves this approximated similarity operation by compressing the vectors th
 &lt;/a>
 Show me the code
 &lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
+&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bits &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of bits in each centroid&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells/blocks&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d) &lt;span style="color:#78787e"># we keep the same L2 distance flat index&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFPQ(quantizer, d, nlist, m, bits)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># we keep the same L2 distance flat index&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFPQ(quantizer, d, nlist, m, bits)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>train(sentence_embeddings)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>add(sentence_embeddings)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>nprobe &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">10&lt;/span> &lt;span style="color:#78787e"># align to previous IndexIVFFlat nprobe value&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># %%time # jupyterlab cell magic&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>&lt;span style="color:#78787e"># %%time # jupyterlab cell magic&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i]) &lt;span style="color:#78787e"># sample of original texts/sentences&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
