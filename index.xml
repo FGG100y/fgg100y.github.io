@@ -9,11 +9,15 @@ Plain and Simple: IndexFlatL2
 &lt;p>Given a set of vectors, we can index them using Faiss — then using another vector (the query vector), we search for the most similar vectors within the index.
 Now, Faiss not only allows us to build an index and search — but it also speeds up search times to ludicrous performance levels.&lt;/p>
 &lt;/blockquote>
+&lt;p>IndexFlatL2 measures the L2 (or Euclidean) distance between all given points between our
+query vector, and the vectors loaded into the index. It’s simple, very accurate, but not
+too fast.&lt;/p>
 &lt;ul>
 &lt;li>IndexFlatL2: simple but not scalable&lt;/li>
 &lt;li>Partitioning the index: for speed when scale up&lt;/li>
 &lt;li>Quantization: for more speed&lt;/li>
 &lt;/ul>
+&lt;p>&lt;img alt="IMG:index&amp;rsquo;s performance" src="images/faiss-three-indexes-performance.webp">&lt;/p>
 &lt;h2 id="inverted-file-index-ivf-index" >
 &lt;div>
 &lt;a href="#inverted-file-index-ivf-index">
@@ -32,8 +36,10 @@ We can imagine our vectors as each being contained within a Voronoi cell — whe
 But there is a problem if our query vector lands near the edge of a cell — there’s a good chance that its closest other datapoint is contained within a neighboring cell.&lt;/p>
 &lt;/blockquote>
 &lt;p>what we can do to mitigate this issue and increase search-quality is increase an index parameter known as the nprobe value. With nprobe we can set the number of cells to search. I.e., Increasing nprobe increases our search scope.&lt;/p>
+&lt;p>&lt;img alt="IMG:index particion" src="images/faiss-voronoi-cells.webp">&lt;/p>
 &lt;p>进行聚类的结果，一方面可以极大提升查询速度，但另一方面，可能会造成落在聚类簇边缘的“query向量”只在本聚类簇内查找匹配的结果（实际上，它可能与邻近的聚类簇的其他向量更靠近），从而导致匹配质量的降低。
 一个缓解这个问题的方法是：调整参数 nprobe. 通过增加 nprobe (增加用于匹配查询向量的邻近聚类簇数量）来提升匹配质量。（同时，也会增加查询耗时）&lt;/p>
+&lt;p>&lt;img alt="IMG:index particion" src="images/faiss-voronoi-cells-search-scope.webp">&lt;/p>
 &lt;h2 id="product-quantization" >
 &lt;div>
 &lt;a href="#product-quantization">
@@ -63,7 +69,15 @@ PQ achieves this approximated similarity operation by compressing the vectors th
 &lt;li>06 将查询向量与所有数据向量的距离计算出来，排序，即可得到 top-k 最近距离，亦即 top-k 最近似结果 （实际就是 KNN 算法）。&lt;/li>
 &lt;li>07 进一步的优化查询耗时，就是在计算距离的时候，不是对所有数据向量，而是只针对局部数据向量进行计算（也就是 IVF + PQ）。&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
+&lt;p>&lt;img alt="IMG:index particion" src="images/faiss-three-steps-of-PQ.webp">&lt;/p>
+&lt;h2 id="show-me-the-code" >
+&lt;div>
+&lt;a href="#show-me-the-code">
+#
+&lt;/a>
+Show me the code
+&lt;/div>
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bits &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of bits in each centroid&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells/blocks&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
