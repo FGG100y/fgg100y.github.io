@@ -1,0 +1,1361 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Coefficient Estimate on fgg blog</title><link>https://fgg100y.github.io/tags/coefficient-estimate/</link><description>fgg blog (Coefficient Estimate)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 25 Aug 2021 13:49:40 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/coefficient-estimate/index.xml" rel="self" type="application/rss+xml"/><item><title>Linear Regression: frequentist &amp; bayesian</title><link>https://fgg100y.github.io/posts/regressionmodels/linear_regression/</link><pubDate>Wed, 25 Aug 2021 13:49:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/regressionmodels/linear_regression/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>**Important Note**:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Almost all the contents (text, images) are came from these great books and
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>online resources:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* Statistics, by David Freeman, Robert Pisani, and Roger Perves
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* 统计学, David Freeman $et.al$ 著，魏宗舒 等译，中国统计出版社
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* 机器学习, 周志华 著 (大名鼎鼎的‘西瓜书’)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* An Introduction to Statistical Learning, by Gareth James, Daniela Witten,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Trevor Hastie, and Robert Tibshirani
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* Deep Learning, a.k.a, the flower book, by Ian Goodfellow, Yoshua Bengio, and
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Aaron Courville
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* Introduction to Machine Learning, Barnabas Poczos, Aarti Singh, CMU-10701
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* Bayesian Methods, Nicholas Ruozzi, UT-DALLAS
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 style="text-align: center;">Linear Regression&lt;/h1>
+&lt;h2 id="part-0-regression-101" >
+&lt;div>
+&lt;a href="#part-0-regression-101">
+#
+&lt;/a>
+Part-0: Regression 101
+&lt;/div>
+&lt;/h2>&lt;blockquote>
+&lt;p>$\text{You&amp;rsquo;ve got to draw the line somewhere.}$&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="introduction" >
+&lt;div>
+&lt;a href="#introduction">
+##
+&lt;/a>
+Introduction
+&lt;/div>
+&lt;/h3>&lt;p>The regression method describes how one variable depends on another. For example, take height and weight. Naturally, the taller men weighed more. How much of an increase in weight is associated with a unit increase in height? To get started, look at the scatter diagram (figure 1 on below). Height is plotted on the horizontal axis, and weight on the vertical. The summary statistics are&lt;/p>
+&lt;p>$\text{average height} \approx 70 \ inches,\qquad SD \approx 3 \ inches$&lt;/p>
+&lt;p>$\text{average height} \approx 70 \ inches, \qquad SD \approx 45 \ pounds, \qquad r \approx 0.40$&lt;/p>
+&lt;p>The scales on the vertical and horizontal axes have been chosen so that one SD of height and one SD of weight cover the same distance on the page. This makes the SD line (dashed) rise at 45 degreed across the page. There is a fair amount of scatter around the line: $r$ is only 0.40.&lt;/p>
+&lt;p>&lt;img alt="IMG: regression_line" src="images/stats_weight_height.png">&lt;/p>
+&lt;p>Figure 1. Scatter diagram. Each point shows the height and weight for one of 471 men age 18-24 in a dataset. The vertical strip represents men who are about one SD above average in height. Those who are also one SD above average in weight would be plotted along the dashed SD line. Most of the men in the strip are below the SD line: they are only part of an SD above average in weight. The &lt;strong>solid&lt;/strong> regression line estimates average weight at each height.&lt;/p>
+&lt;p>The vertical strip in figure 1 shows the men who were one SD above average in height were quite a bit less than one SD above average in weight. This is where the correlation of 0.40 comes in. Associated with an increase of one SD in height there is an increase of &lt;strong>only 0.40&lt;/strong> SDs in weight, on the average.&lt;/p>
+&lt;p>To be more specific, take the men who are one SD above average in height:
+$$
+\text{average height} + SD\ \text{of height} = 70 \ in + 3 \ in = 73 \ in
+$$
+Their average weight will be above the overall average by $0.40 \times 45 \ lb = 18 \ lb$.&lt;/p>
+&lt;p>So, the average weight of these men is around
+$$
+\text{average weight} + 0.40 \times (SD\ \text{of weight}) = 180 \ lb + 18 \ lb = 198 \ lb
+$$
+The point (73 inches, 198 pounds) is marked by a cross in figure 1 ( and the points that are 2SD above (76 in, 216 lb) and below (64 in, 144 lb) the average of height as well). All the points (height, estimate for average weight) fall on the solid line shown in figure 1. This is the &lt;em>regression line&lt;/em>. The line goes through the point of averages: men of average height should also be of average weight.&lt;/p>
+&lt;p style="text-align:center;color:blue;">
+The regression line estimates the average value for y corresponding to each value of x.
+&lt;/p>
+&lt;p>Along the regression line, associated with each increase of one SD in height there is an increase of only 0.40 SDs in weight. Remember where the 0.40 comes from. It is the correlation between height and weight. NOTE that: Two different SDs are involved here: the SD of $x$, to gauge change in $x$; and the SD of $y$, to gauge changes in $y$.&lt;/p>
+&lt;p>This way of using the correlation coefficient to estimate the average value of $y$ for each value of $x$ is called the &lt;strong>regression method&lt;/strong>. The method can be stated as follows.
+$$
+\fbox{Associated with each increase of one SD in x there is an increase of only r SDs in y, on the average.}
+$$&lt;/p>
+&lt;blockquote>
+&lt;p>Correlation: Like father, like son.&lt;/p>
+&lt;blockquote>
+&lt;p>If there is a strong association between two variables, then knowing one helps a lot in predicting the other. But when there is a weak association, information about one variable does not help much in guessing the other.&lt;/p>
+&lt;/blockquote>
+&lt;p>The correlation coefficient is a measure of linear association, or clustering around a line. The relationship between two variables can be summarized by&lt;/p>
+&lt;ul>
+&lt;li>the average of the $x$-values, the SD of the $x$-values,&lt;/li>
+&lt;li>the average of the $y$-values, the SD of the $y$-values,&lt;/li>
+&lt;li>the correlation coefficient $r$.&lt;/li>
+&lt;/ul>
+&lt;p>Computing the correlation coefficient&lt;/p>
+&lt;p>Here is the procedure for computing the correlation coefficient.
+$$
+\boxed{\text{Convert each variable to standard units.} \\
+\text{The average of the products gives the correlation coefficient.}}
+$$&lt;/p>
+&lt;p>$$
+\fbox{Convert each variable to standard units.
+The average of the products gives the correlation coefficient.}
+$$&lt;/p>
+&lt;p>Recall that &amp;ldquo;Convert each variable to standard units&amp;rdquo; means &lt;strong>standardization&lt;/strong>. Let $x = {1, 3, 4, 5, 7 }, y = {5, 9, 7, 1, 13 } $ be vectors of variables, the mean is given by
+$$
+\mu = \frac{1}{|a|} \sum_i a_i
+$$
+And the SD is the &amp;ldquo;r.m.s size of the deviation from the average&amp;rdquo;, can be given by
+$$
+\sigma = \sqrt{\frac{1}{|a|} \sum_i (a_i - \mu)^2}
+$$
+where $|a|$ is the number of data points, $a_i$ is the $i$-th data point in the data set.&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>Table 1. Computing $r$.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:center">x&lt;/th>
+&lt;th style="text-align:center">y&lt;/th>
+&lt;th style="text-align:center">x in standard units&lt;/th>
+&lt;th style="text-align:center">y in standard units&lt;/th>
+&lt;th style="text-align:center">Product&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:center">1&lt;/td>
+&lt;td style="text-align:center">5&lt;/td>
+&lt;td style="text-align:center">-1.5&lt;/td>
+&lt;td style="text-align:center">-0.5&lt;/td>
+&lt;td style="text-align:center">0.75&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">3&lt;/td>
+&lt;td style="text-align:center">9&lt;/td>
+&lt;td style="text-align:center">-0.5&lt;/td>
+&lt;td style="text-align:center">0.5&lt;/td>
+&lt;td style="text-align:center">-0.25&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">4&lt;/td>
+&lt;td style="text-align:center">7&lt;/td>
+&lt;td style="text-align:center">0.0&lt;/td>
+&lt;td style="text-align:center">0.0&lt;/td>
+&lt;td style="text-align:center">0.00&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">5&lt;/td>
+&lt;td style="text-align:center">1&lt;/td>
+&lt;td style="text-align:center">0.5&lt;/td>
+&lt;td style="text-align:center">-1.5&lt;/td>
+&lt;td style="text-align:center">-0.75&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">7&lt;/td>
+&lt;td style="text-align:center">13&lt;/td>
+&lt;td style="text-align:center">1.5&lt;/td>
+&lt;td style="text-align:center">1.5&lt;/td>
+&lt;td style="text-align:center">2.25&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>$$
+\begin{eqnarray}
+r
+&amp;amp;=&amp;amp; \text{average of [(x in standard units) times (x in standard units)]} \\
+\\
+&amp;amp;=&amp;amp; \frac{0.75 - 0.25 + 0.00 -0.75 + 2.25}{5} = 0.40
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>This complete the solution.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="slope-and-intercept" >
+&lt;div>
+&lt;a href="#slope-and-intercept">
+##
+&lt;/a>
+Slope and Intercept
+&lt;/div>
+&lt;/h3>&lt;p>Does education pay? Figure 1 shows the relationship between income and education, for a sample of 562 men age 25-29 in 2005. The summary statistics are
+$$
+\begin{eqnarray}
+\text{average education} &amp;amp;\approx&amp;amp; 12.5\ \text{years}, &amp;amp;\qquad&amp;amp; SD \approx 3\ \text{years} \\
+\text{average income} &amp;amp;\approx&amp;amp; $30000,\ &amp;amp;\qquad&amp;amp; SD \approx $24000, \qquad r \approx 0.25
+\end{eqnarray}
+$$
+The regression estimates for average income at each educational level fall along the regression line shown in the figure. The line slopes up, showing that on the average, income does go up with education.&lt;/p>
+&lt;p>&lt;img alt="Do education pay" src="./images/stats_education_income.png">&lt;/p>
+&lt;p>Any line can be described in terms of its slope and intercept. The y-intercept is the height of the line when $x$ is $0$. And the slope is the rate at which $y$ increases, per unit increase in $x$. Slope and intercept are illustrated in figure 2.&lt;/p>
+&lt;p>&lt;img alt="IMG: slopeNintercept" src="images/stats_slope_intercept.png">&lt;/p>
+&lt;p>&lt;strong>How do you get the slope of the regression line?&lt;/strong> Take the income-education example.
+Associated with an increase of one SD in education, there is an increase of $r$ SDs in
+income. On this basis, 3 extra years (one SD) of education are worth an extra
+$r \times SD = 0.25 \times 24000 = 6000$ of income, on the average. So each extra year in
+worth \$6000 / 3 = \$2000. The slope of the regression line is \$2000 per year.&lt;/p>
+&lt;p>&lt;img alt="IMG: slopeNintercept2" src="images/stats_slope_intercept2.png">&lt;/p>
+&lt;p>The intercept of the regression line is the height when $x = 0$, corresponding to men with $0$ years of education. There men are 12.5 years below average in education.
+Each year costs \$2000 -- that is what the slope says. A man with no education should have an income which is below average by
+$$
+12.5\ \text{years} \times 2000\ \text{per year} = 25000.
+$$
+His income should be $\$30000 - \$25000 = \$5000$. That is the intercept (figure 3): the predicted value of $y$ when $x = 0$.&lt;/p>
+&lt;hr>
+&lt;p style="text-align:justify;color:blue;">
+Associated with a unit increase in x there is some average change in y. The slope of the regression line estimates this change. The formula for the slope is
+&lt;/p>
+&lt;p>$$
+{r \times SD\ \text{of y} \over SD\ \text{of x}}
+$$&lt;/p>
+&lt;p style="text-align:justify;color:blue;">
+The intercept of the regression line is just the predicted value for y when x is 0.
+&lt;/p>
+&lt;hr>
+&lt;p>The equation of a line can be written in terms of the slope and intercept:
+$$
+y = \text{slope} \times x + \text{intercept},
+$$
+which is called the &lt;em>regression equation&lt;/em>. There is nothing new here. The regression equation is just a way of predicting $y$ from $x$ by the regression method.&lt;/p>
+&lt;p>The regression line becomes unreliable when you are far from the center of the data, so a &lt;em>negative&lt;/em> intercept is not too disturbing (when the calculation results in some negative value which may seen absurd).&lt;/p>
+&lt;p style="text-align:justify;color:blue;">
+If you run an observational study, the regression line only describes the data that you see. The line cannot be relied on for predicting the results of interventions.
+&lt;/p>
+&lt;h3 id="the-least-squares" >
+&lt;div>
+&lt;a href="#the-least-squares">
+##
+&lt;/a>
+The Least Squares
+&lt;/div>
+&lt;/h3>&lt;p>Sometimes the points on a scatter diagram seem to be following a line. The problem discussed in this section is &lt;strong>how to find the line which best fits the points&lt;/strong>. Usually, this involves a compromise: moving the line closer to some points will increase it distance from others. To resolve the conflict, two steps are necessary.&lt;/p>
+&lt;ul>
+&lt;li>First, define an average distance from the line to all the points.&lt;/li>
+&lt;li>Second, move the line around until this average distance is as small as possible.&lt;/li>
+&lt;/ul>
+&lt;p>To be more specific, suppose the line will be used to predict $y$ from $x$. Then the error made at each point is the vertical distance from the point to the line (a.k.a, the &lt;strong>residual&lt;/strong>, means the difference between the $i$th observed and the $i$th response that is predicted by linear model). In statistics, the usual way to define the average distance is by taking the root-mean-square of the errors. This measure of average distance is called the &lt;em>r.m.s error of the line&lt;/em>. (It was first proposed by Gauss)&lt;/p>
+&lt;p>The second problem, how to move the line around to minimize the r.m.s error, was also solved by Gauss:&lt;/p>
+&lt;hr>
+&lt;p style="text-align:center;color:blue;">
+Among all lines, the one that makes the smallest r.m.s error in predicting y form x is the regression line.
+&lt;/p>
+&lt;hr>
+&lt;blockquote>
+&lt;p>Recall that:&lt;/p>
+&lt;p>The r.m.s error for regression says how far typical points are above or below the regression line.
+$$
+r.m.s\ error = \sqrt{\frac{1}{n} \sum^n_i (y_i - \hat{y_i})^2}
+$$
+where $n$ is the number of data points, $y_i$ the $i$-th actual value, $\hat{y_i}$ the corresponding predicted value.&lt;/p>
+&lt;p>And the r.m.s error for the regression line of $y$ on $x$ can also be figured as
+$$
+\sqrt{1 - r^2} \times SD_y
+$$
+where $r$ is the correlation coefficient&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> between $x$ and $y$.&lt;/p>
+&lt;/blockquote>
+&lt;p>For this reason, the regression line is often called &lt;em>least squares line&lt;/em>: the errors are squared to compute the r.m.s error, and the regression line makes the r.m.s error as small as possible.&lt;/p>
+&lt;p>In other words, the least squares approaches choose $\beta_0$ (the intercept) and $\beta_1$ (the slope) to minimize the &lt;em>residual sum of squares&lt;/em> (RSS) which is defined as
+$$
+RSS = e_1^2 + e_2^2 + \cdots + e_n^2 = \sum^n_{i=1} (y_i - \hat{y_i})^2
+$$
+where $e = y_i - \hat{y_i}$ is called the &lt;strong>residual&lt;/strong>. Obviously, the r.m.s error is the root of the mean of RSS.&lt;/p>
+&lt;p>Linear regression is a very simple approach for supervised learning. In particular, linear regression is a useful tool for predicting a quantitative response. Many fancy statistical learning approaches can be seen as generalizations or extensions of linear regression.&lt;/p>
+&lt;p>$\color{Green}{\text{Example}}$&lt;/p>
+&lt;p>According to Hooke&amp;rsquo;s law, the amount of stretch is proportional to the weight $x$. The new length of the spring is
+$$
+y = mx + b.
+$$
+In this equation, $m \in \mathbb{R}$ and $b \in \mathbb{R}$ are constants which depend on the spring. Their values are unknown, and have to be estimated using &lt;strong>experimental data&lt;/strong>.&lt;/p>
+&lt;center>Table 1. Data on Hooke's law.&lt;/center>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Weight (kg)&lt;/th>
+&lt;th>Length (cm)&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>0&lt;/td>
+&lt;td>439.00&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>2&lt;/td>
+&lt;td>439.12&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>4&lt;/td>
+&lt;td>439.21&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>6&lt;/td>
+&lt;td>439.31&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>8&lt;/td>
+&lt;td>439.40&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>10&lt;/td>
+&lt;td>439.50&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>The correlation coefficient&lt;sup id="fnref1:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> for the data in table 1 is 0.999, very close to 1 indeed. So the points almost form a straight line (figure 5), just as Hooke&amp;rsquo;s law predicts. The minor deviations from linearity are probably due to measurement error; neither the weights nor the length have been measured with perfect accuracy. (Nothing ever is. [When it comes to measurement])&lt;/p>
+&lt;p>&lt;img alt="Hooke&amp;rsquo;s law" src="images/stats_hookes_law.png">&lt;/p>
+&lt;p>Our goal is to estimate $\hat{m}$ and $\hat{b}$ in the equation of Hooke&amp;rsquo;s law for this spring:
+$$
+y = \hat{m} x + \hat{b}
+$$
+The graph of this equation is a perfect straight line. If the points in figure 5 happened to fall exactly on some line, the slope&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup> of that line would estimate $m$, and its intercept would estimate $b$. However, the points do not line up perfectly. Many different lines could be drawn across the scatter diagram, each having a slightly different slope and intercept.&lt;/p>
+&lt;p>Which line should be used? Hooke&amp;rsquo;s equation predicts the length from weight. As discussed above, it is natural to choose $m$ and $b$ so as to minimize the r.m.s error, the line $y = \hat{m} x + \hat{b}$ which does the job is the &lt;strong>regression line&lt;/strong>. This is the &lt;em>method of least squares&lt;/em>. In other words, $m$ in Hooke&amp;rsquo;s law should be estimated as the slope of the regression line, and $b$ as its intercept. These are called &lt;em>least squares estimate&lt;/em>, because they minimize root-mean-square error.&lt;/p>
+&lt;p>Let&amp;rsquo;s do the arithmetic (in python code):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> numpy &lt;span style="color:#ff6ac1">as&lt;/span> np
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># X the weight data; y the length data&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>X &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array([&lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">2&lt;/span>, &lt;span style="color:#ff9f43">4&lt;/span>, &lt;span style="color:#ff9f43">6&lt;/span>, &lt;span style="color:#ff9f43">8&lt;/span>, &lt;span style="color:#ff9f43">10&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array([&lt;span style="color:#ff9f43">439.00&lt;/span>, &lt;span style="color:#ff9f43">439.12&lt;/span>, &lt;span style="color:#ff9f43">439.21&lt;/span>, &lt;span style="color:#ff9f43">439.31&lt;/span>, &lt;span style="color:#ff9f43">439.40&lt;/span>, &lt;span style="color:#ff9f43">439.50&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># mean and Standard Deviation&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ---------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># avg = sum(X) / len(X)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mu_x &lt;span style="color:#ff6ac1">=&lt;/span> X&lt;span style="color:#ff6ac1">.&lt;/span>mean()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mu_y &lt;span style="color:#ff6ac1">=&lt;/span> y&lt;span style="color:#ff6ac1">.&lt;/span>mean()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(&lt;span style="color:#5af78e">f&lt;/span>&lt;span style="color:#5af78e">&amp;#34;The means of X and y: &lt;/span>&lt;span style="color:#5af78e">{&lt;/span>mu_x, mu_y&lt;span style="color:#5af78e">}&lt;/span>&lt;span style="color:#5af78e">&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># The means of X and y: (5.0, 439.25666666666666)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># std is the &amp;#34;r.m.s size of the deviation from the average&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SD_x &lt;span style="color:#ff6ac1">=&lt;/span> X&lt;span style="color:#ff6ac1">.&lt;/span>std()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>SD_y &lt;span style="color:#ff6ac1">=&lt;/span> y&lt;span style="color:#ff6ac1">.&lt;/span>std()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(&lt;span style="color:#5af78e">f&lt;/span>&lt;span style="color:#5af78e">&amp;#34;The SDs of X and y: &lt;/span>&lt;span style="color:#5af78e">{&lt;/span>SD_x, SD_y&lt;span style="color:#5af78e">}&lt;/span>&lt;span style="color:#5af78e">&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># The SDs of X and y: (3.415650255319866, 0.16799470891138593)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># convert X into standard unit form&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>X_standard_unit &lt;span style="color:#ff6ac1">=&lt;/span> (X &lt;span style="color:#ff6ac1">-&lt;/span> mu_x) &lt;span style="color:#ff6ac1">/&lt;/span> SD_x
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># convert y into standard unit form&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_standard_unit &lt;span style="color:#ff6ac1">=&lt;/span> (y &lt;span style="color:#ff6ac1">-&lt;/span> mu_y) &lt;span style="color:#ff6ac1">/&lt;/span> SD_y
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># correlation coefficient is the average of the products&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>r &lt;span style="color:#ff6ac1">=&lt;/span> (X_standard_unit&lt;span style="color:#ff6ac1">.&lt;/span>dot(y_standard_unit)) &lt;span style="color:#ff6ac1">/&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(X_standard_unit)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># r = 0.999167257319307&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># the slope&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>m_hat &lt;span style="color:#ff6ac1">=&lt;/span> (r &lt;span style="color:#ff6ac1">*&lt;/span> SD_y) &lt;span style="color:#ff6ac1">/&lt;/span> SD_x
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># m_hat = 0.0491428571428563&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># the intercept, this is the *predicted length* when weight is 0,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>b_hat &lt;span style="color:#ff6ac1">=&lt;/span> mu_y &lt;span style="color:#ff6ac1">-&lt;/span> (mu_x &lt;span style="color:#ff6ac1">*&lt;/span> m_hat)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># b_hat = 439.0109523809524&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>this gives us: $\hat{m} \approx 0.05$ per kg and $\hat{b} \approx 439.01$ cm.&lt;/p>
+&lt;p>The length of the spring under no load is estimated as 439.01 cm. And each kilogram of load causes the spring to stretch by about 0.05 cm. Of course, even Hooke&amp;rsquo;s law has its limits: beyond some point, the spring will break. &lt;strong>Extrapolating beyond the data is risky&lt;/strong>.&lt;/p>
+&lt;p>The method of least squares and the regression method involve the same mathematics; but the contexts may be different. In some fields, investigators talk about &amp;ldquo;least squares&amp;rdquo; when they are estimating parameters &amp;ndash; unknown constants of nature like $m$ and $b$ in Hooke&amp;rsquo;s law. In other fields, investigators talk about regression when they are studying the relationship between two variables, like income and education, using non-experimental data.&lt;/p>
+&lt;p>&lt;strong>A technical point:&lt;/strong> The least squares estimate for the length of the spring under no load was 439.01 cm. This is a tiny bit longer than the measured length at no load (439.00 cm). A statistician might trust the least squares estimate over the measurement. Why? Because the least squares estimate takes advantage of all six measurements, not just once: some of the measurement error is likely to cancel out. Of course, the six measurements are tied together by a good theory &amp;ndash; Hooke’s law. Without the theory, the least squares estimate wouldn’t be worth much.&lt;/p>
+&lt;h3 id="assessing-the-accuaracy-of-the-coefficient-estimates" >
+&lt;div>
+&lt;a href="#assessing-the-accuaracy-of-the-coefficient-estimates">
+##
+&lt;/a>
+Assessing the Accuaracy of the Coefficient Estimates
+&lt;/div>
+&lt;/h3>&lt;p>Assume that the &lt;em>true&lt;/em> relationship (e.g., the Hooke’s law) between $X$ and $Y$ takes the form $Y = f(X) + \epsilon$ for some unknown function $f$, where $\epsilon$ is a mean-zero random error term. If $f$ is to be approximated by a linear function, then we can write this relationship as
+$$
+Y = \beta_0 + \beta_1 X + \epsilon.
+$$
+This is the &lt;em>population regression line&lt;/em>. Here $\beta_0$ is the intercept (the expected value of $Y$ when $X$ = 0) and the $\beta_1$ the slop (the average increase in $Y$ associated with a one-unit increase in $X$). The $\epsilon$ (error term, typically assumed to be independent of $X$) is a catch-all for what we miss with this simple model: the true relationship is probably not linear, there may be other variables that cause variation in $Y$, and there may be measurement error.&lt;/p>
+&lt;p>The model of &lt;em>population regression line&lt;/em> is the best linear approximation to the true relationship between $X$ and $Y$ (NOTE that the assumption of linearity is often a useful working model. However, it may be not true in reality). The true relationship is generally not known for real data, but the least squares line can always be computed using the cofficient estimation methods. A natural question is as follows: how accurate is the least square line as an estimate of the population regression line?&lt;/p>
+&lt;p>The analogy between linear regression and estimation of the mean of a random variable is an apt one based on the concept of &lt;em>bias&lt;/em>. If we use the sample mean $\hat{\mu}$ to estimate $\mu$, this estimate is &lt;em>unbiased&lt;/em>, in the sense that on average, we expect $\hat{\mu}$ to equal $\mu$, if we could average a huge number of estimates of $\mu$ obtained from a huge number of sets of observations. Hence, an unbiased estimator does not &lt;em>systematically&lt;/em> over- or under-estimate the true parameter. The property of unbiasedness holds for the least squares coefficient estimates as well: if we estimate $\beta_0$ and $\beta_1$ on the basis of a particular data set, then our estimates won&amp;rsquo;t be exactly equal to $\beta_0$ and $\beta_1$. But if we could average the estimates obtained over a huge number of date sets, then the average would be spot on!&lt;/p>
+&lt;p>So how far off will that single estimate of $\hat{\mu}$ be? In general, we answer this question by computing the &lt;em>standard error&lt;/em> of $\hat{\mu}$, written as $SE(\hat{\mu})$. We have the well-known formula
+$$
+Var(\hat{\mu}) = SE(\hat{\mu})^2 = {\sigma^2 \over n},
+$$
+where $\sigma$ is the standard deviation of each of the realizations $y_i$ of $Y$. NOTE that this formula holds iff the $n$ observations are uncorrelated. To compute the standard errors associated with $\hat{\beta_0}$ and $\hat{\beta_1}$, we use the following formulas:
+$$
+SE(\hat{\beta_0})^2 =
+\sigma^2 [{1 \over n} + \frac{\bar{x}^2}{\sum^n_{i=1}(x_i - \bar{x})^2}],
+&lt;br>
+SE(\hat{\beta_1})^2 =\frac{\sigma^2}{\sum^n_{i=1}(x_i - \bar{x})^2}
+$$
+where $\sigma^2 = Var(\epsilon)$. In general, $\sigma^2$ is not known, but can be estimated from the data. This estimate of $\sigma$ is known as the &lt;em>residual standard error&lt;/em>, and is given by the formula
+$$
+\sigma = RSE = \sqrt{RSS / (n-2)}
+$$&lt;/p>
+&lt;h4 id="confidence-interval" >
+&lt;div>
+&lt;a href="#confidence-interval">
+###
+&lt;/a>
+Confidence Interval
+&lt;/div>
+&lt;/h4>&lt;p>Standard errors can be used to compute the &lt;em>confidence intervals&lt;/em>. A 95% confidence interval is defined as a range of values such that with 95% probability, the range will contain the true unknown value of the parameters. The range is defined in terms of lower and upper limits computed from the sample of data.&lt;/p>
+&lt;p>For linear regression, the 95% confidence interval for $\beta_1$ approximately takes the form
+$$
+\hat{\beta_1} \pm 2 \cdot SE(\hat{\beta_1}).
+$$
+That is, there is approximately a 95% chance the true value of $\beta_1$ would be in this range.&lt;/p>
+&lt;p>Similarly, for $\beta_0$, its 95% confidence interval takes the form
+$$
+\hat{\beta_0} \pm 2 \cdot SE(\hat{\beta_0}).
+$$
+NOTE that here we make an assumption that the errors are Gaussian. And the factor of $2$ in the formula will vary slightly depending on the number of observations $n$ in the linear regression.&lt;/p>
+&lt;h4 id="hypothesis-tests" >
+&lt;div>
+&lt;a href="#hypothesis-tests">
+###
+&lt;/a>
+Hypothesis tests
+&lt;/div>
+&lt;/h4>&lt;p>Standard errors can also be used to perform &lt;em>hypothesis tests&lt;/em> on the coefficients. The most common hypothesis test involves testing the &lt;em>null hypothesis&lt;/em> of
+$$
+H_0 : \text{There is no relationship between X and Y}
+$$
+versus the &lt;em>alternative hypothesis&lt;/em>
+$$
+H_a : \text{There is some relationship between X and Y}.
+$$
+Mathematically, this corresponds to testing
+$$
+H_0 : \beta_1 = 0
+$$
+versus
+$$
+H_a : \beta_1 \ne 0,
+$$
+since if $\beta_1 = 0$ then the linear regression model reduces to $Y = \beta_0 + \epsilon$, and $X$ is not associated with $Y$.&lt;/p>
+&lt;p>To test the null hypothesis, we need to determine whether $\hat{\beta_1}$, our estimate for $\beta_1$, is sufficiently far from zero that we can be confident that $\beta_1$ is non-zero. How far is far enough? This is of course depends on the accuracy of $\hat{\beta_1}$ &amp;ndash; that is, it depends on $SE(\hat{\beta_1})$:&lt;/p>
+&lt;ul>
+&lt;li>If $SE(\hat{\beta_1})$ is small, then even relatively small values of $\hat{\beta_1}$ may provide strong evidence that $\beta_1 \ne 0$;&lt;/li>
+&lt;li>if $SE(\hat{\beta_1})$ is large, then $\hat{\beta_1}$ must be large in absolute value in order for us to reject the null hypothesis.&lt;/li>
+&lt;/ul>
+&lt;p>In practice, we compute a &lt;em>t-statistic&lt;/em>, given by
+$$
+t = \frac{\hat{\beta_1} - 0}{SE(\hat{\beta_1})},
+$$
+which measures the number of standard deviations that $\hat{\beta_1}$ is away from $0$.&lt;/p>
+&lt;p>If there really is no relationship between $X$ and $Y$, then we expect that &lt;em>t-statistic&lt;/em> will have a $t$-distribution with $n-2$ degrees of freedom. Consequently, it is a simple matter to compute the probability of observing any number equal to $|t|$ or larger in absolute value, assuming $\beta_1 = 0$. We call this probability the &lt;em>p-value&lt;/em>.&lt;/p>
+&lt;p>&lt;strong>p-value interpretation&lt;/strong>&lt;/p>
+&lt;p>Roughly speaking, we interpret the p-value as follows: a small p-value indicates that it is unlikely to observe such a substantial association between the predictor and the response due to chance, in the absence of any real relationship between $X$ and $Y$. Hence we &lt;em>reject the null hypothesis&lt;/em>, and declare a relationship to exist between $X$ and $Y$, if the p-value is small enough. Typical p-value cutoffs for rejecting the null hypothesis are 5% or 1%, when $n = 30$, these correspond to &lt;em>t-statistics&lt;/em> of around $2$, and $2.75$, respectively.&lt;/p>
+&lt;h3 id="assessing-the-accuracy-of-the-model" >
+&lt;div>
+&lt;a href="#assessing-the-accuracy-of-the-model">
+##
+&lt;/a>
+Assessing the Accuracy of the Model
+&lt;/div>
+&lt;/h3>&lt;p>Once we have rejected the null hypothesis in favor of the altervative hypothesis, it is natrual to want to quantify &lt;em>the extent to which the model fits the data&lt;/em>. The quality of a linear regression fit is typically assessed using two related quantities: the &lt;em>residual standard error&lt;/em> ($RSE$) and the $R^2$ statistic.&lt;/p>
+&lt;h4 id="residual-standard-error" >
+&lt;div>
+&lt;a href="#residual-standard-error">
+###
+&lt;/a>
+Residual Standard Error
+&lt;/div>
+&lt;/h4>&lt;p>From the model $Y = \beta_0 + \beta_1 X + \epsilon$ that associated with each observation is an error term $\epsilon$. Due to the presence of these error terms, even if we knew the true regression line (i.e., $\beta$s were known), we would not be perfectly predict $Y$ from $X$. The $RSE$ is an estimate of the standard deviation of $\epsilon$. Roughly speaking, it is the average amount that the response will deviate from the true regression line. It is computed using the formula
+$$
+RSE
+= \sqrt{{1 \over n-2} RSS}
+= \sqrt{{1 \over n-2} \sum^n_{i=1}(y_i - \hat{y_i})^2}.
+$$
+NOTE that $RSE$ is slightly different from &lt;em>r.m.s error&lt;/em> which the latter using the number of all samples ($n$) as denominator while the former using $n-2$.&lt;/p>
+&lt;p>The $RSE$ is considered a measure of the &lt;em>lack of fit&lt;/em> of the model to the data. The smaller $RSE$ the better the model fitted to the data.&lt;/p>
+&lt;h4 id="r2-statistic" >
+&lt;div>
+&lt;a href="#r2-statistic">
+###
+&lt;/a>
+$R^2$ Statistic
+&lt;/div>
+&lt;/h4>&lt;p>The $RSE$ provides an absolute measure of lack of fit of the model to the data. But since it is measured in the units of $Y$, it is not always clear what consititues a good $RSE$. The $R^2$ statistic provides an alternative measure of fit. It takes the form of a &lt;em>proportion&lt;/em>, the proportion of variance explained, and so it always takes on a value between $0$ and $1$, and is independent of the scale of $Y$.&lt;/p>
+&lt;p>To calculate $R^2$, we use the formula
+$$
+R^2 = \frac{TSS - RSS}{TSS} = 1 - \frac{RSS}{TSS}
+$$
+where $TSS = \sum(y_i - \bar{y})^2$ is the &lt;em>total sum of squares&lt;/em>. Hence $R^2$ measures the &lt;em>proportion of variability in $Y$ that can be explained using $X$&lt;/em>.&lt;/p>
+&lt;h3 id="multiple-linear-regression" >
+&lt;div>
+&lt;a href="#multiple-linear-regression">
+##
+&lt;/a>
+Multiple Linear Regression
+&lt;/div>
+&lt;/h3>&lt;p>Simple linear regression[^3] is a useful approach for predicting a response on the basis of a single predictor variable. But in practice we often have more than one predictor. One option is to run multiple separate simple linear regression, each of which uses a different feature as a predictor. However, this approach is not entirely satisfactory[^4].&lt;/p>
+&lt;p>Instead of fitting a separate simple linear regression model for each predictor, a better approach is to extend the simple linear regression model[^5] so that it can directly accommodate multiple predictors. We can do this by giving each predictor a separate slope coefficient in a single model. In general, suppose we have $p$ distinct predictors. Then the multiple linear regression model takes the form
+$$
+\tag{3.19}
+\label{mlr}
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + + \beta_p X_p + \epsilon
+$$
+where $X_j$ represents the $j$-th predictor and $\beta_j$ quantifies the association between that variable and the response. We interpret $\beta_j$ as the &lt;em>average&lt;/em> effect on $Y$ of a unit increase in $X_j$, &lt;strong>holding all other predictors fixed&lt;/strong>[^6].&lt;/p>
+&lt;p>As was the case in the simple linear regression setting, the regression coefficients $\beta_0, \beta_1, \ldots, \beta_p$ in ($\ref{mlr}$) are unknown, and must be estimated. Given estimates $\hat{\beta_0}, \hat{\beta_1}, \ldots, \hat{\beta_p}$, we can make predictions using the formula
+$$
+\tag{3.21}
+\label{mlrpred}
+\hat{y} = \hat{\beta_0} + \hat{\beta_1} x_1 + \hat{\beta_2} x_2 + \cdots + \hat{\beta_p} x_p.
+$$
+Then parameters are estimated using the same &lt;strong>least squares&lt;/strong> approach that we saw in the context of simple linear regression. We choose $\beta_0, \beta_1, \ldots, \beta_p$ to minimize the &lt;strong>sum of squared residuals&lt;/strong>
+$$
+\begin{eqnarray}
+RSS
+&amp;amp;=&amp;amp; \sum^n_{i=1}(y_i - \hat{y}&lt;em>i)^2 \\
+\tag{3.22} \label{rss}
+&amp;amp;=&amp;amp; \sum^n&lt;/em>{i=1} \big( y_i - (\hat{\beta_0} + \hat{\beta_1} x_1 + \hat{\beta_2} x_2 + \cdots + \hat{\beta_p} x_p) \big)^2
+\end{eqnarray}
+$$
+The values $\hat{\beta_0}, \hat{\beta_1}, \ldots, \hat{\beta_p}$ that minimize ($\ref{rss}$) are the multiple least squares regression coefficient estimates. Unlike the simple linear regression coefficient estimation (the Python code block in previous section), the multiple regression coefficient estimates have somewhat complicated forms that are most easily represented using matrix algebra (see detail in section of Normal equation).&lt;/p>
+&lt;p>When we perform multiple linear regression, we usually are interested in answering a few important questions.&lt;/p>
+&lt;hr>
+&lt;ol>
+&lt;li>Is at least one of the predictors $X_1, X_2, \ldots, X_p$ useful in predicting the response?&lt;/li>
+&lt;li>Do all the predictors help to explain $Y$, or is only a subset of the predictors useful?&lt;/li>
+&lt;li>How well does the model fit the data?&lt;/li>
+&lt;li>Given a set of predictor values, what response value should we predict, and how accurate is our prediction?&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>We now address each of these questions in turn.&lt;/p>
+&lt;h4 id="one-is-there-a-relationship-between-the-response-and-predictions" >
+&lt;div>
+&lt;a href="#one-is-there-a-relationship-between-the-response-and-predictions">
+###
+&lt;/a>
+One: Is There a Relationship Between the Response and Predictions?
+&lt;/div>
+&lt;/h4>&lt;p>Recall that in the simple linear regression setting, in order to determine whether there is a relationship between the response and the predictor we can simply check whether the slope equals $0$. In the multiple regression setting with $p$ predictors, we need to ask whether all of the regression coefficients are zero. We also use a &lt;strong>hypothesis test&lt;/strong> to answer this question. We test the &lt;strong>null hypothesis&lt;/strong>,
+$$
+H_0:\beta_0 = \beta_1 = \ldots = \beta_p = 0
+$$
+versus the alternative
+$$
+H_{\alpha}: \text{at least one } \beta_j \text{ is non-zero}
+$$
+This hypothesis test is performed by computing the &lt;strong>F-statistic&lt;/strong>,
+$$
+\tag{3.23}
+F = \frac{(TSS - RSS) / p}{RSS / (n - p -1)}
+$$
+where, as with simple linear regression, $TSS = \sum(y_i - \bar{y})^2$ and $RSS = \sum(y_i - \hat{y})^2$ where $\bar{y} = {1 \over n} \sum^n_{i=1} y_i$ is the sample mean. If the linear model assumptions are correct, one can show that
+$$
+E {RSS / (n - p - 1) } = \sigma^2
+$$
+and that, provided $H_0$ is true,
+$$
+E {(TSS - RSS) / p } = \sigma^2
+$$
+Hence, when there is no relationship between the response and predictors, one would expect the F-statistic to take on a value close to $1$. On the other hand, if $H_{\alpha}$ is true, then $E {(TSS - RSS) / p } &amp;gt; \sigma^2$, so we expect the F-statistic to be greater than $1$.&lt;/p>
+&lt;p>However, what if the F-statistic had been closer to $1$? How large does the F-statistic need to be before we can reject $H_0$ and conclude that there is a relationship? It turns out that the answer depends on the values of $n$ and $p$.&lt;/p>
+&lt;ul>
+&lt;li>When $n$ is large, an F-statistic that is just a little larger than 1 might still provide evidence against $H_0$.&lt;/li>
+&lt;li>Inctrast, a larger F-statistic is needed to reject $H_0$ if $n$ is small.&lt;/li>
+&lt;/ul>
+&lt;p>When $H_0$ is true, and the errors $\epsilon_i$ have normal distribution, the F-statistic follows an F-distribution[^7]. For any given value of $n$ and $p$, any statistical software package can be used to compute the p-value[^8] associated with F-statistic using this distribution. Based on this p-value, we determine whether or not to reject $H_0$.&lt;/p>
+&lt;p>Sometimes we want to test that a particular subset of $q$ of the coefficients are zero. This corresponds to a null hypothesis
+$$
+H_0 = \beta_{p-q+1} = \beta_{p-q+2} = \cdots = \beta_{p} = 0,
+$$
+where for convenience we have put the variables chosen for omission at the end of the list. In this case we fit a second model that uses all the variables except those last $q$. Suppose that the residual sum of squares for that model is $RSS_0$. Then the appropriate F-statistic is
+$$
+\tag{3.24} \label{ftest2}
+F = \frac{(RSS_0 - RSS) / q}{RSS / (n - p -1)}.
+$$
+For each individual predictor a t-statistic and a p-value can be obtain, these statistics provide information about whether each individual predictor is related to the response, after adjusting for the other predictors. It turns out that each of these are exactly equivalent to the F-test that omits that single variable from the model, leaving all the others in (means $q=1$ in equation $\ref{ftest2}$). So it reports the &lt;em>partial effect&lt;/em> of adding that variable to the model.&lt;/p>
+&lt;p>Given these individual p-values for each variable, why do we need to look at the over F-statistic? After all, it seems likely that if any one of the p-values for the individual variables is very small, then &lt;em>at least one of the predictors is related to the response&lt;/em>. However, this logic is flawed, especially when the number of predictors $p$ is large.&lt;/p>
+&lt;p>For instance, consider an example in which $p = 100$ and $H_0:\beta_0 = \beta_1 = \ldots = \beta_p = 0$ is true, so no variable is truly associated with the response. In this situation, about &lt;strong>5%&lt;/strong> of the p-values associated with each variable will be below 0.05 by chance. &lt;strong>In other words, we expect to see approximately five small p-values even in the absence of any true association between the predictors and the response. In fact, we are almost guaranteed that we will observe at least one p-value below 0.05 by chance!&lt;/strong>&lt;/p>
+&lt;p>Hence, if we use individual t-statistic and the associated p-value in order to confirm the association between any predictor and the response, there is a very high chance that we will incorrectly conclude that there is a relationship.&lt;/p>
+&lt;p>However, the F-statistic does not suffer from this problem because it adjusts for the number of predictors. If $H_0$ is true, there is only a 5% chance that the F-statistic will result in a p-value below 0.05, regardless of the number of predictors or the number of observations.&lt;/p>
+&lt;p>Note that when $p$ is larger than $n$, we cannot even fit the multiple linear regression model using least squares. Less flexible least squares models, such as forward stepwise selection, ridge regression, lasso regression and principal components regression, are particular useful for performing regression in the high-dimensional setting.&lt;/p>
+&lt;h4 id="two-deciding-on-important-variable" >
+&lt;div>
+&lt;a href="#two-deciding-on-important-variable">
+###
+&lt;/a>
+Two: Deciding on Important Variable
+&lt;/div>
+&lt;/h4>&lt;p>If we conclude on the basis of the F-statistic and its associated p-value that at least one of the predictors is related to the response, then it is natural to wonder which are the guilty ones. The task of determining which predictors are associated with the response, in order to fit a single model involving only those predictors, is referred to as &lt;strong>variable selection&lt;/strong>.&lt;/p>
+&lt;p>Ideally, we would like to preform variable selection by trying out a lot of different models, each containing a different subset of the predictors. Unfortunately, there are a total $2^p$ models that contain subsets of $p$ variables (Note that even with a moderate value of $p$, say, $p=30$, then $2^{30}=1,073,741,824$ models make this infeasible). We need an automated and efficient approach to choose a smaller set of models to consider. There are three classical approaches for this task:&lt;/p>
+&lt;ul>
+&lt;li>Forward selection. We begin with the &lt;strong>null model&lt;/strong> (which contains only the intercept). We then fit $p$ simple linear regressions and add to the null model the variable that results in the lowest $RSS$, and then add to that model the variable which results in the lowest $RSS$ for the new two-variable model. This approach is continued until some stopping rule is satisfied.&lt;/li>
+&lt;li>Backward selection. We start with all variables in the model, and remove the variable with largest p-value. The new ($p - 1$)-variable model is fit, and the variable with the largest p-value is removed. This procedure continues until a stopping rule is reached (such as when all remaining variables have a p-value below some threshold).&lt;/li>
+&lt;li>Mixed selection. We start with no variables in the model, and as with forward selection, we add the variable that provides the best fit. We continue to add variables one-by-one. If at any point the p-value for one of the variables in the model rises above a certain threshold, then we remove that variable from the model. We continue to perform forward and backward steps until all variable in the model have a low p-value, and all the variables outside the model have a large p-value if added to the model.&lt;/li>
+&lt;/ul>
+&lt;p>Backward selection cannot be used when $p &amp;gt; n$, forward selection is a greedy approach, and might include variable early that later become redundant. Mixed selection can remedy this.&lt;/p>
+&lt;h4 id="three-model-fit" >
+&lt;div>
+&lt;a href="#three-model-fit">
+###
+&lt;/a>
+Three: Model Fit
+&lt;/div>
+&lt;/h4>&lt;p>Two of the most common numerical measures of model fit are the $RSE$ and the $R^2$. Recall that in simple regression, $R^2$ is the square of the correlation coefficient between predictor and the response. In multiple linear regression, it turns out that it equals the square of the correlation coefficient between the response and the fitted model (this implies that the fitted model maximizes this correlation among all possible linear model).&lt;/p>
+&lt;p>To calculate $R^2$, we use the formula
+$$
+\begin{eqnarray}
+R^2
+&amp;amp;=&amp;amp; \frac{\sum(y_i - \bar{y})^2 - \sum(y_i - \hat{y})^2}{\sum(y_i - \bar{y})^2} \\
+\\
+&amp;amp;=&amp;amp; \frac{TSS - RSS}{TSS} \\
+\\
+\tag{3.17}
+&amp;amp;=&amp;amp; 1 - {RSS \over TSS},
+\end{eqnarray}
+$$
+where ($\bar{y} = {1 \over n} \sum^n_{i=1} y_i$) is the sample mean, $\hat{y}$ is defined in ($\ref{mlrpred}$).&lt;/p>
+&lt;p>An $R^2$ value close to 1 indicates that the model explains a large portion of the variance in the response variable. It turns out that $R^2$ will always increase when more variables are added to the model, even they are only weakly associated with the response. This is due to the fact that with more variable to the least squares equations must allow us to fit the training data more accurately (though not necessarily the testing data, a.k.a., over fitting).&lt;/p>
+&lt;p>In general, $RSE$ is defined as
+$$
+\tag{3.25}
+RSE = \sqrt{{1 \over {n - p - 1}} RSS}
+$$
+Thus model with more variables can have higher $RSE$ if the decrease in $RSS$ is small relative to the increase in $p$.&lt;/p>
+&lt;h5 id="adjusted-r2-from-wikihttpsenwikipediaorgwikicoefficient_of_determinationadjusted_r2" >
+&lt;div>
+&lt;a href="#adjusted-r2-from-wikihttpsenwikipediaorgwikicoefficient_of_determinationadjusted_r2">
+####
+&lt;/a>
+Adjusted $R^2$ &lt;a href="https://en.wikipedia.org/wiki/Coefficient_of_determination#Adjusted_R2">(From wiki)&lt;/a>
+&lt;/div>
+&lt;/h5>&lt;p>The use of an adjusted $R^2$ (one common notation is $\bar{R}^2$; another is $R_{adj}^2$)
+is an attempt to account for the phenomenon of the $R^2$ automatically and spuriously
+increasing when extra explanatory variables are added to the model. There are many
+different ways of adjusting, by far the most used one, to the point that it is typically
+just referred to as &lt;em>adjusted $R^2$&lt;/em>, is the correction prosposed by Mordecai Ezekiel,
+and adjusted $R^2$ is defined as
+$$
+\bar{R}^2 = 1 - (1 - R^2){\frac{n-1}{n-p-1}}
+$$
+where $p$ is the total number of explantory variables in the model (not including the constant term), and $n$ is the sample size. It can also be written as
+$$
+\bar{R}^2 = 1 - \frac{RSS / df_e}{TSS / df_t}
+$$
+where $df_t$ is the &lt;em>degrees of freedom&lt;/em> $n-1$ of the estimate of the population variance of the dependent variable, and the $df_e$ is the degrees of freedom $n-p-1$ of the estimate of the underlying population error variance.&lt;/p>
+&lt;p>The adjusted $R^2$ can be negative, and its value will always be less than or equal to that of $R^2$. Unlike $R^2$, the adjusted $R^2$ increases only when the increase in $R^2$ (due to the inclusion of a new variable) is more than one would expect to see by chance. If a set of explanatory variables with a predtermined hierarchy of importance are introduced into a regression one at a time, with the adjusted $R^2$ computed each time, the level at which adjusted $R^2$ reaches a maximum, and decreases afterward, would be the regression with ideal combination of having the best fit without excess/unnecessary terms.&lt;/p>
+&lt;blockquote>
+&lt;p>Degrees of Freedom &lt;a href="https://en.wikipedia.org/wiki/Degrees_of_freedom_(statistics)">(From wiki)&lt;/a>:&lt;br>
+The number of &lt;em>degrees of freedom&lt;/em> is the number of values in the final calculation of a statistic that are free to vary.
+Estimates of statistical parameters can be based upon different amounts of information or data. The number of independent pieces of information that go into the estimate of a parameter are called the degrees of freedom.
+Mathematically, degrees of freedom is the number of dimensions of the domain of a random vector, or essentially the number of &amp;ldquo;free&amp;rdquo; components (how many components need to be know before the vector is fully determined).
+Suppose we have a sample of independent normally distributed observations, ${X_1, X_2, \ldots, X_n}$. This can be represented as an n-dimensional random vector:
+$X^T$. Since this random vector can lie anywhere in n-dimensional space, it has $n$ degrees of freedom.
+Now let $\bar{X}$ be the sample mean. The random vector can be decomposed as the sum of the sample mean plus a vector of residuals:&lt;/p>
+&lt;/blockquote>
+&lt;p>$$
+\begin{pmatrix}
+X_{1} \\
+\vdots \\
+X_{n} \\
+\end{pmatrix}
+= \bar{X} \cdot
+\begin{pmatrix}
+1 \\
+\vdots \\
+1 \\
+\end{pmatrix}
++
+\begin{pmatrix}
+X_{1} - \bar{X} \\
+\vdots \\
+X_{n} - \bar{X} \\
+\end{pmatrix}
+$$&lt;/p>
+&lt;p>The first vector on the right-hand side is constrained to be a multiple of the vector of $1$&amp;rsquo;s, and the only free quantity is $\bar{X}$. It therefore has only one degree of freedom.
+The second vector is constrained by the relation $\sum(X_i - \bar{X}) = 0$. The first $n-1$ components of this vector can be anything. However, once you know the first $n-1$ components, the constraint tells you the value of the $n$th component. Therefore, this vector has $n-1$ degrees of freedom.&lt;/p>
+&lt;h4 id="four-prediction" >
+&lt;div>
+&lt;a href="#four-prediction">
+###
+&lt;/a>
+Four: Prediction
+&lt;/div>
+&lt;/h4>&lt;p>Once we have fit the multiple regression model, it is straightforward to apply the fitted model $\hat{y} = \hat{f}(X) = \hat{\beta} X$ (a more verbose version see $\ref{mlrpred}$) in order to predict the response based on the values of the predictors. However, there are three sorts of uncertainty associated with this prediction.&lt;/p>
+&lt;ol>
+&lt;li>The coefficient estimate is the least squares estimation of the true coefficient which is unknown. The inaccuracy in the coefficient estimates is related to the &lt;em>reducible error&lt;/em>[^9]. We can compute a &lt;strong>confidence interval&lt;/strong> in order to determine how close $\hat{y}$ will be to $f(X)$.&lt;/li>
+&lt;li>In practice assuming a linear model for $f(X)$ is almost always an approximation of reality, so if the true pattern is non-linear, there is an additional reducible error called &lt;em>model bias&lt;/em>.&lt;/li>
+&lt;li>Even if we knew $f(X)$ &amp;ndash; that is, we knew the true value of $\beta$ &amp;ndash; the response value cannot be predicted perfectly, because of the random error $\epsilon$ in the model ($\ref{mlrpred}$), this is the &lt;em>irreducible error&lt;/em>.&lt;/li>
+&lt;/ol>
+&lt;h3 id="summary" >
+&lt;div>
+&lt;a href="#summary">
+##
+&lt;/a>
+Summary
+&lt;/div>
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>The regression line can be specified by two descriptive statistics: the &lt;em>slope&lt;/em> and the &lt;em>intercept&lt;/em>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Among all lines, the regression line for $y$ on $x$ makes the smallest r.m.s error in predicting $y$ from $x$. For that reason, the regression line is often called the &lt;em>least squares line&lt;/em>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>With a controlled experiment, the slope can tell you the average change in $y$ that would be caused by a change in $x$. With an observational study, however, the slope cannot be relied on to predict the results of interventions. It takes a lot of hard work to draw causal inferences from observational data, with or without regression.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>If the average of $y$ depends on $x$ in a non-linear way, the regression line can be quite misleading.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Multiple regression is a powerful technique, but it is not a substitute for understanding. (Such as the poor investigator would fit a multiple regression equation of the form $ predicted\ area = a + b \times perimeter + c \times diagonal$ to predict the area of a rectangle).&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="part-i-how-to-learn" >
+&lt;div>
+&lt;a href="#part-i-how-to-learn">
+#
+&lt;/a>
+Part-I: How to learn
+&lt;/div>
+&lt;/h2>&lt;p>Linear regression is of course an extremely simple and limited learning algorithm, but it provides an example of how a learning algorithm can work.&lt;/p>
+&lt;h3 id="normal-equation" >
+&lt;div>
+&lt;a href="#normal-equation">
+##
+&lt;/a>
+Normal Equation
+&lt;/div>
+&lt;/h3>&lt;p>The goal is to build a system that can take a vector $x \in \mathbb{R^n}$ as input and predict the value of a scalar $y \in \mathbb{R}$ as its output. The output of linear regression is a linear function of the input. Let $\hat{y}$ be the value that our model predicts $y$ should take on. We define the output to be
+$$
+\begin{equation}
+\tag{5.3}
+\hat{y} = w^{\mathsf{T}}x
+\end{equation}
+$$&lt;/p>
+&lt;p>where $w \in \mathbb{R^n}$ is a vector of &lt;strong>parameters&lt;/strong>.&lt;/p>
+&lt;p>We thus have a definition of our task &lt;em>T&lt;/em> : to predict $y$ from $x$ by outputting $\hat{y}=w^{\mathsf{T}}x$.&lt;/p>
+&lt;p>Next we need a definition of our performance measure, &lt;em>P&lt;/em>. One way of measuring the performance of the model is to compute the &lt;strong>mean squared error (MSE)&lt;/strong> of the model on the test set. If $\hat{y}^{(test)}$ gives the predictions of the model on the test set, then the MSE is given by
+$$
+\tag{5.4}
+MSE_{test} = \frac{1}{m} \sum_i{(\hat{y}^{(test)} - {y}^{(test)})^2_i}
+$$
+Intuitively, one can see that this error measure decreases to 0 when $\hat{y}^{(test)} = {y}^{(test)}$. We can also see that
+$$
+\tag{5.5}
+MSE_{test} = \frac{1}{m} ||{\hat{y}^{(test)} - {y}^{(test)}}||^2_2
+$$
+so the error increases whenever the Euclidean distance between the predictions and the targets increases.&lt;/p>
+&lt;blockquote>
+&lt;p>In machine learning, we usually measure the size of vectors using a function called a &lt;strong>norm&lt;/strong>. Formally, the $L^p$ norm is given by
+$$
+||x||_p = \bigg(\sum_i |x_i|^p \bigg)^{\frac{1}{p}}
+$$
+for $p \in \mathbb{R}, p \geq 1$.&lt;/p>
+&lt;p>The $L^2$ norm, with $p = 2$, is known as the &lt;strong>Euclidean norm&lt;/strong>, often denoted simply as $||x||$. It is also common to measure the size of a vector using the squared $L^2$ norm, which can be calculated simply as $x^{\mathsf{T}}x$.&lt;/p>
+&lt;/blockquote>
+&lt;p>To make a machine learning algorithm, we need to design an algorithm that will improve the weights $w$ in a way that reduces $MSE_{test}$ when the algorithm is allowed to gain experience by observing a training set ($X^{(train)}, y^{(train)}$).&lt;/p>
+&lt;p>One intuitive way of doing this is (to minimize $MSE_{test}$) just to minimize the MSE on the training set, $MSE_{train}$ . (Does this make any sense? Keep on reading.)&lt;/p>
+&lt;p>To minimize $MSE_{train}$ , we can simply solve for where its gradient is &lt;strong>0&lt;/strong>:
+$$
+\begin{eqnarray}
+\tag{5.6}
+\nabla_w MSE_{train} = 0 \\
+&amp;amp; \Rightarrow &amp;amp; \frac{1}{m} \nabla_w ||{\hat{y}^{(test)} - {y}^{(test)}}||^2_2 = 0 \\
+&amp;amp; \Rightarrow &amp;amp; \frac{1}{m} \nabla_w ||{\hat{y}^{(train)} - {y}^{(train)}}||^2_2 = 0 \\
+&amp;amp; \Rightarrow &amp;amp; \frac{1}{m} \nabla_w ||{X^{(train)}w - y^{(train)}}||^2_2 = 0 \\
+&amp;amp; \Rightarrow &amp;amp; \nabla_w \big({X^{(train)}w - y^{(train)}}\big)^{\mathsf{T}} \big({X^{(train)}w - y^{(train)}}\big) = 0
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>$$
+\tag{5.10}
+\Rightarrow \nabla_w \big( w^{\mathsf{T}} X^{(train)\mathsf{T}} X^{(train)}w - 2w^{\mathsf{T}} X^{(train)\mathsf{T}} y^{(train)} + y^{(train)\mathsf{T}} y^{(train)} \big) = 0 \
+$$&lt;/p>
+&lt;p>$$
+\tag{5.11}
+\Rightarrow 2X^{(train)\mathsf{T}} X^{(train)}w - 2X^{(train)\mathsf{T}} y^{(train)} = 0 \
+$$&lt;/p>
+&lt;p>$$
+\tag{5.12}
+\Rightarrow w = \big(X^{(train)\mathsf{T}} X^{(train)}\big)^{-1} X^{(train)\mathsf{T}} y^{(train)}
+$$&lt;/p>
+&lt;p>The system of equations whose solution is given by equation 5.12 is known as the &lt;strong>normal equation&lt;/strong>. Evaluating equation 5.12 constitutes a simple learning algorithm.&lt;/p>
+&lt;blockquote>
+&lt;p>链式法则(Chain Rule)是计算复杂导数时的重要工具。简单地说，若函数 $f(x) = g(h(x))$，则有
+$$
+\tag{A.31}
+\frac{\partial{f(x)}}{\partial{x}} = \frac{\partial{g(h(x))}}{\partial{h(x)}} \cdot \frac{\partial{h(x)}}{\partial{x}}.
+$$&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>例如在计算下式时，将$(Ax - b)$看作一个整体可简化计算：
+$$
+\begin{align*}
+&amp;amp;\frac{\partial}{\partial{x}}(Ax - b)^{\mathsf{T}} W(Ax - b) \\
+&amp;amp;= \frac{\partial{(Ax - b)}}{\partial{x}} \cdot 2W(Ax - b) \\
+&amp;amp;= 2AW(Ax - b)
+\end{align*}
+$$&lt;/p>
+&lt;/blockquote>
+&lt;p>It is worth noting that the term &lt;strong>linear regression&lt;/strong> is often used to refer to a slightly more sophisticated model with one additional parameter &amp;ndash; an intercept term $b$. In this model
+$$
+\tag{5.13}
+\hat{y} = w^{\mathsf{T}}x + b
+$$
+so the mapping from parameters to predictions is still a linear function but the mapping from features to predictions is now an &lt;strong>affine function&lt;/strong> (which is in the form of equation 5.13, it means that the plot of model&amp;rsquo;s predictions still looks like a line, but it need not pass though the origin). One can continue to use the model with only weights but augment $x$ with an extra entry that is always set to 1. Then the weight corresponding to the extra 1 entry plays the role of the bias parameter (i.e., the intercept term, $b$, a.k.a., the bias term).&lt;/p>
+&lt;blockquote>
+&lt;p>The intercept term $b$ is often called the &lt;strong>bias&lt;/strong> parameter of the affine transformation. This terminology derives from the point of view that the output of the transformation is biased toward being $b$ in the absence of any input.&lt;/p>
+&lt;p>This term is different from the idea of a statistical bias, in which a statistical estimation algorithm&amp;rsquo;s expected estimate of a quantity is not equal to the true quantity.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="gradient-based-method" >
+&lt;div>
+&lt;a href="#gradient-based-method">
+##
+&lt;/a>
+Gradient-based method
+&lt;/div>
+&lt;/h3>&lt;p>Example: Linear Least Squares&lt;/p>
+&lt;p>Suppose we want to find the value of $x$ that minimizes
+$$
+\tag{4.21}
+f(x) = \frac{1}{2}||Ax - b||^2_2
+$$
+Specialized linear algebra algorithms can solve this problem efficiently; however, we can also explore how to solve it using gradient-based optimization as a simple example of how these techniques work.&lt;/p>
+&lt;p>First, we need to obtain the gradient (Recall the Chain Rule):
+$$
+\tag{4.42}
+\nabla_x f(x) = A^{\mathsf{T}} (Ax - b) = A^{\mathsf{T}}Ax - A^{\mathsf{T}}b
+$$
+We can then follow this gradient downhill, taking small steps.&lt;/p>
+&lt;hr>
+&lt;p>Algorithm 4.1 An algorithm to minimize $f(x) = \frac{1}{2}||Ax - b||^2_2$ with respect to $x$ using gradient descent, starting from an arbitrary value of $x$.&lt;/p>
+&lt;hr>
+&lt;p>Set the step size ($\epsilon$, a.k.a., learning rate) and tolerance ($\delta$) to small, positive numbers.&lt;/p>
+&lt;p>&lt;strong>while&lt;/strong> $||A^{\mathsf{T}}Ax - A^{\mathsf{T}}b||_2 &amp;gt; \delta$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>$x \leftarrow x - \epsilon (A^{\mathsf{T}}Ax - A^{\mathsf{T}}b)$&lt;/p>
+&lt;p>&lt;strong>end while&lt;/strong>&lt;/p>
+&lt;hr>
+&lt;blockquote>
+&lt;p>关于梯度下降法(Gradient Descent)&lt;/p>
+&lt;p>梯度下降法是一种常用的一阶(first-order)优化方法, 是求解无约束优化问题最简单,最经典的方法之一.&lt;/p>
+&lt;p>考虑无约束优化问题$min_x f(x)$,其中$f(x)$为连续可微函数.若能构造一个序列$x^0, x^1, x^2, \ldots$ 满足
+$$
+\tag{B.15}
+\label{eq_ngd}
+f(x^{(t+1)}) &amp;lt; f(x^{(t)}), t = 0,1,2,\ldots
+$$
+则不断执行该过程即可收敛到局部极小点.欲满足式($\ref{eq_ngd}$),根据泰勒展式有
+$$
+\tag{B.16}
+f(x + \Delta x) \simeq f(x) + \Delta x^{\mathsf{T}} \nabla f(x)
+$$
+于是,欲满足$f(x + \Delta x) &amp;lt; f(x)$,可选择
+$$
+\tag{B.17}
+\Delta x = - \epsilon \nabla f(x)
+$$
+其中步长(step size)$\epsilon$是一个小常数.这就是梯度下降法.&lt;/p>
+&lt;p>若目标函数$f(x)$满足一些条件,则通过选取合适的步长,就能确保通过梯度下降收敛到局部极小点.例如,若$f(x)$满足L-Lipschitz条件(亦即,对于任意$x$,存在常数$L$使得$||\nabla f(x)|| \leq L$成立),则将步长设置为$1/(2L)$即可确保收敛到局部极小点.当目标函数是凸函数时,局部极小点就是全局最小点,此时,梯度下降法可确保收敛到全局最优解.&lt;/p>
+&lt;p>当目标函数$f(x)$二阶连续可微时,可将式($B.16$)替换成更为精确的二阶泰勒展式,这样就得到了牛顿法(Newton&amp;rsquo;s method).牛顿法是典型的二阶方法,其迭代轮数远小于梯度下降法.但牛顿法使用了二阶导数$\nabla^2 f(x)$ (second derivative),其每轮迭代中涉及到海森矩阵(Hessian matrix)的求逆,计算复杂度相当高,尤其在高维问题中几乎不可行.其次,牛顿法仅适用于附近点有局部极小点的情况(也就是,海森矩阵为正定矩阵,也就是海森矩阵所有的特征值都是正数),若附近点是鞍点(saddle point)则牛顿法失效.然而,梯度下降却不会被鞍点困住.若能以较低的计算代价寻找海森矩阵的近似逆矩阵,则可以显著降低计算开销,这就是拟牛顿法(quai-Newton method).&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="newtons-method" >
+&lt;div>
+&lt;a href="#newtons-method">
+##
+&lt;/a>
+Newton&amp;rsquo;s method
+&lt;/div>
+&lt;/h3>&lt;p>Sometimes we need to find all the partial derivatives of a function whose input and output are both vectors. The matrix containing all such partial derivatives is known as a &lt;strong>Jacobian matrix&lt;/strong>. Specifically, if we have a function $f: \mathbb{R}^m \rightarrow \mathbb{R}^n$, then the Jacobian matrix $\mathbf{J} \in \mathbb{R}^{m \times n}$ of $f$ is defined such that $J_{i, j} = \frac{\partial}{\partial x_j}f(x)_i$.&lt;/p>
+&lt;p>We are also sometimes interested in a derivative of a derivative. This is known as a &lt;strong>second derivative&lt;/strong>. For example, for a function $f : \mathbb{R}^n \rightarrow \mathbb{R}$, the derivative with respect to $x_i$ of the derivative of $f$ with respect to $x_j$ is denoted as $\frac{\partial^2}{\partial x_i \partial x_j}f$.&lt;/p>
+&lt;p>In a single dimension, we can denote $\frac{d^2}{d x^2}$ by $f&amp;rsquo;&amp;rsquo;(x)$. The second derivative tells us how the first derivative will change when we vary the input. This is important because it tells us whether a gradient step will cause as much of an improvement as we would expect based on the gradient alone. We can think of the second derivative as measuring &lt;strong>curvature&lt;/strong>.&lt;/p>
+&lt;p>Suppose we have a quadratic function (or in practice it can be approximated well as quadratic, at least locally). If such a function has:&lt;/p>
+&lt;ul>
+&lt;li>Second derivative of zero: there is no curvature, it is a flat line, its value can be predict using only the gradient. If the gradient is 1, set the step size of $\epsilon$ along the negative gradient, then the cost function will decrease by $\epsilon$.&lt;/li>
+&lt;li>Second derivative is negative: the function curves downward, decrease by more than $\epsilon$.&lt;/li>
+&lt;li>Second derivative is positive: the function curves upward, decrease by less than $\epsilon$.&lt;/li>
+&lt;/ul>
+&lt;p>When our function has multiple input dimensions, there are many second derivatives. These derivatives can be collected together into a matrix called the &lt;strong>Hessian matrix&lt;/strong>. The Hessian matrix $H(f)(x)$ is defined such that
+$$
+\tag{4.6}
+H(f)(x)_{i, j} = \frac{\partial^2}{\partial x_i \partial x_j}f(x).
+$$
+Equivalently, the Hessian is the Jacobian of the gradient.&lt;/p>
+&lt;p>The (directional) second derivative tells us how well we can expect a gradient descent step to perform. We can make a second-order Taylor series approximation to the function $f(x)$ around the current point $x^{(0)}$:
+$$
+\tag{4.8}
+f(x) \approx f(x^{(0)}) + (x - x^{(0)})^{\mathsf{T}}g + \frac{1}{2} (x - x^{(0)})^{\mathsf{T}}H(x - x^{(0)}),
+$$
+where $g$ is the gradient and $H$ is the Hessian at $x^{(0)}$. If we use a learning rate of $\epsilon$, then the new point $x$ will be given by $x^{(0)} - \epsilon g$. Substituting this into our approximation, we obtain
+$$
+\tag{4.9}
+f(x^{(0)} - \epsilon g) \approx f(x^{(0)}) - \epsilon g^{\mathsf{T}}g + \frac{1}{2} \epsilon^2 g^{\mathsf{T}}Hg.
+$$
+There are three terms here:&lt;/p>
+&lt;ul>
+&lt;li>the original value of the function&lt;/li>
+&lt;li>the expected improvement due to the slope of the function&lt;/li>
+&lt;li>and the correction we must apply to account for the curvature of the function&lt;/li>
+&lt;/ul>
+&lt;p>When this last term is too large, the gradient descent step can actually move uphill.&lt;/p>
+&lt;p>When $g^{\mathsf{T}}Hg$ is zero or negative, the Taylor series approximation predicts that increase $\epsilon$ forever will decrease $f$ forever. In practice, the Taylor series is unlikely to remain accurate for large $\epsilon$, so one must resort to more heuristic choices of $\epsilon$ in this case.&lt;/p>
+&lt;p>When $g^{\mathsf{T}}Hg$ is positive, solving for the optimal step size that decrease the Taylor series approximation of the function the most yields
+$$
+\tag{4.10}
+\epsilon^* = \frac{g^{\mathsf{T}}g}{g^{\mathsf{T}}Hg}.
+$$
+In the worst case, when $g$ aligns with the eigenvector of $H$ corresponding to the maximal eigenvalue $\lambda_{max}$, then this optimal step size is given by $\frac{1}{\lambda_{max}}$. (The eigenvalues of the Hessian determine the scale of the learning rate, if the function we minimized can be approximated well by a quadratic function.)&lt;/p>
+&lt;p>Using the eigendecomposition of the Hessian matrix, we can generalize the &lt;strong>second derivative test&lt;/strong> to multiple dimensions. At a critical point, where $\nabla_x f(x) = 0$, we can examine the eigenvalues of the Hessian to determine whether the critical point is a local maximum, local minimum, or saddle point.&lt;/p>
+&lt;ul>
+&lt;li>when the Hessian is positive definite (all its eigenvalues are positive): local minimum.&lt;/li>
+&lt;li>when the Hessian is negative definite (all its eigenvalues are negative): local maximum.&lt;/li>
+&lt;li>the test is inconclusive whenever all the nonzero eigenvalues have the same sign but at least one eigenvalue is zero.&lt;/li>
+&lt;/ul>
+&lt;p>In multiple dimensions, there is a different second derivative for each direction at a single point. The &lt;strong>condition number&lt;/strong> of the Hessian at this point measures how much the second derivative differ from each other. When the Hessian has a poor condition number, gradient descent performs poorly. This is because in one direction, the derivative increases rapidly, while in another direction, it increases slowly, Gradient descent is unaware of this change in the derivative, so it does not know that it needs to explore preferentially in the direction where the derivative remains negative for longer.&lt;/p>
+&lt;p>Poor condition number also makes choosing a good step size difficult. The step size must be small enough to avoid overshooting the minimum and going uphill in directions with strong positive curvature. This usually means that the step size is too small to make significant progress in other directions with less curvature.&lt;/p>
+&lt;p>This issue can be resolved by using information from the Hessian matrix to guide the search. The simplest method for doing so is known as &lt;strong>Newton&amp;rsquo;s method&lt;/strong>. Newton&amp;rsquo;s method is based on using a second-order Taylor series expansion to approximate $f(x)$ near some point $x^{(0)}$:
+$$
+\tag{4.11}
+f(x) \approx f(x^{(0)}) + (x - x^{(0)})^{\mathsf{T}} \nabla_x f(x^{(0)}) + \frac{1}{2}(x - x^{(0)})^{\mathsf{T}}H(f)(x^{(0)})(x - x^{(0)})
+$$
+If we solve for the critical point of this function, we obtain
+$$
+\tag{4.12}
+x^* = x^{(0)} - H(f)(x^{(0)})^{-1} \nabla_x f(x^{(0)})
+$$
+When $f$ is a positive definite quadratic function, Newton&amp;rsquo;s method consist of applying equation 4.12 once to jump to the minimum of the function directly. When $f$ is not truly quadratic but can be locally approximated as a positive definite quadratic, Newton&amp;rsquo;s method consists of applying equation 4.12 multiple times. NOTE that Newton&amp;rsquo;s method is only appropriate when the nearby critical point is a minimum (all the eigenvalues of the Hessian are positive), whereas gradient is not attracted to saddle points unless the gradient points toward them.&lt;/p>
+&lt;h2 id="part_ii-why-that--work" >
+&lt;div>
+&lt;a href="#part_ii-why-that--work">
+#
+&lt;/a>
+Part_II: Why that Work
+&lt;/div>
+&lt;/h2>&lt;h3 id="linear-regression-as-maximum-likelihood" >
+&lt;div>
+&lt;a href="#linear-regression-as-maximum-likelihood">
+##
+&lt;/a>
+Linear Regression as Maximum Likelihood
+&lt;/div>
+&lt;/h3>&lt;p>Previously, we motivated linear regression as an algorithm that learns to take an input $x$ and produce an output value $\hat{y}$. The mapping from $x$ to $\hat{y}$ is chosen to minimize mean squared error, a criterion that we introduced more or less arbitrarily. We now revisit linear regression from the point of view of maximum likelihood estimation.&lt;/p>
+&lt;p>Instead of producing a single prediction $\hat{y}$, we now think of the model as producing a conditional distribution $p(y | x)$. We can imagine that with an infinitely large training set, we might see several training examples with the same input value $x$ but different values of $y$. The goal of the learning algorithm is now to fit the distribution $p(y | x)$ to all those different $y$ values that are all compatible with $x$.&lt;/p>
+&lt;p>To derive the same linear regression algorithm we obtained before, we &lt;strong>define&lt;/strong> $p(y | x) = \mathcal{N}(y; \hat{y}(x; w), \sigma^2)$. In this example, we assume that the variance is fixed to some constant $\sigma^2$ chosen by user.&lt;/p>
+&lt;p>Since the examples are assumed to be i.i.d., the conditional log-likelihood is given by
+$$
+\begin{split}
+&amp;amp;\sum^m_{i=1} log \ p(y^{(i)}|x^{(i)}; \theta) \\
+&amp;amp;= -m \ log \ \sigma - \frac{m}{2} log(2 \pi) - \sum^m_{i=1} \frac{||\hat{y}^{(i)} - {y}^{(i)}||^2}{2 \sigma^2},
+\end{split}
+$$
+where $\hat{y}^{(i)}$ is the output of the linear regression on the $i$-th input $x^{(i)}$ and m is the number of the training examples. Comparing the log-likelihood with the mean squared error,
+$$
+MSE_{train} = \frac{1}{m} \sum^m_{i=1} ||\hat{y}^{(i)} - {y}^{(i)}||^2,
+$$
+we immediately see that maximizing the log-likelihood with respect to $w$ yields the same estimate of the parameters $w$ as does minimizing the mean squared error. The two criteria have different values but the same location of the optimum.&lt;/p>
+&lt;p>This justifies the use of MSE as a maximum likelihood estimation procedure.&lt;/p>
+&lt;h4 id="maximum-likelihood-estimation" >
+&lt;div>
+&lt;a href="#maximum-likelihood-estimation">
+###
+&lt;/a>
+Maximum Likelihood Estimation
+&lt;/div>
+&lt;/h4>&lt;blockquote>
+&lt;p>Rather than guessing that some function might make a good estimator and then analyzing its bias and variance, we would like to have some principle from which we can derive specific functions that are good estimators for different models.&lt;/p>
+&lt;p>The most common such principle is the maximum likelihood principle.&lt;/p>
+&lt;p>Consider a set of m examples $\mathbb{X} = {x^{(1)}, \cdots, x^{(m)}}$ are i.i.d from true but unknown data-generating distribution $p_{data}(\mathbf{x})$.&lt;/p>
+&lt;p>Let $p_{model}(\mathbf{x}; \mathbf{\theta})$ be a parametric family of probability distribution over the same space indexed by $\mathbf{\theta}$. In other words, $p_{model}({x}; \mathbf{\theta})$ maps any configuration $x$ to a real number estimating the true probability $p_{data}({x})$.&lt;/p>
+&lt;p>The maximum likelihood estimator for $\mathbf{\theta}$ is then defined as
+$$
+\begin{eqnarray}
+\mathbf{\theta_{ML}}
+\tag{5.56}
+&amp;amp;=&amp;amp; \underset{\mathbf{\theta}}{\operatorname{argmax}} {p_{model}(\mathbb{x}; \mathbf{\theta})} \\
+\tag{5.57}
+&amp;amp;=&amp;amp; \underset{\mathbf{\theta}}{\operatorname{argmax}} \prod^m_{i=1}{p_{model}(x^{(i)}; \mathbf{\theta})}
+\end{eqnarray}
+$$
+This product over many probabilities can be inconvenient for various reasons. Such as it&amp;rsquo;s prone to numerical underflow. We observe that taking the logarithm of the likelihood does not change its argmax but does conveniently transform a product into a sum:
+$$
+\tag{5.58}
+\mathbf{\theta_{ML}} = \underset{\mathbf{\theta}}{\operatorname{argmax}} \sum^m_{i=1}{\text{log} \ p_{model}(x^{(i)}; \mathbf{\theta})}
+$$
+Because the argmax does not change when we rescale the cost function, we can divide by $m$ to obtain a version of the criterion that is expressed as an expectation with respect to the empirical distribution $\hat{p}&lt;em>{data}$ defined by the training data:
+$$
+\tag{5.59}
+\mathbf{\theta&lt;/em>{ML}} = \underset{\mathbf{\theta}}{\operatorname{argmax}} \mathbb{E}&lt;em>{\mathbf{x} \sim \hat{p}&lt;/em>{data}}{\text{log} \ p_{model}(x^{(i)}; \mathbf{\theta})}
+$$
+One way to interpret maximum likelihood estimation is to view it as minimizing the dissimilarity between the empirical distribution $\hat{p}&lt;em>{data}$, defined by the training set and the model distribution, with the degree of dissimilarity between the two measured by the KL divergence. The KL divergence is given by
+$$
+\tag{5.60}
+D&lt;/em>{KL}(\hat{p}&lt;em>{data} || p&lt;/em>{model}) = \mathbb{E}&lt;em>{\mathbf{x} \sim \hat{p}&lt;/em>{data}} {[\text{log} \ \hat{p}&lt;em>{data}(x) - \text{log} \ {p}&lt;/em>{model}(x)]}.
+$$
+The term on the left is a function only of the data-generating process, not the model. This means when we train the model to minimize the KL divergence, we need only minimize
+$$
+\tag{5.61}
+-\mathbb{E}&lt;em>{\mathbf{x} \sim \hat{p}&lt;/em>{data}} {[\text{log} \ \hat{p}_{data}(x)]},
+$$
+which is of course the same as the maximization in equation 5.59.&lt;/p>
+&lt;p>Minimizing this KL divergence corresponds exactly to minimizing the cross-entropy between the distributions. Any loss consisting of a negative log-likelihood is a cross-entropy between the empirical distribution and the model distribution. For example, MSE is the cross-entropy between the empirical distribution and a Gaussian model.&lt;/p>
+&lt;p>We can thus see maximum likelihood as an attempt to make the model distribution match the empirical distribution $\hat{p}_{data}$. While the optimal $\mathbf{\theta}$ is the same regardless of whatever we are maximizing the likelihood or minimizing the KL divergence, the values of the objective functions are different.&lt;/p>
+&lt;p>In software, we often phrase both as minimizing a cost function.&lt;/p>
+&lt;p>Maximum likelihood thus becomes minimization of the negative log-likelihood (NLL), or equivalently, minimization of the cross-entropy.&lt;/p>
+&lt;p>关于KL散度&lt;/p>
+&lt;p>KL散度(Kullback-Leibler divergence), 亦称相对熵(relative entropy)或信息散度(information divergence), 可用于度量两个概率分布之间的差异. 给定两个连续型概率分布$P$和$Q$, 二者之间的KL散度定义为
+$$
+\begin{equation} \label{eq_kld}
+\tag{C.34}
+KL(P||Q) = \int^{\infin}_{-\infin}p(x)\text{log}\frac{p(x)}{q(x)}\text{d}x,
+\end{equation}
+$$
+其中,$p(x)$和$q(x)$分别是$P$和$Q$的概率密度函数.&lt;/p>
+&lt;p>KL散度满足非负性, 即
+$$
+\tag{C.35}
+KL(P||Q) \geq 0,
+$$
+当且仅当$P=Q$时$KL(P||Q)=0$. 但是, KL散度不满足对称性, 即
+$$
+\tag{C.36}
+KL(P||Q) \neq KL(Q||P),
+$$
+因此, KL散度不是一个度量(metric).&lt;/p>
+&lt;p>若将KL散度的定义($\ref{eq_kld}$)展开, 可得
+$$
+\begin{eqnarray}&lt;/p>
+&lt;p>KL(P||Q)
+&amp;amp;=&amp;amp; \int^{\infin}&lt;em>{-\infin} p(x)\text{log} \ p(x)\text{d}x - \int^{\infin}&lt;/em>{-\infin} p(x)\text{log} \ q(x)\text{d}x \\
+\tag{C.37}
+&amp;amp;=&amp;amp; -H(P) + H(P, Q),
+\end{eqnarray}
+$$
+其中$H(P)$为熵(entropy), $H(P,Q)$为交叉熵(cross-entropy).&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="bayesian-linear-regression" >
+&lt;div>
+&lt;a href="#bayesian-linear-regression">
+##
+&lt;/a>
+Bayesian Linear Regression
+&lt;/div>
+&lt;/h3>&lt;p>So far we have discussed &lt;strong>frequentist statistics&lt;/strong> and approaches based on estimating a single value of $\theta$, then making all predictions thereafter based on that one estimate. An other approach is to consider all possible values of $\theta$ when making a prediction. The latter is the domain of &lt;strong>Bayesian statistics&lt;/strong>.&lt;/p>
+&lt;ul>
+&lt;li>Freqentist: the true parameter value $\theta$ is fixed but unknown, while the point estimate $\hat{\theta}$ is a random variable on account of it being a function of the dataset (which is seen as random).&lt;/li>
+&lt;li>Bayesian: the Bayesian uses probability to reflect degrees of certainty in states of knowledge. The dataset is directly observed and so is not random. On the other hand, the true parameter $\theta$ is unknown or uncertain and thus is represented as random variable.&lt;/li>
+&lt;/ul>
+&lt;p>Before observing the data, we represent our knowledge of $\theta$ using the &lt;strong>prior probability distribution&lt;/strong>, $p(\theta)$ (a.k.a., &amp;ldquo;the prior&amp;rdquo;). Generally, the machine learning practitioner selects a prior distribution that quite broad (i.e., with high entropy, such as uniform distribution) to reflect a high degree of uncertainty in the value of $\theta$ before observing any data.&lt;/p>
+&lt;p>Now consider that we have a set of data samples {$x^{(1)}, \ldots, x^{(m)}$}. We can recover the effect of data on our belief about $\theta$ by combining the data likelihood $p(x^{(1)}, \ldots, x^{(m)} | \theta)$ with the prior via Bayes&amp;rsquo; rule:
+$$
+\tag{5.67}
+p(\theta | x^{(1)}, \ldots, x^{(m)}) = \frac{p(x^{(1)}, \ldots, x^{(m)} | \theta) p(\theta)}{p(x^{(1)}, \ldots, x^{(m)})}
+$$&lt;/p>
+&lt;p>In the scenarios where Bayesian estimation is typically used, the prior begins as a relatively uniform or Gaussian distribution with high entropy, and the observation of the data usually causes the posterior to lose entropy and concentrate around a few highly likely values of the parameters.&lt;/p>
+&lt;p>Bayesian estimation offers two important differences from MLE:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Unlike the MLE approach that makes predictions using a point estimate of $\theta$, the Bayesian approach is to make predictions using a full distribution over $\theta$. For example, after observing $m$ examples, the predicted distribution over the next data sample, $x^{(m+1)}$, is given by
+$$
+\tag{5.68}
+p(x^{(m+1)} | x^{(1)}, \ldots, x^{(m)}) = \int p(x^{(m+1)} | \theta) p(\theta | x^{(1)}, \ldots, x^{(m)}) d \theta
+$$
+Here each value of $\theta$ with positive probability density contributes to the prediction of the next example, with the contribution weighted by the posterior density itself.&lt;/p>
+&lt;p>After having observed {$x^{(1)}, \ldots, x^{(m)}$}, if we are still uncertain about the value of $\theta$, then this uncertainty is incorporated into any predictions we might make.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The prior has an influence by shifting probability mass density towards regions of the parameter space that are preferred a priori. In practice, the prior often expresses a preference for models that are simpler or more smooth.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>Critics of the Bayesian approach identify the prior as a source of subjective human judgment affecting the predictions.&lt;/p>
+&lt;p>Bayesian methods typically generalize much better when limited training data is available but typically suffer from high computational cost when the number of training examples is large.&lt;/p>
+&lt;p>&lt;strong>$\color{Green}{\mathbf{Example}}$&lt;/strong>&lt;/p>
+&lt;p>Here we consider the Bayesian estimation approach to learning the linear regression parameters. In linear regression, we learn a linear mapping from an input vector $x \in \mathbb{R}^n$ to predict the value of a scalar $y \in \mathbb{R}$. The prediction is parameterized by the vector $w \in \mathbb{R}^n$:
+$$
+\tag{5.69}
+\hat{y} = w^{\mathsf{T}}x.
+$$
+Given a set of $m$ training samples ($X^{(train)}, y^{(train)}$), we can express the prediction of $y$ over the entire training set as
+$$
+\tag{5.70}
+\hat{y}^{(train)} = X^{(train)}w.
+$$
+Expressed as a Gaussian conditional distribution on $y^{(train)}$, we have
+$$
+\begin{eqnarray}
+p(y^{(train)} | X^{(train)}, w)
+\tag{5.71}
+&amp;amp;=&amp;amp; \mathcal{N}(y^{(train)} ; X^{(train)}w, I) \\
+\tag{5.72}
+&amp;amp;\varpropto&amp;amp; \text{exp} \bigg(&lt;/p>
+&lt;ul>
+&lt;li>\frac{1}{2}(y^{(train)} - X^{(train)}w)^{\mathsf{T}} (y^{(train)} - X^{(train)}w)
+\bigg),
+\end{eqnarray}
+$$
+where we follow the standard MSE formulation in assuming that the Gaussian variance on $y$ is one.&lt;/li>
+&lt;/ul>
+&lt;p>In what follows, to reduce the notational burden, we refer to ($X^{(train)}, y^{(train)}$) as simply ($X, y$).&lt;/p>
+&lt;p>To determine the posterior distribution over the model parameter vector $w$, we first need to specify a prior distribution. For real-valued parameters it is common to use a Gaussian as a prior distribution,
+$$
+\tag{5.73}
+p(w) = \mathcal{N}(w; \mu_0, \Lambda_0) \varpropto \text{exp} \bigg(
+-\frac{1}{2}(w - \mu_0)^{\mathsf{T}} \Lambda^{-1} (w - \mu_0) \bigg),
+$$
+where $\mu_0$ and $\Lambda_0$ are the prior distribution mean vector and covariance matrix respectively. (We assume a diagonal covariance matrix $\Lambda_0 = diag(\lambda_0)$, unless there is a reason to use a particular covariance structure.)&lt;/p>
+&lt;p>With the prior thus specified, we can now proceed in determining the &lt;strong>posterior&lt;/strong> distribution over the model parameters:
+$$
+\begin{eqnarray}
+p(w | X, y)
+\tag{5.74}
+&amp;amp;\varpropto&amp;amp; p(y | X, w)p(w) \\
+\tag{5.75}
+&amp;amp;\varpropto&amp;amp;
+\text{exp} \bigg(- \frac{1}{2}(y - Xw)^{\mathsf{T}} (y - Xw) \bigg) \text{exp} \bigg(-\frac{1}{2}(w - \mu_0)^{\mathsf{T}} \Lambda^{-1} (w - \mu_0) \bigg) \\
+\tag{5.76}
+&amp;amp;\varpropto&amp;amp; \text{exp} \bigg(-\frac{1}{2} \big( -2y^{\mathsf{T}}Xw + w^{\mathsf{T}}X^{\mathsf{T}}Xw + w^{\mathsf{T}} \Lambda_0^{-1}w - 2\mu_0^{\mathsf{T}}\Lambda_0^{-1}w \big) \bigg)
+\end{eqnarray}
+$$
+We now define $\Lambda_m = (X^{\mathsf{T}}X + \Lambda_0^{-1})^{-1}$ and $\mu_m = \Lambda_m (X^{\mathsf{T}}y + \Lambda_0^{-1} \mu_0)$. Using these new variables, we find that the posterior may be rewritten as a Gaussian distribution:
+$$
+\begin{eqnarray}
+p(w | X, y)
+\tag{5.77}
+&amp;amp;\varpropto&amp;amp;
+\text{exp} \bigg(- \frac{1}{2}(w - \mu_m)^{\mathsf{T}} \Lambda_m^{-1}(w - \mu_m) + \frac{1}{2} \mu_m^{\mathsf{T}}\Lambda_m^{-1}\mu_m \bigg) \\
+\tag{5.78}
+&amp;amp;\varpropto&amp;amp; \text{exp} \bigg(-\frac{1}{2} (w - \mu_m)^{\mathsf{T}} \Lambda_m^{-1}(w - \mu_m) \bigg)
+\end{eqnarray}
+$$
+All terms that do not include the parameter vector $w$ have been omitted; they are implied by the fact that the distribution must be normalized to integrate to 1.&lt;/p>
+&lt;blockquote>
+&lt;p>Equation 3.23 shows how to normalize a multivariate Gaussian distribution:
+$$
+\tag{3.23}
+\mathcal{N}(x; \mu, \Sigma) = \sqrt{\frac{1}{(2\pi)^n \text{det}(\Sigma)}} \text{exp} \bigg(-\frac{1}{2} (x - \mu)^{\mathsf{T}} \Sigma^{-1}(x - \mu) \bigg).
+$$
+When we wish to evaluate the PDF several times for many different values of the parameters, the covariance is not a computationally efficient way to parametrize the distribution, since we need to invert $\Sigma$ to evaluate the PDF. We can instead use a &lt;strong>precision matrix $\beta$&lt;/strong>:
+$$
+\tag{3.24}
+\mathcal{N}(x; \mu, \beta^{-1}) = \sqrt{\frac{\text{det}(\beta)}{(2\pi)^n}} \text{exp} \bigg(-\frac{1}{2} (x - \mu)^{\mathsf{T}} \beta (x - \mu) \bigg).
+$$&lt;/p>
+&lt;/blockquote>
+&lt;h4 id="maximum-a-posteriori-map-estimation" >
+&lt;div>
+&lt;a href="#maximum-a-posteriori-map-estimation">
+###
+&lt;/a>
+Maximum A Posteriori (MAP) Estimation
+&lt;/div>
+&lt;/h4>&lt;blockquote>
+&lt;p>While the most principled approach is to make predictions using the full Bayesian posterior distribution over the parameter $\theta$, it is still often desirable to have a single point estimate. One common reason for desiring a point estimate is that most operations involving the Bayesian posterior for most interesting models are intractable, and a point estimate offers a tractable approximation.&lt;/p>
+&lt;p>Rather than simply returning to the MLE, we can still gain some of the benefit of the Bayesian approach by allowing the prior to influence the choice of the point estimate. One rational way to do this id to choose the &lt;strong>maximum a posteriori&lt;/strong> (MAP) point estimate. The MAP estimate chooses the point of maximal posterior probability ( or maximal probability density in the more common case of continuous $\theta$):
+$$
+\tag{5.79}
+\theta_{MAP}
+= \underset{\mathbf{\theta}}{\operatorname{argmax}} {p(\mathbf{\theta} | x)}
+= \underset{\mathbf{\theta}}{\operatorname{argmax}} {\text{log} \ p(x | \mathbf{\theta})} + \text{log} \ p(\mathbf{\theta})
+$$
+We recognize, on the righthand side, $\text{log} \ p(x | \mathbf{\theta})$, that is, the standard log-likelihood term, and $\text{log} \ p(\mathbf{\theta})$, corresponding to the prior distribution.&lt;/p>
+&lt;p>As an example, consider a linear regression model with a Gaussian prior on the weights $w$. If this prior is given by $\mathcal{N}(w; 0, \frac{1}{\lambda}I^2)$, then the log-prior term in equation 5.79 is proportional to the familiar $\lambda w^{\mathsf{T}}w$ weight decay penalty, plus a term that does not depend on $w$ and does not affect the learning process. MAP Bayesian inference with a Gaussian prior on the weights thus corresponds to weight decay.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="mle-and-map-殊途同归" >
+&lt;div>
+&lt;a href="#mle-and-map-%e6%ae%8a%e9%80%94%e5%90%8c%e5%bd%92">
+##
+&lt;/a>
+MLE and MAP: 殊途同归
+&lt;/div>
+&lt;/h3>&lt;h4 id="binary-variables" >
+&lt;div>
+&lt;a href="#binary-variables">
+###
+&lt;/a>
+Binary Variables
+&lt;/div>
+&lt;/h4>&lt;ul>
+&lt;li>
+&lt;p>Coin flipping: heads = 1, tails = 0 with bias $\mu$
+$$
+p(X = 1 | \mu) = \mu
+$$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Bernoulli Distribution
+$$
+Bern(x | \mu) = \mu^x \cdot (1 - \mu)^{1 - x} \\
+\mathbf{E}[X] = \mu \\
+var(X) = \mu \cdot (1 - \mu)
+$$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>N coin flips: $X_1, \ldots, X_N$
+$$
+p(\Sigma_i X_i = m | N, \mu) = {N \choose m} \mu^m (1 - \mu)^{N - m} \\
+$$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Binomial Distribution
+$$
+p(m | N, \mu) = {N \choose m} \mu^m (1 - \mu)^{N - m} \\
+\mathbf{E}[\Sigma_i X_i] = N \mu \\
+var[\Sigma_i X_i] = N \mu (1 - \mu)
+$$&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="the-bias-of-a-coin" >
+&lt;div>
+&lt;a href="#the-bias-of-a-coin">
+###
+&lt;/a>
+The Bias of a Coin
+&lt;/div>
+&lt;/h4>&lt;p>Suppose that we have a coin, and we would like to figure out what the probability is that it will flip up heads.&lt;/p>
+&lt;ul>
+&lt;li>How should we estimate the bias?&lt;/li>
+&lt;/ul>
+&lt;p>With these coin flips result: &lt;strong>[tail, head, tail, head, head]&lt;/strong>, our estimate of the bias is: 3/5 (&amp;ldquo;the frequency of heads&amp;rdquo;).&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>why is this a good estimate of the bias?&lt;/p>
+&lt;p>- how good is this estimation?&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>$P(Heads) = \theta, \ P(Tails) = 1 - \theta$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Flips are i.i.d.&lt;/p>
+&lt;ul>
+&lt;li>Independent events&lt;/li>
+&lt;li>Identically distributed according to Binomial distribution&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Our training data consists of $\alpha_H$ heads and $\alpha_T$ tails
+$$
+p(D | \theta) = \theta^{\alpha_H} \cdot (1 - \theta)^{\alpha_T}
+$$&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="mle" >
+&lt;div>
+&lt;a href="#mle">
+###
+&lt;/a>
+MLE
+&lt;/div>
+&lt;/h4>&lt;ul>
+&lt;li>
+&lt;p>Data: Observed set of $\alpha_H$ heads and $\alpha_T$ tails&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Hypothesis: Coin flips follow a binomial distribution&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Learning: Find the &amp;ldquo;best&amp;rdquo; $\theta$&lt;/p>
+&lt;p>Maximum Likelihood Estimation: Choose $\theta$ to maximize probability of $D$ given $\theta$&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>$$
+\begin{eqnarray}
+\hat{\theta}
+&amp;amp;=&amp;amp; \underset{\mathbf{\theta}}{\operatorname{argmax}} \ P(D | \theta) \\
+&amp;amp;=&amp;amp; \underset{\mathbf{\theta}}{\operatorname{argmax}} \ \text{ln} \ P(D | \theta) \\
+&amp;amp;=&amp;amp; \underset{\mathbf{\theta}}{\operatorname{argmax}} \ \text{ln} \ \theta^{\alpha_H} \cdot (1 - \theta)^{\alpha_T}
+\end{eqnarray}
+$$&lt;/p>
+&lt;ul>
+&lt;li>Set derivative to zero, and solve!&lt;/li>
+&lt;/ul>
+&lt;p>$$
+\begin{eqnarray}
+\frac{d}{d\theta} \text{ln} \ P(D | \theta)
+&amp;amp;=&amp;amp; \frac{d}{d\theta} [\text{ln} \ \theta^{\alpha_H} \cdot (1 - \theta)^{\alpha_T}] \\
+&amp;amp;=&amp;amp; \frac{d}{d\theta} [\alpha_H \text{ln} \ \theta + \alpha_T \text{ln} (1 - \theta)] \\
+&amp;amp;=&amp;amp; \alpha_H \frac{d}{d\theta} \text{ln} \ \theta + \alpha_T \frac{d}{d\theta} \text{ln} \ (1 - \theta) \\
+&amp;amp;=&amp;amp; \frac{\alpha_H}{\theta} - \frac{\alpha_T}{1 - \theta} = 0 \\
+\\
+\Rightarrow \hat{\theta}_{MLE} &amp;amp;=&amp;amp; \frac{\alpha_H}{\alpha_H + \alpha_T}
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>As we can see now, that&amp;rsquo;s exactly the &amp;ldquo;Frequency of the heads&amp;rdquo;! In other words, the frequency of heads is exactly the &lt;strong>maximum likelihood estimator&lt;/strong> for this problem.&lt;/p>
+&lt;h4 id="map" >
+&lt;div>
+&lt;a href="#map">
+###
+&lt;/a>
+MAP
+&lt;/div>
+&lt;/h4>&lt;p>Suppose we have 5 coin flips all of which are heads, Our estimate of the bias is: ???&lt;/p>
+&lt;ul>
+&lt;li>MLE would give $\theta_{MLE} = 1$&lt;/li>
+&lt;li>This event occurs with probability $1 / 2^5 = 1/32$ for a fair coin&lt;/li>
+&lt;li>Are we willing to commit to such a strong conclusion with such little evidence?&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Priors&lt;/strong> are a Bayesian mechanism that allow us to take into account &amp;ldquo;prior&amp;rdquo; knowledge about our belief in the outcome. Rather than estimating a single $\theta$, consider a distribution over possible values of $\theta$ given the data:&lt;/p>
+&lt;ul>
+&lt;li>Without any data observed, our best guess of $\theta$ is obeyed a Beta(2, 2),&lt;/li>
+&lt;li>After we see some data (such as observed flips:[tails, tails]), we update our prior to Beta(3, 2).&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Bayesian Learning&lt;/strong>
+$$
+\begin{eqnarray}
+\tag{L1}
+p(\theta | D) = \frac{p(D | \theta) \ p(\theta)}{p(D)} \\
+\tag{L2} \label{eq_map}
+\Rightarrow p(\theta | D) \varpropto p(D | \theta) \ p(\theta)
+\end{eqnarray}
+$$
+where&lt;/p>
+&lt;ul>
+&lt;li>$p(\theta | D)$ is the posterior,&lt;/li>
+&lt;li>$p(D | \theta)$ is the data likelihood,&lt;/li>
+&lt;li>$p(\theta)$ is the prior,&lt;/li>
+&lt;li>$p(D)$ is the normalization factor.&lt;/li>
+&lt;/ul>
+&lt;p>We update the prior according to the observed data to get the posterior by applying Bayes rule.&lt;/p>
+&lt;p>&lt;strong>Picking Priors&lt;/strong>&lt;/p>
+&lt;p>How do we pick a good prior distribution?&lt;/p>
+&lt;ul>
+&lt;li>Priors could represent expert domain knowledge&lt;/li>
+&lt;li>Statisticians choose them to make the posterior distribution &amp;ldquo;nice&amp;rdquo; (conjugate priors, which makes the posterior the same form as the prior)&lt;/li>
+&lt;/ul>
+&lt;p>What is a good prior for the bias in the coin flipping problem?&lt;/p>
+&lt;ul>
+&lt;li>Truncated Gaussian (tough to work with)&lt;/li>
+&lt;li>Beta distribution (works well for binary random variables)&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Coin Flips with Beta Distribution&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Likelihood function: $p(D | \theta) = \theta^{\alpha_H} (1 - \theta)^{\alpha_T}$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Prior: $p(\theta) = \frac{\theta^{\beta_H - 1} (1 - \theta)^{\beta_T - 1}}{B(\beta_H, \beta_T)} \sim Beta(\beta_H, \beta_T)$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Posterior:
+$$
+\begin{eqnarray}
+p(\theta | D)
+&amp;amp;\varpropto&amp;amp; \theta^{\alpha_H}(1 - \theta)^{\alpha_T} \theta^{\beta_H - 1}(1 - \theta)^{\beta_T - 1} \\
+&amp;amp;=&amp;amp; \theta^{\alpha_H + \beta_H - 1}(1 - \theta)^{\alpha_T + \beta_T - 1} \\
+&amp;amp;=&amp;amp; Beta(\alpha_H + \beta_H, \alpha_T + \beta_T)
+\end{eqnarray}
+$$&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>MAP Estimation&lt;/strong>&lt;/p>
+&lt;p>Choosing $\theta$ to maximize the posterior distribution is called &amp;ldquo;maximum a posteriori (MAP)&amp;rdquo; estimation
+$$
+\theta_{MAP} = \underset{\mathbf{\theta}}{\operatorname{argmax}} \ {p(\mathbf{\theta} | D)}
+$$
+The only difference between $\theta_{MLE}$ and $\theta_{MAP}$ is that one assumes a &lt;strong>uniform&lt;/strong> prior (MLE) and the other allows an arbitrary prior.&lt;/p>
+&lt;blockquote>
+&lt;p>Recall that:&lt;/p>
+&lt;p>With uniform prior $p(\theta) \varpropto 1$, according to $\ref{eq_map}$, the posterior $p(\theta | D) \varpropto p(D | \theta)$.&lt;/p>
+&lt;/blockquote>
+&lt;p>Suppose we have 5 coin flips all of which are heads,&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>MLE would give $\theta_{MLE} = 1$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>MLE with a Beta(2, 2) prior gives $\theta_{MAP} = \frac{5 + 2 - 1}{5+2+0+2 - 2} = \frac{6}{7} \approx .857$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>As we see more data, the effect of the prior diminishes
+$$
+\begin{eqnarray}
+\theta_{MAP}
+&amp;amp;=&amp;amp; \frac{\alpha_H + \beta_H - 1}{\alpha_H + \beta_H + \alpha_T + \beta_T - 2} \\
+\\
+&amp;amp;\approx&amp;amp; \frac{\alpha_H}{\alpha_H + \alpha_T} \ (\text{for large number of observations})
+\end{eqnarray}
+$$&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="sample-complexity" >
+&lt;div>
+&lt;a href="#sample-complexity">
+###
+&lt;/a>
+Sample Complexity
+&lt;/div>
+&lt;/h4>&lt;p>How many coin flips do we need in order to guarantee that our learned parameter does not differ too much from the true parameter (with high probability)? Say, I want to know the coin parameter $\theta$, within $\epsilon = 0.1$ error with probability at least $1 - \delta = 0.95$.&lt;/p>
+&lt;p>Using the Chernoff bound, we have
+$$
+p(|\theta_{true} - \theta_{MLE}| \geq \epsilon) \leq 2e^{-2N \epsilon^2} \\
+\delta \geq 2e^{-2N \epsilon^2} \Rightarrow N \geq \frac{1}{2\epsilon^2} \text{ln} \frac{1}{\delta}
+$$&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>Convert each variable to standard units. The average of the products gives the correlation coefficient (may be more intuitively in the python code)&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&amp;#160;&lt;a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>Associated with a unit increase in $x$ there is some average change in $y$. The slope of the regression line estimates this change. The formula for the slope is $\frac{r \times SD_y}{SD_x}$. And the intercept of the regression line is just the predicted value for $y$ when $x$ is $0$.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item></channel></rss>
