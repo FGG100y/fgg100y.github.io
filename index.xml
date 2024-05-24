@@ -1816,7 +1816,7 @@ algorithm to speed it up so that you can use it as part of an end-to-end solutio
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* Statistics, by David Freeman, Robert Pisani, and Roger Perves
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* 统计学, David Freeman $et.al$ 著，魏宗舒 等译，中国统计出版社
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* 统计学, David Freeman *et.al* 著，魏宗舒 等译，中国统计出版社
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>* 机器学习, 周志华 著 (大名鼎鼎的‘西瓜书’)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
@@ -2733,8 +2733,7 @@ we immediately see that maximizing the log-likelihood with respect to $w$ yields
 &lt;/a>
 Maximum Likelihood Estimation
 &lt;/div>
-&lt;/h4>&lt;blockquote>
-&lt;p>Rather than guessing that some function might make a good estimator and then analyzing its bias and variance, we would like to have some principle from which we can derive specific functions that are good estimators for different models.&lt;/p>
+&lt;/h4>&lt;p>Rather than guessing that some function might make a good estimator and then analyzing its bias and variance, we would like to have some principle from which we can derive specific functions that are good estimators for different models.&lt;/p>
 &lt;p>The most common such principle is the maximum likelihood principle.&lt;/p>
 &lt;p>Consider a set of m examples $\mathbb{X} = {x^{(1)}, \cdots, x^{(m)}}$ are i.i.d from true but unknown data-generating distribution $p_{data}(\mathbf{x})$.&lt;/p>
 &lt;p>Let $p_{model}(\mathbf{x}; \mathbf{\theta})$ be a parametric family of probability distribution over the same space indexed by $\mathbf{\theta}$. In other words, $p_{model}({x}; \mathbf{\theta})$ maps any configuration $x$ to a real number estimating the true probability $p_{data}({x})$.&lt;/p>
@@ -2795,15 +2794,14 @@ $$
 因此, KL散度不是一个度量(metric).&lt;/p>
 &lt;p>若将KL散度的定义($\ref{eq_kld}$)展开, 可得
 $$
-\begin{eqnarray}&lt;/p>
-&lt;p>KL(P||Q)
+\begin{eqnarray}
+KL(P||Q)
 &amp;amp;=&amp;amp; \int^{\infin}&lt;em>{-\infin} p(x)\text{log} \ p(x)\text{d}x - \int^{\infin}&lt;/em>{-\infin} p(x)\text{log} \ q(x)\text{d}x \\
 \tag{C.37}
 &amp;amp;=&amp;amp; -H(P) + H(P, Q),
 \end{eqnarray}
 $$
 其中$H(P)$为熵(entropy), $H(P,Q)$为交叉熵(cross-entropy).&lt;/p>
-&lt;/blockquote>
 &lt;h3 id="bayesian-linear-regression" >
 &lt;div>
 &lt;a href="#bayesian-linear-regression">
@@ -2858,14 +2856,12 @@ p(y^{(train)} | X^{(train)}, w)
 \tag{5.71}
 &amp;amp;=&amp;amp; \mathcal{N}(y^{(train)} ; X^{(train)}w, I) \\
 \tag{5.72}
-&amp;amp;\varpropto&amp;amp; \text{exp} \bigg(&lt;/p>
-&lt;ul>
-&lt;li>\frac{1}{2}(y^{(train)} - X^{(train)}w)^{\mathsf{T}} (y^{(train)} - X^{(train)}w)
+&amp;amp;\varpropto&amp;amp; \text{exp} \bigg(
+- \frac{1}{2}(y^{(train)} - X^{(train)}w)^{\mathsf{T}} (y^{(train)} - X^{(train)}w)
 \bigg),
 \end{eqnarray}
 $$
-where we follow the standard MSE formulation in assuming that the Gaussian variance on $y$ is one.&lt;/li>
-&lt;/ul>
+where we follow the standard MSE formulation in assuming that the Gaussian variance on $y$ is one.&lt;/p>
 &lt;p>In what follows, to reduce the notational burden, we refer to ($X^{(train)}, y^{(train)}$) as simply ($X, y$).&lt;/p>
 &lt;p>To determine the posterior distribution over the model parameter vector $w$, we first need to specify a prior distribution. For real-valued parameters it is common to use a Gaussian as a prior distribution,
 $$
@@ -2899,7 +2895,6 @@ p(w | X, y)
 \end{eqnarray}
 $$
 All terms that do not include the parameter vector $w$ have been omitted; they are implied by the fact that the distribution must be normalized to integrate to 1.&lt;/p>
-&lt;blockquote>
 &lt;p>Equation 3.23 shows how to normalize a multivariate Gaussian distribution:
 $$
 \tag{3.23}
@@ -2910,7 +2905,6 @@ $$
 \tag{3.24}
 \mathcal{N}(x; \mu, \beta^{-1}) = \sqrt{\frac{\text{det}(\beta)}{(2\pi)^n}} \text{exp} \bigg(-\frac{1}{2} (x - \mu)^{\mathsf{T}} \beta (x - \mu) \bigg).
 $$&lt;/p>
-&lt;/blockquote>
 &lt;h4 id="maximum-a-posteriori-map-estimation" >
 &lt;div>
 &lt;a href="#maximum-a-posteriori-map-estimation">
@@ -2918,8 +2912,7 @@ $$&lt;/p>
 &lt;/a>
 Maximum A Posteriori (MAP) Estimation
 &lt;/div>
-&lt;/h4>&lt;blockquote>
-&lt;p>While the most principled approach is to make predictions using the full Bayesian posterior distribution over the parameter $\theta$, it is still often desirable to have a single point estimate. One common reason for desiring a point estimate is that most operations involving the Bayesian posterior for most interesting models are intractable, and a point estimate offers a tractable approximation.&lt;/p>
+&lt;/h4>&lt;p>While the most principled approach is to make predictions using the full Bayesian posterior distribution over the parameter $\theta$, it is still often desirable to have a single point estimate. One common reason for desiring a point estimate is that most operations involving the Bayesian posterior for most interesting models are intractable, and a point estimate offers a tractable approximation.&lt;/p>
 &lt;p>Rather than simply returning to the MLE, we can still gain some of the benefit of the Bayesian approach by allowing the prior to influence the choice of the point estimate. One rational way to do this id to choose the &lt;strong>maximum a posteriori&lt;/strong> (MAP) point estimate. The MAP estimate chooses the point of maximal posterior probability ( or maximal probability density in the more common case of continuous $\theta$):
 $$
 \tag{5.79}
@@ -2929,7 +2922,6 @@ $$
 $$
 We recognize, on the righthand side, $\text{log} \ p(x | \mathbf{\theta})$, that is, the standard log-likelihood term, and $\text{log} \ p(\mathbf{\theta})$, corresponding to the prior distribution.&lt;/p>
 &lt;p>As an example, consider a linear regression model with a Gaussian prior on the weights $w$. If this prior is given by $\mathcal{N}(w; 0, \frac{1}{\lambda}I^2)$, then the log-prior term in equation 5.79 is proportional to the familiar $\lambda w^{\mathsf{T}}w$ weight decay penalty, plus a term that does not depend on $w$ and does not affect the learning process. MAP Bayesian inference with a Gaussian prior on the weights thus corresponds to weight decay.&lt;/p>
-&lt;/blockquote>
 &lt;h3 id="mle-and-map-殊途同归" >
 &lt;div>
 &lt;a href="#mle-and-map-%e6%ae%8a%e9%80%94%e5%90%8c%e5%bd%92">
