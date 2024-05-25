@@ -247,7 +247,8 @@ $$
 y = mx + b.
 $$
 In this equation, $m \in \mathbb{R}$ and $b \in \mathbb{R}$ are constants which depend on the spring. Their values are unknown, and have to be estimated using &lt;strong>experimental data&lt;/strong>.&lt;/p>
-&lt;center>Table 1. Data on Hooke's law.&lt;/center>
+&lt;center>
+Table 1. Data on Hooke's law.
 &lt;table>
 &lt;thead>
 &lt;tr>
@@ -282,7 +283,8 @@ In this equation, $m \in \mathbb{R}$ and $b \in \mathbb{R}$ are constants which 
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;p>The correlation coefficient&lt;sup id="fnref1:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> for the data in table 1 is 0.999, very close to 1 indeed. So the points almost form a straight line (figure 5), just as Hooke&amp;rsquo;s law predicts. The minor deviations from linearity are probably due to measurement error; neither the weights nor the length have been measured with perfect accuracy. (Nothing ever is. [When it comes to measurement])&lt;/p>
+&lt;/center>
+The correlation coefficient[^1] for the data in table 1 is 0.999, very close to 1 indeed. So the points almost form a straight line (figure 5), just as Hooke's law predicts. The minor deviations from linearity are probably due to measurement error; neither the weights nor the length have been measured with perfect accuracy. (Nothing ever is. [When it comes to measurement])
 &lt;p>&lt;img alt="Hooke&amp;rsquo;s law" src="images/stats_hookes_law.png">&lt;/p>
 &lt;p>Our goal is to estimate $\hat{m}$ and $\hat{b}$ in the equation of Hooke&amp;rsquo;s law for this spring:
 $$
@@ -414,6 +416,17 @@ which measures the number of standard deviations that $\hat{\beta_1}$ is away fr
 &lt;p>If there really is no relationship between $X$ and $Y$, then we expect that &lt;em>t-statistic&lt;/em> will have a $t$-distribution with $n-2$ degrees of freedom. Consequently, it is a simple matter to compute the probability of observing any number equal to $|t|$ or larger in absolute value, assuming $\beta_1 = 0$. We call this probability the &lt;em>p-value&lt;/em>.&lt;/p>
 &lt;p>&lt;strong>p-value interpretation&lt;/strong>&lt;/p>
 &lt;p>Roughly speaking, we interpret the p-value as follows: a small p-value indicates that it is unlikely to observe such a substantial association between the predictor and the response due to chance, in the absence of any real relationship between $X$ and $Y$. Hence we &lt;em>reject the null hypothesis&lt;/em>, and declare a relationship to exist between $X$ and $Y$, if the p-value is small enough. Typical p-value cutoffs for rejecting the null hypothesis are 5% or 1%, when $n = 30$, these correspond to &lt;em>t-statistics&lt;/em> of around $2$, and $2.75$, respectively.&lt;/p>
+&lt;blockquote>
+&lt;p>A small p-value indicates that a particular sample is unlikely if the null hypothesis
+is true. It is akin to a jury concluding that it was unlikely that it would have been
+presented with this set of evidence if the defendant were innocent, and therefore
+reaching a guilty verdict. Of course, that doesn&amp;rsquo;t mean that the defendant is actually
+guilty. Perhaps the jury was presented with misleading evidence.
+Analogously, a low p-value might be attributable to the null hypothesis actually being
+false, or it could simply be that the sample is unrepresentative of the population from
+which it is drawn, i.e., the evidence is misleading.&lt;/p>
+&lt;/blockquote>
+&lt;p>More info about p-value see &amp;ldquo;21.2 Beware of P-values&amp;rdquo; in the book of Prof. John Guttag &amp;lt;&amp;lt;Introduction to computation and programming using python&amp;gt;&amp;gt;.&lt;/p>
 &lt;h3 id="assessing-the-accuracy-of-the-model" >
 &lt;div>
 &lt;a href="#assessing-the-accuracy-of-the-model">
@@ -458,29 +471,41 @@ where $TSS = \sum(y_i - \bar{y})^2$ is the &lt;em>total sum of squares&lt;/em>. 
 Multiple Linear Regression
 &lt;/div>
 &lt;/h3>&lt;p>Simple linear regression[^3] is a useful approach for predicting a response on the basis of a single predictor variable. But in practice we often have more than one predictor. One option is to run multiple separate simple linear regression, each of which uses a different feature as a predictor. However, this approach is not entirely satisfactory[^4].&lt;/p>
-&lt;p>Instead of fitting a separate simple linear regression model for each predictor, a better approach is to extend the simple linear regression model[^5] so that it can directly accommodate multiple predictors. We can do this by giving each predictor a separate slope coefficient in a single model. In general, suppose we have $p$ distinct predictors. Then the multiple linear regression model takes the form
-$$
+&lt;p>Instead of fitting a separate simple linear regression model for each predictor, a better approach is to extend the simple linear regression model[^5] so that it can directly accommodate multiple predictors. We can do this by giving each predictor a separate slope coefficient in a single model. In general, suppose we have $p$ distinct predictors. Then the multiple linear regression model takes the form&lt;/p>
+&lt;p>$$
 \tag{3.19}
 \label{mlr}
 Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + + \beta_p X_p + \epsilon
-$$
-where $X_j$ represents the $j$-th predictor and $\beta_j$ quantifies the association between that variable and the response. We interpret $\beta_j$ as the &lt;em>average&lt;/em> effect on $Y$ of a unit increase in $X_j$, &lt;strong>holding all other predictors fixed&lt;/strong>[^6].&lt;/p>
-&lt;p>As was the case in the simple linear regression setting, the regression coefficients $\beta_0, \beta_1, \ldots, \beta_p$ in ($\ref{mlr}$) are unknown, and must be estimated. Given estimates $\hat{\beta_0}, \hat{\beta_1}, \ldots, \hat{\beta_p}$, we can make predictions using the formula
-$$
+$$&lt;/p>
+&lt;p>where $X_j$ represents the $j$-th predictor and $\beta_j$ quantifies the association
+between that variable and the response. We interpret $\beta_j$ as the &lt;em>average&lt;/em> effect
+on $Y$ of a unit increase in $X_j$, &lt;strong>holding all other predictors fixed&lt;/strong>[^6].&lt;/p>
+&lt;p>As was the case in the simple linear regression setting, the regression coefficients
+$\beta_0, \beta_1, \ldots, \beta_p$ in ($\ref{mlr}$) are unknown, and must be estimated.
+Given estimates $\hat{\beta_0}, \hat{\beta_1}, \ldots, \hat{\beta_p}$, we can make
+predictions using the formula&lt;/p>
+&lt;p>$$
 \tag{3.21}
 \label{mlrpred}
 \hat{y} = \hat{\beta_0} + \hat{\beta_1} x_1 + \hat{\beta_2} x_2 + \cdots + \hat{\beta_p} x_p.
-$$
-Then parameters are estimated using the same &lt;strong>least squares&lt;/strong> approach that we saw in the context of simple linear regression. We choose $\beta_0, \beta_1, \ldots, \beta_p$ to minimize the &lt;strong>sum of squared residuals&lt;/strong>
-$$
+$$&lt;/p>
+&lt;p>Then parameters are estimated using the same &lt;strong>least squares&lt;/strong> approach that we saw in
+the context of simple linear regression. We choose $\beta_0, \beta_1, \ldots, \beta_p$
+to minimize the &lt;strong>sum of squared residuals&lt;/strong>&lt;/p>
+&lt;p>$$
 \begin{eqnarray}
 RSS
-&amp;amp;=&amp;amp; \sum^n_{i=1}(y_i - \hat{y}&lt;em>i)^2 \\
+&amp;amp;=&amp;amp; \sum^n_{i=1}(y_i - \hat{y}_i)^2 \\
 \tag{3.22} \label{rss}
-&amp;amp;=&amp;amp; \sum^n&lt;/em>{i=1} \big( y_i - (\hat{\beta_0} + \hat{\beta_1} x_1 + \hat{\beta_2} x_2 + \cdots + \hat{\beta_p} x_p) \big)^2
+&amp;amp;=&amp;amp; \sum^n_{i=1} \big( y_i - (\hat{\beta_0} + \hat{\beta_1} x_1 + \hat{\beta_2} x_2 + \cdots + \hat{\beta_p} x_p) \big)^2
 \end{eqnarray}
-$$
-The values $\hat{\beta_0}, \hat{\beta_1}, \ldots, \hat{\beta_p}$ that minimize ($\ref{rss}$) are the multiple least squares regression coefficient estimates. Unlike the simple linear regression coefficient estimation (the Python code block in previous section), the multiple regression coefficient estimates have somewhat complicated forms that are most easily represented using matrix algebra (see detail in section of Normal equation).&lt;/p>
+$$&lt;/p>
+&lt;p>The values $\hat{\beta_0}, \hat{\beta_1}, \ldots, \hat{\beta_p}$ that minimize
+($\ref{rss}$) are the multiple least squares regression coefficient estimates. Unlike
+the simple linear regression coefficient estimation (the Python code block in previous
+section), the multiple regression coefficient estimates have somewhat complicated forms
+that are most easily represented using matrix algebra (see detail in section of Normal
+equation).&lt;/p>
 &lt;p>When we perform multiple linear regression, we usually are interested in answering a few important questions.&lt;/p>
 &lt;hr>
 &lt;ol>
@@ -759,12 +784,12 @@ $$
 \end{align*}
 $$&lt;/p>
 &lt;/blockquote>
-&lt;p>It is worth noting that the term &lt;strong>linear regression&lt;/strong> is often used to refer to a slightly more sophisticated model with one additional parameter &amp;ndash; an intercept term $b$. In this model
-$$
+&lt;p>It is worth noting that the term &lt;strong>linear regression&lt;/strong> is often used to refer to a slightly more sophisticated model with one additional parameter &amp;ndash; an intercept term $b$. In this model&lt;/p>
+&lt;p>$$
 \tag{5.13}
 \hat{y} = w^{\mathsf{T}}x + b
-$$
-so the mapping from parameters to predictions is still a linear function but the mapping from features to predictions is now an &lt;strong>affine function&lt;/strong> (which is in the form of equation 5.13, it means that the plot of model&amp;rsquo;s predictions still looks like a line, but it need not pass though the origin). One can continue to use the model with only weights but augment $x$ with an extra entry that is always set to 1. Then the weight corresponding to the extra 1 entry plays the role of the bias parameter (i.e., the intercept term, $b$, a.k.a., the bias term).&lt;/p>
+$$&lt;/p>
+&lt;p>so the mapping from parameters to predictions is still a linear function but the mapping from features to predictions is now an &lt;strong>affine function&lt;/strong> (which is in the form of equation 5.13, it means that the plot of model&amp;rsquo;s predictions still looks like a line, but it need not pass though the origin). One can continue to use the model with only weights but augment $x$ with an extra entry that is always set to 1. Then the weight corresponding to the extra 1 entry plays the role of the bias parameter (i.e., the intercept term, $b$, a.k.a., the bias term).&lt;/p>
 &lt;blockquote>
 &lt;p>The intercept term $b$ is often called the &lt;strong>bias&lt;/strong> parameter of the affine transformation. This terminology derives from the point of view that the output of the transformation is biased toward being $b$ in the absence of any input.&lt;/p>
 &lt;p>This term is different from the idea of a statistical bias, in which a statistical estimation algorithm&amp;rsquo;s expected estimate of a quantity is not equal to the true quantity.&lt;/p>
@@ -777,18 +802,18 @@ so the mapping from parameters to predictions is still a linear function but the
 Gradient-based method
 &lt;/div>
 &lt;/h3>&lt;p>Example: Linear Least Squares&lt;/p>
-&lt;p>Suppose we want to find the value of $x$ that minimizes
-$$
+&lt;p>Suppose we want to find the value of $x$ that minimizes&lt;/p>
+&lt;p>$$
 \tag{4.21}
 f(x) = \frac{1}{2}||Ax - b||^2_2
-$$
-Specialized linear algebra algorithms can solve this problem efficiently; however, we can also explore how to solve it using gradient-based optimization as a simple example of how these techniques work.&lt;/p>
-&lt;p>First, we need to obtain the gradient (Recall the Chain Rule):
-$$
+$$&lt;/p>
+&lt;p>Specialized linear algebra algorithms can solve this problem efficiently; however, we can also explore how to solve it using gradient-based optimization as a simple example of how these techniques work.&lt;/p>
+&lt;p>First, we need to obtain the gradient (Recall the Chain Rule):&lt;/p>
+&lt;p>$$
 \tag{4.42}
 \nabla_x f(x) = A^{\mathsf{T}} (Ax - b) = A^{\mathsf{T}}Ax - A^{\mathsf{T}}b
-$$
-We can then follow this gradient downhill, taking small steps.&lt;/p>
+$$&lt;/p>
+&lt;p>We can then follow this gradient downhill, taking small steps.&lt;/p>
 &lt;hr>
 &lt;p>Algorithm 4.1 An algorithm to minimize $f(x) = \frac{1}{2}||Ax - b||^2_2$ with respect to $x$ using gradient descent, starting from an arbitrary value of $x$.&lt;/p>
 &lt;hr>
@@ -836,23 +861,23 @@ Newton&amp;rsquo;s method
 &lt;li>Second derivative is negative: the function curves downward, decrease by more than $\epsilon$.&lt;/li>
 &lt;li>Second derivative is positive: the function curves upward, decrease by less than $\epsilon$.&lt;/li>
 &lt;/ul>
-&lt;p>When our function has multiple input dimensions, there are many second derivatives. These derivatives can be collected together into a matrix called the &lt;strong>Hessian matrix&lt;/strong>. The Hessian matrix $H(f)(x)$ is defined such that
-$$
+&lt;p>When our function has multiple input dimensions, there are many second derivatives. These derivatives can be collected together into a matrix called the &lt;strong>Hessian matrix&lt;/strong>. The Hessian matrix $H(f)(x)$ is defined such that&lt;/p>
+&lt;p>$$
 \tag{4.6}
 H(f)(x)_{i, j} = \frac{\partial^2}{\partial x_i \partial x_j}f(x).
-$$
-Equivalently, the Hessian is the Jacobian of the gradient.&lt;/p>
-&lt;p>The (directional) second derivative tells us how well we can expect a gradient descent step to perform. We can make a second-order Taylor series approximation to the function $f(x)$ around the current point $x^{(0)}$:
-$$
+$$&lt;/p>
+&lt;p>Equivalently, the Hessian is the Jacobian of the gradient.&lt;/p>
+&lt;p>The (directional) second derivative tells us how well we can expect a gradient descent step to perform. We can make a second-order Taylor series approximation to the function $f(x)$ around the current point $x^{(0)}$:&lt;/p>
+&lt;p>$$
 \tag{4.8}
 f(x) \approx f(x^{(0)}) + (x - x^{(0)})^{\mathsf{T}}g + \frac{1}{2} (x - x^{(0)})^{\mathsf{T}}H(x - x^{(0)}),
-$$
-where $g$ is the gradient and $H$ is the Hessian at $x^{(0)}$. If we use a learning rate of $\epsilon$, then the new point $x$ will be given by $x^{(0)} - \epsilon g$. Substituting this into our approximation, we obtain
-$$
+$$&lt;/p>
+&lt;p>where $g$ is the gradient and $H$ is the Hessian at $x^{(0)}$. If we use a learning rate of $\epsilon$, then the new point $x$ will be given by $x^{(0)} - \epsilon g$. Substituting this into our approximation, we obtain&lt;/p>
+&lt;p>$$
 \tag{4.9}
 f(x^{(0)} - \epsilon g) \approx f(x^{(0)}) - \epsilon g^{\mathsf{T}}g + \frac{1}{2} \epsilon^2 g^{\mathsf{T}}Hg.
-$$
-There are three terms here:&lt;/p>
+$$&lt;/p>
+&lt;p>There are three terms here:&lt;/p>
 &lt;ul>
 &lt;li>the original value of the function&lt;/li>
 &lt;li>the expected improvement due to the slope of the function&lt;/li>
@@ -860,12 +885,12 @@ There are three terms here:&lt;/p>
 &lt;/ul>
 &lt;p>When this last term is too large, the gradient descent step can actually move uphill.&lt;/p>
 &lt;p>When $g^{\mathsf{T}}Hg$ is zero or negative, the Taylor series approximation predicts that increase $\epsilon$ forever will decrease $f$ forever. In practice, the Taylor series is unlikely to remain accurate for large $\epsilon$, so one must resort to more heuristic choices of $\epsilon$ in this case.&lt;/p>
-&lt;p>When $g^{\mathsf{T}}Hg$ is positive, solving for the optimal step size that decrease the Taylor series approximation of the function the most yields
-$$
+&lt;p>When $g^{\mathsf{T}}Hg$ is positive, solving for the optimal step size that decrease the Taylor series approximation of the function the most yields&lt;/p>
+&lt;p>$$
 \tag{4.10}
 \epsilon^* = \frac{g^{\mathsf{T}}g}{g^{\mathsf{T}}Hg}.
-$$
-In the worst case, when $g$ aligns with the eigenvector of $H$ corresponding to the maximal eigenvalue $\lambda_{max}$, then this optimal step size is given by $\frac{1}{\lambda_{max}}$. (The eigenvalues of the Hessian determine the scale of the learning rate, if the function we minimized can be approximated well by a quadratic function.)&lt;/p>
+$$&lt;/p>
+&lt;p>In the worst case, when $g$ aligns with the eigenvector of $H$ corresponding to the maximal eigenvalue $\lambda_{max}$, then this optimal step size is given by $\frac{1}{\lambda_{max}}$. (The eigenvalues of the Hessian determine the scale of the learning rate, if the function we minimized can be approximated well by a quadratic function.)&lt;/p>
 &lt;p>Using the eigendecomposition of the Hessian matrix, we can generalize the &lt;strong>second derivative test&lt;/strong> to multiple dimensions. At a critical point, where $\nabla_x f(x) = 0$, we can examine the eigenvalues of the Hessian to determine whether the critical point is a local maximum, local minimum, or saddle point.&lt;/p>
 &lt;ul>
 &lt;li>when the Hessian is positive definite (all its eigenvalues are positive): local minimum.&lt;/li>
@@ -874,17 +899,17 @@ In the worst case, when $g$ aligns with the eigenvector of $H$ corresponding to 
 &lt;/ul>
 &lt;p>In multiple dimensions, there is a different second derivative for each direction at a single point. The &lt;strong>condition number&lt;/strong> of the Hessian at this point measures how much the second derivative differ from each other. When the Hessian has a poor condition number, gradient descent performs poorly. This is because in one direction, the derivative increases rapidly, while in another direction, it increases slowly, Gradient descent is unaware of this change in the derivative, so it does not know that it needs to explore preferentially in the direction where the derivative remains negative for longer.&lt;/p>
 &lt;p>Poor condition number also makes choosing a good step size difficult. The step size must be small enough to avoid overshooting the minimum and going uphill in directions with strong positive curvature. This usually means that the step size is too small to make significant progress in other directions with less curvature.&lt;/p>
-&lt;p>This issue can be resolved by using information from the Hessian matrix to guide the search. The simplest method for doing so is known as &lt;strong>Newton&amp;rsquo;s method&lt;/strong>. Newton&amp;rsquo;s method is based on using a second-order Taylor series expansion to approximate $f(x)$ near some point $x^{(0)}$:
-$$
+&lt;p>This issue can be resolved by using information from the Hessian matrix to guide the search. The simplest method for doing so is known as &lt;strong>Newton&amp;rsquo;s method&lt;/strong>. Newton&amp;rsquo;s method is based on using a second-order Taylor series expansion to approximate $f(x)$ near some point $x^{(0)}$:&lt;/p>
+&lt;p>$$
 \tag{4.11}
 f(x) \approx f(x^{(0)}) + (x - x^{(0)})^{\mathsf{T}} \nabla_x f(x^{(0)}) + \frac{1}{2}(x - x^{(0)})^{\mathsf{T}}H(f)(x^{(0)})(x - x^{(0)})
-$$
-If we solve for the critical point of this function, we obtain
-$$
+$$&lt;/p>
+&lt;p>If we solve for the critical point of this function, we obtain&lt;/p>
+&lt;p>$$
 \tag{4.12}
 x^* = x^{(0)} - H(f)(x^{(0)})^{-1} \nabla_x f(x^{(0)})
-$$
-When $f$ is a positive definite quadratic function, Newton&amp;rsquo;s method consist of applying equation 4.12 once to jump to the minimum of the function directly. When $f$ is not truly quadratic but can be locally approximated as a positive definite quadratic, Newton&amp;rsquo;s method consists of applying equation 4.12 multiple times. NOTE that Newton&amp;rsquo;s method is only appropriate when the nearby critical point is a minimum (all the eigenvalues of the Hessian are positive), whereas gradient is not attracted to saddle points unless the gradient points toward them.&lt;/p>
+$$&lt;/p>
+&lt;p>When $f$ is a positive definite quadratic function, Newton&amp;rsquo;s method consist of applying equation 4.12 once to jump to the minimum of the function directly. When $f$ is not truly quadratic but can be locally approximated as a positive definite quadratic, Newton&amp;rsquo;s method consists of applying equation 4.12 multiple times. NOTE that Newton&amp;rsquo;s method is only appropriate when the nearby critical point is a minimum (all the eigenvalues of the Hessian are positive), whereas gradient is not attracted to saddle points unless the gradient points toward them.&lt;/p>
 &lt;h2 id="part_ii-why-that--work" >
 &lt;div>
 &lt;a href="#part_ii-why-that--work">
@@ -902,18 +927,18 @@ Linear Regression as Maximum Likelihood
 &lt;/h3>&lt;p>Previously, we motivated linear regression as an algorithm that learns to take an input $x$ and produce an output value $\hat{y}$. The mapping from $x$ to $\hat{y}$ is chosen to minimize mean squared error, a criterion that we introduced more or less arbitrarily. We now revisit linear regression from the point of view of maximum likelihood estimation.&lt;/p>
 &lt;p>Instead of producing a single prediction $\hat{y}$, we now think of the model as producing a conditional distribution $p(y | x)$. We can imagine that with an infinitely large training set, we might see several training examples with the same input value $x$ but different values of $y$. The goal of the learning algorithm is now to fit the distribution $p(y | x)$ to all those different $y$ values that are all compatible with $x$.&lt;/p>
 &lt;p>To derive the same linear regression algorithm we obtained before, we &lt;strong>define&lt;/strong> $p(y | x) = \mathcal{N}(y; \hat{y}(x; w), \sigma^2)$. In this example, we assume that the variance is fixed to some constant $\sigma^2$ chosen by user.&lt;/p>
-&lt;p>Since the examples are assumed to be i.i.d., the conditional log-likelihood is given by
-$$
+&lt;p>Since the examples are assumed to be i.i.d., the conditional log-likelihood is given by&lt;/p>
+&lt;p>$$
 \begin{split}
 &amp;amp;\sum^m_{i=1} log \ p(y^{(i)}|x^{(i)}; \theta) \\
 &amp;amp;= -m \ log \ \sigma - \frac{m}{2} log(2 \pi) - \sum^m_{i=1} \frac{||\hat{y}^{(i)} - {y}^{(i)}||^2}{2 \sigma^2},
 \end{split}
-$$
-where $\hat{y}^{(i)}$ is the output of the linear regression on the $i$-th input $x^{(i)}$ and m is the number of the training examples. Comparing the log-likelihood with the mean squared error,
-$$
+$$&lt;/p>
+&lt;p>where $\hat{y}^{(i)}$ is the output of the linear regression on the $i$-th input $x^{(i)}$ and m is the number of the training examples. Comparing the log-likelihood with the mean squared error,&lt;/p>
+&lt;p>$$
 MSE_{train} = \frac{1}{m} \sum^m_{i=1} ||\hat{y}^{(i)} - {y}^{(i)}||^2,
-$$
-we immediately see that maximizing the log-likelihood with respect to $w$ yields the same estimate of the parameters $w$ as does minimizing the mean squared error. The two criteria have different values but the same location of the optimum.&lt;/p>
+$$&lt;/p>
+&lt;p>we immediately see that maximizing the log-likelihood with respect to $w$ yields the same estimate of the parameters $w$ as does minimizing the mean squared error. The two criteria have different values but the same location of the optimum.&lt;/p>
 &lt;p>This justifies the use of MSE as a maximum likelihood estimation procedure.&lt;/p>
 &lt;h4 id="maximum-likelihood-estimation" >
 &lt;div>
@@ -926,8 +951,8 @@ Maximum Likelihood Estimation
 &lt;p>The most common such principle is the maximum likelihood principle.&lt;/p>
 &lt;p>Consider a set of m examples $\mathbb{X} = {x^{(1)}, \cdots, x^{(m)}}$ are i.i.d from true but unknown data-generating distribution $p_{data}(\mathbf{x})$.&lt;/p>
 &lt;p>Let $p_{model}(\mathbf{x}; \mathbf{\theta})$ be a parametric family of probability distribution over the same space indexed by $\mathbf{\theta}$. In other words, $p_{model}({x}; \mathbf{\theta})$ maps any configuration $x$ to a real number estimating the true probability $p_{data}({x})$.&lt;/p>
-&lt;p>The maximum likelihood estimator for $\mathbf{\theta}$ is then defined as
-$$
+&lt;p>The maximum likelihood estimator for $\mathbf{\theta}$ is then defined as&lt;/p>
+&lt;p>$$
 \begin{eqnarray}
 \mathbf{\theta_{ML}}
 \tag{5.56}
@@ -935,62 +960,68 @@ $$
 \tag{5.57}
 &amp;amp;=&amp;amp; \underset{\mathbf{\theta}}{\operatorname{argmax}} \prod^m_{i=1}{p_{model}(x^{(i)}; \mathbf{\theta})}
 \end{eqnarray}
-$$
-This product over many probabilities can be inconvenient for various reasons. Such as it&amp;rsquo;s prone to numerical underflow. We observe that taking the logarithm of the likelihood does not change its argmax but does conveniently transform a product into a sum:
-$$
+$$&lt;/p>
+&lt;p>This product over many probabilities can be inconvenient for various reasons. Such as it&amp;rsquo;s prone to numerical underflow. We observe that taking the logarithm of the likelihood does not change its argmax but does conveniently transform a product into a sum:&lt;/p>
+&lt;p>$$
 \tag{5.58}
 \mathbf{\theta_{ML}} = \underset{\mathbf{\theta}}{\operatorname{argmax}} \sum^m_{i=1}{\text{log} \ p_{model}(x^{(i)}; \mathbf{\theta})}
-$$
-Because the argmax does not change when we rescale the cost function, we can divide by $m$ to obtain a version of the criterion that is expressed as an expectation with respect to the empirical distribution $\hat{p}&lt;em>{data}$ defined by the training data:
-$$
+$$&lt;/p>
+&lt;p>Because the argmax does not change when we rescale the cost function, we can divide by
+$m$ to obtain a version of the criterion that is expressed as an expectation with
+respect to the empirical distribution $\hat{p}_{data}$ defined by the training data:&lt;/p>
+&lt;p>FIXME: \mathbb in equation(5.59, 5.60, 5.61) not work.&lt;/p>
+&lt;p>$$
 \tag{5.59}
-\mathbf{\theta&lt;/em>{ML}} = \underset{\mathbf{\theta}}{\operatorname{argmax}} \mathbb{E}&lt;em>{\mathbf{x} \sim \hat{p}&lt;/em>{data}}{\text{log} \ p_{model}(x^{(i)}; \mathbf{\theta})}
-$$
-One way to interpret maximum likelihood estimation is to view it as minimizing the dissimilarity between the empirical distribution $\hat{p}&lt;em>{data}$, defined by the training set and the model distribution, with the degree of dissimilarity between the two measured by the KL divergence. The KL divergence is given by
-$$
+\mathbf{\theta_{ML}} = {\underset{\mathbf{\theta}}{\operatorname{argmax}}}\
+\mathbb{E}_{\mathbf{x} \sim \hat{p}_{data}} {\text{log} p_{model}(x^{(i)}; \mathbf{\theta})}
+$$&lt;/p>
+&lt;p>One way to interpret maximum likelihood estimation is to view it as minimizing the
+dissimilarity between the empirical distribution $\hat{p}_{data}$, defined by the
+training set and the model distribution, with the degree of dissimilarity between the
+two measured by the KL divergence. The KL divergence is given by&lt;/p>
+&lt;p>$$
 \tag{5.60}
-D&lt;/em>{KL}(\hat{p}&lt;em>{data} || p&lt;/em>{model}) = \mathbb{E}&lt;em>{\mathbf{x} \sim \hat{p}&lt;/em>{data}} {[\text{log} \ \hat{p}&lt;em>{data}(x) - \text{log} \ {p}&lt;/em>{model}(x)]}.
-$$
-The term on the left is a function only of the data-generating process, not the model. This means when we train the model to minimize the KL divergence, we need only minimize
-$$
+D_{KL}(\hat{p}_{data} || p_{model}) = \mathbb{E}_{\mathbf{x} \sim \hat{p}_{data}} {[\log \hat{p}_{data}(x) - \log {p}_{model}(x)]}.
+$$&lt;/p>
+&lt;p>The term on the left is a function only of the data-generating process, not the model.
+This means when we train the model to minimize the KL divergence, we need only minimize&lt;/p>
+&lt;p>$$
 \tag{5.61}
--\mathbb{E}&lt;em>{\mathbf{x} \sim \hat{p}&lt;/em>{data}} {[\text{log} \ \hat{p}_{data}(x)]},
-$$
-which is of course the same as the maximization in equation 5.59.&lt;/p>
+-\mathbb{E}_{\mathbf{x} \sim \hat{p}_{data}} {[\text{log} \hat{p}_{data}(x)]},
+$$&lt;/p>
+&lt;p>which is of course the same as the maximization in equation 5.59.&lt;/p>
 &lt;p>Minimizing this KL divergence corresponds exactly to minimizing the cross-entropy between the distributions. Any loss consisting of a negative log-likelihood is a cross-entropy between the empirical distribution and the model distribution. For example, MSE is the cross-entropy between the empirical distribution and a Gaussian model.&lt;/p>
 &lt;p>We can thus see maximum likelihood as an attempt to make the model distribution match the empirical distribution $\hat{p}_{data}$. While the optimal $\mathbf{\theta}$ is the same regardless of whatever we are maximizing the likelihood or minimizing the KL divergence, the values of the objective functions are different.&lt;/p>
 &lt;p>In software, we often phrase both as minimizing a cost function.&lt;/p>
 &lt;p>Maximum likelihood thus becomes minimization of the negative log-likelihood (NLL), or equivalently, minimization of the cross-entropy.&lt;/p>
 &lt;p>关于KL散度&lt;/p>
-&lt;p>KL散度(Kullback-Leibler divergence), 亦称相对熵(relative entropy)或信息散度(information divergence), 可用于度量两个概率分布之间的差异. 给定两个连续型概率分布$P$和$Q$, 二者之间的KL散度定义为
-$$
-\begin{equation} \label{eq_kld}
-\tag{C.34}
-KL(P||Q) = \int^{\infin}_{-\infin}p(x)\text{log}\frac{p(x)}{q(x)}\text{d}x,
-\end{equation}
-$$
-其中,$p(x)$和$q(x)$分别是$P$和$Q$的概率密度函数.&lt;/p>
-&lt;p>KL散度满足非负性, 即
-$$
+&lt;p>KL散度(Kullback-Leibler divergence), 亦称相对熵(relative entropy)或信息散度(information divergence), 可用于度量两个概率分布之间的差异. 给定两个连续型概率分布$P$和$Q$, 二者之间的KL散度定义为&lt;/p>
+&lt;p>$$
+\label{eq_kld} \tag{C.34}
+KL(P||Q) = \int^{\infty}_{-\infty} p(x) \text{log}\frac{p(x)}{q(x)} dx,
+$$&lt;/p>
+&lt;p>其中,$p(x)$和$q(x)$分别是$P$和$Q$的概率密度函数.&lt;/p>
+&lt;p>KL散度满足非负性, 即&lt;/p>
+&lt;p>$$
 \tag{C.35}
 KL(P||Q) \geq 0,
-$$
-当且仅当$P=Q$时$KL(P||Q)=0$. 但是, KL散度不满足对称性, 即
-$$
+$$&lt;/p>
+&lt;p>当且仅当$P=Q$时$KL(P||Q)=0$. 但是, KL散度不满足对称性, 即&lt;/p>
+&lt;p>$$
 \tag{C.36}
 KL(P||Q) \neq KL(Q||P),
-$$
-因此, KL散度不是一个度量(metric).&lt;/p>
-&lt;p>若将KL散度的定义($\ref{eq_kld}$)展开, 可得
-$$
+$$&lt;/p>
+&lt;p>因此, KL散度不是一个度量(metric).&lt;/p>
+&lt;p>若将KL散度的定义($\ref{eq_kld}$)展开, 可得&lt;/p>
+&lt;p>$$
 \begin{eqnarray}
 KL(P||Q)
-&amp;amp;=&amp;amp; \int^{\infin}&lt;em>{-\infin} p(x)\text{log} \ p(x)\text{d}x - \int^{\infin}&lt;/em>{-\infin} p(x)\text{log} \ q(x)\text{d}x \\
+&amp;amp;=&amp;amp; \int^{\infty}_{-\infty} p(x)\log p(x)dx - \int^{\infty}_{-\infty} p(x)\log q(x)dx \\
 \tag{C.37}
 &amp;amp;=&amp;amp; -H(P) + H(P, Q),
 \end{eqnarray}
-$$
-其中$H(P)$为熵(entropy), $H(P,Q)$为交叉熵(cross-entropy).&lt;/p>
+$$&lt;/p>
+&lt;p>其中$H(P)$为熵(entropy), $H(P,Q)$为交叉熵(cross-entropy).&lt;/p>
 &lt;h3 id="bayesian-linear-regression" >
 &lt;div>
 &lt;a href="#bayesian-linear-regression">
@@ -1344,7 +1375,7 @@ $$&lt;/p>
 &lt;hr>
 &lt;ol>
 &lt;li id="fn:1">
-&lt;p>Convert each variable to standard units. The average of the products gives the correlation coefficient (may be more intuitively in the python code)&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&amp;#160;&lt;a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>Convert each variable to standard units. The average of the products gives the correlation coefficient (may be more intuitively in the python code)&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:2">
 &lt;p>Associated with a unit increase in $x$ there is some average change in $y$. The slope of the regression line estimates this change. The formula for the slope is $\frac{r \times SD_y}{SD_x}$. And the intercept of the regression line is just the predicted value for $y$ when $x$ is $0$.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
