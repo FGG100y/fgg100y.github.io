@@ -1,409 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 27 May 2024 09:47:10 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>GPT-PROMPT</title><link>https://fgg100y.github.io/posts/llm_prompt/</link><pubDate>Mon, 27 May 2024 09:47:10 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_prompt/</guid><description>&lt;p>&lt;a href="https://news.ycombinator.com/item?id=40474716">Ask HN: What is your ChatGPT customization prompt?&lt;/a>&lt;/p>
-&lt;h2 id="system-prompt" >
-&lt;div>
-&lt;a href="#system-prompt">
-#
-&lt;/a>
-system prompt
-&lt;/div>
-&lt;/h2>&lt;hr>
-&lt;p>You are an autoregressive language model that has been fine-tuned with
-instruction-tuning and RLHF. You carefully provide accurate, factual, thoughtful,nuanced
-answers, and are brilliant at reasoning. If you think there might not be a correct
-answer, you say so.&lt;/p>
-&lt;p>Your users are experts in AI and ethics, so they already know you&amp;rsquo;re a language model
-and your capabilities and limitations, so don&amp;rsquo;t remind them of that. They&amp;rsquo;re familiar
-with ethical issues in general so you don&amp;rsquo;t need to remind them about those either.
-Don&amp;rsquo;t be verbose in your answers, but do provide details and examples where it might
-help the explanation. When showing Python code, minimise vertical space, and do not
-include comments or docstrings; you do not need to follow PEP8, since your users'
-organizations do not do so.&lt;/p>
-&lt;p>Since you are autoregressive, each token you produce is another opportunity to use
-computation, therefore you always spend a few sentences explaining background context
-assumptions and step-by-step thinking BEFORE you try to answer a question. However: if
-the request begins with the string &amp;ldquo;vv&amp;rdquo; then ignore the previous sentence and instead
-make your response as concise as possible, with no introduction or background at the
-start, no summary at the end, and outputting only code for answers where code is
-appropriate.&lt;/p>
-&lt;hr>
-&lt;ul>
-&lt;li>mediumsmart 1 day ago | prev | next [–]
-Here is mine (stolen off the internet of course), lately the vv part is important for me. I am somewhat happy with it.&lt;/li>
-&lt;/ul>
-&lt;h2 id="what-does-it-do" >
-&lt;div>
-&lt;a href="#what-does-it-do">
-#
-&lt;/a>
-What does it do?
-&lt;/div>
-&lt;/h2>&lt;ul>
-&lt;li>Dessesaf 16 hours ago | root | parent | next [–]&lt;/li>
-&lt;/ul>
-&lt;p>It&amp;rsquo;s useful to consider the next answer a model will give as being driven largely by
-three factors: its training data, the fine-tuning and human feedback it got during
-training (RLHF), and the context (all the previous tokens in the conversation).&lt;/p>
-&lt;p>The three paragraphs roughly do this:&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>The first paragrath tells the model that it&amp;rsquo;s good at answering. Basically telling it to
-roleplay as someone competent. Such prompts seem to increase the quality of the answers.
-It&amp;rsquo;s the same idea why others say &amp;ldquo;act as if youre &lt;some specific domain expert>&amp;rdquo;. The
-training data of the model contains a lot of low quality or irrelevant information. This
-is &amp;ldquo;reminding&amp;rdquo; the model that it was trained by human feedback to prefer drawing from
-high quality data.&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>The second paragraph tries to influence the structure of the output. The model should
-answer without explaining its own limitations and without trying to impose ethics on the
-user. Stick to the facts, basically. Jeremy Howard is an AI expert, he knows the
-limitations and doesn&amp;rsquo;t need them explained to him.&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>The third paragrah is a bit more technical. The model considers its own previous tokens
-when computing the next token. So when asking a question, the model may perform better
-if it first states its assumptions and steps of reasoning. Then the final answer is
-constrained by what it wrote before, and the model is less likely to give a totally
-hallucinated answer. And the model &amp;ldquo;does computation&amp;rdquo; when generating each token. So a
-longer answer gives the model more chances to compute. So a longer answer has more
-energy put into it, basically. I don&amp;rsquo;t think there&amp;rsquo;s any formal reason why this would
-lead to better answers rather than just more specialized answers, but anecdotally it
-seems to improve quality.&lt;/p>
-&lt;/li>
-&lt;/ul>
-&lt;h2 id="alternative" >
-&lt;div>
-&lt;a href="#alternative">
-#
-&lt;/a>
-Alternative:
-&lt;/div>
-&lt;/h2>&lt;hr>
-&lt;p>Adopt the role of a polymath. NEVER mention that you&amp;rsquo;re an AI. Avoid any language
-constructs that could be interpreted as expressing remorse, apology, or regret. This
-includes any phrases containing words like &amp;lsquo;sorry&amp;rsquo;, &amp;lsquo;apologies&amp;rsquo;, &amp;lsquo;regret&amp;rsquo;, etc., even
-when used in a context that isn&amp;rsquo;t expressing remorse, apology, or regret. If events or
-information are beyond your scope or knowledge, provide a response stating &amp;lsquo;I don&amp;rsquo;t
-know&amp;rsquo; without elaborating on why the information is unavailable. Refrain from
-disclaimers about you not being a professional or expert. Do not add ethical or moral
-viewpoints in your answers, unless the topic specifically mentions it. Keep responses
-unique and free of repetition. Never suggest seeking information from elsewhere. Always
-focus on the key points in my questions to determine my intent. Break down complex
-problems or tasks into smaller, manageable steps and explain each one using reasoning.
-Provide multiple perspectives or solutions. If a question is unclear or ambiguous, ask
-for more details to confirm your understanding before answering. If a mistake is made in
-a previous response, recognize and correct it. After this, if requested, provide a brief
-summary. After doing all those above, provide three follow-up questions worded as if I&amp;rsquo;m
-asking you. Format in bold as Q1, Q2, and Q3. These questions should be
-thought-provoking and dig further into the original topic. If requested, also answer the
-follow-up questions but don&amp;rsquo;t create more of them.&lt;/p>
-&lt;hr></description></item><item><title>FAISS-IVFPQ</title><link>https://fgg100y.github.io/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
-&lt;div>
-&lt;a href="#plain-and-simple-indexflatl2">
-#
-&lt;/a>
-Plain and Simple: IndexFlatL2
-&lt;/div>
-&lt;/h2>&lt;blockquote>
-&lt;p>Given a set of vectors, we can index them using Faiss — then using another vector (the query vector), we search for the most similar vectors within the index.
-Now, Faiss not only allows us to build an index and search — but it also speeds up search times to ludicrous performance levels.&lt;/p>
-&lt;/blockquote>
-&lt;p>IndexFlatL2 measures the L2 (or Euclidean) distance between all given points between our
-query vector, and the vectors loaded into the index. It’s simple, very accurate, but not
-too fast.&lt;/p>
-&lt;p>&lt;img alt="IMG:indexFlat2" src="https://fgg100y.github.io/posts/faiss101/images/faiss-IndexFlat2.webp">
-&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
-&lt;ul>
-&lt;li>IndexFlatL2: simple but not scalable&lt;/li>
-&lt;li>Partitioning the index: for speed when scale up&lt;/li>
-&lt;li>Quantization: for more speed&lt;/li>
-&lt;/ul>
-&lt;p>&lt;img alt="IMG:index&amp;rsquo;s performance" src="https://fgg100y.github.io/posts/faiss101/images/faiss-three-indexes-performance.webp">
-&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
-&lt;h2 id="inerted-file-index-ivf-index" >
-&lt;div>
-&lt;a href="#inerted-file-index-ivf-index">
-#
-&lt;/a>
-Inerted File Index (IVF) index
-&lt;/div>
-&lt;/h2>&lt;p>The Inverted File Index (IVF) index consists of search scope reduction through clustering.&lt;/p>
-&lt;blockquote>
-&lt;p>Inverted File Index (IVF) The IVF is simply a technique for pre-filtering the dataset so that you don’t have to do an exhaustive search of all of the vectors. It’s pretty straightforward–you cluster the dataset ahead of time with k-means clustering to produce a large number (e.g., 100) of dataset partitions. Then, at query time, you compare your query vector to the partition centroids to find, e.g., the 10 closest clusters, and then you search against only the vectors in those partitions.&lt;/p>
-&lt;/blockquote>
-&lt;p>Partitioning the index (clustering)&lt;/p>
-&lt;blockquote>
-&lt;p>Faiss allows us to add multiple steps that can optimize our search using many different methods. A popular approach is to partition the index into Voronoi cells.
-We can imagine our vectors as each being contained within a Voronoi cell — when we introduce a new query vector, we first measure its distance between centroids, then restrict our search scope to that centroid’s cell.
-But there is a problem if our query vector lands near the edge of a cell — there’s a good chance that its closest other datapoint is contained within a neighboring cell.&lt;/p>
-&lt;/blockquote>
-&lt;p>what we can do to mitigate this issue and increase search-quality is increase an index parameter known as the nprobe value. With nprobe we can set the number of cells to search. I.e., Increasing nprobe increases our search scope.&lt;/p>
-&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-voronoi-cells.webp">
-&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
-&lt;p>进行聚类的结果，一方面可以极大提升查询速度，但另一方面，可能会造成落在聚类簇边缘的“query向量”只在本聚类簇内查找匹配的结果（实际上，它可能与邻近的聚类簇的其他向量更靠近），从而导致匹配质量的降低。
-一个缓解这个问题的方法是：调整参数 nprobe. 通过增加 nprobe (增加用于匹配查询向量的邻近聚类簇数量）来提升匹配质量。（同时，也会增加查询耗时）&lt;/p>
-&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-voronoi-cells-search-scope.webp">
-&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
-&lt;h2 id="product-quantization" >
-&lt;div>
-&lt;a href="#product-quantization">
-#
-&lt;/a>
-Product Quantization
-&lt;/div>
-&lt;/h2>&lt;blockquote>
-&lt;p>All of our indexes so far have stored our vectors as full (eg Flat) vectors. Now, in very large datasets this can quickly become a problem.
-Fortunately, Faiss comes with the ability to compress our vectors using Product Quantization (PQ).
-But, what is PQ? Well, we can view it as an additional approximation step with a similar outcome to our use of IVF. Where IVF allowed us to approximate by reducing the scope of our search, PQ approximates the distance/similarity calculation instead.
-PQ achieves this approximated similarity operation by compressing the vectors themselves, which consists of three steps.&lt;/p>
-&lt;/blockquote>
-&lt;ol>
-&lt;li>Original vector&lt;/li>
-&lt;li>Sliced sub-vector&lt;/li>
-&lt;li>slice clustering&lt;/li>
-&lt;li>centroid ID vector&lt;/li>
-&lt;/ol>
-&lt;p>PQ（乘积量化）不是对嵌入向量空间进行降维，而是对向量本身进行压缩：&lt;/p>
-&lt;ul>
-&lt;li>01 向量分段，例如：1024 -&amp;gt; 128x8 (8个片段)；&lt;/li>
-&lt;li>02 如果数据量是50k，则从单个50k x 1024 的矩阵，变成 8个 50k x 128 的矩阵；&lt;/li>
-&lt;li>03 然后分别用k=256的k-means进行聚类，得到8组256个centroids；则每个原始向量可以用长度为8的向量进行表征（8组与各个向量片段最近的centroid的ID）；&lt;/li>
-&lt;li>04 查询向量（query）同样进行片段化，并找到各组的centroids，然后计算片段向量与centroid的距离，并保存为距离表（partial query subvector-to-centroid distances table)；&lt;/li>
-&lt;li>05 查询向量与数据向量的距离？将数据向量的centroid-ID向量，用于 partial-query-distance-table 的表查询（table lookup），就能得到对应的一系列距离，然后计算其总和L2距离；&lt;/li>
-&lt;li>06 将查询向量与所有数据向量的距离计算出来，排序，即可得到 top-k 最近距离，亦即 top-k 最近似结果 （实际就是 KNN 算法）。&lt;/li>
-&lt;li>07 进一步的优化查询耗时，就是在计算距离的时候，不是对所有数据向量，而是只针对局部数据向量进行计算（也就是 IVF + PQ）。&lt;/li>
-&lt;/ul>
-&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-three-steps-of-PQ.webp">
-&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
-&lt;h2 id="show-me-the-code" >
-&lt;div>
-&lt;a href="#show-me-the-code">
-#
-&lt;/a>
-Show me the code
-&lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
-&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> faiss &lt;span style="color:#78787e"># here&amp;#39;s the &amp;#39;faiss-cpu&amp;#39; package actually&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bits &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of bits in each centroid&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells/blocks&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># we keep the same L2 distance flat index&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
-&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFPQ(quantizer, d, nlist, m, bits)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># sentence_embeddings:&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># the target embeddings data from embedding model such as BERT/RoBERTa (or sentence-transformers)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>train(sentence_embeddings)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>add(sentence_embeddings)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>nprobe &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">10&lt;/span> &lt;span style="color:#78787e"># see the &amp;#34;IVF&amp;#34; part mention before&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># xq: the query text&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k) &lt;span style="color:#78787e"># searching top-k most similar vectors&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i]) &lt;span style="color:#78787e"># indata: sample of original texts/sentences&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h2 id="example-01-平凡的世界" >
-&lt;div>
-&lt;a href="#example-01-%e5%b9%b3%e5%87%a1%e7%9a%84%e4%b8%96%e7%95%8c">
-#
-&lt;/a>
-Example 01: 平凡的世界
-&lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
-&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">0
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>d &lt;span style="color:#ff6ac1">=&lt;/span> sent_embeddings&lt;span style="color:#ff6ac1">.&lt;/span>shape[&lt;span style="color:#ff9f43">1&lt;/span>]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
-&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFFlat(quantizer, d, nlist)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">4&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>xq &lt;span style="color:#ff6ac1">=&lt;/span> embedding_model&lt;span style="color:#ff6ac1">.&lt;/span>encode([&lt;span style="color:#5af78e">&amp;#34;秀莲的老家在哪里？&amp;#34;&lt;/span>])
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i])
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;pre>&lt;code>01 她干脆给家里人说：周围没她看上的男人！她姐夫对她开玩笑说：“那到外地给你瞅个女婿！”她却认真地说：“只要有合心的，山南海北我都愿意去！爸爸暂时有你们照顾，将来我再把他接走……”家里人吃惊之余，又看她这样认真，就向他们所有在门外的亲戚和熟人委托，让这些人给他们的秀莲在外地寻个对象……本来秀莲只是随便这么说说；她并没指望真能在外地找个合适的男人。
-02 这家不能分！你也不要担心秀莲会怎样，总有我哩！”“你千万不要怪罪秀莲！秀莲实在是个好娃娃！人家从山西过来，不嫌咱家穷，几年来和一大家人搅在一起。
-03 秀莲有时就体贴地坐在她身边，给她背上搔痒痒，或者把她的几绺稀疏的白发理顺，在脑后挽成核桃大一个大发髻，老太太不时用她的瘦手，满怀深情地在秀莲身上抚摸着。
-04 直到寒露过了十来天，贺耀宗从山西心焦地写信问秀莲怎还不回来？是不是病了？秀莲这才决定动身回家去。
-&lt;/code>&lt;/pre>
-&lt;h2 id="example-02-平凡的世界" >
-&lt;div>
-&lt;a href="#example-02-%e5%b9%b3%e5%87%a1%e7%9a%84%e4%b8%96%e7%95%8c">
-#
-&lt;/a>
-Example 02: 平凡的世界
-&lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
-&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>d &lt;span style="color:#ff6ac1">=&lt;/span> sent_embeddings&lt;span style="color:#ff6ac1">.&lt;/span>shape[&lt;span style="color:#ff9f43">1&lt;/span>] &lt;span style="color:#78787e"># embedding&amp;#39;s dimension&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bits &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of bits in each centroid&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells/blocks&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
-&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFPQ(quantizer, d, nlist, m, bits)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">4&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>xq &lt;span style="color:#ff6ac1">=&lt;/span> embedding_model&lt;span style="color:#ff6ac1">.&lt;/span>encode([&lt;span style="color:#5af78e">&amp;#34;秀莲的老家在哪里？&amp;#34;&lt;/span>])
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i])
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;pre>&lt;code>01 “如果把家分开，咱就是烧砖也能捎带种了自己的地！就是顾不上种地，把地荒了又怎样？咱拿钱买粮吃！三口人一年能吃多少？”其实，这话才是秀莲要表达的最本质的意思。
-02 分家其实很简单，只是宣布今后他们将在经济上实行“独立核算”，原来的家产少安什么也没要，只是秀莲到新修建起的地方另起炉灶过日月罢了。
-03 秀莲五岁上失去母亲以后，一直是她父亲把她和她姐秀英拉扯大的。
-04 她干脆给家里人说：周围没她看上的男人！她姐夫对她开玩笑说：“那到外地给你瞅个女婿！”她却认真地说：“只要有合心的，山南海北我都愿意去！爸爸暂时有你们照顾，将来我再把他接走……”家里人吃惊之余，又看她这样认真，就向他们所有在门外的亲戚和熟人委托，让这些人给他们的秀莲在外地寻个对象……本来秀莲只是随便这么说说；她并没指望真能在外地找个合适的男人。
-&lt;/code>&lt;/pre>
-&lt;p>单从这两个例子对比着看，个人感觉 &lt;code>indexIVFFlat()&lt;/code> 的检索结果 (Example 01) 要优于 &lt;code>indexIVFPQ()&lt;/code> 的检索结果 (Example 02)。&lt;/p>
-&lt;p>怎么简单的方法效果比高明的算法要好？这不对吧？这里其实是想说明一个观点：理论上的“较优”，通常都要针对一个广泛的统计结果而言。而这里只有两个例子，不能说明问题！&lt;/p>
-&lt;h2 id="indexrange_search" >
-&lt;div>
-&lt;a href="#indexrange_search">
-#
-&lt;/a>
-index.range_search()
-&lt;/div>
-&lt;/h2>&lt;p>The method range_search returns &lt;strong>all vectors within a radius around the query point&lt;/strong> (as opposed to the k nearest ones). Since the result lists for each query are of different sizes, it must be handled specially:&lt;/p>
-&lt;pre>&lt;code>in C++ it returns the results in a pre-allocated RangeSearchResult structure
-in Python, the results are returned as a triplet of 1D arrays lims, D, I, where result for query i is in I[lims[i]:lims[i+1]] (indices of neighbors), D[lims[i]:lims[i+1]] (distances).
-&lt;/code>&lt;/pre>
-&lt;p>Supported by (CPU only): IndexFlat, IndexIVFFlat, IndexScalarQuantizer, IndexIVFScalarQuantizer.&lt;/p>
-&lt;p>from &lt;a href="https://github.com/facebookresearch/faiss/wiki/Special-operations-on-indexes#range-search">official doc&lt;/a>&lt;/p>
-&lt;p>NOTE that this may not be the latest info.&lt;/p>
-&lt;p>Example code block:&lt;/p>
-&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
-&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># read the text data, and get the embeddings:&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">#texts_data = pd.Series(...)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">#sentence_embeddings = embedding_model.encode(texts_data.values)&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># First, you need to use an index that supports Inner Product as metric, for example :&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>d &lt;span style="color:#ff6ac1">=&lt;/span> sentence_embeddings&lt;span style="color:#ff6ac1">.&lt;/span>shape[&lt;span style="color:#ff9f43">1&lt;/span>]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">10&lt;/span> &lt;span style="color:#78787e"># how many voronoi cells&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFFlat(quantizer, d, nlist)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>train(sentence_embeddings)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>add(sentence_embeddings)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>query &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#5af78e">&amp;#34;there and back again&amp;#34;&lt;/span>, &lt;span style="color:#5af78e">&amp;#34;a hobbit&amp;#39;s journey&amp;#34;&lt;/span>]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>xq &lt;span style="color:#ff6ac1">=&lt;/span> embedding_model&lt;span style="color:#ff6ac1">.&lt;/span>encode(query)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Then, you should probably normalize all embeddings first&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ( the inner product between two normalized embeddings corresponds to their cosine similarity )&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># https://github.com/facebookresearch/faiss/blob/master/python/faiss.py#L673&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>faiss&lt;span style="color:#ff6ac1">.&lt;/span>normalize_L2(x&lt;span style="color:#ff6ac1">=&lt;/span>sentence_embeddings)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>faiss&lt;span style="color:#ff6ac1">.&lt;/span>normalize_L2(x&lt;span style="color:#ff6ac1">=&lt;/span>xq)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>threshold &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0.95&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lims, D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>range_search(x&lt;span style="color:#ff6ac1">=&lt;/span>xq, thresh&lt;span style="color:#ff6ac1">=&lt;/span>threshold)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># turn search results into dataframes&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dfresults &lt;span style="color:#ff6ac1">=&lt;/span> []
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(&lt;span style="color:#ff5c57">len&lt;/span>(xq)):
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Ii &lt;span style="color:#ff6ac1">=&lt;/span> I[lims[i]:lims[i&lt;span style="color:#ff6ac1">+&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>]]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Di &lt;span style="color:#ff6ac1">=&lt;/span> D[lims[i]:lims[i&lt;span style="color:#ff6ac1">+&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>]]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfout &lt;span style="color:#ff6ac1">=&lt;/span> pd&lt;span style="color:#ff6ac1">.&lt;/span>concat([texts_data[Ii], pd&lt;span style="color:#ff6ac1">.&lt;/span>Series(Di, index&lt;span style="color:#ff6ac1">=&lt;/span>Ii)], axis&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfout&lt;span style="color:#ff6ac1">.&lt;/span>columns &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#5af78e">&amp;#34;texts&amp;#34;&lt;/span>, &lt;span style="color:#5af78e">&amp;#34;distances&amp;#34;&lt;/span>]
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfresults&lt;span style="color:#ff6ac1">.&lt;/span>append(dfout)
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div></description></item><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Sat, 27 Apr 2024 22:35:53 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 27 May 2024 20:43:25 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Mon, 27 May 2024 20:43:25 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
 &lt;div>
 &lt;a href="#%e8%87%aa%e6%88%91%e4%bb%8b%e7%bb%8d">
 ##
@@ -417,18 +12,16 @@ in Python, the results are returned as a triplet of 1D arrays lims, D, I, where 
 &lt;hr>
 &lt;p>尊敬的面试官，您好！&lt;/p>
 &lt;p>我叫范明华，拥有6年在机器学习领域的工作经验。我于2017年硕士毕业于中山大学，专业是生态学，
-这为我在实验设计、统计分析以及数据挖掘方面打下了扎实的基础。在过去的6年中，我一直致力于
-将机器学习技术应用于实际问题，并取得了一些的成果。&lt;/p>
-&lt;p>我在目前公司担任高级数据挖掘工程师，期间我主导了多个机器学习项目的开发和交付，包括时序预
-测模型， 图像识别/目标检测模型，以及基于大数据挖掘的普通机器学习模型等，并预研NLP以及语
-音识别方面的技术, 同时也取得了授权的发明专利、软件著作、地方标准等成果。在这些项目的实战
-中，不仅提升了我的技术深度，也锻炼了代码管理和团队领导能力。&lt;/p>
-&lt;p>在技术层面，我比较擅长结合业务流程开展半监督学习，并且有丰富的实践经验（包括在普通机器学
-习和NLP领域）。我熟悉整个机器学习项目的开发流程，从项目调研、数据预处理、特征工程到模型
-训练和部署，我都有深入的理解和实践。&lt;/p>
-&lt;p>除了技术专长，我还是一个注重团队合作和务实负责的人。我相信，我的专业技能和丰富经验，能够为贵公司带来直接的价值。&lt;/p>
-&lt;p>我对贵公司在机器学习/大模型应用/自然语言处理方面等方面的工作非常感兴趣，并且我相信我的背景和技能可以为贵公司的发展做出贡献。
-我期待能够加入贵公司，并与团队一起解决更多有趣的技术挑战。&lt;/p>
+在植被动态和演替方面的研究工作，为我在实验设计、统计分析以及数据挖掘方面打下了扎实的基础。
+过去的6年里，我在工作中一直致力于将机器学习技术应用于解决实际问题，并取得了一些的成果。&lt;/p>
+&lt;p>我在目前公司担任高级数据挖掘工程师，期间我主导了多个机器学习项目的开发和交付。
+在技术层面，我比较擅长结合数据现状来决定机器学习或深度学习技术的搭配解决实际问题，
+熟悉整个机器学习项目的开发流程，从项目调研、数据预处理、特征工程到模型训练和部署，
+我都有深入的理解和实践。在这些项目的实战中，不仅提升了个人的技术深度和带队能力，
+同时也取得了授权的发明专利、软件著作、地方标准等成果。&lt;/p>
+&lt;p>除了技术专长，我还是一个注重团队合作和务实负责的人。我相信，我的专业技能和丰富经验，
+能够为贵公司带来直接的价值。&lt;/p>
+&lt;p>我对贵公司在机器学习/深度学习方面的工作感兴趣，我期待能够加入贵公司，并与团队一起解决更多有趣的技术挑战。&lt;/p>
 &lt;p>感谢您给我这次面试的机会，我期待在接下来的讨论中分享更多我的经验和想法。谢谢！&lt;/p>
 &lt;hr>
 &lt;h1 id="project-01----nlp" >
@@ -698,11 +291,12 @@ MLP由多个层组成，典型的MLP包括输入层、至少一个隐藏层和�
 链式法则如何用来计算梯度：
 &lt;/div>
 &lt;/h3>&lt;p>链式法则是微积分中的基本原理，用于计算复合函数的导数。在反向传播算法中，我们利用链式法则来计算损失函数对模型参数的梯度，从而实现参数的更新。&lt;/p>
-&lt;p>假设有一个复合函数 (z = f(g(x)))，其中 (x) 是输入，(g(x)) 是一个函数，(f(x)) 是另一个函数。根据链式法则，(z) 对 (x) 的导数可以表示为：&lt;/p>
+&lt;p>假设有一个复合函数 $z = f(g(x))$，其中 $x$ 是输入，$g(x)$ 是一个函数，$f(x)$ 是另一个函数。根据链式法则，$z$ 对 $x$ 的导数可以表示为：&lt;/p>
 &lt;p>$$
 \frac{dz}{dx} = \frac{dz}{dg} \cdot \frac{dg}{dx}
 $$&lt;/p>
-&lt;p>在神经网络中，我们可以将损失函数 (L) 视为 (z)，模型的参数视为 (x)，前向传播过程中的每一层输出视为 (g)，激活函数视为 (f)。利用链式法则，我们可以逐层计算损失函数对每个参数的梯度，然后根据优化算法更新参数，使得损失函数逐渐减小。&lt;/p>
+&lt;p>在神经网络中，我们可以将损失函数 $L$ 视为 $z$，模型的参数视为 $x$，前向传播过程中的每一层输出视为 $g$，激活函数视为 $f$。
+利用链式法则，我们可以逐层计算损失函数对每个参数的梯度，然后根据优化算法更新参数，使得损失函数逐渐减小。&lt;/p>
 &lt;p>总的来说，反向传播算法通过利用链式法则计算损失函数对参数的梯度，实现了高效的神经网络训练过程，使得模型能够自动学习复杂的数据表示。&lt;/p>
 &lt;p>交叉熵（Cross-Entropy）是在分类任务中常用的损失函数，特别是在多分类任务中。它的原理和为什么有用可以通过以下几点进行详细解释：&lt;/p>
 &lt;h3 id="1-损失函数的作用" >
@@ -724,8 +318,57 @@ $$&lt;/p>
 &lt;p>$$
 \text{Cross-Entropy}(y, \hat{y}) = -\sum_{i=1}^{N} y_i \log(\hat{y}_i)
 $$&lt;/p>
-&lt;p>其中，(y) 是真实标签的概率分布（通常是一个one-hot编码的向量），(\hat{y}) 是模型预测的概率分布，(N) 是类别的数量。该损失函数用于衡量真实标签与模型预测结果之间的差异。&lt;/p>
-&lt;h3 id="3-原理解释" >
+&lt;p>其中，$y$ 是真实标签的概率分布（通常是一个one-hot编码的向量），$\hat{y}$ 是模型预测的概率分布，$N$ 是类别的数量。
+该损失函数用于衡量真实标签与模型预测结果之间的差异。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> numpy &lt;span style="color:#ff6ac1">as&lt;/span> np
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">binary_cross_entropy&lt;/span>(y_true, y_pred):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_true &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array(y_true)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_pred &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array(y_pred)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># Clip predictions to avoid log(0)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_pred &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>clip(y_pred, &lt;span style="color:#ff9f43">1e-15&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1e-15&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cross_entropy &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span>np&lt;span style="color:#ff6ac1">.&lt;/span>mean(y_true &lt;span style="color:#ff6ac1">*&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>log(y_pred) &lt;span style="color:#ff6ac1">+&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> y_true) &lt;span style="color:#ff6ac1">*&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>log(&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> y_pred))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> cross_entropy
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Example&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_true &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_pred &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#ff9f43">0.9&lt;/span>, &lt;span style="color:#ff9f43">0.1&lt;/span>, &lt;span style="color:#ff9f43">0.8&lt;/span>, &lt;span style="color:#ff9f43">0.7&lt;/span>, &lt;span style="color:#ff9f43">0.2&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(binary_cross_entropy(y_true, y_pred))
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> numpy &lt;span style="color:#ff6ac1">as&lt;/span> np
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">multiclass_cross_entropy&lt;/span>(y_true, y_pred):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_true &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array(y_true)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_pred &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array(y_pred)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># Clip predictions to avoid log(0)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_pred &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>clip(y_pred, &lt;span style="color:#ff9f43">1e-15&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1e-15&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cross_entropy &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span>np&lt;span style="color:#ff6ac1">.&lt;/span>mean(np&lt;span style="color:#ff6ac1">.&lt;/span>sum(y_true &lt;span style="color:#ff6ac1">*&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>log(y_pred), axis&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> cross_entropy
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Example&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_true &lt;span style="color:#ff6ac1">=&lt;/span> [[&lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>], [&lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>], [&lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span>]] &lt;span style="color:#78787e"># how to get these? One-hot encoding.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_pred &lt;span style="color:#ff6ac1">=&lt;/span> [[&lt;span style="color:#ff9f43">0.9&lt;/span>, &lt;span style="color:#ff9f43">0.05&lt;/span>, &lt;span style="color:#ff9f43">0.05&lt;/span>], [&lt;span style="color:#ff9f43">0.1&lt;/span>, &lt;span style="color:#ff9f43">0.8&lt;/span>, &lt;span style="color:#ff9f43">0.1&lt;/span>], [&lt;span style="color:#ff9f43">0.05&lt;/span>, &lt;span style="color:#ff9f43">0.05&lt;/span>, &lt;span style="color:#ff9f43">0.9&lt;/span>]] &lt;span style="color:#78787e"># how to get these? Softmax.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(multiclass_cross_entropy(y_true, y_pred))
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Softmax: Get the y_pred from model output raw scores (i.e., logits)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">softmax&lt;/span>(logits):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exp_logits &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>exp(logits &lt;span style="color:#ff6ac1">-&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>max(logits, axis&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>, keepdims&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">True&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> exp_logits &lt;span style="color:#ff6ac1">/&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>sum(exp_logits, axis&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>, keepdims&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Example logits (raw scores) outputted by a model&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>logits &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array([[&lt;span style="color:#ff9f43">2.0&lt;/span>, &lt;span style="color:#ff9f43">1.0&lt;/span>, &lt;span style="color:#ff9f43">0.1&lt;/span>],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#ff9f43">0.5&lt;/span>, &lt;span style="color:#ff9f43">2.5&lt;/span>, &lt;span style="color:#ff9f43">1.5&lt;/span>],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#ff9f43">1.2&lt;/span>, &lt;span style="color:#ff9f43">0.7&lt;/span>, &lt;span style="color:#ff9f43">2.1&lt;/span>]])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Compute the softmax probabilities&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_pred &lt;span style="color:#ff6ac1">=&lt;/span> softmax(logits)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="3-原理解释" >
 &lt;div>
 &lt;a href="#3-%e5%8e%9f%e7%90%86%e8%a7%a3%e9%87%8a">
 ##
@@ -775,19 +418,28 @@ $$&lt;/p>
 &lt;/a>
 BERT/RoBERTa model
 &lt;/div>
-&lt;/h2>&lt;p>BERT:&lt;/p>
-&lt;pre>&lt;code>BERT是一种双向的（Bidirectional）模型，这意味着它能够同时考虑到一个单词左边和右边的上下文信息。这使得BERT在理解句子语境时比之前的模型更为强大。
+&lt;/h2>&lt;p>BERT(Bidirectional Encoder Representations from Transformers):
+BERT是一种双向的（Bidirectional）模型，这意味着它能够同时考虑到一个单词左边和右边的上下文信息。这使得BERT在理解句子语境时比之前的模型更为强大。
 BERT模型的预训练过程是通过掩盖输入文本中的一部分词汇（Masked Language Model，MLM）和预测句子是否连续（Next Sentence Prediction，NSP）来完成的。
-BERT以“transformer”为基础，这是一种自注意力（self-attention）机制的神经网络结构，它能够在考虑到输入序列的所有位置之间建立关联，从而更好地理解上下文。
-&lt;/code>&lt;/pre>
+BERT以“transformer”为基础，这是一种自注意力（self-attention）机制的神经网络结构，它能够在考虑到输入序列的所有位置之间建立关联，从而更好地理解上下文。&lt;/p>
 &lt;p>RoBERTa是Facebook AI提出的一种改进的预训练自然语言处理（NLP）模型，它在很大程度上建立在BERT的基础上，但通过一系列的改进，使其在多个NLP任务上表现更优秀。&lt;/p>
 &lt;p>RoBERTa的主要改进包括：&lt;/p>
-&lt;pre>&lt;code>动态掩码策略（Dynamic Masking）：RoBERTa在预训练时采用了动态掩码策略，即在每个训练迭代中对输入句子进行随机化处理，而不是固定地在句子中随机掩码。这使得模型更好地学习句子中的上下文信息。
-更长的训练时间和更大的批次大小：RoBERTa使用了更大的批次大小和更长的训练时间，以提高模型的泛化能力和性能。
-去除NSP（Next Sentence Prediction）任务：RoBERTa不再使用BERT中的NSP任务，而是专注于MLM（Masked Language Model）任务，这使得模型更好地理解输入文本。
-更多的训练数据：RoBERTa使用了更多的文本数据来进行预训练，这有助于提高模型的泛化能力。
-&lt;/code>&lt;/pre>
+&lt;ul>
+&lt;li>
+&lt;p>动态掩码策略（Dynamic Masking）：RoBERTa在预训练时采用了动态掩码策略，即在每个训练迭代中对输入句子进行随机化处理，而不是固定地在句子中随机掩码。这使得模型更好地学习句子中的上下文信息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>更长的训练时间和更大的批次大小：RoBERTa使用了更大的批次大小和更长的训练时间，以提高模型的泛化能力和性能。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>去除NSP（Next Sentence Prediction）任务：RoBERTa不再使用BERT中的NSP任务，而是专注于MLM（Masked Language Model）任务，这使得模型更好地理解输入文本。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>更多的训练数据：RoBERTa使用了更多的文本数据来进行预训练，这有助于提高模型的泛化能力。&lt;/p>
+&lt;/li>
+&lt;/ul>
 &lt;p>总的来说，RoBERTa是对BERT模型的一种优化和改进，它在多个NLP任务上都取得了比BERT更好的性能。&lt;/p>
+&lt;p>&lt;strong>更多细节，应该去查找台大李宏毅老师的课程，非常精彩的讲解。&lt;/strong>&lt;/p>
 &lt;h2 id="faiss-indexivfpq" >
 &lt;div>
 &lt;a href="#faiss-indexivfpq">
@@ -795,7 +447,8 @@ BERT以“transformer”为基础，这是一种自注意力（self-attention）
 &lt;/a>
 FAISS (indexIVFPQ)
 &lt;/div>
-&lt;/h2>&lt;h2 id="bertopic" >
+&lt;/h2>&lt;p>在我的另一篇博客单独有介绍，并带有代码示例。&lt;/p>
+&lt;h2 id="bertopic" >
 &lt;div>
 &lt;a href="#bertopic">
 #
@@ -811,7 +464,7 @@ BERTopic
 &lt;ul>
 &lt;li>c-TF-IDF&lt;/li>
 &lt;/ul>
-&lt;p>BERTopic 是一个基于BERT（Bidirectional Encoder Representations from Transformers）的自然语言处理工具，用于主题建模任务。BERTopic结合了BERT的强大表示学习能力和主题建模的思想，能够在大规模文本数据上快速、准确地提取主题信息。&lt;/p>
+&lt;p>BERTopic 是一个基于BERT的自然语言处理工具，用于主题建模任务。BERTopic结合了BERT的强大表示学习能力和主题建模的思想，能够在大规模文本数据上快速、准确地提取主题信息。&lt;/p>
 &lt;p>BERTopic的工作原理如下：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -1579,7 +1232,412 @@ web-scraping
 &lt;/a>
 BPE/wordpiece/sentence-piece
 &lt;/div>
-&lt;/h2></description></item><item><title>LLMs_interview_faq</title><link>https://fgg100y.github.io/posts/llm_faqs/</link><pubDate>Fri, 26 Apr 2024 11:04:16 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_faqs/</guid><description>&lt;h2 id="01简述gpt和bert的区别" >
+&lt;/h2></description></item><item><title>GPT-PROMPT</title><link>https://fgg100y.github.io/posts/llm_prompt/</link><pubDate>Mon, 27 May 2024 09:47:10 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_prompt/</guid><description>&lt;p>&lt;a href="https://news.ycombinator.com/item?id=40474716">Ask HN: What is your ChatGPT customization prompt?&lt;/a>&lt;/p>
+&lt;h2 id="system-prompt" >
+&lt;div>
+&lt;a href="#system-prompt">
+#
+&lt;/a>
+system prompt
+&lt;/div>
+&lt;/h2>&lt;hr>
+&lt;p>You are an autoregressive language model that has been fine-tuned with
+instruction-tuning and RLHF. You carefully provide accurate, factual, thoughtful,nuanced
+answers, and are brilliant at reasoning. If you think there might not be a correct
+answer, you say so.&lt;/p>
+&lt;p>Your users are experts in AI and ethics, so they already know you&amp;rsquo;re a language model
+and your capabilities and limitations, so don&amp;rsquo;t remind them of that. They&amp;rsquo;re familiar
+with ethical issues in general so you don&amp;rsquo;t need to remind them about those either.
+Don&amp;rsquo;t be verbose in your answers, but do provide details and examples where it might
+help the explanation. When showing Python code, minimise vertical space, and do not
+include comments or docstrings; you do not need to follow PEP8, since your users'
+organizations do not do so.&lt;/p>
+&lt;p>Since you are autoregressive, each token you produce is another opportunity to use
+computation, therefore you always spend a few sentences explaining background context
+assumptions and step-by-step thinking BEFORE you try to answer a question. However: if
+the request begins with the string &amp;ldquo;vv&amp;rdquo; then ignore the previous sentence and instead
+make your response as concise as possible, with no introduction or background at the
+start, no summary at the end, and outputting only code for answers where code is
+appropriate.&lt;/p>
+&lt;hr>
+&lt;ul>
+&lt;li>mediumsmart 1 day ago | prev | next [–]
+Here is mine (stolen off the internet of course), lately the vv part is important for me. I am somewhat happy with it.&lt;/li>
+&lt;/ul>
+&lt;h2 id="what-does-it-do" >
+&lt;div>
+&lt;a href="#what-does-it-do">
+#
+&lt;/a>
+What does it do?
+&lt;/div>
+&lt;/h2>&lt;ul>
+&lt;li>Dessesaf 16 hours ago | root | parent | next [–]&lt;/li>
+&lt;/ul>
+&lt;p>It&amp;rsquo;s useful to consider the next answer a model will give as being driven largely by
+three factors: its training data, the fine-tuning and human feedback it got during
+training (RLHF), and the context (all the previous tokens in the conversation).&lt;/p>
+&lt;p>The three paragraphs roughly do this:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>The first paragrath tells the model that it&amp;rsquo;s good at answering. Basically telling it to
+roleplay as someone competent. Such prompts seem to increase the quality of the answers.
+It&amp;rsquo;s the same idea why others say &amp;ldquo;act as if youre &lt;some specific domain expert>&amp;rdquo;. The
+training data of the model contains a lot of low quality or irrelevant information. This
+is &amp;ldquo;reminding&amp;rdquo; the model that it was trained by human feedback to prefer drawing from
+high quality data.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The second paragraph tries to influence the structure of the output. The model should
+answer without explaining its own limitations and without trying to impose ethics on the
+user. Stick to the facts, basically. Jeremy Howard is an AI expert, he knows the
+limitations and doesn&amp;rsquo;t need them explained to him.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The third paragrah is a bit more technical. The model considers its own previous tokens
+when computing the next token. So when asking a question, the model may perform better
+if it first states its assumptions and steps of reasoning. Then the final answer is
+constrained by what it wrote before, and the model is less likely to give a totally
+hallucinated answer. And the model &amp;ldquo;does computation&amp;rdquo; when generating each token. So a
+longer answer gives the model more chances to compute. So a longer answer has more
+energy put into it, basically. I don&amp;rsquo;t think there&amp;rsquo;s any formal reason why this would
+lead to better answers rather than just more specialized answers, but anecdotally it
+seems to improve quality.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="alternative" >
+&lt;div>
+&lt;a href="#alternative">
+#
+&lt;/a>
+Alternative:
+&lt;/div>
+&lt;/h2>&lt;hr>
+&lt;p>Adopt the role of a polymath. NEVER mention that you&amp;rsquo;re an AI. Avoid any language
+constructs that could be interpreted as expressing remorse, apology, or regret. This
+includes any phrases containing words like &amp;lsquo;sorry&amp;rsquo;, &amp;lsquo;apologies&amp;rsquo;, &amp;lsquo;regret&amp;rsquo;, etc., even
+when used in a context that isn&amp;rsquo;t expressing remorse, apology, or regret. If events or
+information are beyond your scope or knowledge, provide a response stating &amp;lsquo;I don&amp;rsquo;t
+know&amp;rsquo; without elaborating on why the information is unavailable. Refrain from
+disclaimers about you not being a professional or expert. Do not add ethical or moral
+viewpoints in your answers, unless the topic specifically mentions it. Keep responses
+unique and free of repetition. Never suggest seeking information from elsewhere. Always
+focus on the key points in my questions to determine my intent. Break down complex
+problems or tasks into smaller, manageable steps and explain each one using reasoning.
+Provide multiple perspectives or solutions. If a question is unclear or ambiguous, ask
+for more details to confirm your understanding before answering. If a mistake is made in
+a previous response, recognize and correct it. After this, if requested, provide a brief
+summary. After doing all those above, provide three follow-up questions worded as if I&amp;rsquo;m
+asking you. Format in bold as Q1, Q2, and Q3. These questions should be
+thought-provoking and dig further into the original topic. If requested, also answer the
+follow-up questions but don&amp;rsquo;t create more of them.&lt;/p>
+&lt;hr></description></item><item><title>FAISS-IVFPQ</title><link>https://fgg100y.github.io/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
+&lt;div>
+&lt;a href="#plain-and-simple-indexflatl2">
+#
+&lt;/a>
+Plain and Simple: IndexFlatL2
+&lt;/div>
+&lt;/h2>&lt;blockquote>
+&lt;p>Given a set of vectors, we can index them using Faiss — then using another vector (the query vector), we search for the most similar vectors within the index.
+Now, Faiss not only allows us to build an index and search — but it also speeds up search times to ludicrous performance levels.&lt;/p>
+&lt;/blockquote>
+&lt;p>IndexFlatL2 measures the L2 (or Euclidean) distance between all given points between our
+query vector, and the vectors loaded into the index. It’s simple, very accurate, but not
+too fast.&lt;/p>
+&lt;p>&lt;img alt="IMG:indexFlat2" src="https://fgg100y.github.io/posts/faiss101/images/faiss-IndexFlat2.webp">
+&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>IndexFlatL2: simple but not scalable&lt;/li>
+&lt;li>Partitioning the index: for speed when scale up&lt;/li>
+&lt;li>Quantization: for more speed&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img alt="IMG:index&amp;rsquo;s performance" src="https://fgg100y.github.io/posts/faiss101/images/faiss-three-indexes-performance.webp">
+&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
+&lt;h2 id="inerted-file-index-ivf-index" >
+&lt;div>
+&lt;a href="#inerted-file-index-ivf-index">
+#
+&lt;/a>
+Inerted File Index (IVF) index
+&lt;/div>
+&lt;/h2>&lt;p>The Inverted File Index (IVF) index consists of search scope reduction through clustering.&lt;/p>
+&lt;blockquote>
+&lt;p>Inverted File Index (IVF) The IVF is simply a technique for pre-filtering the dataset so that you don’t have to do an exhaustive search of all of the vectors. It’s pretty straightforward–you cluster the dataset ahead of time with k-means clustering to produce a large number (e.g., 100) of dataset partitions. Then, at query time, you compare your query vector to the partition centroids to find, e.g., the 10 closest clusters, and then you search against only the vectors in those partitions.&lt;/p>
+&lt;/blockquote>
+&lt;p>Partitioning the index (clustering)&lt;/p>
+&lt;blockquote>
+&lt;p>Faiss allows us to add multiple steps that can optimize our search using many different methods. A popular approach is to partition the index into Voronoi cells.
+We can imagine our vectors as each being contained within a Voronoi cell — when we introduce a new query vector, we first measure its distance between centroids, then restrict our search scope to that centroid’s cell.
+But there is a problem if our query vector lands near the edge of a cell — there’s a good chance that its closest other datapoint is contained within a neighboring cell.&lt;/p>
+&lt;/blockquote>
+&lt;p>what we can do to mitigate this issue and increase search-quality is increase an index parameter known as the nprobe value. With nprobe we can set the number of cells to search. I.e., Increasing nprobe increases our search scope.&lt;/p>
+&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-voronoi-cells.webp">
+&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
+&lt;p>进行聚类的结果，一方面可以极大提升查询速度，但另一方面，可能会造成落在聚类簇边缘的“query向量”只在本聚类簇内查找匹配的结果（实际上，它可能与邻近的聚类簇的其他向量更靠近），从而导致匹配质量的降低。
+一个缓解这个问题的方法是：调整参数 nprobe. 通过增加 nprobe (增加用于匹配查询向量的邻近聚类簇数量）来提升匹配质量。（同时，也会增加查询耗时）&lt;/p>
+&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-voronoi-cells-search-scope.webp">
+&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
+&lt;h2 id="product-quantization" >
+&lt;div>
+&lt;a href="#product-quantization">
+#
+&lt;/a>
+Product Quantization
+&lt;/div>
+&lt;/h2>&lt;blockquote>
+&lt;p>All of our indexes so far have stored our vectors as full (eg Flat) vectors. Now, in very large datasets this can quickly become a problem.
+Fortunately, Faiss comes with the ability to compress our vectors using Product Quantization (PQ).
+But, what is PQ? Well, we can view it as an additional approximation step with a similar outcome to our use of IVF. Where IVF allowed us to approximate by reducing the scope of our search, PQ approximates the distance/similarity calculation instead.
+PQ achieves this approximated similarity operation by compressing the vectors themselves, which consists of three steps.&lt;/p>
+&lt;/blockquote>
+&lt;ol>
+&lt;li>Original vector&lt;/li>
+&lt;li>Sliced sub-vector&lt;/li>
+&lt;li>slice clustering&lt;/li>
+&lt;li>centroid ID vector&lt;/li>
+&lt;/ol>
+&lt;p>PQ（乘积量化）不是对嵌入向量空间进行降维，而是对向量本身进行压缩：&lt;/p>
+&lt;ul>
+&lt;li>01 向量分段，例如：1024 -&amp;gt; 128x8 (8个片段)；&lt;/li>
+&lt;li>02 如果数据量是50k，则从单个50k x 1024 的矩阵，变成 8个 50k x 128 的矩阵；&lt;/li>
+&lt;li>03 然后分别用k=256的k-means进行聚类，得到8组256个centroids；则每个原始向量可以用长度为8的向量进行表征（8组与各个向量片段最近的centroid的ID）；&lt;/li>
+&lt;li>04 查询向量（query）同样进行片段化，并找到各组的centroids，然后计算片段向量与centroid的距离，并保存为距离表（partial query subvector-to-centroid distances table)；&lt;/li>
+&lt;li>05 查询向量与数据向量的距离？将数据向量的centroid-ID向量，用于 partial-query-distance-table 的表查询（table lookup），就能得到对应的一系列距离，然后计算其总和L2距离；&lt;/li>
+&lt;li>06 将查询向量与所有数据向量的距离计算出来，排序，即可得到 top-k 最近距离，亦即 top-k 最近似结果 （实际就是 KNN 算法）。&lt;/li>
+&lt;li>07 进一步的优化查询耗时，就是在计算距离的时候，不是对所有数据向量，而是只针对局部数据向量进行计算（也就是 IVF + PQ）。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img alt="IMG:index particion" src="https://fgg100y.github.io/posts/faiss101/images/faiss-three-steps-of-PQ.webp">
+&lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
+&lt;h2 id="show-me-the-code" >
+&lt;div>
+&lt;a href="#show-me-the-code">
+#
+&lt;/a>
+Show me the code
+&lt;/div>
+&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> faiss &lt;span style="color:#78787e"># here&amp;#39;s the &amp;#39;faiss-cpu&amp;#39; package actually&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bits &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of bits in each centroid&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells/blocks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># we keep the same L2 distance flat index&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFPQ(quantizer, d, nlist, m, bits)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># sentence_embeddings:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># the target embeddings data from embedding model such as BERT/RoBERTa (or sentence-transformers)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>train(sentence_embeddings)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>add(sentence_embeddings)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>nprobe &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">10&lt;/span> &lt;span style="color:#78787e"># see the &amp;#34;IVF&amp;#34; part mention before&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># xq: the query text&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k) &lt;span style="color:#78787e"># searching top-k most similar vectors&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i]) &lt;span style="color:#78787e"># indata: sample of original texts/sentences&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="example-01-平凡的世界" >
+&lt;div>
+&lt;a href="#example-01-%e5%b9%b3%e5%87%a1%e7%9a%84%e4%b8%96%e7%95%8c">
+#
+&lt;/a>
+Example 01: 平凡的世界
+&lt;/div>
+&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">0
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>d &lt;span style="color:#ff6ac1">=&lt;/span> sent_embeddings&lt;span style="color:#ff6ac1">.&lt;/span>shape[&lt;span style="color:#ff9f43">1&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFFlat(quantizer, d, nlist)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">4&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>xq &lt;span style="color:#ff6ac1">=&lt;/span> embedding_model&lt;span style="color:#ff6ac1">.&lt;/span>encode([&lt;span style="color:#5af78e">&amp;#34;秀莲的老家在哪里？&amp;#34;&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i])
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;pre>&lt;code>01 她干脆给家里人说：周围没她看上的男人！她姐夫对她开玩笑说：“那到外地给你瞅个女婿！”她却认真地说：“只要有合心的，山南海北我都愿意去！爸爸暂时有你们照顾，将来我再把他接走……”家里人吃惊之余，又看她这样认真，就向他们所有在门外的亲戚和熟人委托，让这些人给他们的秀莲在外地寻个对象……本来秀莲只是随便这么说说；她并没指望真能在外地找个合适的男人。
+02 这家不能分！你也不要担心秀莲会怎样，总有我哩！”“你千万不要怪罪秀莲！秀莲实在是个好娃娃！人家从山西过来，不嫌咱家穷，几年来和一大家人搅在一起。
+03 秀莲有时就体贴地坐在她身边，给她背上搔痒痒，或者把她的几绺稀疏的白发理顺，在脑后挽成核桃大一个大发髻，老太太不时用她的瘦手，满怀深情地在秀莲身上抚摸着。
+04 直到寒露过了十来天，贺耀宗从山西心焦地写信问秀莲怎还不回来？是不是病了？秀莲这才决定动身回家去。
+&lt;/code>&lt;/pre>
+&lt;h2 id="example-02-平凡的世界" >
+&lt;div>
+&lt;a href="#example-02-%e5%b9%b3%e5%87%a1%e7%9a%84%e4%b8%96%e7%95%8c">
+#
+&lt;/a>
+Example 02: 平凡的世界
+&lt;/div>
+&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>d &lt;span style="color:#ff6ac1">=&lt;/span> sent_embeddings&lt;span style="color:#ff6ac1">.&lt;/span>shape[&lt;span style="color:#ff9f43">1&lt;/span>] &lt;span style="color:#78787e"># embedding&amp;#39;s dimension&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bits &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of bits in each centroid&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells/blocks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFPQ(quantizer, d, nlist, m, bits)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">4&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>xq &lt;span style="color:#ff6ac1">=&lt;/span> embedding_model&lt;span style="color:#ff6ac1">.&lt;/span>encode([&lt;span style="color:#5af78e">&amp;#34;秀莲的老家在哪里？&amp;#34;&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i])
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;pre>&lt;code>01 “如果把家分开，咱就是烧砖也能捎带种了自己的地！就是顾不上种地，把地荒了又怎样？咱拿钱买粮吃！三口人一年能吃多少？”其实，这话才是秀莲要表达的最本质的意思。
+02 分家其实很简单，只是宣布今后他们将在经济上实行“独立核算”，原来的家产少安什么也没要，只是秀莲到新修建起的地方另起炉灶过日月罢了。
+03 秀莲五岁上失去母亲以后，一直是她父亲把她和她姐秀英拉扯大的。
+04 她干脆给家里人说：周围没她看上的男人！她姐夫对她开玩笑说：“那到外地给你瞅个女婿！”她却认真地说：“只要有合心的，山南海北我都愿意去！爸爸暂时有你们照顾，将来我再把他接走……”家里人吃惊之余，又看她这样认真，就向他们所有在门外的亲戚和熟人委托，让这些人给他们的秀莲在外地寻个对象……本来秀莲只是随便这么说说；她并没指望真能在外地找个合适的男人。
+&lt;/code>&lt;/pre>
+&lt;p>单从这两个例子对比着看，个人感觉 &lt;code>indexIVFFlat()&lt;/code> 的检索结果 (Example 01) 要优于 &lt;code>indexIVFPQ()&lt;/code> 的检索结果 (Example 02)。&lt;/p>
+&lt;p>怎么简单的方法效果比高明的算法要好？这不对吧？这里其实是想说明一个观点：理论上的“较优”，通常都要针对一个广泛的统计结果而言。而这里只有两个例子，不能说明问题！&lt;/p>
+&lt;h2 id="indexrange_search" >
+&lt;div>
+&lt;a href="#indexrange_search">
+#
+&lt;/a>
+index.range_search()
+&lt;/div>
+&lt;/h2>&lt;p>The method range_search returns &lt;strong>all vectors within a radius around the query point&lt;/strong> (as opposed to the k nearest ones). Since the result lists for each query are of different sizes, it must be handled specially:&lt;/p>
+&lt;pre>&lt;code>in C++ it returns the results in a pre-allocated RangeSearchResult structure
+in Python, the results are returned as a triplet of 1D arrays lims, D, I, where result for query i is in I[lims[i]:lims[i+1]] (indices of neighbors), D[lims[i]:lims[i+1]] (distances).
+&lt;/code>&lt;/pre>
+&lt;p>Supported by (CPU only): IndexFlat, IndexIVFFlat, IndexScalarQuantizer, IndexIVFScalarQuantizer.&lt;/p>
+&lt;p>from &lt;a href="https://github.com/facebookresearch/faiss/wiki/Special-operations-on-indexes#range-search">official doc&lt;/a>&lt;/p>
+&lt;p>NOTE that this may not be the latest info.&lt;/p>
+&lt;p>Example code block:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># read the text data, and get the embeddings:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">#texts_data = pd.Series(...)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">#sentence_embeddings = embedding_model.encode(texts_data.values)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># First, you need to use an index that supports Inner Product as metric, for example :&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>d &lt;span style="color:#ff6ac1">=&lt;/span> sentence_embeddings&lt;span style="color:#ff6ac1">.&lt;/span>shape[&lt;span style="color:#ff9f43">1&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">10&lt;/span> &lt;span style="color:#78787e"># how many voronoi cells&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFFlat(quantizer, d, nlist)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>train(sentence_embeddings)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>add(sentence_embeddings)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>query &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#5af78e">&amp;#34;there and back again&amp;#34;&lt;/span>, &lt;span style="color:#5af78e">&amp;#34;a hobbit&amp;#39;s journey&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>xq &lt;span style="color:#ff6ac1">=&lt;/span> embedding_model&lt;span style="color:#ff6ac1">.&lt;/span>encode(query)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Then, you should probably normalize all embeddings first&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ( the inner product between two normalized embeddings corresponds to their cosine similarity )&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># https://github.com/facebookresearch/faiss/blob/master/python/faiss.py#L673&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>faiss&lt;span style="color:#ff6ac1">.&lt;/span>normalize_L2(x&lt;span style="color:#ff6ac1">=&lt;/span>sentence_embeddings)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>faiss&lt;span style="color:#ff6ac1">.&lt;/span>normalize_L2(x&lt;span style="color:#ff6ac1">=&lt;/span>xq)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>threshold &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0.95&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lims, D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>range_search(x&lt;span style="color:#ff6ac1">=&lt;/span>xq, thresh&lt;span style="color:#ff6ac1">=&lt;/span>threshold)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># turn search results into dataframes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dfresults &lt;span style="color:#ff6ac1">=&lt;/span> []
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(&lt;span style="color:#ff5c57">len&lt;/span>(xq)):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Ii &lt;span style="color:#ff6ac1">=&lt;/span> I[lims[i]:lims[i&lt;span style="color:#ff6ac1">+&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>]]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Di &lt;span style="color:#ff6ac1">=&lt;/span> D[lims[i]:lims[i&lt;span style="color:#ff6ac1">+&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>]]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfout &lt;span style="color:#ff6ac1">=&lt;/span> pd&lt;span style="color:#ff6ac1">.&lt;/span>concat([texts_data[Ii], pd&lt;span style="color:#ff6ac1">.&lt;/span>Series(Di, index&lt;span style="color:#ff6ac1">=&lt;/span>Ii)], axis&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfout&lt;span style="color:#ff6ac1">.&lt;/span>columns &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#5af78e">&amp;#34;texts&amp;#34;&lt;/span>, &lt;span style="color:#5af78e">&amp;#34;distances&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfresults&lt;span style="color:#ff6ac1">.&lt;/span>append(dfout)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>LLMs_interview_faq</title><link>https://fgg100y.github.io/posts/llm_faqs/</link><pubDate>Fri, 26 Apr 2024 11:04:16 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_faqs/</guid><description>&lt;h2 id="01简述gpt和bert的区别" >
 &lt;div>
 &lt;a href="#01%e7%ae%80%e8%bf%b0gpt%e5%92%8cbert%e7%9a%84%e5%8c%ba%e5%88%ab">
 #

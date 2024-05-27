@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tech Interview on fgg blog</title><link>https://fgg100y.github.io/tags/tech-interview/</link><description>fgg blog (Tech Interview)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 27 Apr 2024 22:35:53 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/tech-interview/index.xml" rel="self" type="application/rss+xml"/><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Sat, 27 Apr 2024 22:35:53 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tech Interview on fgg blog</title><link>https://fgg100y.github.io/tags/tech-interview/</link><description>fgg blog (Tech Interview)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 27 May 2024 20:43:25 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/tech-interview/index.xml" rel="self" type="application/rss+xml"/><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Mon, 27 May 2024 20:43:25 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
 &lt;div>
 &lt;a href="#%e8%87%aa%e6%88%91%e4%bb%8b%e7%bb%8d">
 ##
@@ -12,18 +12,16 @@
 &lt;hr>
 &lt;p>尊敬的面试官，您好！&lt;/p>
 &lt;p>我叫范明华，拥有6年在机器学习领域的工作经验。我于2017年硕士毕业于中山大学，专业是生态学，
-这为我在实验设计、统计分析以及数据挖掘方面打下了扎实的基础。在过去的6年中，我一直致力于
-将机器学习技术应用于实际问题，并取得了一些的成果。&lt;/p>
-&lt;p>我在目前公司担任高级数据挖掘工程师，期间我主导了多个机器学习项目的开发和交付，包括时序预
-测模型， 图像识别/目标检测模型，以及基于大数据挖掘的普通机器学习模型等，并预研NLP以及语
-音识别方面的技术, 同时也取得了授权的发明专利、软件著作、地方标准等成果。在这些项目的实战
-中，不仅提升了我的技术深度，也锻炼了代码管理和团队领导能力。&lt;/p>
-&lt;p>在技术层面，我比较擅长结合业务流程开展半监督学习，并且有丰富的实践经验（包括在普通机器学
-习和NLP领域）。我熟悉整个机器学习项目的开发流程，从项目调研、数据预处理、特征工程到模型
-训练和部署，我都有深入的理解和实践。&lt;/p>
-&lt;p>除了技术专长，我还是一个注重团队合作和务实负责的人。我相信，我的专业技能和丰富经验，能够为贵公司带来直接的价值。&lt;/p>
-&lt;p>我对贵公司在机器学习/大模型应用/自然语言处理方面等方面的工作非常感兴趣，并且我相信我的背景和技能可以为贵公司的发展做出贡献。
-我期待能够加入贵公司，并与团队一起解决更多有趣的技术挑战。&lt;/p>
+在植被动态和演替方面的研究工作，为我在实验设计、统计分析以及数据挖掘方面打下了扎实的基础。
+过去的6年里，我在工作中一直致力于将机器学习技术应用于解决实际问题，并取得了一些的成果。&lt;/p>
+&lt;p>我在目前公司担任高级数据挖掘工程师，期间我主导了多个机器学习项目的开发和交付。
+在技术层面，我比较擅长结合数据现状来决定机器学习或深度学习技术的搭配解决实际问题，
+熟悉整个机器学习项目的开发流程，从项目调研、数据预处理、特征工程到模型训练和部署，
+我都有深入的理解和实践。在这些项目的实战中，不仅提升了个人的技术深度和带队能力，
+同时也取得了授权的发明专利、软件著作、地方标准等成果。&lt;/p>
+&lt;p>除了技术专长，我还是一个注重团队合作和务实负责的人。我相信，我的专业技能和丰富经验，
+能够为贵公司带来直接的价值。&lt;/p>
+&lt;p>我对贵公司在机器学习/深度学习方面的工作感兴趣，我期待能够加入贵公司，并与团队一起解决更多有趣的技术挑战。&lt;/p>
 &lt;p>感谢您给我这次面试的机会，我期待在接下来的讨论中分享更多我的经验和想法。谢谢！&lt;/p>
 &lt;hr>
 &lt;h1 id="project-01----nlp" >
@@ -293,11 +291,12 @@ MLP由多个层组成，典型的MLP包括输入层、至少一个隐藏层和�
 链式法则如何用来计算梯度：
 &lt;/div>
 &lt;/h3>&lt;p>链式法则是微积分中的基本原理，用于计算复合函数的导数。在反向传播算法中，我们利用链式法则来计算损失函数对模型参数的梯度，从而实现参数的更新。&lt;/p>
-&lt;p>假设有一个复合函数 (z = f(g(x)))，其中 (x) 是输入，(g(x)) 是一个函数，(f(x)) 是另一个函数。根据链式法则，(z) 对 (x) 的导数可以表示为：&lt;/p>
+&lt;p>假设有一个复合函数 $z = f(g(x))$，其中 $x$ 是输入，$g(x)$ 是一个函数，$f(x)$ 是另一个函数。根据链式法则，$z$ 对 $x$ 的导数可以表示为：&lt;/p>
 &lt;p>$$
 \frac{dz}{dx} = \frac{dz}{dg} \cdot \frac{dg}{dx}
 $$&lt;/p>
-&lt;p>在神经网络中，我们可以将损失函数 (L) 视为 (z)，模型的参数视为 (x)，前向传播过程中的每一层输出视为 (g)，激活函数视为 (f)。利用链式法则，我们可以逐层计算损失函数对每个参数的梯度，然后根据优化算法更新参数，使得损失函数逐渐减小。&lt;/p>
+&lt;p>在神经网络中，我们可以将损失函数 $L$ 视为 $z$，模型的参数视为 $x$，前向传播过程中的每一层输出视为 $g$，激活函数视为 $f$。
+利用链式法则，我们可以逐层计算损失函数对每个参数的梯度，然后根据优化算法更新参数，使得损失函数逐渐减小。&lt;/p>
 &lt;p>总的来说，反向传播算法通过利用链式法则计算损失函数对参数的梯度，实现了高效的神经网络训练过程，使得模型能够自动学习复杂的数据表示。&lt;/p>
 &lt;p>交叉熵（Cross-Entropy）是在分类任务中常用的损失函数，特别是在多分类任务中。它的原理和为什么有用可以通过以下几点进行详细解释：&lt;/p>
 &lt;h3 id="1-损失函数的作用" >
@@ -319,8 +318,57 @@ $$&lt;/p>
 &lt;p>$$
 \text{Cross-Entropy}(y, \hat{y}) = -\sum_{i=1}^{N} y_i \log(\hat{y}_i)
 $$&lt;/p>
-&lt;p>其中，(y) 是真实标签的概率分布（通常是一个one-hot编码的向量），(\hat{y}) 是模型预测的概率分布，(N) 是类别的数量。该损失函数用于衡量真实标签与模型预测结果之间的差异。&lt;/p>
-&lt;h3 id="3-原理解释" >
+&lt;p>其中，$y$ 是真实标签的概率分布（通常是一个one-hot编码的向量），$\hat{y}$ 是模型预测的概率分布，$N$ 是类别的数量。
+该损失函数用于衡量真实标签与模型预测结果之间的差异。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> numpy &lt;span style="color:#ff6ac1">as&lt;/span> np
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">binary_cross_entropy&lt;/span>(y_true, y_pred):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_true &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array(y_true)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_pred &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array(y_pred)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># Clip predictions to avoid log(0)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_pred &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>clip(y_pred, &lt;span style="color:#ff9f43">1e-15&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1e-15&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cross_entropy &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span>np&lt;span style="color:#ff6ac1">.&lt;/span>mean(y_true &lt;span style="color:#ff6ac1">*&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>log(y_pred) &lt;span style="color:#ff6ac1">+&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> y_true) &lt;span style="color:#ff6ac1">*&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>log(&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> y_pred))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> cross_entropy
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Example&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_true &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_pred &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#ff9f43">0.9&lt;/span>, &lt;span style="color:#ff9f43">0.1&lt;/span>, &lt;span style="color:#ff9f43">0.8&lt;/span>, &lt;span style="color:#ff9f43">0.7&lt;/span>, &lt;span style="color:#ff9f43">0.2&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(binary_cross_entropy(y_true, y_pred))
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> numpy &lt;span style="color:#ff6ac1">as&lt;/span> np
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">multiclass_cross_entropy&lt;/span>(y_true, y_pred):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_true &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array(y_true)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_pred &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array(y_pred)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># Clip predictions to avoid log(0)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_pred &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>clip(y_pred, &lt;span style="color:#ff9f43">1e-15&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1e-15&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cross_entropy &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span>np&lt;span style="color:#ff6ac1">.&lt;/span>mean(np&lt;span style="color:#ff6ac1">.&lt;/span>sum(y_true &lt;span style="color:#ff6ac1">*&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>log(y_pred), axis&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> cross_entropy
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Example&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_true &lt;span style="color:#ff6ac1">=&lt;/span> [[&lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>], [&lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>], [&lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span>]] &lt;span style="color:#78787e"># how to get these? One-hot encoding.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_pred &lt;span style="color:#ff6ac1">=&lt;/span> [[&lt;span style="color:#ff9f43">0.9&lt;/span>, &lt;span style="color:#ff9f43">0.05&lt;/span>, &lt;span style="color:#ff9f43">0.05&lt;/span>], [&lt;span style="color:#ff9f43">0.1&lt;/span>, &lt;span style="color:#ff9f43">0.8&lt;/span>, &lt;span style="color:#ff9f43">0.1&lt;/span>], [&lt;span style="color:#ff9f43">0.05&lt;/span>, &lt;span style="color:#ff9f43">0.05&lt;/span>, &lt;span style="color:#ff9f43">0.9&lt;/span>]] &lt;span style="color:#78787e"># how to get these? Softmax.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(multiclass_cross_entropy(y_true, y_pred))
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Softmax: Get the y_pred from model output raw scores (i.e., logits)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">softmax&lt;/span>(logits):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> exp_logits &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>exp(logits &lt;span style="color:#ff6ac1">-&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>max(logits, axis&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>, keepdims&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">True&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> exp_logits &lt;span style="color:#ff6ac1">/&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>sum(exp_logits, axis&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>, keepdims&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Example logits (raw scores) outputted by a model&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>logits &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array([[&lt;span style="color:#ff9f43">2.0&lt;/span>, &lt;span style="color:#ff9f43">1.0&lt;/span>, &lt;span style="color:#ff9f43">0.1&lt;/span>],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#ff9f43">0.5&lt;/span>, &lt;span style="color:#ff9f43">2.5&lt;/span>, &lt;span style="color:#ff9f43">1.5&lt;/span>],
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#ff9f43">1.2&lt;/span>, &lt;span style="color:#ff9f43">0.7&lt;/span>, &lt;span style="color:#ff9f43">2.1&lt;/span>]])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Compute the softmax probabilities&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_pred &lt;span style="color:#ff6ac1">=&lt;/span> softmax(logits)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="3-原理解释" >
 &lt;div>
 &lt;a href="#3-%e5%8e%9f%e7%90%86%e8%a7%a3%e9%87%8a">
 ##
@@ -370,19 +418,28 @@ $$&lt;/p>
 &lt;/a>
 BERT/RoBERTa model
 &lt;/div>
-&lt;/h2>&lt;p>BERT:&lt;/p>
-&lt;pre>&lt;code>BERT是一种双向的（Bidirectional）模型，这意味着它能够同时考虑到一个单词左边和右边的上下文信息。这使得BERT在理解句子语境时比之前的模型更为强大。
+&lt;/h2>&lt;p>BERT(Bidirectional Encoder Representations from Transformers):
+BERT是一种双向的（Bidirectional）模型，这意味着它能够同时考虑到一个单词左边和右边的上下文信息。这使得BERT在理解句子语境时比之前的模型更为强大。
 BERT模型的预训练过程是通过掩盖输入文本中的一部分词汇（Masked Language Model，MLM）和预测句子是否连续（Next Sentence Prediction，NSP）来完成的。
-BERT以“transformer”为基础，这是一种自注意力（self-attention）机制的神经网络结构，它能够在考虑到输入序列的所有位置之间建立关联，从而更好地理解上下文。
-&lt;/code>&lt;/pre>
+BERT以“transformer”为基础，这是一种自注意力（self-attention）机制的神经网络结构，它能够在考虑到输入序列的所有位置之间建立关联，从而更好地理解上下文。&lt;/p>
 &lt;p>RoBERTa是Facebook AI提出的一种改进的预训练自然语言处理（NLP）模型，它在很大程度上建立在BERT的基础上，但通过一系列的改进，使其在多个NLP任务上表现更优秀。&lt;/p>
 &lt;p>RoBERTa的主要改进包括：&lt;/p>
-&lt;pre>&lt;code>动态掩码策略（Dynamic Masking）：RoBERTa在预训练时采用了动态掩码策略，即在每个训练迭代中对输入句子进行随机化处理，而不是固定地在句子中随机掩码。这使得模型更好地学习句子中的上下文信息。
-更长的训练时间和更大的批次大小：RoBERTa使用了更大的批次大小和更长的训练时间，以提高模型的泛化能力和性能。
-去除NSP（Next Sentence Prediction）任务：RoBERTa不再使用BERT中的NSP任务，而是专注于MLM（Masked Language Model）任务，这使得模型更好地理解输入文本。
-更多的训练数据：RoBERTa使用了更多的文本数据来进行预训练，这有助于提高模型的泛化能力。
-&lt;/code>&lt;/pre>
+&lt;ul>
+&lt;li>
+&lt;p>动态掩码策略（Dynamic Masking）：RoBERTa在预训练时采用了动态掩码策略，即在每个训练迭代中对输入句子进行随机化处理，而不是固定地在句子中随机掩码。这使得模型更好地学习句子中的上下文信息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>更长的训练时间和更大的批次大小：RoBERTa使用了更大的批次大小和更长的训练时间，以提高模型的泛化能力和性能。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>去除NSP（Next Sentence Prediction）任务：RoBERTa不再使用BERT中的NSP任务，而是专注于MLM（Masked Language Model）任务，这使得模型更好地理解输入文本。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>更多的训练数据：RoBERTa使用了更多的文本数据来进行预训练，这有助于提高模型的泛化能力。&lt;/p>
+&lt;/li>
+&lt;/ul>
 &lt;p>总的来说，RoBERTa是对BERT模型的一种优化和改进，它在多个NLP任务上都取得了比BERT更好的性能。&lt;/p>
+&lt;p>&lt;strong>更多细节，应该去查找台大李宏毅老师的课程，非常精彩的讲解。&lt;/strong>&lt;/p>
 &lt;h2 id="faiss-indexivfpq" >
 &lt;div>
 &lt;a href="#faiss-indexivfpq">
@@ -390,7 +447,8 @@ BERT以“transformer”为基础，这是一种自注意力（self-attention）
 &lt;/a>
 FAISS (indexIVFPQ)
 &lt;/div>
-&lt;/h2>&lt;h2 id="bertopic" >
+&lt;/h2>&lt;p>在我的另一篇博客单独有介绍，并带有代码示例。&lt;/p>
+&lt;h2 id="bertopic" >
 &lt;div>
 &lt;a href="#bertopic">
 #
@@ -406,7 +464,7 @@ BERTopic
 &lt;ul>
 &lt;li>c-TF-IDF&lt;/li>
 &lt;/ul>
-&lt;p>BERTopic 是一个基于BERT（Bidirectional Encoder Representations from Transformers）的自然语言处理工具，用于主题建模任务。BERTopic结合了BERT的强大表示学习能力和主题建模的思想，能够在大规模文本数据上快速、准确地提取主题信息。&lt;/p>
+&lt;p>BERTopic 是一个基于BERT的自然语言处理工具，用于主题建模任务。BERTopic结合了BERT的强大表示学习能力和主题建模的思想，能够在大规模文本数据上快速、准确地提取主题信息。&lt;/p>
 &lt;p>BERTopic的工作原理如下：&lt;/p>
 &lt;ol>
 &lt;li>
