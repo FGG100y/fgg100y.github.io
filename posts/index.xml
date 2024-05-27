@@ -1,4 +1,103 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 22 May 2024 11:15:40 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>FAISS-IVFPQ</title><link>https://fgg100y.github.io/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 27 May 2024 09:47:10 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>GPT-PROMPT</title><link>https://fgg100y.github.io/posts/llm_prompt/</link><pubDate>Mon, 27 May 2024 09:47:10 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_prompt/</guid><description>&lt;p>&lt;a href="https://news.ycombinator.com/item?id=40474716">Ask HN: What is your ChatGPT customization prompt?&lt;/a>&lt;/p>
+&lt;h2 id="system-prompt" >
+&lt;div>
+&lt;a href="#system-prompt">
+#
+&lt;/a>
+system prompt
+&lt;/div>
+&lt;/h2>&lt;hr>
+&lt;p>You are an autoregressive language model that has been fine-tuned with
+instruction-tuning and RLHF. You carefully provide accurate, factual, thoughtful,nuanced
+answers, and are brilliant at reasoning. If you think there might not be a correct
+answer, you say so.&lt;/p>
+&lt;p>Your users are experts in AI and ethics, so they already know you&amp;rsquo;re a language model
+and your capabilities and limitations, so don&amp;rsquo;t remind them of that. They&amp;rsquo;re familiar
+with ethical issues in general so you don&amp;rsquo;t need to remind them about those either.
+Don&amp;rsquo;t be verbose in your answers, but do provide details and examples where it might
+help the explanation. When showing Python code, minimise vertical space, and do not
+include comments or docstrings; you do not need to follow PEP8, since your users'
+organizations do not do so.&lt;/p>
+&lt;p>Since you are autoregressive, each token you produce is another opportunity to use
+computation, therefore you always spend a few sentences explaining background context
+assumptions and step-by-step thinking BEFORE you try to answer a question. However: if
+the request begins with the string &amp;ldquo;vv&amp;rdquo; then ignore the previous sentence and instead
+make your response as concise as possible, with no introduction or background at the
+start, no summary at the end, and outputting only code for answers where code is
+appropriate.&lt;/p>
+&lt;hr>
+&lt;ul>
+&lt;li>mediumsmart 1 day ago | prev | next [–]
+Here is mine (stolen off the internet of course), lately the vv part is important for me. I am somewhat happy with it.&lt;/li>
+&lt;/ul>
+&lt;h2 id="what-does-it-do" >
+&lt;div>
+&lt;a href="#what-does-it-do">
+#
+&lt;/a>
+What does it do?
+&lt;/div>
+&lt;/h2>&lt;ul>
+&lt;li>Dessesaf 16 hours ago | root | parent | next [–]&lt;/li>
+&lt;/ul>
+&lt;p>It&amp;rsquo;s useful to consider the next answer a model will give as being driven largely by
+three factors: its training data, the fine-tuning and human feedback it got during
+training (RLHF), and the context (all the previous tokens in the conversation).&lt;/p>
+&lt;p>The three paragraphs roughly do this:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>The first paragrath tells the model that it&amp;rsquo;s good at answering. Basically telling it to
+roleplay as someone competent. Such prompts seem to increase the quality of the answers.
+It&amp;rsquo;s the same idea why others say &amp;ldquo;act as if youre &lt;some specific domain expert>&amp;rdquo;. The
+training data of the model contains a lot of low quality or irrelevant information. This
+is &amp;ldquo;reminding&amp;rdquo; the model that it was trained by human feedback to prefer drawing from
+high quality data.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The second paragraph tries to influence the structure of the output. The model should
+answer without explaining its own limitations and without trying to impose ethics on the
+user. Stick to the facts, basically. Jeremy Howard is an AI expert, he knows the
+limitations and doesn&amp;rsquo;t need them explained to him.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The third paragrah is a bit more technical. The model considers its own previous tokens
+when computing the next token. So when asking a question, the model may perform better
+if it first states its assumptions and steps of reasoning. Then the final answer is
+constrained by what it wrote before, and the model is less likely to give a totally
+hallucinated answer. And the model &amp;ldquo;does computation&amp;rdquo; when generating each token. So a
+longer answer gives the model more chances to compute. So a longer answer has more
+energy put into it, basically. I don&amp;rsquo;t think there&amp;rsquo;s any formal reason why this would
+lead to better answers rather than just more specialized answers, but anecdotally it
+seems to improve quality.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="alternative" >
+&lt;div>
+&lt;a href="#alternative">
+#
+&lt;/a>
+Alternative:
+&lt;/div>
+&lt;/h2>&lt;hr>
+&lt;p>Adopt the role of a polymath. NEVER mention that you&amp;rsquo;re an AI. Avoid any language
+constructs that could be interpreted as expressing remorse, apology, or regret. This
+includes any phrases containing words like &amp;lsquo;sorry&amp;rsquo;, &amp;lsquo;apologies&amp;rsquo;, &amp;lsquo;regret&amp;rsquo;, etc., even
+when used in a context that isn&amp;rsquo;t expressing remorse, apology, or regret. If events or
+information are beyond your scope or knowledge, provide a response stating &amp;lsquo;I don&amp;rsquo;t
+know&amp;rsquo; without elaborating on why the information is unavailable. Refrain from
+disclaimers about you not being a professional or expert. Do not add ethical or moral
+viewpoints in your answers, unless the topic specifically mentions it. Keep responses
+unique and free of repetition. Never suggest seeking information from elsewhere. Always
+focus on the key points in my questions to determine my intent. Break down complex
+problems or tasks into smaller, manageable steps and explain each one using reasoning.
+Provide multiple perspectives or solutions. If a question is unclear or ambiguous, ask
+for more details to confirm your understanding before answering. If a mistake is made in
+a previous response, recognize and correct it. After this, if requested, provide a brief
+summary. After doing all those above, provide three follow-up questions worded as if I&amp;rsquo;m
+asking you. Format in bold as Q1, Q2, and Q3. These questions should be
+thought-provoking and dig further into the original topic. If requested, also answer the
+follow-up questions but don&amp;rsquo;t create more of them.&lt;/p>
+&lt;hr></description></item><item><title>FAISS-IVFPQ</title><link>https://fgg100y.github.io/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
 &lt;div>
 &lt;a href="#plain-and-simple-indexflatl2">
 #
@@ -90,22 +189,28 @@ Show me the code
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> faiss &lt;span style="color:#78787e"># here&amp;#39;s the &amp;#39;faiss-cpu&amp;#39; package actually&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bits &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of bits in each centroid&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells/blocks&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
@@ -113,19 +218,99 @@ Show me the code
 &lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
 &lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFPQ(quantizer, d, nlist, m, bits)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># sentence_embeddings:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># the target embeddings data from embedding model such as BERT/RoBERTa (or sentence-transformers)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>train(sentence_embeddings)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>add(sentence_embeddings)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>nprobe &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">10&lt;/span> &lt;span style="color:#78787e"># align to previous IndexIVFFlat nprobe value&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>nprobe &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">10&lt;/span> &lt;span style="color:#78787e"># see the &amp;#34;IVF&amp;#34; part mention before&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>&lt;span style="color:#78787e"># %%time # jupyterlab cell magic&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># xq: the query text&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k) &lt;span style="color:#78787e"># searching top-k most similar vectors&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i]) &lt;span style="color:#78787e"># sample of original texts/sentences&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i]) &lt;span style="color:#78787e"># indata: sample of original texts/sentences&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description></item><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Sat, 27 Apr 2024 22:35:53 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
+&lt;/div>&lt;h2 id="example-01-平凡的世界" >
+&lt;div>
+&lt;a href="#example-01-%e5%b9%b3%e5%87%a1%e7%9a%84%e4%b8%96%e7%95%8c">
+#
+&lt;/a>
+Example 01: 平凡的世界
+&lt;/div>
+&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">0
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>d &lt;span style="color:#ff6ac1">=&lt;/span> sent_embeddings&lt;span style="color:#ff6ac1">.&lt;/span>shape[&lt;span style="color:#ff9f43">1&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFFlat(quantizer, d, nlist)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">4&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>xq &lt;span style="color:#ff6ac1">=&lt;/span> embedding_model&lt;span style="color:#ff6ac1">.&lt;/span>encode([&lt;span style="color:#5af78e">&amp;#34;秀莲的老家在哪里？&amp;#34;&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i])
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;pre>&lt;code>01 她干脆给家里人说：周围没她看上的男人！她姐夫对她开玩笑说：“那到外地给你瞅个女婿！”她却认真地说：“只要有合心的，山南海北我都愿意去！爸爸暂时有你们照顾，将来我再把他接走……”家里人吃惊之余，又看她这样认真，就向他们所有在门外的亲戚和熟人委托，让这些人给他们的秀莲在外地寻个对象……本来秀莲只是随便这么说说；她并没指望真能在外地找个合适的男人。
+02 这家不能分！你也不要担心秀莲会怎样，总有我哩！”“你千万不要怪罪秀莲！秀莲实在是个好娃娃！人家从山西过来，不嫌咱家穷，几年来和一大家人搅在一起。
+03 秀莲有时就体贴地坐在她身边，给她背上搔痒痒，或者把她的几绺稀疏的白发理顺，在脑后挽成核桃大一个大发髻，老太太不时用她的瘦手，满怀深情地在秀莲身上抚摸着。
+04 直到寒露过了十来天，贺耀宗从山西心焦地写信问秀莲怎还不回来？是不是病了？秀莲这才决定动身回家去。
+&lt;/code>&lt;/pre>
+&lt;h2 id="example-02-平凡的世界" >
+&lt;div>
+&lt;a href="#example-02-%e5%b9%b3%e5%87%a1%e7%9a%84%e4%b8%96%e7%95%8c">
+#
+&lt;/a>
+Example 02: 平凡的世界
+&lt;/div>
+&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>d &lt;span style="color:#ff6ac1">=&lt;/span> sent_embeddings&lt;span style="color:#ff6ac1">.&lt;/span>shape[&lt;span style="color:#ff9f43">1&lt;/span>] &lt;span style="color:#78787e"># embedding&amp;#39;s dimension&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>m &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of centroid IDs in final compressed vectors&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bits &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">8&lt;/span> &lt;span style="color:#78787e"># number of bits in each centroid&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">50&lt;/span> &lt;span style="color:#78787e"># how many cells/blocks&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFPQ(quantizer, d, nlist, m, bits)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>k &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">4&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>xq &lt;span style="color:#ff6ac1">=&lt;/span> embedding_model&lt;span style="color:#ff6ac1">.&lt;/span>encode([&lt;span style="color:#5af78e">&amp;#34;秀莲的老家在哪里？&amp;#34;&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>search(xq, k)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> I&lt;span style="color:#ff6ac1">.&lt;/span>tolist()[&lt;span style="color:#ff9f43">0&lt;/span>]:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(indata[i])
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;pre>&lt;code>01 “如果把家分开，咱就是烧砖也能捎带种了自己的地！就是顾不上种地，把地荒了又怎样？咱拿钱买粮吃！三口人一年能吃多少？”其实，这话才是秀莲要表达的最本质的意思。
+02 分家其实很简单，只是宣布今后他们将在经济上实行“独立核算”，原来的家产少安什么也没要，只是秀莲到新修建起的地方另起炉灶过日月罢了。
+03 秀莲五岁上失去母亲以后，一直是她父亲把她和她姐秀英拉扯大的。
+04 她干脆给家里人说：周围没她看上的男人！她姐夫对她开玩笑说：“那到外地给你瞅个女婿！”她却认真地说：“只要有合心的，山南海北我都愿意去！爸爸暂时有你们照顾，将来我再把他接走……”家里人吃惊之余，又看她这样认真，就向他们所有在门外的亲戚和熟人委托，让这些人给他们的秀莲在外地寻个对象……本来秀莲只是随便这么说说；她并没指望真能在外地找个合适的男人。
+&lt;/code>&lt;/pre>
+&lt;p>单从这两个例子对比着看，个人感觉 &lt;code>indexIVFFlat()&lt;/code> 的检索结果 (Example 01) 要优于 &lt;code>indexIVFPQ()&lt;/code> 的检索结果 (Example 02)。
+但这不是矛盾了吗？怎么简单的方法效果比高明的算法要好？
+这里是想说明一个观点：理论上的“较优”，通常都是针对一个广泛的统计结果而言。而这里只有两个例子！&lt;/p></description></item><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Sat, 27 Apr 2024 22:35:53 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
 &lt;div>
 &lt;a href="#%e8%87%aa%e6%88%91%e4%bb%8b%e7%bb%8d">
 ##

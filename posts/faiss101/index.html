@@ -18,7 +18,7 @@ Image credit: pinecone.io"><link rel=icon type=image/x-icon href=https://fgg100y
 <a href=https://fgg100y.github.io/posts/ title>Posts</a>
 <a href=https://fgg100y.github.io/tags/ title>Tags</a>
 <a href=https://fgg100y.github.io/about/ title>About</a></nav><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"]}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></header><main id=main tabindex=-1><article class="post h-entry"><div class=post-header><header><h1 class="p-name post-title">FAISS-IVFPQ</h1></header><div class="post-info noselect"><div class="post-date dt-published"><time datetime=2024-05-22>2024-05-22</time></div><a class="post-hidden-url u-url" href=https://fgg100y.github.io/posts/faiss101/>https://fgg100y.github.io/posts/faiss101/</a>
-<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>fmh</a><div class=post-taxonomies><ul class=post-tags><li><a href=https://fgg100y.github.io/tags/faiss/>#FAISS</a></li><li><a href=https://fgg100y.github.io/tags/ivf/>#IVF</a></li><li><a href>#乘积量化</a></li></ul></div></div></div><details class="toc noselect"><summary>Table of Contents</summary><div class=inner><nav id=TableOfContents><ul><li><a href=#plain-and-simple-indexflatl2>Plain and Simple: IndexFlatL2</a></li><li><a href=#inerted-file-index-ivf-index>Inerted File Index (IVF) index</a></li><li><a href=#product-quantization>Product Quantization</a></li><li><a href=#show-me-the-code>Show me the code</a></li></ul></nav></div></details><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><h2 id=plain-and-simple-indexflatl2><div><a href=#plain-and-simple-indexflatl2>#
+<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>fmh</a><div class=post-taxonomies><ul class=post-tags><li><a href=https://fgg100y.github.io/tags/faiss/>#FAISS</a></li><li><a href=https://fgg100y.github.io/tags/ivf/>#IVF</a></li><li><a href>#乘积量化</a></li></ul></div></div></div><details class="toc noselect"><summary>Table of Contents</summary><div class=inner><nav id=TableOfContents><ul><li><a href=#plain-and-simple-indexflatl2>Plain and Simple: IndexFlatL2</a></li><li><a href=#inerted-file-index-ivf-index>Inerted File Index (IVF) index</a></li><li><a href=#product-quantization>Product Quantization</a></li><li><a href=#show-me-the-code>Show me the code</a></li><li><a href=#example-01-平凡的世界>Example 01: 平凡的世界</a></li><li><a href=#example-02-平凡的世界>Example 02: 平凡的世界</a></li></ul></nav></div></details><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><h2 id=plain-and-simple-indexflatl2><div><a href=#plain-and-simple-indexflatl2>#
 </a>Plain and Simple: IndexFlatL2</div></h2><blockquote><p>Given a set of vectors, we can index them using Faiss — then using another vector (the query vector), we search for the most similar vectors within the index.
 Now, Faiss not only allows us to build an index and search — but it also speeds up search times to ludicrous performance levels.</p></blockquote><p>IndexFlatL2 measures the L2 (or Euclidean) distance between all given points between our
 query vector, and the vectors loaded into the index. It’s simple, very accurate, but not
@@ -41,20 +41,26 @@ PQ achieves this approximated similarity operation by compressing the vectors th
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style=background-color:#3d3f4a><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span></span><span style=background-color:#3d3f4a><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span></span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style=background-color:#3d3f4a><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span></span><span style=background-color:#3d3f4a><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span></span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style=background-color:#3d3f4a><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span></span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
 </span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid><code class=language-python data-lang=python><span style=display:flex><span>m <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>8</span>  <span style=color:#78787e># number of centroid IDs in final compressed vectors</span>
+</span><span style=background-color:#3d3f4a><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span></span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff6ac1>import</span> faiss  <span style=color:#78787e># here&#39;s the &#39;faiss-cpu&#39; package actually</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>m <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>8</span>  <span style=color:#78787e># number of centroid IDs in final compressed vectors</span>
 </span></span><span style=display:flex><span>bits <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>8</span> <span style=color:#78787e># number of bits in each centroid</span>
 </span></span><span style=display:flex><span>nlist <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>50</span>  <span style=color:#78787e># how many cells/blocks</span>
 </span></span><span style=display:flex><span>
@@ -62,14 +68,74 @@ PQ achieves this approximated similarity operation by compressing the vectors th
 </span></span><span style=display:flex;background-color:#3d3f4a><span>quantizer <span style=color:#ff6ac1>=</span> faiss<span style=color:#ff6ac1>.</span>IndexFlatL2(d)
 </span></span><span style=display:flex;background-color:#3d3f4a><span>index <span style=color:#ff6ac1>=</span> faiss<span style=color:#ff6ac1>.</span>IndexIVFPQ(quantizer, d, nlist, m, bits)
 </span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># sentence_embeddings:</span>
+</span></span><span style=display:flex><span><span style=color:#78787e># the target embeddings data from embedding model such as BERT/RoBERTa (or sentence-transformers)</span>
 </span></span><span style=display:flex><span>index<span style=color:#ff6ac1>.</span>train(sentence_embeddings)
 </span></span><span style=display:flex><span>index<span style=color:#ff6ac1>.</span>add(sentence_embeddings)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>index<span style=color:#ff6ac1>.</span>nprobe <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>10</span>  <span style=color:#78787e># align to previous IndexIVFFlat nprobe value</span>
+</span></span><span style=display:flex><span>index<span style=color:#ff6ac1>.</span>nprobe <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>10</span>  <span style=color:#78787e># see the &#34;IVF&#34; part mention before</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex;background-color:#3d3f4a><span><span style=color:#78787e># %%time  # jupyterlab cell magic</span>
-</span></span><span style=display:flex><span>D, I <span style=color:#ff6ac1>=</span> index<span style=color:#ff6ac1>.</span>search(xq, k)
+</span></span><span style=display:flex><span><span style=color:#78787e># xq: the query text</span>
+</span></span><span style=display:flex;background-color:#3d3f4a><span>D, I <span style=color:#ff6ac1>=</span> index<span style=color:#ff6ac1>.</span>search(xq, k)  <span style=color:#78787e># searching top-k most similar vectors</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#ff6ac1>for</span> i <span style=color:#ff6ac1>in</span> I<span style=color:#ff6ac1>.</span>tolist()[<span style=color:#ff9f43>0</span>]:
-</span></span><span style=display:flex><span>    <span style=color:#ff5c57>print</span>(indata[i])  <span style=color:#78787e># sample of original texts/sentences</span>
-</span></span></code></pre></td></tr></table></div></div></div></article><div class="pagination post-pagination"><div class="left pagination-item disabled"></div><div class="right pagination-item"><a href=/posts/notes4resume/>tech interview prepare (for my resume)</a></div></div></main><footer class="common-footer noselect"><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div>Powered by <a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, theme <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>fmh</a></p></footer></div></body></html>
+</span></span><span style=display:flex><span>    <span style=color:#ff5c57>print</span>(indata[i])  <span style=color:#78787e># indata: sample of original texts/sentences</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=example-01-平凡的世界><div><a href=#example-01-%e5%b9%b3%e5%87%a1%e7%9a%84%e4%b8%96%e7%95%8c>#
+</a>Example 01: 平凡的世界</div></h2><div class=highlight><div style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">0
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style=background-color:#3d3f4a><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span></span><span style=background-color:#3d3f4a><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid><code class=language-python data-lang=python><span style=display:flex><span>d <span style=color:#ff6ac1>=</span> sent_embeddings<span style=color:#ff6ac1>.</span>shape[<span style=color:#ff9f43>1</span>]
+</span></span><span style=display:flex><span>nlist <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>50</span>  <span style=color:#78787e># how many cells</span>
+</span></span><span style=display:flex;background-color:#3d3f4a><span>quantizer <span style=color:#ff6ac1>=</span> faiss<span style=color:#ff6ac1>.</span>IndexFlatL2(d)
+</span></span><span style=display:flex;background-color:#3d3f4a><span>index <span style=color:#ff6ac1>=</span> faiss<span style=color:#ff6ac1>.</span>IndexIVFFlat(quantizer, d, nlist)
+</span></span><span style=display:flex><span>k <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>4</span>
+</span></span><span style=display:flex><span>xq <span style=color:#ff6ac1>=</span> embedding_model<span style=color:#ff6ac1>.</span>encode([<span style=color:#5af78e>&#34;秀莲的老家在哪里？&#34;</span>])
+</span></span><span style=display:flex><span>D, I <span style=color:#ff6ac1>=</span> index<span style=color:#ff6ac1>.</span>search(xq, k)
+</span></span><span style=display:flex><span><span style=color:#ff6ac1>for</span> i <span style=color:#ff6ac1>in</span> I<span style=color:#ff6ac1>.</span>tolist()[<span style=color:#ff9f43>0</span>]:
+</span></span><span style=display:flex><span>    <span style=color:#ff5c57>print</span>(indata[i])
+</span></span></code></pre></td></tr></table></div></div><pre><code>01 她干脆给家里人说：周围没她看上的男人！她姐夫对她开玩笑说：“那到外地给你瞅个女婿！”她却认真地说：“只要有合心的，山南海北我都愿意去！爸爸暂时有你们照顾，将来我再把他接走……”家里人吃惊之余，又看她这样认真，就向他们所有在门外的亲戚和熟人委托，让这些人给他们的秀莲在外地寻个对象……本来秀莲只是随便这么说说；她并没指望真能在外地找个合适的男人。
+
+02 这家不能分！你也不要担心秀莲会怎样，总有我哩！”“你千万不要怪罪秀莲！秀莲实在是个好娃娃！人家从山西过来，不嫌咱家穷，几年来和一大家人搅在一起。
+
+03 秀莲有时就体贴地坐在她身边，给她背上搔痒痒，或者把她的几绺稀疏的白发理顺，在脑后挽成核桃大一个大发髻，老太太不时用她的瘦手，满怀深情地在秀莲身上抚摸着。
+
+04 直到寒露过了十来天，贺耀宗从山西心焦地写信问秀莲怎还不回来？是不是病了？秀莲这才决定动身回家去。
+</code></pre><h2 id=example-02-平凡的世界><div><a href=#example-02-%e5%b9%b3%e5%87%a1%e7%9a%84%e4%b8%96%e7%95%8c>#
+</a>Example 02: 平凡的世界</div></h2><div class=highlight><div style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 0
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style=background-color:#3d3f4a><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span></span><span style=background-color:#3d3f4a><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span></span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid><code class=language-python data-lang=python><span style=display:flex><span>d <span style=color:#ff6ac1>=</span> sent_embeddings<span style=color:#ff6ac1>.</span>shape[<span style=color:#ff9f43>1</span>]  <span style=color:#78787e># embedding&#39;s dimension</span>
+</span></span><span style=display:flex><span>m <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>8</span>  <span style=color:#78787e># number of centroid IDs in final compressed vectors</span>
+</span></span><span style=display:flex><span>bits <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>8</span> <span style=color:#78787e># number of bits in each centroid</span>
+</span></span><span style=display:flex><span>nlist <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>50</span>  <span style=color:#78787e># how many cells/blocks</span>
+</span></span><span style=display:flex;background-color:#3d3f4a><span>quantizer <span style=color:#ff6ac1>=</span> faiss<span style=color:#ff6ac1>.</span>IndexFlatL2(d)
+</span></span><span style=display:flex;background-color:#3d3f4a><span>index <span style=color:#ff6ac1>=</span> faiss<span style=color:#ff6ac1>.</span>IndexIVFPQ(quantizer, d, nlist, m, bits)
+</span></span><span style=display:flex><span>k <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>4</span>
+</span></span><span style=display:flex><span>xq <span style=color:#ff6ac1>=</span> embedding_model<span style=color:#ff6ac1>.</span>encode([<span style=color:#5af78e>&#34;秀莲的老家在哪里？&#34;</span>])
+</span></span><span style=display:flex><span>D, I <span style=color:#ff6ac1>=</span> index<span style=color:#ff6ac1>.</span>search(xq, k)
+</span></span><span style=display:flex><span><span style=color:#ff6ac1>for</span> i <span style=color:#ff6ac1>in</span> I<span style=color:#ff6ac1>.</span>tolist()[<span style=color:#ff9f43>0</span>]:
+</span></span><span style=display:flex><span>    <span style=color:#ff5c57>print</span>(indata[i])
+</span></span></code></pre></td></tr></table></div></div><pre><code>01 “如果把家分开，咱就是烧砖也能捎带种了自己的地！就是顾不上种地，把地荒了又怎样？咱拿钱买粮吃！三口人一年能吃多少？”其实，这话才是秀莲要表达的最本质的意思。
+
+02 分家其实很简单，只是宣布今后他们将在经济上实行“独立核算”，原来的家产少安什么也没要，只是秀莲到新修建起的地方另起炉灶过日月罢了。
+
+03 秀莲五岁上失去母亲以后，一直是她父亲把她和她姐秀英拉扯大的。
+
+04 她干脆给家里人说：周围没她看上的男人！她姐夫对她开玩笑说：“那到外地给你瞅个女婿！”她却认真地说：“只要有合心的，山南海北我都愿意去！爸爸暂时有你们照顾，将来我再把他接走……”家里人吃惊之余，又看她这样认真，就向他们所有在门外的亲戚和熟人委托，让这些人给他们的秀莲在外地寻个对象……本来秀莲只是随便这么说说；她并没指望真能在外地找个合适的男人。
+</code></pre><p>单从这两个例子对比着看，个人感觉 <code>indexIVFFlat()</code> 的检索结果 (Example 01) 要优于 <code>indexIVFPQ()</code> 的检索结果 (Example 02)。
+但这不是矛盾了吗？怎么简单的方法效果比高明的算法要好？
+这里是想说明一个观点：理论上的“较优”，通常都是针对一个广泛的统计结果而言。而这里只有两个例子！</p></div></article><div class="pagination post-pagination"><div class="left pagination-item"><a href=/posts/llm_prompt/>GPT-PROMPT</a></div><div class="right pagination-item"><a href=/posts/notes4resume/>tech interview prepare (for my resume)</a></div></div></main><footer class="common-footer noselect"><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div>Powered by <a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, theme <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>fmh</a></p></footer></div></body></html>
