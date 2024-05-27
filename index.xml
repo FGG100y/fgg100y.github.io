@@ -308,9 +308,102 @@ Example 02: 平凡的世界
 03 秀莲五岁上失去母亲以后，一直是她父亲把她和她姐秀英拉扯大的。
 04 她干脆给家里人说：周围没她看上的男人！她姐夫对她开玩笑说：“那到外地给你瞅个女婿！”她却认真地说：“只要有合心的，山南海北我都愿意去！爸爸暂时有你们照顾，将来我再把他接走……”家里人吃惊之余，又看她这样认真，就向他们所有在门外的亲戚和熟人委托，让这些人给他们的秀莲在外地寻个对象……本来秀莲只是随便这么说说；她并没指望真能在外地找个合适的男人。
 &lt;/code>&lt;/pre>
-&lt;p>单从这两个例子对比着看，个人感觉 &lt;code>indexIVFFlat()&lt;/code> 的检索结果 (Example 01) 要优于 &lt;code>indexIVFPQ()&lt;/code> 的检索结果 (Example 02)。
-但这不是矛盾了吗？怎么简单的方法效果比高明的算法要好？
-这里是想说明一个观点：理论上的“较优”，通常都是针对一个广泛的统计结果而言。而这里只有两个例子！&lt;/p></description></item><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Sat, 27 Apr 2024 22:35:53 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
+&lt;p>单从这两个例子对比着看，个人感觉 &lt;code>indexIVFFlat()&lt;/code> 的检索结果 (Example 01) 要优于 &lt;code>indexIVFPQ()&lt;/code> 的检索结果 (Example 02)。&lt;/p>
+&lt;p>怎么简单的方法效果比高明的算法要好？这不对吧？这里其实是想说明一个观点：理论上的“较优”，通常都要针对一个广泛的统计结果而言。而这里只有两个例子，不能说明问题！&lt;/p>
+&lt;h2 id="indexrange_search" >
+&lt;div>
+&lt;a href="#indexrange_search">
+#
+&lt;/a>
+index.range_search()
+&lt;/div>
+&lt;/h2>&lt;p>The method range_search returns &lt;strong>all vectors within a radius around the query point&lt;/strong> (as opposed to the k nearest ones). Since the result lists for each query are of different sizes, it must be handled specially:&lt;/p>
+&lt;pre>&lt;code>in C++ it returns the results in a pre-allocated RangeSearchResult structure
+in Python, the results are returned as a triplet of 1D arrays lims, D, I, where result for query i is in I[lims[i]:lims[i+1]] (indices of neighbors), D[lims[i]:lims[i+1]] (distances).
+&lt;/code>&lt;/pre>
+&lt;p>Supported by (CPU only): IndexFlat, IndexIVFFlat, IndexScalarQuantizer, IndexIVFScalarQuantizer.&lt;/p>
+&lt;p>from &lt;a href="https://github.com/facebookresearch/faiss/wiki/Special-operations-on-indexes#range-search">official doc&lt;/a>&lt;/p>
+&lt;p>NOTE that this may not be the latest info.&lt;/p>
+&lt;p>Example code block:&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># read the text data, and get the embeddings:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">#texts_data = pd.Series(...)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">#sentence_embeddings = embedding_model.encode(texts_data.values)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># First, you need to use an index that supports Inner Product as metric, for example :&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>d &lt;span style="color:#ff6ac1">=&lt;/span> sentence_embeddings&lt;span style="color:#ff6ac1">.&lt;/span>shape[&lt;span style="color:#ff9f43">1&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>nlist &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">10&lt;/span> &lt;span style="color:#78787e"># how many voronoi cells&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>quantizer &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexFlatL2(d)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index &lt;span style="color:#ff6ac1">=&lt;/span> faiss&lt;span style="color:#ff6ac1">.&lt;/span>IndexIVFFlat(quantizer, d, nlist)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>train(sentence_embeddings)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>index&lt;span style="color:#ff6ac1">.&lt;/span>add(sentence_embeddings)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>query &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#5af78e">&amp;#34;there and back again&amp;#34;&lt;/span>, &lt;span style="color:#5af78e">&amp;#34;a hobbit&amp;#39;s journey&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>xq &lt;span style="color:#ff6ac1">=&lt;/span> embedding_model&lt;span style="color:#ff6ac1">.&lt;/span>encode(query)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Then, you should probably normalize all embeddings first&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ( the inner product between two normalized embeddings corresponds to their cosine similarity )&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># https://github.com/facebookresearch/faiss/blob/master/python/faiss.py#L673&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>faiss&lt;span style="color:#ff6ac1">.&lt;/span>normalize_L2(x&lt;span style="color:#ff6ac1">=&lt;/span>sentence_embeddings)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>faiss&lt;span style="color:#ff6ac1">.&lt;/span>normalize_L2(x&lt;span style="color:#ff6ac1">=&lt;/span>xq)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>threshold &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0.95&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lims, D, I &lt;span style="color:#ff6ac1">=&lt;/span> index&lt;span style="color:#ff6ac1">.&lt;/span>range_search(x&lt;span style="color:#ff6ac1">=&lt;/span>xq, thresh&lt;span style="color:#ff6ac1">=&lt;/span>threshold)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># turn search results into dataframes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dfresults &lt;span style="color:#ff6ac1">=&lt;/span> []
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> i &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(&lt;span style="color:#ff5c57">len&lt;/span>(xq)):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Ii &lt;span style="color:#ff6ac1">=&lt;/span> I[lims[i]:lims[i&lt;span style="color:#ff6ac1">+&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>]]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Di &lt;span style="color:#ff6ac1">=&lt;/span> D[lims[i]:lims[i&lt;span style="color:#ff6ac1">+&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>]]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfout &lt;span style="color:#ff6ac1">=&lt;/span> pd&lt;span style="color:#ff6ac1">.&lt;/span>concat([texts_data[Ii], pd&lt;span style="color:#ff6ac1">.&lt;/span>Series(Di, index&lt;span style="color:#ff6ac1">=&lt;/span>Ii)], axis&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfout&lt;span style="color:#ff6ac1">.&lt;/span>columns &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#5af78e">&amp;#34;texts&amp;#34;&lt;/span>, &lt;span style="color:#5af78e">&amp;#34;distances&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfresults&lt;span style="color:#ff6ac1">.&lt;/span>append(dfout)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Sat, 27 Apr 2024 22:35:53 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
 &lt;div>
 &lt;a href="#%e8%87%aa%e6%88%91%e4%bb%8b%e7%bb%8d">
 ##
