@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lean Principle on fgg blog</title><link>https://fgg100y.github.io/tags/lean-principle/</link><description>fgg blog (Lean Principle)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 03 Jun 2024 17:59:09 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/lean-principle/index.xml" rel="self" type="application/rss+xml"/><item><title>lean_principles</title><link>https://fgg100y.github.io/posts/mlteam101/lean_principles/</link><pubDate>Mon, 03 Jun 2024 17:59:09 +0800</pubDate><guid>https://fgg100y.github.io/posts/mlteam101/lean_principles/</guid><description>&lt;p>Principle 1: Identify value&lt;/p>
+&lt;pre>&lt;code>Determine what is most valuable to the customer and focus on maximizing that value.
+&lt;/code>&lt;/pre>
+&lt;p>Principle 2: Map the value stream&lt;/p>
+&lt;pre>&lt;code>Identify the steps in the process that add value and eliminate those that do not.
+&lt;/code>&lt;/pre>
+&lt;p>Principle 3: Create flow&lt;/p>
+&lt;pre>&lt;code>Streamline the process to create a smooth and continuous flow of work.
+&lt;/code>&lt;/pre>
+&lt;p>Principle 4: Establish pull&lt;/p>
+&lt;pre>&lt;code>Use customer demand to trigger production and avoid overproduction.
+&lt;/code>&lt;/pre>
+&lt;p>Principle 5: Continuous improvement&lt;/p>
+&lt;pre>&lt;code>Continuously strive for improvement and eliminate waste in all areas of the value
+chain.
+&lt;/code>&lt;/pre>
+&lt;p>Value stream mapping (principle 2) is a tool that lets us visually represent all the
+steps and resources involved in delivering a unit of value (e.g., a product feature) to
+customers. Teams can use this tool to identify waste, work toward eliminating waste,
+and improve the flow of value (principle 3).&lt;/p>
+&lt;p>To map your team or product’s value stream, you can follow these steps:&lt;/p>
+&lt;ol>
+&lt;li>Identify the product or service being mapped. This could be a single product or1.
+an entire process.&lt;/li>
+&lt;li>Identify the current state map. Create a visual representation of the current2.
+process, including all steps and materials (including time and labor) involved
+from raw materials to finished product.&lt;/li>
+&lt;li>Identify value-added and non-value-added activities. Determine which steps add3.
+value to the product or service and which do not.&lt;/li>
+&lt;li>Identify waste. Look for areas of overproduction, waiting, defects, overprocess‐4.
+ing, excess inventory, unnecessary motion, excess transport, unnecessary use of
+raw materials, and unnecessary effort.&lt;/li>
+&lt;li>Create a future state map. Based on the analysis of the current state map, redesign5.
+the process to eliminate waste and create a more efficient flow of materials and
+information.&lt;/li>
+&lt;li>Implement changes. Put the redesigned process into practice and continuously6.
+monitor and improve (principle 5).&lt;/li>
+&lt;/ol></description></item></channel></rss>

@@ -1,4 +1,122 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 27 May 2024 20:43:25 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Mon, 27 May 2024 20:43:25 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 03 Jun 2024 17:59:09 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>lean_principles</title><link>https://fgg100y.github.io/posts/mlteam101/lean_principles/</link><pubDate>Mon, 03 Jun 2024 17:59:09 +0800</pubDate><guid>https://fgg100y.github.io/posts/mlteam101/lean_principles/</guid><description>&lt;p>Principle 1: Identify value&lt;/p>
+&lt;pre>&lt;code>Determine what is most valuable to the customer and focus on maximizing that value.
+&lt;/code>&lt;/pre>
+&lt;p>Principle 2: Map the value stream&lt;/p>
+&lt;pre>&lt;code>Identify the steps in the process that add value and eliminate those that do not.
+&lt;/code>&lt;/pre>
+&lt;p>Principle 3: Create flow&lt;/p>
+&lt;pre>&lt;code>Streamline the process to create a smooth and continuous flow of work.
+&lt;/code>&lt;/pre>
+&lt;p>Principle 4: Establish pull&lt;/p>
+&lt;pre>&lt;code>Use customer demand to trigger production and avoid overproduction.
+&lt;/code>&lt;/pre>
+&lt;p>Principle 5: Continuous improvement&lt;/p>
+&lt;pre>&lt;code>Continuously strive for improvement and eliminate waste in all areas of the value
+chain.
+&lt;/code>&lt;/pre>
+&lt;p>Value stream mapping (principle 2) is a tool that lets us visually represent all the
+steps and resources involved in delivering a unit of value (e.g., a product feature) to
+customers. Teams can use this tool to identify waste, work toward eliminating waste,
+and improve the flow of value (principle 3).&lt;/p>
+&lt;p>To map your team or product’s value stream, you can follow these steps:&lt;/p>
+&lt;ol>
+&lt;li>Identify the product or service being mapped. This could be a single product or1.
+an entire process.&lt;/li>
+&lt;li>Identify the current state map. Create a visual representation of the current2.
+process, including all steps and materials (including time and labor) involved
+from raw materials to finished product.&lt;/li>
+&lt;li>Identify value-added and non-value-added activities. Determine which steps add3.
+value to the product or service and which do not.&lt;/li>
+&lt;li>Identify waste. Look for areas of overproduction, waiting, defects, overprocess‐4.
+ing, excess inventory, unnecessary motion, excess transport, unnecessary use of
+raw materials, and unnecessary effort.&lt;/li>
+&lt;li>Create a future state map. Based on the analysis of the current state map, redesign5.
+the process to eliminate waste and create a more efficient flow of materials and
+information.&lt;/li>
+&lt;li>Implement changes. Put the redesigned process into practice and continuously6.
+monitor and improve (principle 5).&lt;/li>
+&lt;/ol></description></item><item><title>EffectiveML 01: Delivering successful ML projects</title><link>https://fgg100y.github.io/posts/mlteam101/feedback_loops_and_times_to_feedback/</link><pubDate>Mon, 03 Jun 2024 17:12:37 +0800</pubDate><guid>https://fgg100y.github.io/posts/mlteam101/feedback_loops_and_times_to_feedback/</guid><description>&lt;p>Table: Comparison of feedback mechanisms and time-to-feedback in high- and low-effectiveness environments&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Task&lt;/th>
+&lt;th>High-effectiveness environment&lt;/th>
+&lt;th>Low-effectiveness environment&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Testing if code changes worked as expected&lt;/td>
+&lt;td>Automated testing (~ seconds to minutes)&lt;/td>
+&lt;td>Manual testing (~ minutes to hours)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Testing if training pipeline works end to end&lt;/td>
+&lt;td>Training smoke test (~ 1 minute)&lt;/td>
+&lt;td>Full model training (~ minutes to hours, depending on model architecture)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Getting feedback on code changes&lt;/td>
+&lt;td>Pair programming (~ seconds to minutes)&lt;/td>
+&lt;td>Pull request reivews (~ hours to days)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Understanding if application is working as expected in production&lt;/td>
+&lt;td>Monitoring in production (~ seconds - as it happens)&lt;/td>
+&lt;td>Customer complaints (~ days, or longer if not directly reported)&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>How teams can move from a low-effectiveness environment to a high-effectiveness environment?
+MLOps is not enough (MLOps and ML platforms aren’t going to write comprehensive tests
+for you, talk to users for you, or reduce the negative impacts of team silos for you.)&lt;/p>
+&lt;p>Delivering successful ML projects requires a multi‐disciplinary approach across these
+five disciplines: product, software engineering, data, ML, and delivery:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>software engineering:&lt;/p>
+&lt;ul>
+&lt;li>code design&lt;/li>
+&lt;li>automated testing&lt;/li>
+&lt;li>refactoring&lt;/li>
+&lt;li>dependency management&lt;/li>
+&lt;li>code editor efficency&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>data:&lt;/p>
+&lt;ul>
+&lt;li>data quality&lt;/li>
+&lt;li>data engineering&lt;/li>
+&lt;li>data security and privacy&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Machine learning:&lt;/p>
+&lt;ul>
+&lt;li>ML techniques&lt;/li>
+&lt;li>model evaluation&lt;/li>
+&lt;li>ML governance&lt;/li>
+&lt;li>MLOps&lt;/li>
+&lt;li>CI/CD&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Product:&lt;/p>
+&lt;ul>
+&lt;li>product thinking&lt;/li>
+&lt;li>responsible AI&lt;/li>
+&lt;li>human-centered AI&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Delivery:&lt;/p>
+&lt;ul>
+&lt;li>lean delivery&lt;/li>
+&lt;li>team topologies&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul></description></item><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Mon, 27 May 2024 20:43:25 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
 &lt;div>
 &lt;a href="#%e8%87%aa%e6%88%91%e4%bb%8b%e7%bb%8d">
 ##
