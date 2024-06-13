@@ -1,4 +1,51 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 04 Jun 2024 18:15:00 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>lean_principles</title><link>https://fgg100y.github.io/posts/mlteam101/lean_principles/</link><pubDate>Mon, 03 Jun 2024 17:59:09 +0800</pubDate><guid>https://fgg100y.github.io/posts/mlteam101/lean_principles/</guid><description>&lt;p>Principle 1: Identify value&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 13 Jun 2024 16:11:47 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>calculate_gpu_vram_for_llama3-70B</title><link>https://fgg100y.github.io/posts/2024-06-13-calculate_gpu_vram_for_llama3-70b/</link><pubDate>Thu, 13 Jun 2024 16:11:47 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-13-calculate_gpu_vram_for_llama3-70b/</guid><description>&lt;p>How many GPUs do I need to be able to serve Llama 70B? In order to answer that, you need
+to know how much GPU memory will be required by the Large Language Model.&lt;/p>
+&lt;p>The formula is simple:&lt;/p>
+&lt;p>$$
+M=\frac{(P * 4B)}{(32/Q)} * 1.2
+$$&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Symbol&lt;/th>
+&lt;th>Description&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>M&lt;/td>
+&lt;td>GPU memory expressed in Gigabyte&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>P&lt;/td>
+&lt;td>The amount of parameters in the model. E.g. a 7B model has 7 billion parameters.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>4B&lt;/td>
+&lt;td>4 bytes, expressing the bytes used for each parameter&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>32&lt;/td>
+&lt;td>There are 32 bits in 4 bytes&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Q&lt;/td>
+&lt;td>The amount of bits that should be used for loading the model. E.g. 16 bits, 8 bits or 4 bits.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>1.2&lt;/td>
+&lt;td>Represents a 20% overhead of loading additional things in GPU memory.&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Now let&amp;rsquo;s try out some examples.
+GPU memory required for serving Llama 70B&lt;/p>
+&lt;p>Let&amp;rsquo;s try it out for Llama 70B that we will load in 16 bit. The model has 70 billion parameters.&lt;/p>
+&lt;p>$$
+\frac{70 * 4bytes}{32/16} * 1.2=168GB
+$$&lt;/p>
+&lt;p>That&amp;rsquo;s quite a lot of memory. A single A100 80GB wouldn&amp;rsquo;t be enough, although 2x A100
+80GB should be enough to serve the Llama 2 70B model in 16 bit mode.&lt;/p></description></item><item><title>lean_principles</title><link>https://fgg100y.github.io/posts/mlteam101/lean_principles/</link><pubDate>Mon, 03 Jun 2024 17:59:09 +0800</pubDate><guid>https://fgg100y.github.io/posts/mlteam101/lean_principles/</guid><description>&lt;p>Principle 1: Identify value&lt;/p>
 &lt;pre>&lt;code>Determine what is most valuable to the customer and focus on maximizing that value.
 &lt;/code>&lt;/pre>
 &lt;p>Principle 2: Map the value stream&lt;/p>
