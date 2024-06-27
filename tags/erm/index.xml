@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ERM on fgg blog</title><link>https://fgg100y.github.io/tags/erm/</link><description>fgg blog (ERM)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 27 Jun 2024 09:42:34 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/erm/index.xml" rel="self" type="application/rss+xml"/><item><title>mixup_beyond_ERM</title><link>https://fgg100y.github.io/posts/2024-06-27-mixup_beyond_erm/</link><pubDate>Thu, 27 Jun 2024 09:42:34 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-27-mixup_beyond_erm/</guid><description>&lt;h1 id="empirical-risk-minimazation-erm" >
+&lt;div>
+&lt;a href="#empirical-risk-minimazation-erm">
+##
+&lt;/a>
+Empirical Risk Minimazation (ERM)
+&lt;/div>
+&lt;/h1>&lt;p>经验风险最小化, Empirical Risk Minimazation principle (Vapnik, 1998)&lt;/p>
+&lt;ol>
+&lt;li>基于ERM训练模型：亦即在训练数据集上学习以最小化其平均误差。&lt;/li>
+&lt;li>当前SOTA模型的参数量随着训练数据集规模增大而线性增加。&lt;/li>
+&lt;/ol>
+&lt;p>而经典VC学习理论（learning theory, Vapnik &amp;amp; Chervonenkis, 1971）表明：只要学习器的参数量
+不随着训练样本数量增加，则基于ERM学习一定会收敛(convergence, i.e., good generalization
+to new data)。亦即：模型的复杂度（参数量规模）相对于训练数据规模应该是固定的或者变动不大。&lt;/p>
+&lt;p>这就造成了这样的矛盾：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>经典学习理论认为：想要ERM有效，则模型的参数量应该保持一定大小，而不是随着训练数据集规模增加而增加；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>然而在实际任务中：SOTA模型的参数量是与训练数据量保持线性增加的。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>实际上，一方面ERM允许大的神经网络模型“记住”训练样本（即使用了很强的正则化约束，
+strong regularization)，另一方面ERM训练得到的模型在训练分布之外的样本上的预测结果差异巨
+大（即使被预测的样本仅仅发生了相对微小的改变，adversarial examples）。&lt;/p>
+&lt;p>那么，有没有别的模型训练最优化准则呢？-&amp;gt; Vicinal Risk Minimization (VRM).&lt;/p>
+&lt;blockquote>
+&lt;p>In VRM, human knowledge is required to describe a vicinity or neighborhood around each
+example in the training data. Then, additional virtual examples can be drawn from the
+vicinity distribution of the training examples to enlarge the support of the training
+distribution.&lt;/p>
+&lt;/blockquote>
+&lt;p>例如，在图像分类任务中，图像增强通常包括轻微的旋转、翻转、缩放等操作，这其实是图像的近邻
+集（vicinity set）。这些数据增强通常提升了模型的泛化性能。但这些操作通常也是数据依赖的。&lt;/p>
+&lt;p>Mixup 提供了一种数据无关（data-agnostic）的增强方法，它构造虚拟样本的方式如下：&lt;/p>
+&lt;p>$$
+\begin{eqnarray}
+\tilde{x} &amp;amp;=&amp;amp; \lambda x_i + (1 - \lambda) x_j, \text{where } x_i, x_j \text{ are raw input vectors} \\
+\tilde{y} &amp;amp;=&amp;amp; \lambda y_i + (1 - \lambda) y_j, \text{where } y_i, y_j \text{ are one-hot label encoding}
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>$(x_i, y_i)$ 和 $(x_j, y_j)$ 是从训练集中随机抽取的两个样例。$\lambda \in [0, 1]$。&lt;/p>
+&lt;p>因此，mixup通过结合先验知识扩展了训练分布，即特征向量的线性插值应导致相关目标的线性插值。
+mixup可以用几行代码实现，并且只引入最小的计算开销。&lt;/p>
+&lt;p>Mixup: beyond_ERM, &lt;a href="https://arxiv.org/pdf/1710.09412">https://arxiv.org/pdf/1710.09412&lt;/a>&lt;/p></description></item></channel></rss>

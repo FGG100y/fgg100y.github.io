@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tearch/Student Models on fgg blog</title><link>https://fgg100y.github.io/tags/tearch/student-models/</link><description>fgg blog (Tearch/Student Models)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 27 Jun 2024 11:34:18 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/tearch/student-models/index.xml" rel="self" type="application/rss+xml"/><item><title>knowledge_distillation</title><link>https://fgg100y.github.io/posts/2024-06-27-knowledge_distillation/</link><pubDate>Thu, 27 Jun 2024 11:34:18 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-27-knowledge_distillation/</guid><description>&lt;p>知识蒸馏（Knowledge Distillation）是一种机器学习技术，它通过将大型、复杂的模型（称为教师
+模型，Teacher Model）的知识“蒸馏”到小型、简洁的模型（称为学生模型，Student Model）中，从
+而实现模型压缩和加速，同时尽可能保持原始模型的性能。这一技术使得模型可以在资源有限的设备
+上高效运行，如手机或嵌入式设备。&lt;/p>
+&lt;blockquote>
+&lt;p>The method works by incorporating an additional loss into the traditional cross entropy
+loss, which is based on the softmax output of the teacher network. The assumption is
+that the output activations of a properly trained teacher network carry additional
+information that can be leveraged by a student network during training.&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;strong>知识蒸馏过程&lt;/strong>：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>训练教师模型&lt;/strong>：首先，使用大量数据和计算资源训练一个高性能的深度神经网络（教师模
+型）。这个模型可能包含数百万甚至数十亿个参数，但它在分类任务上的表现非常出色。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>生成软标签&lt;/strong>：教师模型在对输入数据进行预测时，不仅仅给出最终的分类结果，还会给出各
+类别的概率分布（通常通过softmax层获得）。这些概率分布被称为“软标签”，它们包含了额外的
+信息，比如类别的不确定性。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>训练学生模型&lt;/strong>：接下来，使用教师模型的软标签和实际的硬标签（即数据的真实类别）来训
+练学生模型。学生模型的架构设计得更简单，参数量远小于教师模型。训练过程中，学生模型不
+仅要学习模仿硬标签，还要通过损失函数（如KL散度或交叉熵）尽量接近教师模型的软标签输出。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>温度参数调整&lt;/strong>：在生成软标签时，有时会引入一个“温度”参数来调整概率分布的平滑程度。
+高温可以使软标签更加平滑，促进学生模型学习到教师模型的决策边界；低温则使得软标签接近
+硬标签，但可能会丢失教师模型的一些细微决策信息。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;strong>三种知识蒸馏的实现方法&lt;/strong>：&lt;/p>
+&lt;ol>
+&lt;li>基于 softmax output 软标签&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>optimizer&lt;span style="color:#ff6ac1">.&lt;/span>zero_grad()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Forward pass with the teacher model - do not save gradients here as we do not change the teacher&amp;#39;s weights&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">with&lt;/span> torch&lt;span style="color:#ff6ac1">.&lt;/span>no_grad():
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> teacher_logits &lt;span style="color:#ff6ac1">=&lt;/span> teacher(inputs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Forward pass with the student model&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>student_logits &lt;span style="color:#ff6ac1">=&lt;/span> student(inputs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">#Soften the student logits by applying softmax first and log() second&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>soft_targets &lt;span style="color:#ff6ac1">=&lt;/span> nn&lt;span style="color:#ff6ac1">.&lt;/span>functional&lt;span style="color:#ff6ac1">.&lt;/span>softmax(teacher_logits &lt;span style="color:#ff6ac1">/&lt;/span> T, dim&lt;span style="color:#ff6ac1">=-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>soft_prob &lt;span style="color:#ff6ac1">=&lt;/span> nn&lt;span style="color:#ff6ac1">.&lt;/span>functional&lt;span style="color:#ff6ac1">.&lt;/span>log_softmax(student_logits &lt;span style="color:#ff6ac1">/&lt;/span> T, dim&lt;span style="color:#ff6ac1">=-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Calculate the soft targets loss. Scaled by T**2 as suggested by the authors of the paper &amp;#34;Distilling the knowledge in a neural network&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>soft_targets_loss &lt;span style="color:#ff6ac1">=&lt;/span> torch&lt;span style="color:#ff6ac1">.&lt;/span>sum(soft_targets &lt;span style="color:#ff6ac1">*&lt;/span> (soft_targets&lt;span style="color:#ff6ac1">.&lt;/span>log() &lt;span style="color:#ff6ac1">-&lt;/span> soft_prob)) &lt;span style="color:#ff6ac1">/&lt;/span> soft_prob&lt;span style="color:#ff6ac1">.&lt;/span>size()[&lt;span style="color:#ff9f43">0&lt;/span>] &lt;span style="color:#ff6ac1">*&lt;/span> (T&lt;span style="color:#ff6ac1">**&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Calculate the true label loss&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>label_loss &lt;span style="color:#ff6ac1">=&lt;/span> ce_loss(student_logits, labels)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Weighted sum of the two losses&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>loss &lt;span style="color:#ff6ac1">=&lt;/span> soft_target_loss_weight &lt;span style="color:#ff6ac1">*&lt;/span> soft_targets_loss &lt;span style="color:#ff6ac1">+&lt;/span> ce_loss_weight &lt;span style="color:#ff6ac1">*&lt;/span> label_loss
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>loss&lt;span style="color:#ff6ac1">.&lt;/span>backward()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>optimizer&lt;span style="color:#ff6ac1">.&lt;/span>step()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;li>基于 hidden state 余弦相似度&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>optimizer&lt;span style="color:#ff6ac1">.&lt;/span>zero_grad()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Forward pass with the teacher model and keep only the hidden representation&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">with&lt;/span> torch&lt;span style="color:#ff6ac1">.&lt;/span>no_grad():
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _, teacher_hidden_representation &lt;span style="color:#ff6ac1">=&lt;/span> teacher(inputs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Forward pass with the student model&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>student_logits, student_hidden_representation &lt;span style="color:#ff6ac1">=&lt;/span> student(inputs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Calculate the cosine loss. Target is a vector of ones. From the loss formula above we can see that is the case where loss minimization leads to cosine similarity increase.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hidden_rep_loss &lt;span style="color:#ff6ac1">=&lt;/span> cosine_loss(student_hidden_representation, teacher_hidden_representation, target&lt;span style="color:#ff6ac1">=&lt;/span>torch&lt;span style="color:#ff6ac1">.&lt;/span>ones(inputs&lt;span style="color:#ff6ac1">.&lt;/span>size(&lt;span style="color:#ff9f43">0&lt;/span>))&lt;span style="color:#ff6ac1">.&lt;/span>to(device))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Calculate the true label loss&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>label_loss &lt;span style="color:#ff6ac1">=&lt;/span> ce_loss(student_logits, labels)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Weighted sum of the two losses&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>loss &lt;span style="color:#ff6ac1">=&lt;/span> hidden_rep_loss_weight &lt;span style="color:#ff6ac1">*&lt;/span> hidden_rep_loss &lt;span style="color:#ff6ac1">+&lt;/span> ce_loss_weight &lt;span style="color:#ff6ac1">*&lt;/span> label_loss
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>loss&lt;span style="color:#ff6ac1">.&lt;/span>backward()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>optimizer&lt;span style="color:#ff6ac1">.&lt;/span>step()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
+&lt;li>基于 Intermediate regressor MSE损失&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>optimizer&lt;span style="color:#ff6ac1">.&lt;/span>zero_grad()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Again ignore teacher logits&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">with&lt;/span> torch&lt;span style="color:#ff6ac1">.&lt;/span>no_grad():
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _, teacher_feature_map &lt;span style="color:#ff6ac1">=&lt;/span> teacher(inputs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Forward pass with the student model&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>student_logits, regressor_feature_map &lt;span style="color:#ff6ac1">=&lt;/span> student(inputs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Calculate the loss&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hidden_rep_loss &lt;span style="color:#ff6ac1">=&lt;/span> mse_loss(regressor_feature_map, teacher_feature_map)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Calculate the true label loss&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>label_loss &lt;span style="color:#ff6ac1">=&lt;/span> ce_loss(student_logits, labels)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Weighted sum of the two losses&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>loss &lt;span style="color:#ff6ac1">=&lt;/span> feature_map_weight &lt;span style="color:#ff6ac1">*&lt;/span> hidden_rep_loss &lt;span style="color:#ff6ac1">+&lt;/span> ce_loss_weight &lt;span style="color:#ff6ac1">*&lt;/span> label_loss
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>loss&lt;span style="color:#ff6ac1">.&lt;/span>backward()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>optimizer&lt;span style="color:#ff6ac1">.&lt;/span>step()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>具体参考：https://pytorch.org/tutorials/beginner/knowledge_distillation_tutorial.html?highlight=distill&lt;/p></description></item></channel></rss>
