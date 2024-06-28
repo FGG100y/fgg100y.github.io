@@ -12,20 +12,27 @@ information that can be leveraged by a student network during training.
 <a href=https://fgg100y.github.io/posts/ title>Posts</a>
 <a href=https://fgg100y.github.io/tags/ title>Tags</a>
 <a href=https://fgg100y.github.io/about/ title>About</a></nav><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"]}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></header><main id=main tabindex=-1><article class="post h-entry"><div class=post-header><header><h1 class="p-name post-title">knowledge_distillation</h1></header><div class="post-info noselect"><div class="post-date dt-published"><time datetime=2024-06-27>2024-06-27</time></div><a class="post-hidden-url u-url" href=https://fgg100y.github.io/posts/2024-06-27-knowledge_distillation/>https://fgg100y.github.io/posts/2024-06-27-knowledge_distillation/</a>
-<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>fmh</a><div class=post-taxonomies><ul class=post-tags><li><a href=https://fgg100y.github.io/tags/distillation/>#Distillation</a></li><li><a href=https://fgg100y.github.io/tags/tearch/student-models/>#Tearch/Student Models</a></li></ul></div></div></div><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><p>知识蒸馏（Knowledge Distillation）是一种机器学习技术，它通过将大型、复杂的模型（称为教师
+<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>fmh</a><div class=post-taxonomies><ul class=post-tags><li><a href=https://fgg100y.github.io/tags/distillation/>#Distillation</a></li><li><a href=https://fgg100y.github.io/tags/tearch/student-models/>#Tearch/Student Models</a></li></ul></div></div></div><details class="toc noselect"><summary>Table of Contents</summary><div class=inner><nav id=TableOfContents><ul><li><a href=#基本原理>基本原理</a></li><li><a href=#知识蒸馏的三种代码实现>知识蒸馏的三种代码实现：</a></li></ul></nav></div></details><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><p>知识蒸馏（Knowledge Distillation）是一种机器学习技术，它通过将大型、复杂的模型（称为教师
 模型，Teacher Model）的知识“蒸馏”到小型、简洁的模型（称为学生模型，Student Model）中，从
 而实现模型压缩和加速，同时尽可能保持原始模型的性能。这一技术使得模型可以在资源有限的设备
 上高效运行，如手机或嵌入式设备。</p><blockquote><p>The method works by incorporating an additional loss into the traditional cross entropy
 loss, which is based on the softmax output of the teacher network. The assumption is
 that the output activations of a properly trained teacher network carry additional
-information that can be leveraged by a student network during training.</p></blockquote><p><strong>知识蒸馏过程</strong>：</p><ol><li><p><strong>训练教师模型</strong>：首先，使用大量数据和计算资源训练一个高性能的深度神经网络（教师模
+information that can be leveraged by a student network during training.</p></blockquote><h2 id=基本原理><div><a href=#%e5%9f%ba%e6%9c%ac%e5%8e%9f%e7%90%86>#
+</a>基本原理</div></h2><p>知识转移：核心思想是通过让学生模型模仿教师模型的输出行为，不仅包括硬分类标签，还有软概率
+分布（softmax概率），这样可以传递更多关于数据分布的信息。软标签相比硬标签含有更多关于数
+据不确定性及类间关系的信息，有助于学生模型学习更细腻的决策边界。</p><p>特征蒸馏：除了输出层的知识外，泛化知识蒸馏还可以涉及中间层特征的学习，即学生模型试图学习
+教师模型的高层特征表示。这有助于提升学生模型的泛化能力，因为它学会了如何从输入数据中提取
+更有用的特征。</p><p>关系蒸馏：强调保持教师和学生模型对于输入样本间关系的理解一致性。这意味着学生模型不仅要学
+会单个样本的处理，还要理解样本之间的相对关系，这对于一些需要理解复杂上下文的任务尤为重要。</p><p><strong>知识蒸馏过程</strong>：</p><ol><li><p><strong>训练教师模型</strong>：首先，使用大量数据和计算资源训练一个高性能的深度神经网络（教师模
 型）。这个模型可能包含数百万甚至数十亿个参数，但它在分类任务上的表现非常出色。</p></li><li><p><strong>生成软标签</strong>：教师模型在对输入数据进行预测时，不仅仅给出最终的分类结果，还会给出各
 类别的概率分布（通常通过softmax层获得）。这些概率分布被称为“软标签”，它们包含了额外的
 信息，比如类别的不确定性。</p></li><li><p><strong>训练学生模型</strong>：接下来，使用教师模型的软标签和实际的硬标签（即数据的真实类别）来训
 练学生模型。学生模型的架构设计得更简单，参数量远小于教师模型。训练过程中，学生模型不
 仅要学习模仿硬标签，还要通过损失函数（如KL散度或交叉熵）尽量接近教师模型的软标签输出。</p></li><li><p><strong>温度参数调整</strong>：在生成软标签时，有时会引入一个“温度”参数来调整概率分布的平滑程度。
 高温可以使软标签更加平滑，促进学生模型学习到教师模型的决策边界；低温则使得软标签接近
-硬标签，但可能会丢失教师模型的一些细微决策信息。</p></li></ol><p><strong>三种知识蒸馏的实现方法</strong>：</p><ol><li>基于 softmax output 软标签</li></ol><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>
+硬标签，但可能会丢失教师模型的一些细微决策信息。</p></li></ol><h2 id=知识蒸馏的三种代码实现><div><a href=#%e7%9f%a5%e8%af%86%e8%92%b8%e9%a6%8f%e7%9a%84%e4%b8%89%e7%a7%8d%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0>#
+</a>知识蒸馏的三种代码实现：</div></h2><ol><li>知识转移：基于 softmax output 软标签</li></ol><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#78787e># ...</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>optimizer<span style=color:#ff6ac1>.</span>zero_grad()
@@ -54,7 +61,7 @@ information that can be leveraged by a student network during training.</p></blo
 </span></span><span style=display:flex><span>optimizer<span style=color:#ff6ac1>.</span>step()
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#78787e># ...</span>
-</span></span></code></pre></div><ol start=2><li>基于 hidden state 余弦相似度</li></ol><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>
+</span></span></code></pre></div><ol start=2><li>特征蒸馏：基于 hidden state 余弦相似度</li></ol><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#78787e># ...</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>optimizer<span style=color:#ff6ac1>.</span>zero_grad()
@@ -79,7 +86,7 @@ information that can be leveraged by a student network during training.</p></blo
 </span></span><span style=display:flex><span>optimizer<span style=color:#ff6ac1>.</span>step()
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#78787e># ...</span>
-</span></span></code></pre></div><ol start=3><li>基于 Intermediate regressor MSE损失</li></ol><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>
+</span></span></code></pre></div><ol start=3><li>特征蒸馏：基于 Intermediate regressor MSE损失</li></ol><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#78787e># ...</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>optimizer<span style=color:#ff6ac1>.</span>zero_grad()
@@ -104,4 +111,4 @@ information that can be leveraged by a student network during training.</p></blo
 </span></span><span style=display:flex><span>optimizer<span style=color:#ff6ac1>.</span>step()
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=color:#78787e># ...</span>
-</span></span></code></pre></div><p>具体参考：https://pytorch.org/tutorials/beginner/knowledge_distillation_tutorial.html?highlight=distill</p></div></article><div class="pagination post-pagination"><div class="left pagination-item disabled"></div><div class="right pagination-item"><a href=/posts/2024-06-27-mixup_beyond_erm/>mixup_beyond_ERM</a></div></div></main><footer class="common-footer noselect"><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div>Powered by <a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, theme <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>fmh</a></p></footer></div></body></html>
+</span></span></code></pre></div><p>具体参考：https://pytorch.org/tutorials/beginner/knowledge_distillation_tutorial.html?highlight=distill</p></div></article><div class="pagination post-pagination"><div class="left pagination-item"><a href=/posts/2024-06-28-knowledge_distillation2/>knowledge_distillation2</a></div><div class="right pagination-item"><a href=/posts/2024-06-27-mixup_beyond_erm/>mixup_beyond_ERM</a></div></div></main><footer class="common-footer noselect"><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div>Powered by <a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, theme <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>fmh</a></p></footer></div></body></html>

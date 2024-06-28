@@ -8,6 +8,21 @@ loss, which is based on the softmax output of the teacher network. The assumptio
 that the output activations of a properly trained teacher network carry additional
 information that can be leveraged by a student network during training.&lt;/p>
 &lt;/blockquote>
+&lt;h2 id="基本原理" >
+&lt;div>
+&lt;a href="#%e5%9f%ba%e6%9c%ac%e5%8e%9f%e7%90%86">
+#
+&lt;/a>
+基本原理
+&lt;/div>
+&lt;/h2>&lt;p>知识转移：核心思想是通过让学生模型模仿教师模型的输出行为，不仅包括硬分类标签，还有软概率
+分布（softmax概率），这样可以传递更多关于数据分布的信息。软标签相比硬标签含有更多关于数
+据不确定性及类间关系的信息，有助于学生模型学习更细腻的决策边界。&lt;/p>
+&lt;p>特征蒸馏：除了输出层的知识外，泛化知识蒸馏还可以涉及中间层特征的学习，即学生模型试图学习
+教师模型的高层特征表示。这有助于提升学生模型的泛化能力，因为它学会了如何从输入数据中提取
+更有用的特征。&lt;/p>
+&lt;p>关系蒸馏：强调保持教师和学生模型对于输入样本间关系的理解一致性。这意味着学生模型不仅要学
+会单个样本的处理，还要理解样本之间的相对关系，这对于一些需要理解复杂上下文的任务尤为重要。&lt;/p>
 &lt;p>&lt;strong>知识蒸馏过程&lt;/strong>：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -30,9 +45,15 @@ information that can be leveraged by a student network during training.&lt;/p>
 硬标签，但可能会丢失教师模型的一些细微决策信息。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;p>&lt;strong>三种知识蒸馏的实现方法&lt;/strong>：&lt;/p>
-&lt;ol>
-&lt;li>基于 softmax output 软标签&lt;/li>
+&lt;h2 id="知识蒸馏的三种代码实现" >
+&lt;div>
+&lt;a href="#%e7%9f%a5%e8%af%86%e8%92%b8%e9%a6%8f%e7%9a%84%e4%b8%89%e7%a7%8d%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0">
+#
+&lt;/a>
+知识蒸馏的三种代码实现：
+&lt;/div>
+&lt;/h2>&lt;ol>
+&lt;li>知识转移：基于 softmax output 软标签&lt;/li>
 &lt;/ol>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
@@ -64,7 +85,7 @@ information that can be leveraged by a student network during training.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
-&lt;li>基于 hidden state 余弦相似度&lt;/li>
+&lt;li>特征蒸馏：基于 hidden state 余弦相似度&lt;/li>
 &lt;/ol>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
@@ -92,7 +113,7 @@ information that can be leveraged by a student network during training.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
-&lt;li>基于 Intermediate regressor MSE损失&lt;/li>
+&lt;li>特征蒸馏：基于 Intermediate regressor MSE损失&lt;/li>
 &lt;/ol>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>

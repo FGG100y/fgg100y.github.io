@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Generalized KD on fgg blog</title><link>https://fgg100y.github.io/tags/generalized-kd/</link><description>fgg blog (Generalized KD)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 28 Jun 2024 11:25:43 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/generalized-kd/index.xml" rel="self" type="application/rss+xml"/><item><title>knowledge_distillation2</title><link>https://fgg100y.github.io/posts/2024-06-28-knowledge_distillation2/</link><pubDate>Fri, 28 Jun 2024 11:25:43 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-28-knowledge_distillation2/</guid><description>&lt;h2 id="generalized-knowledge-distillation-gkd" >
+&lt;div>
+&lt;a href="#generalized-knowledge-distillation-gkd">
+#
+&lt;/a>
+Generalized Knowledge Distillation (GKD)
+&lt;/div>
+&lt;/h2>&lt;p>泛化知识蒸馏是一种改进的知识蒸馏技术，旨在解决传统知识蒸馏方法在自回归序列模型中遇到的分
+布不匹配问题，特别是在训练和推理阶段之间。传统的知识蒸馏方法通常基于固定的输出序列集进行，
+这些序列或者是教师模型生成的，或者是基于真实数据的标签。然而，这导致学生模型在推理时生成
+的序列可能与训练时见到的序列分布不同，从而影响了学生模型的泛化能力。&lt;/p>
+&lt;p>GKD 不再局限于固定输出序列的训练，而是允许学生模型在其自我生成的序列上进行学习，同时利用
+教师模型提供的反馈。&lt;/p>
+&lt;h2 id="gkd-技术要点" >
+&lt;div>
+&lt;a href="#gkd-%e6%8a%80%e6%9c%af%e8%a6%81%e7%82%b9">
+#
+&lt;/a>
+GKD 技术要点
+&lt;/div>
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>动态序列生成与反馈：GKD 在训练过程中，会根据学生模型的自我生成序列进行学习。这意味着学
+生模型在尝试生成序列时，如果生成错误或不理想的序列，它可以从教师模型那里获得直接反馈，
+学习如何纠正这些错误。这种机制能够减少训练和推理过程中的分布差异，提高学生模型对各种输
+入序列的泛化能力。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>灵活的损失函数选择：与仅采用前向KL散度的传统监督式知识蒸馏不同，GKD 提供了灵活性，可以
+在学生和教师模型之间使用替代的损失函数。当学生模型难以精确模拟教师模型的概率分布时，这
+一点尤为重要。例如，可以采用Jensen-Shannon散度等指标来衡量分布之间的差异，这有助于学生
+模型在表达力有限的情况下更好地学习。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>集成强化学习精调：GKD 还促进了知识蒸馏与基于强化学习的语言模型微调的无缝整合。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="动态序列生成" >
+&lt;div>
+&lt;a href="#%e5%8a%a8%e6%80%81%e5%ba%8f%e5%88%97%e7%94%9f%e6%88%90">
+##
+&lt;/a>
+动态序列生成
+&lt;/div>
+&lt;/h3>&lt;p>在传统的知识蒸馏中，学生模型通常基于预先定义好的固定数据集或由教师模型生成的输出序列进行
+训练。而动态序列生成则打破了这一限制，它让学生模型自己生成输出序列，并在此基础上进行学习。
+这个过程涉及以下几个步骤：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>初始化学生模型：首先，学生模型需要具备一定的生成能力，通常通过初步的监督式预训练或微调
+（Supervised Fine-Tuning, SFT）来实现，确保它可以生成质量尚可的序列。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>自我生成序列：在训练过程中，学生模型接收到输入后，会根据当前的策略生成输出序列。这些序
+列反映了学生模型当前的能力和理解，可能包含错误或不完美的部分。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="反馈机制" >
+&lt;div>
+&lt;a href="#%e5%8f%8d%e9%a6%88%e6%9c%ba%e5%88%b6">
+##
+&lt;/a>
+反馈机制
+&lt;/div>
+&lt;/h3>&lt;p>一旦学生模型生成了输出序列，接下来的关键步骤是获取教师模型的反馈：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>教师模型评估：教师模型会对学生生成的序列进行评估，通常通过比较教师和学生模型在每个生成
+步骤上对下一个词的概率分布。这涉及到计算两者的概率分布之间的某种差异度量，如KL散度。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>指导性学习：根据教师模型的反馈，学生模型调整其参数，目的是使自己在生成类似序列时能更接
+近教师模型的表现。GKD 允许选择不同的差异度量（divergence）来优化，以适应不同任务的需求。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>迭代优化：随着学生模型不断从自我生成的错误中学习，它的生成能力逐步提升，生成的序列质量
+也随之提高，形成了一个正向循环。此过程可以视为一种模仿学习（Imitation Learning）与强化
+学习（Reinforcement Learning）的结合，其中学生模型通过迭代地探索和修正其行为，以逼近教
+师模型的表现。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>参考文献：https://arxiv.org/pdf/2306.13649&lt;/p></description></item></channel></rss>
