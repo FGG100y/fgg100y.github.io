@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bottlenet-Block on fgg blog</title><link>https://fgg100y.github.io/tags/bottlenet-block/</link><description>fgg blog (Bottlenet-Block)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 29 Jun 2024 09:17:15 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/bottlenet-block/index.xml" rel="self" type="application/rss+xml"/><item><title>ResNet</title><link>https://fgg100y.github.io/posts/resnet/</link><pubDate>Sat, 29 Jun 2024 09:17:15 +0800</pubDate><guid>https://fgg100y.github.io/posts/resnet/</guid><description>&lt;p>思维实验：
+在浅层网络结构的基础上（比如20层），往后面直接添加更多的同映射隐层（identity layers），
+得到的深层网络（比如50层）理论上效果应该不会变差。但实验结果说明，它真会变差。意味着：
+SGD算法无法找到使得更深层网络性能不变差的参数。&lt;/p>
+&lt;p>残差网络架构可以解决这个问题。&lt;/p>
+&lt;h2 id="why-what-and-how" >
+&lt;div>
+&lt;a href="#why-what-and-how">
+#
+&lt;/a>
+Why, What, and How
+&lt;/div>
+&lt;/h2>&lt;blockquote>
+&lt;p>Deeper neural networks are more difficult to train. We present a residual learning
+framework to ease the training of networks that are substantially deeper than those used
+previously. We explicitly reformulate the layers as learning residual functions with
+reference to the layer inputs, instead of learning unreferenced functions.&lt;/p>
+&lt;/blockquote>
+&lt;p>训练一个深度（足够深的）神经网络是一件很难的事情（2015年）。
+使用“残差”神经网络架构可以更容易地训练足够深的神经网络。
+“残差”架构就是把这些中间层作为一个学习输入与输出的残差的函数。&lt;/p>
+&lt;p>&lt;img alt="ResNet Block" src="images/resnet_learning_block.png">&lt;/p>
+&lt;p>就是说：增加的隐层去学习 $h(x) - x$（残差）而不是 $h(x)$，而输出的是当前隐层的输出加上前
+一层的输出 $x$ （同时也是当前层的输入）。&lt;/p>
+&lt;h2 id="残差网络结构" >
+&lt;div>
+&lt;a href="#%e6%ae%8b%e5%b7%ae%e7%bd%91%e7%bb%9c%e7%bb%93%e6%9e%84">
+#
+&lt;/a>
+残差网络结构
+&lt;/div>
+&lt;/h2>&lt;p>残差连接（aka, shortcut connection）在输入和输出的维度相同情况下可以直接使用如下结构块：&lt;/p>
+&lt;p>$$
+y = F(x, {W_i}) + x.
+$$&lt;/p>
+&lt;p>当想要增加维度时，有两种方式来对齐输入和输出的维度：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>残差连接进行同映射操作，然后对增加的维度进行补零操作（padding zeros)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>残差连接进行线性投影操作 $y = F(x, {W_i}) + W_s x.$ 来对齐维度（使用 1x1 卷积实现）&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>两种情况下，当残差连接的是不同尺寸的特征图（feature map）时，使用步幅为2的卷积操作。
+（通道数翻倍，则高宽减半，因此使用步幅=2（stride=2）的卷积来保证维数对齐）&lt;/p>
+&lt;p>&lt;img alt="bottlenet-block" src="https://fgg100y.github.io/posts/resnet/images/resnet_bottlenet_building_block.png">&lt;/p>
+&lt;p>&lt;img alt="resnet-arch" src="https://fgg100y.github.io/posts/resnet/images/resnet_arch_for_imagenet.png">&lt;/p>
+&lt;h2 id="残差连接为什么有用" >
+&lt;div>
+&lt;a href="#%e6%ae%8b%e5%b7%ae%e8%bf%9e%e6%8e%a5%e4%b8%ba%e4%bb%80%e4%b9%88%e6%9c%89%e7%94%a8">
+#
+&lt;/a>
+残差连接为什么有用？
+&lt;/div>
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>Easier Gradient Flow&lt;/p>
+&lt;ul>
+&lt;li>缓解梯度消失/梯度爆炸问题&lt;/li>
+&lt;li>残差连接使得梯度更稳定&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>更容易学习同映射函数&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>提升最优化和收敛效果&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>更好的特征传播（feature propagation）&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="此残差非彼残差resnet-vs-gdbt" >
+&lt;div>
+&lt;a href="#%e6%ad%a4%e6%ae%8b%e5%b7%ae%e9%9d%9e%e5%bd%bc%e6%ae%8b%e5%b7%aeresnet-vs-gdbt">
+#
+&lt;/a>
+此残差非彼残差（ResNet VS GDBT）
+&lt;/div>
+&lt;/h2>&lt;p>GBDT（梯度提升决策树）中的残差（residual）是指预测值与真实值之间的差值。&lt;/p>
+&lt;p>ResNet 中的残差（residual），是神经网络尝试去学习特征图（feature map）的残差（是网络块输出与输入之间的差值）。&lt;/p>
+&lt;p>Paper: &lt;a href="https://arxiv.org/pdf/1512.03385">https://arxiv.org/pdf/1512.03385&lt;/a>&lt;/p></description></item></channel></rss>
