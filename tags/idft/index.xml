@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IDFT on fgg blog</title><link>https://fgg100y.github.io/tags/idft/</link><description>fgg blog (IDFT)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 03 Jul 2024 09:46:45 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/idft/index.xml" rel="self" type="application/rss+xml"/><item><title>Discrete_Fourier_Transform</title><link>https://fgg100y.github.io/posts/dsp101/2024-07-03-discrete_fourier_transform/</link><pubDate>Wed, 03 Jul 2024 09:46:45 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-07-03-discrete_fourier_transform/</guid><description>&lt;p>An analysis problem, which is equivalent to the &lt;strong>DFT&lt;/strong>:&lt;/p>
+&lt;pre>&lt;code>Given a signal, how to find the amplitude and phase offset of its frequency
+components?
+&lt;/code>&lt;/pre>
+&lt;p>An synthesis problem, which is equivalent to the &lt;strong>inverse DFT&lt;/strong>:&lt;/p>
+&lt;pre>&lt;code>Given a set of frequency components and their amplitudes, how can we construct a
+signal?
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>DFT&lt;/strong> and &lt;strong>Inverse DFT&lt;/strong> in code&lt;/p>
+&lt;p>The &lt;code>analyze()&lt;/code> computes something very close to the DFT, with one difference: The
+conventional definition of DFT does not divide by &lt;code>N&lt;/code> (highlighted line below):&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">analyze&lt;/span>(ys):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> N &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(ys)
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span> M &lt;span style="color:#ff6ac1">=&lt;/span> synthesis_matrix(N)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> amps &lt;span style="color:#ff6ac1">=&lt;/span> M&lt;span style="color:#ff6ac1">.&lt;/span>conj()&lt;span style="color:#ff6ac1">.&lt;/span>transpose()&lt;span style="color:#ff6ac1">.&lt;/span>dot(ys) &lt;span style="color:#ff6ac1">/&lt;/span> N
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> amps
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">dft&lt;/span>(ys): &lt;span style="color:#78787e"># return same result as np.fft.fft()&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> N &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(ys)
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span> M &lt;span style="color:#ff6ac1">=&lt;/span> synthesis_matrix(N)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> amps &lt;span style="color:#ff6ac1">=&lt;/span> M&lt;span style="color:#ff6ac1">.&lt;/span>conj()&lt;span style="color:#ff6ac1">.&lt;/span>transpose()&lt;span style="color:#ff6ac1">.&lt;/span>dot(ys)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> amps
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">idft&lt;/span>(amps): &lt;span style="color:#78787e"># inverse DFT&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> N &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(amps)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> M &lt;span style="color:#ff6ac1">=&lt;/span> synthesis_matrix(N)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ys &lt;span style="color:#ff6ac1">=&lt;/span> M&lt;span style="color:#ff6ac1">.&lt;/span>dot(amps) &lt;span style="color:#ff6ac1">/&lt;/span> N
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> ys &lt;span style="color:#78787e"># ys: value of the signal at each time step&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">synthesis_matrix&lt;/span>(N):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ts &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>arange(N) &lt;span style="color:#ff6ac1">/&lt;/span> N &lt;span style="color:#78787e"># ts: the sequence of times where the signal should be evaluated&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fs &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>arange(N) &lt;span style="color:#78787e"># fs: the list of frequencies&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> args &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>outer(ts, fs) &lt;span style="color:#78787e"># args: outer product of ts and fs&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> M &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>exp(&lt;span style="color:#ff9f43">1&lt;/span>j &lt;span style="color:#ff6ac1">*&lt;/span> PI2 &lt;span style="color:#ff6ac1">*&lt;/span> args) &lt;span style="color:#78787e"># PI2 = np.pi * 2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> M
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>

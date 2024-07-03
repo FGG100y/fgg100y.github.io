@@ -1,4 +1,113 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 29 Jun 2024 09:17:15 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>ResNet</title><link>https://fgg100y.github.io/posts/resnet/</link><pubDate>Sat, 29 Jun 2024 09:17:15 +0800</pubDate><guid>https://fgg100y.github.io/posts/resnet/</guid><description>&lt;p>思维实验：
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>https://fgg100y.github.io/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 03 Jul 2024 11:25:37 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Short_time_Fourier_Transform</title><link>https://fgg100y.github.io/posts/dsp101/2024-07-03-short_time_fourier_transform/</link><pubDate>Wed, 03 Jul 2024 11:25:37 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-07-03-short_time_fourier_transform/</guid><description>&lt;p>Sine Wave Signal&lt;/p>
+&lt;p>An audio signal, y(t), composed of exactly one sine wave, can be completely described by
+the parameters $t, A, f$ and $\phi$,
+$$
+y(t) = A \sin(2 \pi f t + \phi)
+$$
+where $t$ represents time in seconds, $A$ is the wave&amp;rsquo;s amplitude (unit-less), $f$ is
+its frequency in Hz, and $\phi$ is its phase offset in radians (i.e., where in the cycle
+the wave is at $t=0$). If $t \ne 0$, then the sine wave appears shifted in time by
+$\frac{\phi}{2 \pi f}$, where negative values mean &amp;ldquo;delay&amp;rdquo; and positive &amp;ldquo;advance&amp;rdquo; it.&lt;/p>
+&lt;p>Fourier Series&lt;/p>
+&lt;blockquote>
+&lt;p>Our old pal Fourier told us that any sound can be represented as an infinite summation
+of sine waves each with their own amplitudes, frequencies, and phase offsets. This means
+that any sound we hear can be represented as many, many tuples of $t, A, f, \phi$.&lt;/p>
+&lt;/blockquote>
+&lt;p>Time-Frequency representation&lt;/p>
+&lt;p>A Time-Frequency representation is a 2 dimensional matrix that represents the frequency
+contents of an audio signal over time.&lt;/p>
+&lt;p>We can visualize a TF Representation using a heatmap, which has time along the x-axis
+and frequency along the y-axis. Each &lt;em>TF bin&lt;/em> (entry in heatmap) in the heatmap
+represents the &lt;strong>amplitude&lt;/strong> of the signal at that particular time and frequency.
+If there is no color bar, it is usually safe to assume that brighter colors indicate
+higher amplitudes than darker colors.&lt;/p>
+&lt;p>&lt;img alt="TFrepr" src="images/dsp_tf_representation.png">&lt;/p>
+&lt;p>Short-time Fourier Transform (STFT)&lt;/p>
+&lt;p>An STFT is calculated from a waveform representation by computing a discrete Fourier
+transform (DFT) of a small, moving window across the duration of the window. The
+location of each entry in an STFT determines its time (x-axis) and frequency (y-axis).
+The absolute value of a TF bin |$X(t,f)$| at time t and frequency f determines the amount
+of energy heard from frequency $f$ at time $t$.&lt;/p>
+&lt;p>Importantly, each bin in our STFT is complex, meaning each entry contains both a
+magnitude component and a phase component. Both components are needed to convert an STFT
+matrix back to a waveform by &lt;em>inverse STFT&lt;/em> so that we may hear it.&lt;/p>
+&lt;p>&lt;img alt="STFT" src="images/dsp_stft_process.png">&lt;/p>
+&lt;p>Window Types&lt;/p>
+&lt;p>The window type determines the shape of the short-time window that will segment the
+audio into short segments before applying the DFT. The shape of this window will affect
+which frequencies get emphasized or attenuated in the DFT. There are many types of
+&lt;a href="https://docs.scipy.org/doc/scipy/reference/signal.windows.html">window functions&lt;/a>.&lt;/p>
+&lt;p>&lt;img alt="windows" src="images/dsp_window_types.png">&lt;/p></description></item><item><title>Discrete_Fourier_Transform</title><link>https://fgg100y.github.io/posts/dsp101/2024-07-03-discrete_fourier_transform/</link><pubDate>Wed, 03 Jul 2024 09:46:45 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-07-03-discrete_fourier_transform/</guid><description>&lt;p>An analysis problem, which is equivalent to the &lt;strong>DFT&lt;/strong>:&lt;/p>
+&lt;pre>&lt;code>Given a signal, how to find the amplitude and phase offset of its frequency
+components?
+&lt;/code>&lt;/pre>
+&lt;p>An synthesis problem, which is equivalent to the &lt;strong>inverse DFT&lt;/strong>:&lt;/p>
+&lt;pre>&lt;code>Given a set of frequency components and their amplitudes, how can we construct a
+signal?
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>DFT&lt;/strong> and &lt;strong>Inverse DFT&lt;/strong> in code&lt;/p>
+&lt;p>The &lt;code>analyze()&lt;/code> computes something very close to the DFT, with one difference: The
+conventional definition of DFT does not divide by &lt;code>N&lt;/code> (highlighted line below):&lt;/p>
+&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+&lt;/span>&lt;span style="background-color:#3d3f4a">&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+&lt;/span>&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+&lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">analyze&lt;/span>(ys):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> N &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(ys)
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span> M &lt;span style="color:#ff6ac1">=&lt;/span> synthesis_matrix(N)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> amps &lt;span style="color:#ff6ac1">=&lt;/span> M&lt;span style="color:#ff6ac1">.&lt;/span>conj()&lt;span style="color:#ff6ac1">.&lt;/span>transpose()&lt;span style="color:#ff6ac1">.&lt;/span>dot(ys) &lt;span style="color:#ff6ac1">/&lt;/span> N
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> amps
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">dft&lt;/span>(ys): &lt;span style="color:#78787e"># return same result as np.fft.fft()&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> N &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(ys)
+&lt;/span>&lt;/span>&lt;span style="display:flex; background-color:#3d3f4a">&lt;span> M &lt;span style="color:#ff6ac1">=&lt;/span> synthesis_matrix(N)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> amps &lt;span style="color:#ff6ac1">=&lt;/span> M&lt;span style="color:#ff6ac1">.&lt;/span>conj()&lt;span style="color:#ff6ac1">.&lt;/span>transpose()&lt;span style="color:#ff6ac1">.&lt;/span>dot(ys)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> amps
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">idft&lt;/span>(amps): &lt;span style="color:#78787e"># inverse DFT&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> N &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(amps)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> M &lt;span style="color:#ff6ac1">=&lt;/span> synthesis_matrix(N)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ys &lt;span style="color:#ff6ac1">=&lt;/span> M&lt;span style="color:#ff6ac1">.&lt;/span>dot(amps) &lt;span style="color:#ff6ac1">/&lt;/span> N
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> ys &lt;span style="color:#78787e"># ys: value of the signal at each time step&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">synthesis_matrix&lt;/span>(N):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ts &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>arange(N) &lt;span style="color:#ff6ac1">/&lt;/span> N &lt;span style="color:#78787e"># ts: the sequence of times where the signal should be evaluated&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fs &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>arange(N) &lt;span style="color:#78787e"># fs: the list of frequencies&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> args &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>outer(ts, fs) &lt;span style="color:#78787e"># args: outer product of ts and fs&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> M &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>exp(&lt;span style="color:#ff9f43">1&lt;/span>j &lt;span style="color:#ff6ac1">*&lt;/span> PI2 &lt;span style="color:#ff6ac1">*&lt;/span> args) &lt;span style="color:#78787e"># PI2 = np.pi * 2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> M
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>ResNet</title><link>https://fgg100y.github.io/posts/resnet/</link><pubDate>Sat, 29 Jun 2024 09:17:15 +0800</pubDate><guid>https://fgg100y.github.io/posts/resnet/</guid><description>&lt;p>思维实验：
 在浅层网络结构的基础上（比如20层），往后面直接添加更多的同映射隐层（identity layers），
 得到的深层网络（比如50层）理论上效果应该不会变差。但实验结果说明，它真会变差。意味着：
 SGD算法无法找到使得更深层网络性能不变差的参数。&lt;/p>
@@ -2153,7 +2262,106 @@ in Python, the results are returned as a triplet of 1D arrays lims, D, I, where 
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfresults&lt;span style="color:#ff6ac1">.&lt;/span>append(dfout)
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description></item><item><title>LLMs_interview_faq</title><link>https://fgg100y.github.io/posts/llm_faqs/</link><pubDate>Fri, 26 Apr 2024 11:04:16 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_faqs/</guid><description>&lt;h2 id="01简述gpt和bert的区别" >
+&lt;/div></description></item><item><title>Noise_in_DSP</title><link>https://fgg100y.github.io/posts/dsp101/2024-05-10-noise_in_dsp/</link><pubDate>Fri, 10 May 2024 11:23:02 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-05-10-noise_in_dsp/</guid><description>&lt;h1 id="whats-in-a-noise" >
+&lt;div>
+&lt;a href="#whats-in-a-noise">
+##
+&lt;/a>
+What&amp;rsquo;s in a &amp;ldquo;Noise&amp;rdquo;?
+&lt;/div>
+&lt;/h1>&lt;ul>
+&lt;li>As in English, it can mean an unwanted signal of any kind. If two signals interfere
+with each other, each signal would consider the other to be noise.&lt;/li>
+&lt;/ul>
+&lt;ul>
+&lt;li>&amp;ldquo;Noise&amp;rdquo; also refers to a signal that contains components at many frequecies, so it
+lacks the harmonic structure of the periodic signals.&lt;/li>
+&lt;/ul>
+&lt;p>This post is about the second kind.&lt;/p>
+&lt;h2 id="uncorrelated-noise" >
+&lt;div>
+&lt;a href="#uncorrelated-noise">
+#
+&lt;/a>
+Uncorrelated noise
+&lt;/div>
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>Uncorrelated uniform noise (UU noise)
+&amp;ldquo;uniform&amp;rdquo; means the signal contants random values from a uniform distribution,
+&amp;ldquo;uncorrelative&amp;rdquo; means the values are independent (one value provides no information about the others)&lt;/p>
+&lt;p>Relationship between power (square of amplitude) and frequency: In the spectrum of
+UU noise, the power at all frequecies is drawn from the same distribution; that is,
+the average power is the same for all the frequecies. (Better discribed by a
+Integrated spectrum of UU noise which it&amp;rsquo;s x-axis is frequency (Hz) and y-axis is
+cumulative fraction of total power.)&lt;/p>
+&lt;p>And the &amp;ldquo;Integrated Spectrum&amp;rdquo; figure should show a straight line for UU noise, which
+indicates that power at all frequecies is constant, on average. Noise with equal
+power at all frequecies is called &lt;strong>white noise&lt;/strong> (by analogy with light, because an
+equal mixture of light at all visible frequecies is white.)&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="brownian-noise" >
+&lt;div>
+&lt;a href="#brownian-noise">
+#
+&lt;/a>
+Brownian noise
+&lt;/div>
+&lt;/h2>&lt;p>In a Brownian noise, each value is the sum of the previous value and a random &amp;ldquo;step&amp;rdquo;. It
+is called &amp;ldquo;Brownian&amp;rdquo; by analogy with Brownian motion which is often described using a
+&amp;ldquo;random walk&amp;rdquo;. A random walk is a mathematical model of a path where the distance
+between steps is characterized by a random distribution.&lt;/p>
+&lt;p>In a one-dimensional random walk of Brownian motion of particle, it moves up or down by
+a random amount at each time step. The location of the particle at any point in time is
+the sum of all previous steps. And that is how Brownian noise would be generated.&lt;/p>
+&lt;p>For Brownian noise, the slope of the power spectrum is -2, so we can write this
+relationship as:
+$$
+\log P = k - 2\log f
+$$
+where $P$ is power, $f$ is grequency, and $k$ is the intercept of the line.
+Exponentiating both sides yields:
+$$
+P = K / f^2
+$$
+where $K$ is $e^k$, a scalar. And that power is proportional to $1/f^2$, which is
+characteristic of Brownian noise.&lt;/p>
+&lt;p>Brownian noise is also called &amp;ldquo;red noise&amp;rdquo;, for the same reason that white noise is
+called &amp;ldquo;white&amp;rdquo; &amp;ndash; combining visible light with power proportional to $1/f^2$, most of
+the power would be at the low-frequency end of the spectrum, which is red.&lt;/p>
+&lt;h2 id="pink-noise" >
+&lt;div>
+&lt;a href="#pink-noise">
+#
+&lt;/a>
+Pink noise
+&lt;/div>
+&lt;/h2>&lt;p>More generally, we can synthesize noise with any exponent, $\beta$, in power-frequency
+relationship:
+$$
+P = K / f^{\beta}
+$$
+when $\beta = 0$, power is constant at all frequencies, so the result is white noise.
+when $\beta = 2$, the result is red noise.&lt;/p>
+&lt;p>when $\beta$ is between 0 and 2, the result is between white and red noise, so it is
+called &amp;ldquo;pink noise&amp;rdquo;.&lt;/p>
+&lt;h2 id="gaussian-noise" >
+&lt;div>
+&lt;a href="#gaussian-noise">
+#
+&lt;/a>
+Gaussian noise
+&lt;/div>
+&lt;/h2>&lt;p>When people talk about &amp;ldquo;white noise&amp;rdquo;, they don&amp;rsquo;t always mean UU noise. In fact, more
+often they mean uncorrelative Gaussian noise (UG noise).&lt;/p>
+&lt;p>UG noise is similar in many ways to UU noise. The spectrum has equal power at all
+frequecies, on average, so UG is also white. And it has one other interesting property:
+the spectrum of UG noise is also UG noise. More precisely, the real and imaginary parts
+of the spectrum are Uncorrelated Gaussian values. (Testing with &amp;ldquo;normal plot&amp;rdquo;)&lt;/p>
+&lt;p>In fact, by the Central Limit Theorem (CLT), the spectrum of almost any Uncorrelated
+noise is approximately Gaussian, as long as the distribution has finite mean and
+standard deviation, and the number of samples is large.&lt;/p></description></item><item><title>LLMs_interview_faq</title><link>https://fgg100y.github.io/posts/llm_faqs/</link><pubDate>Fri, 26 Apr 2024 11:04:16 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_faqs/</guid><description>&lt;h2 id="01简述gpt和bert的区别" >
 &lt;div>
 &lt;a href="#01%e7%ae%80%e8%bf%b0gpt%e5%92%8cbert%e7%9a%84%e5%8c%ba%e5%88%ab">
 #

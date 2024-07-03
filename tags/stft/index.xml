@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>STFT on fgg blog</title><link>https://fgg100y.github.io/tags/stft/</link><description>fgg blog (STFT)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 03 Jul 2024 11:25:37 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/stft/index.xml" rel="self" type="application/rss+xml"/><item><title>Short_time_Fourier_Transform</title><link>https://fgg100y.github.io/posts/dsp101/2024-07-03-short_time_fourier_transform/</link><pubDate>Wed, 03 Jul 2024 11:25:37 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-07-03-short_time_fourier_transform/</guid><description>&lt;p>Sine Wave Signal&lt;/p>
+&lt;p>An audio signal, y(t), composed of exactly one sine wave, can be completely described by
+the parameters $t, A, f$ and $\phi$,
+$$
+y(t) = A \sin(2 \pi f t + \phi)
+$$
+where $t$ represents time in seconds, $A$ is the wave&amp;rsquo;s amplitude (unit-less), $f$ is
+its frequency in Hz, and $\phi$ is its phase offset in radians (i.e., where in the cycle
+the wave is at $t=0$). If $t \ne 0$, then the sine wave appears shifted in time by
+$\frac{\phi}{2 \pi f}$, where negative values mean &amp;ldquo;delay&amp;rdquo; and positive &amp;ldquo;advance&amp;rdquo; it.&lt;/p>
+&lt;p>Fourier Series&lt;/p>
+&lt;blockquote>
+&lt;p>Our old pal Fourier told us that any sound can be represented as an infinite summation
+of sine waves each with their own amplitudes, frequencies, and phase offsets. This means
+that any sound we hear can be represented as many, many tuples of $t, A, f, \phi$.&lt;/p>
+&lt;/blockquote>
+&lt;p>Time-Frequency representation&lt;/p>
+&lt;p>A Time-Frequency representation is a 2 dimensional matrix that represents the frequency
+contents of an audio signal over time.&lt;/p>
+&lt;p>We can visualize a TF Representation using a heatmap, which has time along the x-axis
+and frequency along the y-axis. Each &lt;em>TF bin&lt;/em> (entry in heatmap) in the heatmap
+represents the &lt;strong>amplitude&lt;/strong> of the signal at that particular time and frequency.
+If there is no color bar, it is usually safe to assume that brighter colors indicate
+higher amplitudes than darker colors.&lt;/p>
+&lt;p>&lt;img alt="TFrepr" src="images/dsp_tf_representation.png">&lt;/p>
+&lt;p>Short-time Fourier Transform (STFT)&lt;/p>
+&lt;p>An STFT is calculated from a waveform representation by computing a discrete Fourier
+transform (DFT) of a small, moving window across the duration of the window. The
+location of each entry in an STFT determines its time (x-axis) and frequency (y-axis).
+The absolute value of a TF bin |$X(t,f)$| at time t and frequency f determines the amount
+of energy heard from frequency $f$ at time $t$.&lt;/p>
+&lt;p>Importantly, each bin in our STFT is complex, meaning each entry contains both a
+magnitude component and a phase component. Both components are needed to convert an STFT
+matrix back to a waveform by &lt;em>inverse STFT&lt;/em> so that we may hear it.&lt;/p>
+&lt;p>&lt;img alt="STFT" src="images/dsp_stft_process.png">&lt;/p>
+&lt;p>Window Types&lt;/p>
+&lt;p>The window type determines the shape of the short-time window that will segment the
+audio into short segments before applying the DFT. The shape of this window will affect
+which frequencies get emphasized or attenuated in the DFT. There are many types of
+&lt;a href="https://docs.scipy.org/doc/scipy/reference/signal.windows.html">window functions&lt;/a>.&lt;/p>
+&lt;p>&lt;img alt="windows" src="images/dsp_window_types.png">&lt;/p></description></item></channel></rss>

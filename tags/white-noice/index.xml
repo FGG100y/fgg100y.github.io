@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>White Noice on fgg blog</title><link>https://fgg100y.github.io/tags/white-noice/</link><description>fgg blog (White Noice)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 10 May 2024 11:23:02 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/white-noice/index.xml" rel="self" type="application/rss+xml"/><item><title>Noise_in_DSP</title><link>https://fgg100y.github.io/posts/dsp101/2024-05-10-noise_in_dsp/</link><pubDate>Fri, 10 May 2024 11:23:02 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-05-10-noise_in_dsp/</guid><description>&lt;h1 id="whats-in-a-noise" >
+&lt;div>
+&lt;a href="#whats-in-a-noise">
+##
+&lt;/a>
+What&amp;rsquo;s in a &amp;ldquo;Noise&amp;rdquo;?
+&lt;/div>
+&lt;/h1>&lt;ul>
+&lt;li>As in English, it can mean an unwanted signal of any kind. If two signals interfere
+with each other, each signal would consider the other to be noise.&lt;/li>
+&lt;/ul>
+&lt;ul>
+&lt;li>&amp;ldquo;Noise&amp;rdquo; also refers to a signal that contains components at many frequecies, so it
+lacks the harmonic structure of the periodic signals.&lt;/li>
+&lt;/ul>
+&lt;p>This post is about the second kind.&lt;/p>
+&lt;h2 id="uncorrelated-noise" >
+&lt;div>
+&lt;a href="#uncorrelated-noise">
+#
+&lt;/a>
+Uncorrelated noise
+&lt;/div>
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>Uncorrelated uniform noise (UU noise)
+&amp;ldquo;uniform&amp;rdquo; means the signal contants random values from a uniform distribution,
+&amp;ldquo;uncorrelative&amp;rdquo; means the values are independent (one value provides no information about the others)&lt;/p>
+&lt;p>Relationship between power (square of amplitude) and frequency: In the spectrum of
+UU noise, the power at all frequecies is drawn from the same distribution; that is,
+the average power is the same for all the frequecies. (Better discribed by a
+Integrated spectrum of UU noise which it&amp;rsquo;s x-axis is frequency (Hz) and y-axis is
+cumulative fraction of total power.)&lt;/p>
+&lt;p>And the &amp;ldquo;Integrated Spectrum&amp;rdquo; figure should show a straight line for UU noise, which
+indicates that power at all frequecies is constant, on average. Noise with equal
+power at all frequecies is called &lt;strong>white noise&lt;/strong> (by analogy with light, because an
+equal mixture of light at all visible frequecies is white.)&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="brownian-noise" >
+&lt;div>
+&lt;a href="#brownian-noise">
+#
+&lt;/a>
+Brownian noise
+&lt;/div>
+&lt;/h2>&lt;p>In a Brownian noise, each value is the sum of the previous value and a random &amp;ldquo;step&amp;rdquo;. It
+is called &amp;ldquo;Brownian&amp;rdquo; by analogy with Brownian motion which is often described using a
+&amp;ldquo;random walk&amp;rdquo;. A random walk is a mathematical model of a path where the distance
+between steps is characterized by a random distribution.&lt;/p>
+&lt;p>In a one-dimensional random walk of Brownian motion of particle, it moves up or down by
+a random amount at each time step. The location of the particle at any point in time is
+the sum of all previous steps. And that is how Brownian noise would be generated.&lt;/p>
+&lt;p>For Brownian noise, the slope of the power spectrum is -2, so we can write this
+relationship as:
+$$
+\log P = k - 2\log f
+$$
+where $P$ is power, $f$ is grequency, and $k$ is the intercept of the line.
+Exponentiating both sides yields:
+$$
+P = K / f^2
+$$
+where $K$ is $e^k$, a scalar. And that power is proportional to $1/f^2$, which is
+characteristic of Brownian noise.&lt;/p>
+&lt;p>Brownian noise is also called &amp;ldquo;red noise&amp;rdquo;, for the same reason that white noise is
+called &amp;ldquo;white&amp;rdquo; &amp;ndash; combining visible light with power proportional to $1/f^2$, most of
+the power would be at the low-frequency end of the spectrum, which is red.&lt;/p>
+&lt;h2 id="pink-noise" >
+&lt;div>
+&lt;a href="#pink-noise">
+#
+&lt;/a>
+Pink noise
+&lt;/div>
+&lt;/h2>&lt;p>More generally, we can synthesize noise with any exponent, $\beta$, in power-frequency
+relationship:
+$$
+P = K / f^{\beta}
+$$
+when $\beta = 0$, power is constant at all frequencies, so the result is white noise.
+when $\beta = 2$, the result is red noise.&lt;/p>
+&lt;p>when $\beta$ is between 0 and 2, the result is between white and red noise, so it is
+called &amp;ldquo;pink noise&amp;rdquo;.&lt;/p>
+&lt;h2 id="gaussian-noise" >
+&lt;div>
+&lt;a href="#gaussian-noise">
+#
+&lt;/a>
+Gaussian noise
+&lt;/div>
+&lt;/h2>&lt;p>When people talk about &amp;ldquo;white noise&amp;rdquo;, they don&amp;rsquo;t always mean UU noise. In fact, more
+often they mean uncorrelative Gaussian noise (UG noise).&lt;/p>
+&lt;p>UG noise is similar in many ways to UU noise. The spectrum has equal power at all
+frequecies, on average, so UG is also white. And it has one other interesting property:
+the spectrum of UG noise is also UG noise. More precisely, the real and imaginary parts
+of the spectrum are Uncorrelated Gaussian values. (Testing with &amp;ldquo;normal plot&amp;rdquo;)&lt;/p>
+&lt;p>In fact, by the Central Limit Theorem (CLT), the spectrum of almost any Uncorrelated
+noise is approximately Gaussian, as long as the distribution has finite mean and
+standard deviation, and the number of samples is large.&lt;/p></description></item></channel></rss>
