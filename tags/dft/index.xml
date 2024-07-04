@@ -2,7 +2,7 @@
 &lt;pre>&lt;code>Given a signal, how to find the amplitude and phase offset of its frequency
 components?
 &lt;/code>&lt;/pre>
-&lt;p>An synthesis problem, which is equivalent to the &lt;strong>inverse DFT&lt;/strong>:&lt;/p>
+&lt;p>A synthesis problem, which is equivalent to the &lt;strong>inverse DFT&lt;/strong>:&lt;/p>
 &lt;pre>&lt;code>Given a set of frequency components and their amplitudes, how can we construct a
 signal?
 &lt;/code>&lt;/pre>
