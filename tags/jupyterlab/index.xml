@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jupyterlab on fgg blog</title><link>https://fgg100y.github.io/tags/jupyterlab/</link><description>fgg blog (Jupyterlab)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 22 Jul 2022 22:01:51 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/jupyterlab/index.xml" rel="self" type="application/rss+xml"/><item><title>利器3: Jupyterlab and its Kernels</title><link>https://fgg100y.github.io/posts/thecli/2022-07-22-jupyterwithdskernels/</link><pubDate>Fri, 22 Jul 2022 22:01:51 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/2022-07-22-jupyterwithdskernels/</guid><description>&lt;p>&lt;img alt="IMG_jupyterlab" src="images/jupyter_kernels.png">&lt;/p>
+&lt;p>New machine needs to be tailored for a better personal workflow. And this is
+about how &lt;a href="https://jupyter.org/">jupyter&lt;/a> can be a multi-language support
+co-work platform for regular DataScience works. Also note that Julia community
+has &lt;a href="https://github.com/fonsp/Pluto.jl">pluto&lt;/a> notebook, and R has its
+&lt;a href="https://www.rstudio.com/">RStudio&lt;/a>.&lt;/p>
+&lt;h1 id="jupyter-julia--python--r-all-in-one" >
+&lt;div>
+&lt;a href="#jupyter-julia--python--r-all-in-one">
+##
+&lt;/a>
+JuPyteR: Julia + Python + R all in one
+&lt;/div>
+&lt;/h1>&lt;p>1 check the Python came with system&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ which python3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If there is no python3 yet, install one:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ sudo apt install python3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note that this would install the latest version of Python.&lt;/p>
+&lt;p>2 Poetry or Virtualenv (Poetry is way tooooo slow 2021-12)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># create virtual envs:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>python3 -m venv dsvenv
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># install jupyterlab:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>./dsvenv/bin/python -m pip install jupyterlab
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note that this may create a venv without &lt;code>activate&lt;/code> scripts.
+If this is the case, check &lt;a href="https://stackoverflow.com/questions/26215790/venv-doesnt-create-activate-script-python3">more discussion
+here&lt;/a>&lt;/p>
+&lt;p>3 &lt;a href="https://mirrors.tuna.tsinghua.edu.cn/CRAN/">install R&lt;/a>, then&lt;/p>
+&lt;p>4 &lt;a href="https://julialang.org/downloads/platform/#linux_and_freebsd">install Julia&lt;/a>&lt;/p>
+&lt;p>5 activate python&amp;rsquo;s dsvenv (source ./dsvenv/bin/activate), then&lt;/p>
+&lt;p>a. Enter interactive R (REPL environment)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-R" data-lang="R">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># install &amp;#39;IRkernel&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#57c7ff">install.packages&lt;/span>(&lt;span style="color:#5af78e">&amp;#39;IRkernel&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># register the kernel in the current R installation&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>IRkernel&lt;span style="color:#ff6ac1">::&lt;/span>&lt;span style="color:#57c7ff">installspec&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># exit&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#57c7ff">q&lt;/span>()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>b. Enter interactive Julia (./path-to/julia.1.6.5/bin/julia)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Julia" data-lang="Julia">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">using&lt;/span> Pkg
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Pkg&lt;span style="color:#ff6ac1">.&lt;/span>add(&lt;span style="color:#5af78e">&amp;#34;IJulia&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Optional: build IJulia&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Pkg&lt;span style="color:#ff6ac1">.&lt;/span>build(&lt;span style="color:#5af78e">&amp;#34;IJulia&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note that if the path of binary of Julia somehow changed (reinstall etc),
+one need to perform extra command &lt;code>Pkg.build(&amp;quot;IJulia&amp;quot;)&lt;/code> which tells jupyter
+where to find the binary of Julia.&lt;/p>
+&lt;p>6 launch jupyterlab server, and that&amp;rsquo;s it!&lt;/p></description></item></channel></rss>
