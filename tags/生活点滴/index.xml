@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>生活点滴 on fgg blog</title><link>https://fgg100y.github.io/tags/%E7%94%9F%E6%B4%BB%E7%82%B9%E6%BB%B4/</link><description>fgg blog (生活点滴)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 16 Jun 2024 10:07:12 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/%E7%94%9F%E6%B4%BB%E7%82%B9%E6%BB%B4/index.xml" rel="self" type="application/rss+xml"/><item><title>路由器wifi连不上_但手机流量可以</title><link>https://fgg100y.github.io/posts/2024-06-16-wifi%E8%BF%9E%E4%B8%8D%E4%B8%8A_%E4%BD%86%E6%89%8B%E6%9C%BA%E6%B5%81%E9%87%8F%E5%8F%AF%E4%BB%A5/</link><pubDate>Sun, 16 Jun 2024 10:07:12 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-16-wifi%E8%BF%9E%E4%B8%8D%E4%B8%8A_%E4%BD%86%E6%89%8B%E6%9C%BA%E6%B5%81%E9%87%8F%E5%8F%AF%E4%BB%A5/</guid><description>&lt;p>Q：请问Wifi无法翻墙或访问某些网站，但用手机流量却可以是什么原因？&lt;/p>
+&lt;p>A:
+先说说你的wifi和5g环境下翻墙的问题，我猜测下你家里的宽带是不是移动的，手机流量用的是联通
+或者电信，总之，家庭宽带和5g不是一家isp。 如果是的话，这个问题就比较好理解，不同isp不同
+的地区都会有自己的一套黑名单机制。 所以可能你的家宽isp监测你的上网流量有不正常，或者大数
+据认为你的翻墙服务器很可疑（未必是你造成的，因为有很多人在用），于是开启了屏蔽，但是另一
+家手机isp并没有触发黑名单判定，所以未屏蔽。 移动的黑名单一般是最激进的，号称墙中墙，不过
+不同地区的同一服务商政策也会有很大差别，不好说谁就一定好，谁就一定差。所以解决方法就是换
+个翻墙服务器就可以了。&lt;/p>
+&lt;p>&lt;del>再说说机场问题，机场如果要找的话千千万，不夸张的说小学生都能开机场，所以，如果真
+要是选的话，如果你不太懂技术，就选大机场好了，可能贵一些，但是稳定性是有保障的。
+如果懂技术，就不如机场（或转发服务）+自建服务器结合的方式，这样就能兼顾速度和隐
+私安全。 几乎所有的机场都会有审查机制，最起码他需要监控流量来计费，只是审查程度
+和隐私数据处理严谨度有区别而已，看商家良心了。我个人没用过机场，只能说两个我所知
+道的比较大的，justmysocks，dler cloud，魅影极速。 另外，别太迷信那些机场推荐，基
+本都是掐饭。 对了，还有个我觉得你可以试下，叫Shiliew。 理由有2个，这个app的作者
+就是开源翻墙软件brook的作者，在app store里看着权限很干净，另外这个作者名字叫
+txthinking，有点致敬编程随想的意思，感觉他应该最起码不红吧。。。哈哈哈 但是这
+东西好用不好用我就不知道了。&lt;/del>&lt;/p>
+&lt;p>最后我再说下关于@han_chinese的观点，移动数据的审查是最强的，因为移动蜂窝数据是需要精确计
+费的，众所周知，每个服务商都有很多免流量服务，所以需要识别流量内容来判断计费与否。更甚的
+是，移动数据流量都会被自动标记上本机电话号码，他们还专门搞了api来卖这种服务。简单来讲，
+比如你用流量上京东，你不需要输入你的电话号码来注册或者登录，京东就已然知晓了，因为京东买
+了isp的api接口，只需要在网页中加入几行代码来调用这个api，你一旦用手机流量访问这个网页，
+电话号码就会返回给京东。 所以无论翻墙与否，都建议在使用数据流量上网时开启vpn服务来加密和
+中转数据。 关于买国外电话卡来翻墙，同样也是不靠谱的，因为外国的sim卡拿到中国来能用，只是
+漫游了而已，漫游的意思就是，国外和国内的isp签了合同，能让各自的用户租用自己这边的基站线
+路等设备来保证跨国使用，所以即使买了google-fi来中国使用，和你用中国的sim卡在中国使用，都
+是通过中国isp的基站线路和服务器。唯一区别就是google-fi的所有访问都会被列入白名单，但是数
+据流量的审计是一样的。你拿google-fi来上pincong，移动服务商是知道，只是不阻拦而已，这样一
+定程度上更加危险。&lt;/p>
+&lt;p>@han_chinese:
+中國電信市場的移動數據網絡使用的是複雜的多重企業IPv4-NAT，加之，移動數據網絡業務很複雜。所以，GFW對移動數據網路的审查較弱。
+建議直接使用國外數據業務，像是Google-Fi，使用不受GFW影響的移動數據網絡。&lt;/p>
+&lt;p>&lt;a href="https://pincong.rocks/question/45451">点这里查阅信息来源&lt;/a>&lt;/p></description></item></channel></rss>
