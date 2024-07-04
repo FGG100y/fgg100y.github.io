@@ -1,0 +1,156 @@
+<!doctype html><html lang=en data-theme><head><meta charset=utf-8><meta name=HandheldFriendly content="True"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=referrer content="no-referrer-when-downgrade"><title>利器2: Vimwiki 之 安装和适配数据科学的一些配置 - fgg blog</title>
+<meta name=description content="Last update: 2022-08-06 23:33:32
+# vimwiki 插件简介、安装和一些设置 在 vimwiki 里，所有的入口集中在指定的项目根目录下的 index.md 文档里。也就是要构 建的整个笔记系统（随便管它叫什么），index.md 可以成为它的整体框架以及各个主题的 索引。从这里可以去到各个主题，从各个主题的索引去到对应的内容，也可以从一个内容 去到另一个内容，内容可以是本地文档内/文档间，这完全取决于如何构建内容之间的连接。
+vimwiki 提供了必要的基础。但通常我们要写的文档并不是纯文本 (plain text) 而是带有 修饰语法的文本，比如 markdown, Tex/Latex 格式的文档。这两者的区别在于，前者是“ 所见即所得”，意思就是你写出来的内容和最后呈现的内容一模一样；后者则更像是写代码， 最后呈现出来的和所写的内容一致（但大部分时候不会一模一样），有人称之为 “所想即所得”，听起来有点玄乎。直接用 plain text 格式不就完了，折腾这些干嘛？遗憾 的是，只要你想要写一些复杂一点的数学公式（求导的链式法则），那么，没有专门的编辑 器的话，最快能够得到规范的数学公式的方法就是 &ndash; 手写。教科书内那些数学公式的呈现 效果基本都来自排版系统工具（Tex/Latex等）的支持。
+如果工作的内容涉及到较多的高等数学，并想自己编写的日志博客得到类似教科书式的数学 公式呈现，markdown 文档是相当友好的文本格式，而从 markdown 到最终效果的呈现之间， 需要我们作一些额外配置。
+现在我只需要用 mardown 格式编写内容，在本地链接的文字上敲击回车键(命令模式下)， 就可以打开这个本地链接的内容文档，然后编辑内容或者发呆或者别的什么，敲击 Delete 键(命令模式下)回到之前跳转来的地方；当然也可以设置和使用其他组合键来去到其他地 方。在每个地方，都可以用浏览器展示当前文档的内容的最终呈现效果，比如使用默认的 <leader>+w+h+h 快捷键就能在你的默认浏览器展示当前文档的内容，数学公式正是课本 上的那种它该有的样子，也可以像浏览百科网页时那样，自由跳转，来去自如。
+闲话少叙，直接上手。
+## 安装 vimwiki 插件 (使用管理插件的 Vim-Plug 插件来安装和管理)
+将下面的语句加入你自己的 vim 配置文件中，
+Plug 'vimwiki/vimwiki'
+然后运行命令 :PlugInstall
+如果你还不清楚这是什么意思，搜索: vimrc 或者 点击这里"><link rel=icon type=image/x-icon href=https://fgg100y.github.io/favicon.ico><link rel=apple-touch-icon-precomposed href=https://fgg100y.github.io/favicon.png><style>body{visibility:hidden;opacity:0}</style><noscript><style>body{visibility:visible;opacity:1}</style></noscript><link rel=stylesheet href=https://fgg100y.github.io/css/style.min.b4d24af3f8cf20d1698a5b809c35d6912485c2ea8bee514632a7b387676076bd.css integrity="sha256-tNJK8/jPINFpiluAnDXWkSSFwuqL7lFGMqezh2dgdr0="><link rel=stylesheet href=https://fgg100y.github.io/css/style.min.31d1662db6dd546a5622c56e7095ebbe00b4974b957a58b42c47937a98a3a611.css integrity="sha256-MdFmLbbdVGpWIsVucJXrvgC0l0uVeli0LEeTepijphE="><link rel=stylesheet href=https://fgg100y.github.io/css/style.min.159579eb91bf655c726d836d5df3d31b773597682769d2ccf74f0ce820296522.css integrity="sha256-FZV565G/ZVxybYNtXfPTG3c1l2gnadLM908M6CApZSI="><script src=https://fgg100y.github.io/js/script.min.74bf1a3fcf1af396efa4acf3e660e876b61a2153ab9cbe1893ac24ea6d4f94ee.js type=text/javascript integrity="sha256-dL8aP88a85bvpKzz5mDodrYaIVOrnL4Yk6wk6m1PlO4="></script></head><body><a class=skip-main href=#main>Skip to main content</a><div class=container><header class=common-header><div class=header-top><div class=header-top-left><h1 class="site-title noselect"><a href=/>fgg blog</a></h1><div class=theme-switcher><span class=inline-svg><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sun-high" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.828 14.828A4 4 0 109.172 9.172a4 4 0 005.656 5.656z"/><path d="M6.343 17.657l-1.414 1.414"/><path d="M6.343 6.343 4.929 4.929"/><path d="M17.657 6.343l1.414-1.414"/><path d="M17.657 17.657l1.414 1.414"/><path d="M4 12H2"/><path d="M12 4V2"/><path d="M20 12h2"/><path d="M12 20v2"/></svg></span></div><script>const STORAGE_KEY="user-color-scheme",defaultTheme="auto";let currentTheme,switchButton,autoDefinedScheme=window.matchMedia("(prefers-color-scheme: dark)");const autoChangeScheme=e=>{currentTheme=e.matches?"dark":"light",document.documentElement.setAttribute("data-theme",currentTheme),changeGiscusTheme(currentTheme)};document.addEventListener("DOMContentLoaded",function(){switchButton=document.querySelector(".theme-switcher"),currentTheme=detectCurrentScheme(),currentTheme==="auto"?(autoChangeScheme(autoDefinedScheme),autoDefinedScheme.addListener(autoChangeScheme)):document.documentElement.setAttribute("data-theme",currentTheme),switchButton&&switchButton.addEventListener("click",switchTheme,!1),showContent()});function detectCurrentScheme(){return localStorage!==null&&localStorage.getItem(STORAGE_KEY)?localStorage.getItem(STORAGE_KEY):defaultTheme?defaultTheme:window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}function switchTheme(){currentTheme=currentTheme==="dark"?"light":"dark",localStorage&&localStorage.setItem(STORAGE_KEY,currentTheme),document.documentElement.setAttribute("data-theme",currentTheme),changeGiscusTheme(currentTheme)}function showContent(){document.body.style.visibility="visible",document.body.style.opacity=1}function changeGiscusTheme(e){function t(e){const t=document.querySelector("iframe.giscus-frame");if(!t)return;t.contentWindow.postMessage({giscus:e},"https://giscus.app")}t({setConfig:{theme:e}})}</script><ul class=social-icons><li><a href=https://github.com/fgg100y title=Github rel=me><span class=inline-svg><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></span></a></li><li><a href=https://fgg100y.github.io/index.xml title=RSS rel=me><span class=inline-svg><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 19m-1 0a1 1 0 102 0 1 1 0 10-2 0"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></span></a></li></ul></div><div class=header-top-right></div></div><nav class=noselect><a href=https://fgg100y.github.io/ title>Home</a>
+<a href=https://fgg100y.github.io/posts/ title>Posts</a>
+<a href=https://fgg100y.github.io/tags/ title>Tags</a>
+<a href=https://fgg100y.github.io/about/ title>About</a></nav><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"]}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></header><main id=main tabindex=-1><article class="post h-entry"><div class=post-header><header><h1 class="p-name post-title">利器2: Vimwiki 之 安装和适配数据科学的一些配置</h1></header><div class="post-info noselect"><div class="post-date dt-published"><time datetime=2022-08-06>2022-08-06</time></div><a class="post-hidden-url u-url" href=https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki_part2/>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki_part2/</a>
+<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>fmh</a><div class=post-taxonomies><ul class=post-tags><li><a href>#Vimwiki 配置</a></li></ul></div></div></div><details class="toc noselect"><summary>Table of Contents</summary><div class=inner><nav id=TableOfContents><ul><li><a href=#vimwiki-插件简介安装和一些设置>vimwiki 插件简介、安装和一些设置</a><ul><li><a href=#安装-vimwiki-插件>安装 vimwiki 插件</a></li><li><a href=#配置-vimwiki-插件>配置 vimwiki 插件</a></li><li><a href=#数学公式的呈现>数学公式的呈现</a></li></ul></li><li><a href=#markdown-文档的即时展示-vim-instant-markdown>markdown 文档的即时展示: <code>vim-instant-markdown</code></a></li><li><a href=#markdown-文档的即时展示-jekyll-site>markdown 文档的即时展示: jekyll-site</a></li></ul></nav></div></details><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><p>Last update: 2022-08-06 23:33:32</p><h2 id=vimwiki-插件简介安装和一些设置><div><a href=#vimwiki-%e6%8f%92%e4%bb%b6%e7%ae%80%e4%bb%8b%e5%ae%89%e8%a3%85%e5%92%8c%e4%b8%80%e4%ba%9b%e8%ae%be%e7%bd%ae>#
+</a>vimwiki 插件简介、安装和一些设置</div></h2><p>在 vimwiki 里，所有的入口集中在指定的项目根目录下的 index.md 文档里。也就是要构
+建的整个笔记系统（随便管它叫什么），index.md 可以成为它的整体框架以及各个主题的
+索引。从这里可以去到各个主题，从各个主题的索引去到对应的内容，也可以从一个内容
+去到另一个内容，内容可以是本地文档内/文档间，这完全取决于如何构建内容之间的连接。</p><p>vimwiki 提供了必要的基础。但通常我们要写的文档并不是纯文本 (plain text) 而是带有
+修饰语法的文本，比如 markdown, Tex/Latex 格式的文档。这两者的区别在于，前者是“
+所见即所得”，意思就是你写出来的内容和最后呈现的内容一模一样；后者则更像是写代码，
+最后呈现出来的和所写的内容一致（但大部分时候不会一模一样），有人称之为
+“所想即所得”，听起来有点玄乎。直接用 plain text 格式不就完了，折腾这些干嘛？遗憾
+的是，只要你想要写一些复杂一点的数学公式（求导的链式法则），那么，没有专门的编辑
+器的话，最快能够得到规范的数学公式的方法就是 &ndash; 手写。教科书内那些数学公式的呈现
+效果基本都来自排版系统工具（Tex/Latex等）的支持。</p><p>如果工作的内容涉及到较多的高等数学，并想自己编写的日志博客得到类似教科书式的数学
+公式呈现，markdown 文档是相当友好的文本格式，而从 markdown 到最终效果的呈现之间，
+需要我们作一些<a href=/posts/thecli/thevim/2022-07-15-vimwiki_part2/###数学公式的呈现>额外配置</a>。</p><p>现在我只需要用 mardown 格式编写内容，在本地链接的文字上敲击回车键(命令模式下)，
+就可以打开这个本地链接的内容文档，然后编辑内容或者发呆或者别的什么，敲击 Delete
+键(命令模式下)回到之前跳转来的地方；当然也可以设置和使用其他组合键来去到其他地
+方。在每个地方，都可以用浏览器展示当前文档的内容的最终呈现效果，比如使用默认的
+<code>&lt;leader>+w+h+h</code> 快捷键就能在你的默认浏览器展示当前文档的内容，数学公式正是课本
+上的那种它该有的样子，也可以像浏览百科网页时那样，自由跳转，来去自如。</p><p>闲话少叙，直接上手。</p><h3 id=安装-vimwiki-插件><div><a href=#%e5%ae%89%e8%a3%85-vimwiki-%e6%8f%92%e4%bb%b6>##
+</a>安装 vimwiki 插件</div></h3><p>(使用管理插件的 <a href=https://github.com/junegunn/vim-plug>Vim-Plug</a> 插件来安装和管理)</p><p>将下面的语句加入你自己的 vim 配置文件中，</p><p><code>Plug 'vimwiki/vimwiki'</code></p><p>然后运行命令 <code>:PlugInstall</code></p><p>如果你还不清楚这是什么意思，搜索: vimrc 或者 <a href=https://vim.fandom.com/wiki/Open_vimrc_file>点击这里</a></p><h3 id=配置-vimwiki-插件><div><a href=#%e9%85%8d%e7%bd%ae-vimwiki-%e6%8f%92%e4%bb%b6>##
+</a>配置 vimwiki 插件</div></h3><ul><li>markdwon 格式</li></ul><p>vimwiki 默认使用 .wiki 格式，但这个格式的语法没有 markdown 语法使用的广泛和普遍,
+所以我个人是更倾向于使用 markdown 格式来编写文档。可以按照下面的做法进行相应配置：
+将下面的语句加入 <code>.vimrc</code>:</p><p><code>let g:vimwiki_ext2syntax={'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown', '.rmd': 'markdown'}</code></p><p>这是几个较为常见的 markdown 文档的后缀，最后一种 <code>rmd</code> 是 Rmardown 格式后缀。</p><ul><li>多个 index.md 文档</li></ul><p>前面提到过，index.md 是 vimwiki 的默认入口，类似于一本书的主目录，或者电子菜单。
+通常我们需要多个菜单，每个主题配一个菜单，从而使得内容更精简和自洽，而不是所有
+的内容全都汇集并拥挤在同一个地方。在顶级菜单，只需要给出到各个主题的链接即可。
+就像大饭店的电子菜单，客人对川菜感兴趣就点击“川菜”的目录即可，但没有必要将八大
+菜系所有菜名全都拥挤到一个主菜单上。<br>同上，将下面的语句加入到 <code>.vimrc</code><br>(不要直接复制粘贴，然后指望它就马上见效 🙄 因为你的目录不会/也不需要和我的相同):</p><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-vim data-lang=vim><span style=display:flex><span>  <span style=color:#ff6ac1>let</span> g:vimwiki_list = [
+</span></span><span style=display:flex><span>      \ {<span style=color:#5af78e>&#39;path&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki&#39;</span>, <span style=color:#5af78e>&#39;syntax&#39;</span>: <span style=color:#5af78e>&#39;markdown&#39;</span>, <span style=color:#5af78e>&#39;ext&#39;</span>: <span style=color:#5af78e>&#39;.md&#39;</span>, <span style=color:#5af78e>&#39;index&#39;</span>: <span style=color:#5af78e>&#39;index&#39;</span>,
+</span></span><span style=display:flex><span>      \  <span style=color:#5af78e>&#39;path_html&#39;</span>: <span style=color:#5af78e>&#39;~/VimwikiHtml&#39;</span>,
+</span></span><span style=display:flex><span>      \  <span style=color:#5af78e>&#39;template_ext&#39;</span>: <span style=color:#5af78e>&#39;.html&#39;</span>,
+</span></span><span style=display:flex><span>      \  <span style=color:#5af78e>&#39;template_default&#39;</span>:<span style=color:#5af78e>&#39;markdown&#39;</span>,
+</span></span><span style=display:flex><span>      \  <span style=color:#5af78e>&#39;template_path&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki/template/&#39;</span>,
+</span></span><span style=display:flex><span>      \  <span style=color:#5af78e>&#39;custom_wiki2html&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki/wiki2html.sh&#39;</span>,
+</span></span><span style=display:flex><span>      \ },
+</span></span><span style=display:flex><span>      \ {<span style=color:#5af78e>&#39;path&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki/LinuxTools&#39;</span>, <span style=color:#5af78e>&#39;syntax&#39;</span>: <span style=color:#5af78e>&#39;markdown&#39;</span>, <span style=color:#5af78e>&#39;ext&#39;</span>: <span style=color:#5af78e>&#39;.md&#39;</span>},
+</span></span><span style=display:flex><span>      \ {<span style=color:#5af78e>&#39;path&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki/LinuxTools/vim8&#39;</span>, <span style=color:#5af78e>&#39;syntax&#39;</span>: <span style=color:#5af78e>&#39;markdown&#39;</span>, <span style=color:#5af78e>&#39;ext&#39;</span>: <span style=color:#5af78e>&#39;.md&#39;</span>},
+</span></span><span style=display:flex><span>      \ {<span style=color:#5af78e>&#39;path&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki/LinuxTools/CLIs&#39;</span>, <span style=color:#5af78e>&#39;syntax&#39;</span>: <span style=color:#5af78e>&#39;markdown&#39;</span>, <span style=color:#5af78e>&#39;ext&#39;</span>: <span style=color:#5af78e>&#39;.md&#39;</span>},
+</span></span><span style=display:flex><span>      \ {<span style=color:#5af78e>&#39;path&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki/Programing&#39;</span>, <span style=color:#5af78e>&#39;syntax&#39;</span>: <span style=color:#5af78e>&#39;markdown&#39;</span>, <span style=color:#5af78e>&#39;ext&#39;</span>: <span style=color:#5af78e>&#39;.md&#39;</span>},
+</span></span><span style=display:flex><span>      \ {<span style=color:#5af78e>&#39;path&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki/Programing/Julia&#39;</span>, <span style=color:#5af78e>&#39;syntax&#39;</span>: <span style=color:#5af78e>&#39;markdown&#39;</span>, <span style=color:#5af78e>&#39;ext&#39;</span>: <span style=color:#5af78e>&#39;.md&#39;</span>},
+</span></span><span style=display:flex><span>      \ {<span style=color:#5af78e>&#39;path&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki/Programing/Latex&#39;</span>, <span style=color:#5af78e>&#39;syntax&#39;</span>: <span style=color:#5af78e>&#39;markdown&#39;</span>, <span style=color:#5af78e>&#39;ext&#39;</span>: <span style=color:#5af78e>&#39;.md&#39;</span>},
+</span></span><span style=display:flex><span>      \ {<span style=color:#5af78e>&#39;path&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki/Programing/Python&#39;</span>, <span style=color:#5af78e>&#39;syntax&#39;</span>: <span style=color:#5af78e>&#39;markdown&#39;</span>, <span style=color:#5af78e>&#39;ext&#39;</span>: <span style=color:#5af78e>&#39;.md&#39;</span>},
+</span></span><span style=display:flex><span>      \ {<span style=color:#5af78e>&#39;path&#39;</span>: <span style=color:#5af78e>&#39;~/VimWiki/Programing/ShellScripts&#39;</span>, <span style=color:#5af78e>&#39;syntax&#39;</span>: <span style=color:#5af78e>&#39;markdown&#39;</span>, <span style=color:#5af78e>&#39;ext&#39;</span>: <span style=color:#5af78e>&#39;.md&#39;</span>},
+</span></span><span style=display:flex><span>      \ ]
+</span></span></code></pre></div><p>在上面这个例子中，每一个花括号的内容其实就是对应一个主题的菜单 (index.md)，根据
+vimwiki 的默认快捷键, 比如， <code>2&lt;leader>ww</code> 就会直接打开 <code>~/Vimwiki/LinuxTools/index.md</code> 这个文件。
+那么，和以上的设置对应的目录结构是怎么样的呢？以下就是我个人 vimwiki 目录结构 (使用命令 <code>tree -L 2</code>):</p><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── index.md
+</span></span><span style=display:flex><span>├── LinuxTools
+</span></span><span style=display:flex><span>│   ├── commonCommandLines.md
+</span></span><span style=display:flex><span>│   ├── images
+</span></span><span style=display:flex><span>│   ├── index.md
+</span></span><span style=display:flex><span>│   ├── jupyterWithDSKernels.md
+</span></span><span style=display:flex><span>│   ├── linux_oracle_client_sqlplus_install_and_connection_setup.md
+</span></span><span style=display:flex><span>│   ├── linux_sqlserver_sqlcmd_install_and_connection_setup.md
+</span></span><span style=display:flex><span>│   ├── newBashConfig.md
+</span></span><span style=display:flex><span>│   ├── python_packages_management.md
+</span></span><span style=display:flex><span>│   ├── tmux.md
+</span></span><span style=display:flex><span>│   ├── vim8.md
+</span></span><span style=display:flex><span>│   └── vimwiki.md
+</span></span><span style=display:flex><span>├── mathjax
+</span></span><span style=display:flex><span>│   ├── bower.json
+</span></span><span style=display:flex><span>│   ├── composer.json
+</span></span><span style=display:flex><span>│   ├── CONTRIBUTING.md
+</span></span><span style=display:flex><span>│   ├── es5
+</span></span><span style=display:flex><span>│   ├── LICENSE
+</span></span><span style=display:flex><span>│   ├── package.json
+</span></span><span style=display:flex><span>│   └── README.md
+</span></span><span style=display:flex><span>├── myvimwikidir.txt
+</span></span><span style=display:flex><span>├── Programming
+</span></span><span style=display:flex><span>│   ├── index.md
+</span></span><span style=display:flex><span>│   ├── Julia
+</span></span><span style=display:flex><span>│   ├── Latex
+</span></span><span style=display:flex><span>│   ├── Python
+</span></span><span style=display:flex><span>│   └── ShellScripts
+</span></span><span style=display:flex><span>├── Session.vim
+</span></span><span style=display:flex><span>├── template
+</span></span><span style=display:flex><span>│   ├── default.html
+</span></span><span style=display:flex><span>│   └── markdown.html
+</span></span><span style=display:flex><span>└── wiki2html.sh
+</span></span></code></pre></div><p>如前所述，根目录的 <code>index.md</code> 是顶级主菜单，从这个文件内跳转到各个子主题。比如，
+我个人感兴趣的、一直在学习的3大主题分别是：机器学习（未列出），编程和Linux工具。
+而在 Programming 这个目录下的 <code>index.md</code> 就是这个主题的主菜单，显然，这个主题
+下还有‘Julia’，‘Latex’，‘Python’，‘ShellScripts’等几个内容。不用说，还可以设计
+更细分的内容。每个主题都足够我喝上几壶的了 🍻 。毕竟，谁又说了构建比较完整的
+知识体系是一朝一夕能完成的呢？正所谓，志不强者智不达。</p><p>而 mathjax 目录，正是想要展现数学公式效果所依赖的本地包，接下来就讲这个的配置。</p><h3 id=数学公式的呈现><div><a href=#%e6%95%b0%e5%ad%a6%e5%85%ac%e5%bc%8f%e7%9a%84%e5%91%88%e7%8e%b0>##
+</a>数学公式的呈现</div></h3><p><code>vimwiki2html</code> 命令和 &ldquo;mathjax&rdquo; 目录</p><p>vimwiki 自带了一个 <code>vimwiki2html</code> 命令，顾名思义，就是把 mardown/wiki 格式的源
+文档转换成 html 格式的文档。但这个命令并不支持数学公式的渲染，得改造。这正是
+<a href=https://www.mathjax.org/>mathjax</a> 闪亮登场的地方。已经有人把 <code>vimwiki2html</code>
+命令所依赖的脚本作了相应的<a href=https://gist.github.com/enpassant/0496e3db19e32e110edca03647c36541>升级版</a>，
+它能将 markdown 文件转换为 html 文件，并支持数学公式的渲染。有些人走的<a href=https://gist.github.com/maikeldotuk/54a91c21ed9623705fdce7bab2989742>更远</a>
+但他们均假设没有所谓的什么“外网”访问限制云云。所以，还需要一点折中操作，那就是
+‘本地化’。先哲说‘山不过来，我走过去’。网络时代刚好相反，既然访问不到，那就把它
+复制回来（基本前提是开源，嗯，伟大的开源）。</p><p>所谓本地化，就是：1）把 mathjax 复制到本地；2）配置 vimwiki 的命令脚本找到它。
+以下是具体操作：</p><ol><li>在 vimwiki 的根目录下，执行以下命令：</li></ol><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>git clone https://github.com/mathjax/MathJax.git mathjax<span style=color:#5af78e>`</span>
+</span></span></code></pre></div><ol start=2><li>下载并更改 <code>wiki2html.sh</code> 文件的以下内容
+(# 号开头的语句是被注释掉的原文，以备参考):</li></ol><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>    <span style=color:#78787e># HAS_MATH=$(grep -o &#34;\$\$.\+\$\$&#34; &#34;$INPUT&#34;)</span>
+</span></span><span style=display:flex><span>    <span style=color:#78787e># if [ ! -z &#34;$HAS_MATH&#34; ]; then</span>
+</span></span><span style=display:flex><span>    <span style=color:#78787e>#     MATH=&#34;--mathjax=https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#78787e># else</span>
+</span></span><span style=display:flex><span>    <span style=color:#78787e>#     MATH=&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#78787e># fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff5c57>HAS_MATH</span><span style=color:#ff6ac1>=</span><span style=color:#ff6ac1>$(</span>grep -o <span style=color:#5af78e>&#34;\$\$*\+\$\$&#34;</span> <span style=color:#5af78e>&#34;</span><span style=color:#ff5c57>$INPUT</span><span style=color:#5af78e>&#34;</span><span style=color:#ff6ac1>)</span>
+</span></span><span style=display:flex><span>    <span style=color:#78787e># # load mathjax from local copy (in case the CDN not work)</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>if</span> <span style=color:#ff6ac1>[</span> -n <span style=color:#5af78e>&#34;</span><span style=color:#ff5c57>$HAS_MATH</span><span style=color:#5af78e>&#34;</span> <span style=color:#ff6ac1>]</span>; <span style=color:#ff6ac1>then</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff5c57>MATH</span><span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;--mathjax=path2your-mathjax/es5/tex-chtml.js?config=TeX-AMS-MML_HTMLorMML&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>else</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff5c57>MATH</span><span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>fi</span>
+</span></span></code></pre></div><p>注意：&ldquo;path2your-mathjax&rdquo; 应该修改成你自己的路径，
+比如我的路径是这样的：&rsquo;/home/myacct/VimWiki/mathjax/es5/'</p><p>我不太懂 html，我在这里的诉求就是能让转换后的 html 文档正常显示数学公式。
+但后来发现，要实现这个目标，其实不一定非得先转换成 html 文件。</p><h2 id=markdown-文档的即时展示-vim-instant-markdown><div><a href=#markdown-%e6%96%87%e6%a1%a3%e7%9a%84%e5%8d%b3%e6%97%b6%e5%b1%95%e7%a4%ba-vim-instant-markdown>#
+</a>markdown 文档的即时展示: <code>vim-instant-markdown</code></div></h2><p>前面说过，大部分的 markdown 并非“所见即所得”，但如果一个人的欲望正常，通常都想
+要看看正在写的内容到底是什么显示效果，毕竟，早发现早治疗嘛（一气呵成的爽文自然
+是有，但我更相信优秀的作品通常是修改出来的）。当然，早就有人把这种正常不过的
+需求实现并共享了，那就是： <a href=https://github.com/instant-markdown/vim-instant-markdown>vim instant markdown</a>
+这也是一个 Vim 的插件，具体的安装和配置也简便，直接根据其 readme 文件进行即可。</p><p>但其实“每改一个字就刷新一次”和“写完了所有内容才看上一眼最终效果”一样不甚妥贴，
+前者使人分心，后者使人担心。因此，当想要检查某个段落（尤其是包含许多数学公式
+的段落）的呈现效果时，调用命令 <code>InstantMarkdwonPreview</code> ，停用则 <code>InstantMarkdwonStop</code>。
+我很喜欢这种快速反应，有仇就报，当场就报；知错就改，善莫大焉。
+但如果觉得白纸黑字的预览网页版面过于朴素不够滋味，那么，可能你需要的是一个能够自定义的网页。</p><h2 id=markdown-文档的即时展示-jekyll-site><div><a href=#markdown-%e6%96%87%e6%a1%a3%e7%9a%84%e5%8d%b3%e6%97%b6%e5%b1%95%e7%a4%ba-jekyll-site>#
+</a>markdown 文档的即时展示: jekyll-site</div></h2><p><code>vim-instant-markdown</code> 展示的就是文档的呈现内容，也仅仅就是内容而已。如果想要
+更多，那么，备选方案就是静态网站生成器（如<a href=https://jekyllrb.com/>jekyll</a>)，
+顾名思义，就是这玩意儿直接给你打包生成网站需要的一揽子部件。
+（网站意味着高度定制的自由，是不是听着就觉得开心？如果你够耐心看到这里，我就
+估摸着你也应该也是个爱折腾的人，爱在机器上捣鼓各种工具的人想必也知道，所谓的
+“高度定制”的另一个说法大约是说：来呀，折腾呀，快活呀）。</p><p>你知道吗？从 <code>vimwiki</code> 的编辑系统到 jekyll 博客网页，只需要一个命令：<code>:Postit</code></p><p>当然了，这明显属于广告用语，和‘一天学会python，七天掌握机器学习’之类差不多。</p><p>俗语有云：“前端一分钟，后端十年功”。<code>Postit</code> 命令需要一些基础来支撑：</p><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-viml data-lang=viml><span style=display:flex><span>command Postit :<span style=color:#ff6ac1>execute</span> <span style=color:#5af78e>&#34;w!&#34;</span> . <span style=color:#5af78e>&#34;Path_to_jekyllsite_root/_posts/&#34;</span> . strftime(<span style=color:#5af78e>&#34;%Y-%m-%d-&#34;</span>) . expand(<span style=color:#5af78e>&#34;%:t&#34;</span>)
+</span></span></code></pre></div><p>这语句要写在 <code>.vimrc</code> 文件里，这个实际上是设置 vim 命令。</p><p>注: 这个命令的实际意思是：将当前编辑的文件以 jekyll 的 post 文件的所要求格式
+进行命名，并保存到你的 jekyll 项目的 _post/ 目录下。</p><p>因为 jekyll 的 post 全部要求以“年-月-日-”作为文件名前缀 (比如：
+“2022-02-02-好多二.md”)。命令中的 “.” 是 viml 语法中 &ldquo;concatenate&rdquo; 的意思。</p><p>虽然谈不上难以忍受，但我个人不是很理解这种硬编码，文件命名格式为何非如此不可？
+是bug还是feature，那就见仁见智了。我听说还有一个静态网站生成器名叫
+<a href=https://gohugo.io/>Hugo</a> 的，不知其手艺如何 &mldr;</p><hr><p>刚开始使用 vimwiki 时，也是不停的摸索，数学公式的显示一直是个头疼的问题，毕竟，
+从“歪果仁”那里借鉴来的默认配置需要能访问外网，而这个想必不是我们能够默认得了的，
+只能先忍着那些令人不快的如同乱码的 latex 语句挂在页面上，
+（尤其是，当你明明知道这些公式本可以优雅的展示，却不能够时，不快就变成了愤怒）。</p><p>没有像作为新手时在不同的 Linux 发行版跳来跳去那般，我知道 vimwiki 就是我的菜，
+以前使用 vimwiki 过程碰上的各种“暂时”的没有解决的问题，开始变得令人不能忍受，
+特别是平时浏览其他网页时每每看到人家的的数学公式又多又靓，那简直就是一场侮辱。
+我走了这么远，就差那么最后一步，我心不甘。所以我就折腾，一天，两天，三天 &mldr;
+我是贪婪的人，无法放弃一步之遥的诱惑，幸运的是我还是折腾到了我想要的“更多”。</p><p>是的，距离太远可能直接放弃，而一步之遥最是销魂 😂</p><p>其实，该庆幸的是我碰上的问题早就有人先碰上也先解决了，我只是找到了这个方法，
+应该说是‘搜索’到了这个方法，并作了必要的调整。‘闻道有先后’的基础就是分享，
+对于这些解决了实际问题的人，很是感激他们的分享，没有分享，大家的日子不会好过。</p></div></article><div class="pagination post-pagination"><div class="left pagination-item"><a href=/posts/thecli/thevim/2022-08-13-vim8/>利器4: Vim 编辑器 &ndash; 只因为在键盘之中，方向键太遥远</a></div><div class="right pagination-item"><a href=/posts/thecli/thevim/2022-07-15-vimwiki/>利器2: Vimwiki 之 如何用 vimwiki 记笔记</a></div></div></main><footer class="common-footer noselect"><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div>Powered by <a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, theme <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>fmh</a></p></footer></div></body></html>

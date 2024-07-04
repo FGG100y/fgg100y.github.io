@@ -2957,7 +2957,600 @@ Hugo的markdown文档里的数学公式块，如果不确定，就在下标那�
 讽刺的是：不把它们放在 &lt;code>$$&lt;/code> 数学公式块里，我还必须添加转义字符，否则渲染不出这个效果😂):&lt;/p>
 &lt;p>\tag{5.59}
 \theta_{ML} = \underset{\theta}{\operatorname{argmax}} \mathbb{E}_{x \sim \hat{p}_{data}}{\log p_{model} {(x^i; \theta})}&lt;/p>
-&lt;p>数学公式块里表达下标的语法，无端端要添加一个前置转义字符，这就是我所没有料到的。想必应该是Hugo没有做好关于转义字符的上下文解析问题，且先将就着吧。&lt;/p></description></item><item><title>Linear Regression: frequentist &amp; bayesian</title><link>https://fgg100y.github.io/posts/regressionmodels/linear_regression/</link><pubDate>Wed, 25 Aug 2021 13:49:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/regressionmodels/linear_regression/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>**Important Note**:
+&lt;p>数学公式块里表达下标的语法，无端端要添加一个前置转义字符，这就是我所没有料到的。想必应该是Hugo没有做好关于转义字符的上下文解析问题，且先将就着吧。&lt;/p></description></item><item><title>利器4: Vim 编辑器 -- 只因为在键盘之中，方向键太遥远</title><link>https://fgg100y.github.io/posts/thecli/thevim/2022-08-13-vim8/</link><pubDate>Sat, 13 Aug 2022 21:37:59 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/thevim/2022-08-13-vim8/</guid><description>&lt;h2 id="vim-初体验" >
+&lt;div>
+&lt;a href="#vim-%e5%88%9d%e4%bd%93%e9%aa%8c">
+#
+&lt;/a>
+Vim 初体验
+&lt;/div>
+&lt;/h2>&lt;p>“多年以后，面对显示屏，&amp;ldquo;逃离了巨硬·仍旧愤怒·懵懂菜鸟&amp;quot;将会回想起初次尝试 Vim 编辑器
+而被困在里面叫天不应叫地不灵的那个遥远的下午”。&lt;/p>
+&lt;p>那时候的我（2017），是个二十多岁的青年，刚刚认识终端和 Linux 大概是怎么一回事，
+感觉恰似上天给我关了那扇“窗”，自己推开了 Linux 世界的大门。
+世界新生伊始，许多事物还不知其名何处，对许多“拿来主义”的命令仍旧半信半疑，
+简直就是一场大冒险 (没有性命之攸的那种)。&lt;/p>
+&lt;p>当我发现在文本编辑器里的光标可以用 h,j,k,l 来进行左下上右移动时，“不懂，但我大受震撼”。&lt;/p>
+&lt;p>（其实就是见识少，不是所有键盘都有独立的方向键，更不是操作系统就只一个 windows
+，不过我是二十好几的人了才知道这个事情，用于连的话讲就是：“啊，这是一场侮辱”。）&lt;/p>
+&lt;p>虽然第一次尝试 Vim 就被抛弃到了荒岛，好在我对这样一个新奇的世界，早有心理准备。
+事实证明，要适应新环境，最好的武器不过是“一点好奇心和多点耐心”。从那以后，
+感觉就好像“居住在兔子皮毛深处的微生物”竭力向毛尖爬去，“以便将魔术师看个清楚”。&lt;/p>
+&lt;p>终端里能用的优秀工具多得让我觉得简直“就像是在海边拣贝壳的孩子&amp;rdquo;，而 Vim 编辑器无疑是我最喜爱的那一枚。
+而在海边放贝壳的无疑是那些乐于分享的同道中人，我相信真正的进步来自于分享。&lt;/p>
+&lt;p>后来当我大概明白 vimrc 文件是怎么一回事之后，我第一件事就是给它加上了这一句:&lt;/p>
+&lt;p>&lt;code>set mouse=&lt;/code>&lt;/p>
+&lt;p>其实当时是怀着对旧日那种凡事必得“鼠标点击拖拽”宣战的忐忑心态。&lt;/p>
+&lt;p>后来怎么样了？&lt;/p>
+&lt;p>后来我发现，其实不怎么需要“专门腾出一只手用鼠标操控”。
+如果是在终端干活，你乐意的话，那就是：根本不需要。
+如果你极端点，在哪里都不需要鼠标。
+除非是你另一只手在忙点别的什么，或者是老板要“麻烦”你给“赶紧”修改一篇work文档，客户在线等那种&amp;hellip;&lt;/p>
+&lt;h2 id="vim-编辑器" >
+&lt;div>
+&lt;a href="#vim-%e7%bc%96%e8%be%91%e5%99%a8">
+#
+&lt;/a>
+Vim 编辑器
+&lt;/div>
+&lt;/h2>&lt;h3 id="vim-是干啥的" >
+&lt;div>
+&lt;a href="#vim-%e6%98%af%e5%b9%b2%e5%95%a5%e7%9a%84">
+##
+&lt;/a>
+Vim 是干啥的
+&lt;/div>
+&lt;/h3>&lt;p>首先应该了解： Vim 适用于什么场景？&lt;/p>
+&lt;blockquote>
+&lt;p>“Vim是从 vi 发展出来的一个文本编辑器。
+其代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。
+和Emacs并列成为类Unix系统用户最喜欢的编辑器。”&lt;/p>
+&lt;/blockquote>
+&lt;p>平时我在浏览中（尤其是寻找一些功能插件过程）也看到有人发博客说他/她是用 Vim 进
+行“写作”的（主要是关于 $\LaTeX$, $\TeX$, markdown 的插件），但我想如果是用来进
+行文学创作这一类的工作的话，重点可能不在于编辑器，很简单，还没有“电脑”的时代就
+已经诞生了太多优秀作品。
+（想象大佬曹雪芹面对电脑屏幕“十年删改”《红楼梦》总觉得有点荒诞，
+但是就算是有电脑，这难点肯定不在于删改（编辑器无关紧要），而在于文学创造。
+极有可能他根本买不起电脑。）&lt;/p>
+&lt;p>反过来却不一样，至少我们这年代，没有听说哪个成功的软件产品，它的代码是用手写在草稿纸上 &amp;hellip;
+怪诞的是，面试的时候倒是有不少这种要手写代码啊伪代码这种事情，我觉得这多多少少有点黑色幽默。&lt;/p>
+&lt;p>简而言之，vim是个编辑器，很多人用它来写代码，也有人用它来干其他。&lt;/p>
+&lt;p>随着了解深入，慢慢就会接触到诸如“编辑器之战”、“编程语言之争”这一类话题。&lt;/p>
+&lt;h3 id="编辑器之战" >
+&lt;div>
+&lt;a href="#%e7%bc%96%e8%be%91%e5%99%a8%e4%b9%8b%e6%88%98">
+##
+&lt;/a>
+编辑器之战
+&lt;/div>
+&lt;/h3>&lt;blockquote>
+&lt;p>“编辑器之战是指计算机编程领域内，
+两类文本编辑器 vi（以及衍生版本）和 Emacs 用户之间的对抗冲突。
+这已经成为黑客文化和自由软件社区文化的一部分。&lt;/p>
+&lt;/blockquote>
+&lt;p>一些 Emacs 用户说：&lt;/p>
+&lt;blockquote>
+&lt;p>Vi 有两个模式，“不停地哔哔叫”和“搞砸一切”。&lt;/p>
+&lt;/blockquote>
+&lt;p>而据 Vi 用户称：&lt;/p>
+&lt;blockquote>
+&lt;p>一些 Emacs 用户由于修改键过多而使用脚踏板。&lt;/p>
+&lt;/blockquote>
+&lt;p>一些博客博文、影视作品也都会出现这些内容场景，而且大都是轻松欢乐的场景。比如，
+《硅谷》里理查德和他“简直就是踩了狗屎运”才勾搭上的漂亮女友就为了 Vim 和 Emacs
+、使用 Tab 还是 Space 进行代码缩进以及缩进风格而吵了起来，继而直接闹掰，
+最后以理查德秀逗了的在用身体力行进行“缩进演示”中滚下楼梯而告终。
+&amp;hellip;&lt;/p>
+&lt;blockquote>
+&lt;p>战火在两群用户之间多次点燃，他们互相蔑视，坚信自己的选择才是最完美的。
+相比其他的IT领域战争（浏览器大战、操作系统之争、编程语言之争、代码缩进风格之战
+等等)，编辑器的选择其实通常只是个人问题。 ”&lt;/p>
+&lt;/blockquote>
+&lt;p>如果不小心也卷入了这些战争，请记住：编辑器的选择其实通常只是个人问题。&lt;/p>
+&lt;p>当然，实在吵得不可开交的时候，别忘了搬出编程语言之争里那句一锤定音的话题终结语：
+“PHP 才是真好的编程语言，不接受任何反驳。”&lt;/p>
+&lt;p>如果想了解更多，可以去 &lt;a href="https://zh.m.wikipedia.org/zh-hans/Vim">Vim 维基词条&lt;/a>
+了解更多精彩内容。如果你甚至无法访问维基百科，那不是你的错，不过你得想办法。&lt;/p>
+&lt;h2 id="vim-及其配置" >
+&lt;div>
+&lt;a href="#vim-%e5%8f%8a%e5%85%b6%e9%85%8d%e7%bd%ae">
+#
+&lt;/a>
+vim 及其配置
+&lt;/div>
+&lt;/h2>&lt;p>如果你是想入门而还在门口徘徊的，可以先在终端 (Terminal) 里输入 &lt;code>vimtutor&lt;/code>，
+然后看看你感觉如何。如果你认真追随，你会发现一切自有道理。貌似还挺好玩。
+嗯，咦，怎么退出这编辑器呢？&lt;/p>
+&lt;h3 id="现代码仔如何在终端界面退出vim编辑器" >
+&lt;div>
+&lt;a href="#%e7%8e%b0%e4%bb%a3%e7%a0%81%e4%bb%94%e5%a6%82%e4%bd%95%e5%9c%a8%e7%bb%88%e7%ab%af%e7%95%8c%e9%9d%a2%e9%80%80%e5%87%bavim%e7%bc%96%e8%be%91%e5%99%a8">
+##
+&lt;/a>
+现代码仔如何在终端界面退出vim编辑器
+&lt;/div>
+&lt;/h3>&lt;p>如果你和我当初一样一头雾水&amp;hellip; 淡定淡定，输入 &lt;code>:q&lt;/code> ，按下 &lt;code>Enter&lt;/code> 即可退出。&lt;/p>
+&lt;p>嗯，如果你正在输入，需要先按下 &lt;code>Esc&lt;/code>，然后输入 &lt;code>:q&lt;/code> 来退出。&lt;/p>
+&lt;p>这个操作也不好使？八成你是在别的模式里，比如 &lt;code>Ex mode&lt;/code>，
+八成它也会提示你输入 &lt;code>visual&lt;/code> 来返回到 &lt;code>normal mode&lt;/code>。&lt;/p>
+&lt;p>如果不是这种情况，极有可能是你不小心按了 &lt;code>q&lt;/code> 进入命令录制，
+通常要是你多按几次 &lt;code>q&lt;/code> 来观察，会发现有 &lt;code>recording @&lt;/code> 的提示，
+这就是多命令录制无疑，重复操作：输入 &lt;code>:q&lt;/code> ，按下 &lt;code>Enter&lt;/code> 即可退出。&lt;/p>
+&lt;p>如果都不是，并且“他X的按什么也没用”，先检查一下你的机器是否还在正常工作，
+是，则重复以下操作：输入 &lt;code>:q&lt;/code>，按下 &lt;code>Enter&lt;/code>。&lt;/p>
+&lt;p>如果你所有好奇心还没有被消耗殆尽，我来告诉你一个好消息：
+vim 共有 &lt;a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">12种模式&lt;/a>。&lt;/p>
+&lt;p>这确实是个新世界。&lt;/p>
+&lt;h2 id="vimrc" >
+&lt;div>
+&lt;a href="#vimrc">
+#
+&lt;/a>
+vimrc
+&lt;/div>
+&lt;/h2>&lt;p>应当注意：从第一次在终端输入 &lt;code>vim&lt;/code> 到开始了解和使用自己配置的 &lt;code>.vimrc&lt;/code>，
+从前者到后者，每个人所经历的时间不太一样，毕竟每个人的生活和目的千差万别。
+（倒不是说，刚开始使用 vim 就不能直接上手个人配置，而是想说明，
+“步子迈大了，容易扯着蛋”；一旦放弃了探索和思考，容易一碰挫折就十分沮丧。）
+但在很多文章里，这两者之间多半就是一个空行的距离。
+（因此我决定在这个空行之前添加一点说明，以下的内容新手初看时不太明白实属正常）&lt;/p>
+&lt;p>Vim 如此受欢迎，它的丰富的插件生态应该是一个重要的原因。为什么有这么多插件呢？
+因为有这么多的需求。因为有那么多的插件，所以有了要管理插件（更新、删除等）的
+插件。使用比较广泛的有：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/junegunn/vim-plug">vim-plug&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/VundleVim/Vundle.vim">Vundle&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/tpope/vim-pathogen">Pathogen&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/k-takata/minpac">minpac&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>它们的安装和使用条件都在各自的主页有详细说明，这里不再搬运。那到底用哪个呢？
+你在阅读他们的说明的时候自己就会有答案，如果还是难以决定，我的建议就是像八戒
+所说的那样：“待俺老猪一家家吃将去！”。（我自己嘛，吃过了三家）&lt;/p>
+&lt;p>从 vim8.0 开始，vim 自带插件管理的功能特性（实际上，前述的 &lt;code>minpac&lt;/code> 就利用了
+这些特性），我仅在这个功能出来的时候尝过新（满足好奇心而已，浅尝辄止），
+因为已经习惯了所用的管理插件的插件：）(更新：后来我改变了主意)&lt;/p>
+&lt;p>如果说管理插件的插件可以由 vim 自带的功能所提供，那么，有多少插件是必须的呢？&lt;/p>
+&lt;p>有人作了很好的总结：
+&lt;a href="https://thoughtbot.com/blog/how-to-do-90-of-what-plugins-do-with-just-vim">How to Do 90% of What Plugins Do (With Just Vim)&lt;/a>&lt;/p>
+&lt;p>如果你崇尚极简主义，值得一试。（不是说就一定要如此，而是知道有的选择）&lt;/p>
+&lt;p>这里提到的应该都理解为是“别人的”个人配置，而所谓“个人配置”，基本意思就是：
+走过路过，可以随便错过。
+看到钟意的，拿走不谢。看到不爽的，请去Pull Request，切勿乱喷粪。&lt;/p>
+&lt;p>大佬&lt;a href="https://en.wikipedia.org/wiki/Linus_Torvalds">林纳斯·托瓦兹&lt;/a>早就看透了那些到处乱喷的键盘侠，他的至理名言说明了一切：&lt;/p>
+&lt;blockquote>
+&lt;p>&amp;ldquo;On the Internet, talk is cheap, show me the code.&amp;rdquo;&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="vimrc-vimrc" >
+&lt;div>
+&lt;a href="#vimrc-vimrc">
+#
+&lt;/a>
+vimrc (~/.vimrc)
+&lt;/div>
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-vim" data-lang="vim">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34; ================================Part-1: Plugins============&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>call plug#begin(&lt;span style="color:#5af78e">&amp;#39;~/.vim/bundle&amp;#39;&lt;/span>) &lt;span style="color:#78787e">&amp;#34; reuse the bundle dir&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== tmux ===-------------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;christoomey/vim-tmux-navigator&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; vim &amp;lt;-&amp;gt; tmux, pane dance&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;edkolev/tmuxline.vim&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; status line&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== Coding enhancement ===-------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;airblade/vim-gitgutter&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; shows git diff sign and more&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;tpope/vim-fugitive&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; awsome git wrapper!&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;tpope/vim-repeat&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; enhance . repeat&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;dense-analysis/ale&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; linters config&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;mileszs/ack.vim&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; cherrypick your strings&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;junegunn/fzf&amp;#39;&lt;/span>, { &lt;span style="color:#5af78e">&amp;#39;do&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;./install --all&amp;#39;&lt;/span> } | Plug &lt;span style="color:#5af78e">&amp;#39;junegunn/fzf.vim&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== Python enhancement ===-------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; Plug &amp;#39;Valloric/YouCompleteMe&amp;#39; &amp;#34; for completion&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;davidhalter/jedi-vim&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; python auto-completion&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== Wiki/markdown enhancement ===-------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;vimwiki/vimwiki&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; for personal wiki&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;mzlogin/vim-markdown-toc&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; for table_of_content&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;plasticboy/vim-markdown&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; couple with vim-instant-markdown&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;instant-markdown/vim-instant-markdown&amp;#39;&lt;/span>, {&lt;span style="color:#5af78e">&amp;#39;for&amp;#39;&lt;/span>: [&lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;markdown.pandoc&amp;#39;&lt;/span>]}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== Latex support ===-------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;lervag/vimtex&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; for LaTeX files&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;xuhdev/vim-latex-live-preview&amp;#39;&lt;/span>, { &lt;span style="color:#5af78e">&amp;#39;for&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;tex&amp;#39;&lt;/span> } &lt;span style="color:#78787e">&amp;#34; Lively Previewing&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== Julia lang ===-------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;JuliaEditorSupport/julia-vim&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== for GnuPG ===-----------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;jamessan/vim-gnupg&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; transparent editting .gpg files&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== Code/Project navigation ===-------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;easymotion/vim-easymotion&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; quickly move&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;preservim/nerdtree&amp;#39;&lt;/span>, { &lt;span style="color:#5af78e">&amp;#39;on&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;NERDTreeToggle&amp;#39;&lt;/span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== local plugins (manually install and update) ===-----&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34; 中文跳转 (easymotion-like)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;~/.vim/bundle/vim-PinyinSearch&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>call plug#end() &lt;span style="color:#78787e">&amp;#34; required&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装和使用 vim-plug 的步骤：&lt;/p>
+&lt;ol>
+&lt;li>下载并保存到 &lt;code>~/.vim/autoload/&lt;/code> 目录下 （在终端操作）&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>curl -fLo ~/.vim/autoload/plug.vim --create-dirs &lt;span style="color:#5af78e">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">&lt;/span> https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;li>配置 &lt;code>~/.vimrc&lt;/code> 文件的相应内容（必须遵循的格式）：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>call plug#begin&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;~/.vim/bundle&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">)&lt;/span> &lt;span style="color:#5af78e">&amp;#34; reuse the bundle dir
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">Plug &amp;#39;tpope/vim-fugitive&amp;#39; &amp;#34;&lt;/span> awsome git wrapper!
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>call plug#end&lt;span style="color:#ff6ac1">()&lt;/span> &lt;span style="color:#5af78e">&amp;#34; required
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在 &lt;code>plug#begin()&lt;/code> 和 &lt;code>plug#end()&lt;/code> 之间就是你想要安装和管理的插件的列表。
+&lt;code>Plug 'tpope/vim-fugitive'&lt;/code> 就是指明想要安装并管理 vim-fugitive 这个插件。&lt;/p>
+&lt;p>如果 &lt;code>plug#begin()&lt;/code> 括弧里为空，则默认是奖所有的插件安装到 &lt;code>.vim/plugged/&lt;/code>，
+上文的我的配置中，我是指定了 &lt;code>.vim/bundle&lt;/code> 作为插件的目录
+（因为我在使用 vim-plug 之前就已经在这个目录下存放了许多插件，简单复用而已）。&lt;/p>
+&lt;p>vim-plug 会自动执行以下两个命令（许多插件需要这两个设定）：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>filetype indent on&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>syntax enable&lt;/code>&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>如果你发现自己“完全”按照官方的指南进行安装，可是“插件死活不起作用”，极有可能是
+因为你在某个地方设置了完全相反的设定（因为从别的地方 copy 一大段自己没有认真看
+过的内容到自己的 .vimrc 文件里）。&lt;/p>
+&lt;hr>
+&lt;p>更详细的使用方法应该直接去 &lt;a href="https://github.com/junegunn/vim-plug">vim-plug&lt;/a>
+的主页了解，那里不仅告诉大家应该怎么安装此插件，还给出各种情况的说明和例子。&lt;/p>
+&lt;hr></description></item><item><title>利器2: Vimwiki 之 安装和适配数据科学的一些配置</title><link>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki_part2/</link><pubDate>Sat, 06 Aug 2022 23:33:32 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki_part2/</guid><description>&lt;p>Last update: 2022-08-06 23:33:32&lt;/p>
+&lt;h2 id="vimwiki-插件简介安装和一些设置" >
+&lt;div>
+&lt;a href="#vimwiki-%e6%8f%92%e4%bb%b6%e7%ae%80%e4%bb%8b%e5%ae%89%e8%a3%85%e5%92%8c%e4%b8%80%e4%ba%9b%e8%ae%be%e7%bd%ae">
+#
+&lt;/a>
+vimwiki 插件简介、安装和一些设置
+&lt;/div>
+&lt;/h2>&lt;p>在 vimwiki 里，所有的入口集中在指定的项目根目录下的 index.md 文档里。也就是要构
+建的整个笔记系统（随便管它叫什么），index.md 可以成为它的整体框架以及各个主题的
+索引。从这里可以去到各个主题，从各个主题的索引去到对应的内容，也可以从一个内容
+去到另一个内容，内容可以是本地文档内/文档间，这完全取决于如何构建内容之间的连接。&lt;/p>
+&lt;p>vimwiki 提供了必要的基础。但通常我们要写的文档并不是纯文本 (plain text) 而是带有
+修饰语法的文本，比如 markdown, Tex/Latex 格式的文档。这两者的区别在于，前者是“
+所见即所得”，意思就是你写出来的内容和最后呈现的内容一模一样；后者则更像是写代码，
+最后呈现出来的和所写的内容一致（但大部分时候不会一模一样），有人称之为
+“所想即所得”，听起来有点玄乎。直接用 plain text 格式不就完了，折腾这些干嘛？遗憾
+的是，只要你想要写一些复杂一点的数学公式（求导的链式法则），那么，没有专门的编辑
+器的话，最快能够得到规范的数学公式的方法就是 &amp;ndash; 手写。教科书内那些数学公式的呈现
+效果基本都来自排版系统工具（Tex/Latex等）的支持。&lt;/p>
+&lt;p>如果工作的内容涉及到较多的高等数学，并想自己编写的日志博客得到类似教科书式的数学
+公式呈现，markdown 文档是相当友好的文本格式，而从 markdown 到最终效果的呈现之间，
+需要我们作一些&lt;a href="https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki_part2/###数学公式的呈现">额外配置&lt;/a>。&lt;/p>
+&lt;p>现在我只需要用 mardown 格式编写内容，在本地链接的文字上敲击回车键(命令模式下)，
+就可以打开这个本地链接的内容文档，然后编辑内容或者发呆或者别的什么，敲击 Delete
+键(命令模式下)回到之前跳转来的地方；当然也可以设置和使用其他组合键来去到其他地
+方。在每个地方，都可以用浏览器展示当前文档的内容的最终呈现效果，比如使用默认的
+&lt;code>&amp;lt;leader&amp;gt;+w+h+h&lt;/code> 快捷键就能在你的默认浏览器展示当前文档的内容，数学公式正是课本
+上的那种它该有的样子，也可以像浏览百科网页时那样，自由跳转，来去自如。&lt;/p>
+&lt;p>闲话少叙，直接上手。&lt;/p>
+&lt;h3 id="安装-vimwiki-插件" >
+&lt;div>
+&lt;a href="#%e5%ae%89%e8%a3%85-vimwiki-%e6%8f%92%e4%bb%b6">
+##
+&lt;/a>
+安装 vimwiki 插件
+&lt;/div>
+&lt;/h3>&lt;p>(使用管理插件的 &lt;a href="https://github.com/junegunn/vim-plug">Vim-Plug&lt;/a> 插件来安装和管理)&lt;/p>
+&lt;p>将下面的语句加入你自己的 vim 配置文件中，&lt;/p>
+&lt;p>&lt;code>Plug 'vimwiki/vimwiki'&lt;/code>&lt;/p>
+&lt;p>然后运行命令 &lt;code>:PlugInstall&lt;/code>&lt;/p>
+&lt;p>如果你还不清楚这是什么意思，搜索: vimrc 或者 &lt;a href="https://vim.fandom.com/wiki/Open_vimrc_file">点击这里&lt;/a>&lt;/p>
+&lt;h3 id="配置-vimwiki-插件" >
+&lt;div>
+&lt;a href="#%e9%85%8d%e7%bd%ae-vimwiki-%e6%8f%92%e4%bb%b6">
+##
+&lt;/a>
+配置 vimwiki 插件
+&lt;/div>
+&lt;/h3>&lt;ul>
+&lt;li>markdwon 格式&lt;/li>
+&lt;/ul>
+&lt;p>vimwiki 默认使用 .wiki 格式，但这个格式的语法没有 markdown 语法使用的广泛和普遍,
+所以我个人是更倾向于使用 markdown 格式来编写文档。可以按照下面的做法进行相应配置：
+将下面的语句加入 &lt;code>.vimrc&lt;/code>:&lt;/p>
+&lt;p>&lt;code>let g:vimwiki_ext2syntax={'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown', '.rmd': 'markdown'}&lt;/code>&lt;/p>
+&lt;p>这是几个较为常见的 markdown 文档的后缀，最后一种 &lt;code>rmd&lt;/code> 是 Rmardown 格式后缀。&lt;/p>
+&lt;ul>
+&lt;li>多个 index.md 文档&lt;/li>
+&lt;/ul>
+&lt;p>前面提到过，index.md 是 vimwiki 的默认入口，类似于一本书的主目录，或者电子菜单。
+通常我们需要多个菜单，每个主题配一个菜单，从而使得内容更精简和自洽，而不是所有
+的内容全都汇集并拥挤在同一个地方。在顶级菜单，只需要给出到各个主题的链接即可。
+就像大饭店的电子菜单，客人对川菜感兴趣就点击“川菜”的目录即可，但没有必要将八大
+菜系所有菜名全都拥挤到一个主菜单上。&lt;br>
+同上，将下面的语句加入到 &lt;code>.vimrc&lt;/code> &lt;br>
+(不要直接复制粘贴，然后指望它就马上见效 🙄 因为你的目录不会/也不需要和我的相同):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-vim" data-lang="vim">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">let&lt;/span> g:vimwiki_list = [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ {&lt;span style="color:#5af78e">&amp;#39;path&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;syntax&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;ext&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;.md&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;index&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;index&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ &lt;span style="color:#5af78e">&amp;#39;path_html&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimwikiHtml&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ &lt;span style="color:#5af78e">&amp;#39;template_ext&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;.html&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ &lt;span style="color:#5af78e">&amp;#39;template_default&amp;#39;&lt;/span>:&lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ &lt;span style="color:#5af78e">&amp;#39;template_path&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki/template/&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ &lt;span style="color:#5af78e">&amp;#39;custom_wiki2html&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki/wiki2html.sh&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ {&lt;span style="color:#5af78e">&amp;#39;path&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki/LinuxTools&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;syntax&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;ext&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;.md&amp;#39;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ {&lt;span style="color:#5af78e">&amp;#39;path&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki/LinuxTools/vim8&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;syntax&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;ext&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;.md&amp;#39;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ {&lt;span style="color:#5af78e">&amp;#39;path&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki/LinuxTools/CLIs&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;syntax&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;ext&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;.md&amp;#39;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ {&lt;span style="color:#5af78e">&amp;#39;path&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki/Programing&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;syntax&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;ext&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;.md&amp;#39;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ {&lt;span style="color:#5af78e">&amp;#39;path&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki/Programing/Julia&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;syntax&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;ext&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;.md&amp;#39;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ {&lt;span style="color:#5af78e">&amp;#39;path&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki/Programing/Latex&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;syntax&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;ext&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;.md&amp;#39;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ {&lt;span style="color:#5af78e">&amp;#39;path&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki/Programing/Python&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;syntax&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;ext&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;.md&amp;#39;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ {&lt;span style="color:#5af78e">&amp;#39;path&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;~/VimWiki/Programing/ShellScripts&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;syntax&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;markdown&amp;#39;&lt;/span>, &lt;span style="color:#5af78e">&amp;#39;ext&amp;#39;&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;.md&amp;#39;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> \ ]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在上面这个例子中，每一个花括号的内容其实就是对应一个主题的菜单 (index.md)，根据
+vimwiki 的默认快捷键, 比如， &lt;code>2&amp;lt;leader&amp;gt;ww&lt;/code> 就会直接打开 &lt;code>~/Vimwiki/LinuxTools/index.md&lt;/code> 这个文件。
+那么，和以上的设置对应的目录结构是怎么样的呢？以下就是我个人 vimwiki 目录结构 (使用命令 &lt;code>tree -L 2&lt;/code>):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── index.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── LinuxTools
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── commonCommandLines.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── images
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── index.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── jupyterWithDSKernels.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── linux_oracle_client_sqlplus_install_and_connection_setup.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── linux_sqlserver_sqlcmd_install_and_connection_setup.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── newBashConfig.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── python_packages_management.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── tmux.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── vim8.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   └── vimwiki.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── mathjax
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── bower.json
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── composer.json
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── CONTRIBUTING.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── es5
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── LICENSE
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── package.json
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   └── README.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── myvimwikidir.txt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── Programming
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── index.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── Julia
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── Latex
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── Python
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   └── ShellScripts
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── Session.vim
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>├── template
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   ├── default.html
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>│   └── markdown.html
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>└── wiki2html.sh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如前所述，根目录的 &lt;code>index.md&lt;/code> 是顶级主菜单，从这个文件内跳转到各个子主题。比如，
+我个人感兴趣的、一直在学习的3大主题分别是：机器学习（未列出），编程和Linux工具。
+而在 Programming 这个目录下的 &lt;code>index.md&lt;/code> 就是这个主题的主菜单，显然，这个主题
+下还有‘Julia’，‘Latex’，‘Python’，‘ShellScripts’等几个内容。不用说，还可以设计
+更细分的内容。每个主题都足够我喝上几壶的了 🍻 。毕竟，谁又说了构建比较完整的
+知识体系是一朝一夕能完成的呢？正所谓，志不强者智不达。&lt;/p>
+&lt;p>而 mathjax 目录，正是想要展现数学公式效果所依赖的本地包，接下来就讲这个的配置。&lt;/p>
+&lt;h3 id="数学公式的呈现" >
+&lt;div>
+&lt;a href="#%e6%95%b0%e5%ad%a6%e5%85%ac%e5%bc%8f%e7%9a%84%e5%91%88%e7%8e%b0">
+##
+&lt;/a>
+数学公式的呈现
+&lt;/div>
+&lt;/h3>&lt;p>&lt;code>vimwiki2html&lt;/code> 命令和 &amp;ldquo;mathjax&amp;rdquo; 目录&lt;/p>
+&lt;p>vimwiki 自带了一个 &lt;code>vimwiki2html&lt;/code> 命令，顾名思义，就是把 mardown/wiki 格式的源
+文档转换成 html 格式的文档。但这个命令并不支持数学公式的渲染，得改造。这正是
+&lt;a href="https://www.mathjax.org/">mathjax&lt;/a> 闪亮登场的地方。已经有人把 &lt;code>vimwiki2html&lt;/code>
+命令所依赖的脚本作了相应的&lt;a href="https://gist.github.com/enpassant/0496e3db19e32e110edca03647c36541">升级版&lt;/a>，
+它能将 markdown 文件转换为 html 文件，并支持数学公式的渲染。有些人走的&lt;a href="https://gist.github.com/maikeldotuk/54a91c21ed9623705fdce7bab2989742">更远&lt;/a>
+但他们均假设没有所谓的什么“外网”访问限制云云。所以，还需要一点折中操作，那就是
+‘本地化’。先哲说‘山不过来，我走过去’。网络时代刚好相反，既然访问不到，那就把它
+复制回来（基本前提是开源，嗯，伟大的开源）。&lt;/p>
+&lt;p>所谓本地化，就是：1）把 mathjax 复制到本地；2）配置 vimwiki 的命令脚本找到它。
+以下是具体操作：&lt;/p>
+&lt;ol>
+&lt;li>在 vimwiki 的根目录下，执行以下命令：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>git clone https://github.com/mathjax/MathJax.git mathjax&lt;span style="color:#5af78e">`&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;li>下载并更改 &lt;code>wiki2html.sh&lt;/code> 文件的以下内容
+(# 号开头的语句是被注释掉的原文，以备参考):&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># HAS_MATH=$(grep -o &amp;#34;\$\$.\+\$\$&amp;#34; &amp;#34;$INPUT&amp;#34;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># if [ ! -z &amp;#34;$HAS_MATH&amp;#34; ]; then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># MATH=&amp;#34;--mathjax=https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># MATH=&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">HAS_MATH&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">$(&lt;/span>grep -o &lt;span style="color:#5af78e">&amp;#34;\$\$*\+\$\$&amp;#34;&lt;/span> &lt;span style="color:#5af78e">&amp;#34;&lt;/span>&lt;span style="color:#ff5c57">$INPUT&lt;/span>&lt;span style="color:#5af78e">&amp;#34;&lt;/span>&lt;span style="color:#ff6ac1">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># # load mathjax from local copy (in case the CDN not work)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> &lt;span style="color:#ff6ac1">[&lt;/span> -n &lt;span style="color:#5af78e">&amp;#34;&lt;/span>&lt;span style="color:#ff5c57">$HAS_MATH&lt;/span>&lt;span style="color:#5af78e">&amp;#34;&lt;/span> &lt;span style="color:#ff6ac1">]&lt;/span>; &lt;span style="color:#ff6ac1">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">MATH&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;--mathjax=path2your-mathjax/es5/tex-chtml.js?config=TeX-AMS-MML_HTMLorMML&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">MATH&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>注意：&amp;ldquo;path2your-mathjax&amp;rdquo; 应该修改成你自己的路径，
+比如我的路径是这样的：&amp;rsquo;/home/myacct/VimWiki/mathjax/es5/'&lt;/p>
+&lt;p>我不太懂 html，我在这里的诉求就是能让转换后的 html 文档正常显示数学公式。
+但后来发现，要实现这个目标，其实不一定非得先转换成 html 文件。&lt;/p>
+&lt;h2 id="markdown-文档的即时展示-vim-instant-markdown" >
+&lt;div>
+&lt;a href="#markdown-%e6%96%87%e6%a1%a3%e7%9a%84%e5%8d%b3%e6%97%b6%e5%b1%95%e7%a4%ba-vim-instant-markdown">
+#
+&lt;/a>
+markdown 文档的即时展示: &lt;code>vim-instant-markdown&lt;/code>
+&lt;/div>
+&lt;/h2>&lt;p>前面说过，大部分的 markdown 并非“所见即所得”，但如果一个人的欲望正常，通常都想
+要看看正在写的内容到底是什么显示效果，毕竟，早发现早治疗嘛（一气呵成的爽文自然
+是有，但我更相信优秀的作品通常是修改出来的）。当然，早就有人把这种正常不过的
+需求实现并共享了，那就是： &lt;a href="https://github.com/instant-markdown/vim-instant-markdown">vim instant markdown&lt;/a>
+这也是一个 Vim 的插件，具体的安装和配置也简便，直接根据其 readme 文件进行即可。&lt;/p>
+&lt;p>但其实“每改一个字就刷新一次”和“写完了所有内容才看上一眼最终效果”一样不甚妥贴，
+前者使人分心，后者使人担心。因此，当想要检查某个段落（尤其是包含许多数学公式
+的段落）的呈现效果时，调用命令 &lt;code>InstantMarkdwonPreview&lt;/code> ，停用则 &lt;code>InstantMarkdwonStop&lt;/code>。
+我很喜欢这种快速反应，有仇就报，当场就报；知错就改，善莫大焉。
+但如果觉得白纸黑字的预览网页版面过于朴素不够滋味，那么，可能你需要的是一个能够自定义的网页。&lt;/p>
+&lt;h2 id="markdown-文档的即时展示-jekyll-site" >
+&lt;div>
+&lt;a href="#markdown-%e6%96%87%e6%a1%a3%e7%9a%84%e5%8d%b3%e6%97%b6%e5%b1%95%e7%a4%ba-jekyll-site">
+#
+&lt;/a>
+markdown 文档的即时展示: jekyll-site
+&lt;/div>
+&lt;/h2>&lt;p>&lt;code>vim-instant-markdown&lt;/code> 展示的就是文档的呈现内容，也仅仅就是内容而已。如果想要
+更多，那么，备选方案就是静态网站生成器（如&lt;a href="https://jekyllrb.com/">jekyll&lt;/a>)，
+顾名思义，就是这玩意儿直接给你打包生成网站需要的一揽子部件。
+（网站意味着高度定制的自由，是不是听着就觉得开心？如果你够耐心看到这里，我就
+估摸着你也应该也是个爱折腾的人，爱在机器上捣鼓各种工具的人想必也知道，所谓的
+“高度定制”的另一个说法大约是说：来呀，折腾呀，快活呀）。&lt;/p>
+&lt;p>你知道吗？从 &lt;code>vimwiki&lt;/code> 的编辑系统到 jekyll 博客网页，只需要一个命令：&lt;code>:Postit&lt;/code>&lt;/p>
+&lt;p>当然了，这明显属于广告用语，和‘一天学会python，七天掌握机器学习’之类差不多。&lt;/p>
+&lt;p>俗语有云：“前端一分钟，后端十年功”。&lt;code>Postit&lt;/code> 命令需要一些基础来支撑：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-viml" data-lang="viml">&lt;span style="display:flex;">&lt;span>command Postit :&lt;span style="color:#ff6ac1">execute&lt;/span> &lt;span style="color:#5af78e">&amp;#34;w!&amp;#34;&lt;/span> . &lt;span style="color:#5af78e">&amp;#34;Path_to_jekyllsite_root/_posts/&amp;#34;&lt;/span> . strftime(&lt;span style="color:#5af78e">&amp;#34;%Y-%m-%d-&amp;#34;&lt;/span>) . expand(&lt;span style="color:#5af78e">&amp;#34;%:t&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这语句要写在 &lt;code>.vimrc&lt;/code> 文件里，这个实际上是设置 vim 命令。&lt;/p>
+&lt;p>注: 这个命令的实际意思是：将当前编辑的文件以 jekyll 的 post 文件的所要求格式
+进行命名，并保存到你的 jekyll 项目的 _post/ 目录下。&lt;/p>
+&lt;p>因为 jekyll 的 post 全部要求以“年-月-日-”作为文件名前缀 (比如：
+“2022-02-02-好多二.md”)。命令中的 “.” 是 viml 语法中 &amp;ldquo;concatenate&amp;rdquo; 的意思。&lt;/p>
+&lt;p>虽然谈不上难以忍受，但我个人不是很理解这种硬编码，文件命名格式为何非如此不可？
+是bug还是feature，那就见仁见智了。我听说还有一个静态网站生成器名叫
+&lt;a href="https://gohugo.io/">Hugo&lt;/a> 的，不知其手艺如何 &amp;hellip;&lt;/p>
+&lt;hr>
+&lt;p>刚开始使用 vimwiki 时，也是不停的摸索，数学公式的显示一直是个头疼的问题，毕竟，
+从“歪果仁”那里借鉴来的默认配置需要能访问外网，而这个想必不是我们能够默认得了的，
+只能先忍着那些令人不快的如同乱码的 latex 语句挂在页面上，
+（尤其是，当你明明知道这些公式本可以优雅的展示，却不能够时，不快就变成了愤怒）。&lt;/p>
+&lt;p>没有像作为新手时在不同的 Linux 发行版跳来跳去那般，我知道 vimwiki 就是我的菜，
+以前使用 vimwiki 过程碰上的各种“暂时”的没有解决的问题，开始变得令人不能忍受，
+特别是平时浏览其他网页时每每看到人家的的数学公式又多又靓，那简直就是一场侮辱。
+我走了这么远，就差那么最后一步，我心不甘。所以我就折腾，一天，两天，三天 &amp;hellip;
+我是贪婪的人，无法放弃一步之遥的诱惑，幸运的是我还是折腾到了我想要的“更多”。&lt;/p>
+&lt;p>是的，距离太远可能直接放弃，而一步之遥最是销魂 😂&lt;/p>
+&lt;p>其实，该庆幸的是我碰上的问题早就有人先碰上也先解决了，我只是找到了这个方法，
+应该说是‘搜索’到了这个方法，并作了必要的调整。‘闻道有先后’的基础就是分享，
+对于这些解决了实际问题的人，很是感激他们的分享，没有分享，大家的日子不会好过。&lt;/p></description></item><item><title>利器2: Vimwiki 之 如何用 vimwiki 记笔记</title><link>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki/</link><pubDate>Thu, 21 Jul 2022 23:37:31 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki/</guid><description>&lt;h2 id="个人维基-personal-wiki" >
+&lt;div>
+&lt;a href="#%e4%b8%aa%e4%ba%ba%e7%bb%b4%e5%9f%ba-personal-wiki">
+#
+&lt;/a>
+个人维基 (personal wiki)
+&lt;/div>
+&lt;/h2>&lt;p>阅读过《爱丽丝漫游奇境》的小伙伴应该会觉得熟悉，维基就像那个“兔子洞”，
+每个词条都可以是一个通往其他奇境的大门，但它只对有好奇心的人才打开。
+（或者说有好奇心的人才会打开它，尼奥要是没有选择红色💊，故事恐怕就没趣得多）。
+这是在维基上阅读时常有的感受。（其他网站很多时候则搞的更像是“盘丝洞”。）&lt;/p>
+&lt;p>每个人都有创作的冲动。
+然而事实可能更简单:平时读书学习工作时喜欢东写西划总会留下一些‘笔记’。
+对别人来说就是些胡涂乱画，可自己总觉得“珍贵” &amp;ndash; “娘不嫌儿丑”说的大概就是这个。
+慢慢地，积累的内容越来越多，涉及的范围越来越广，也就显得越来越零碎。
+（嗯，为什么不在开始的时候就规划好呢？爸妈通常都是提这种好问题的高手)。
+不过这在我看来更像一种“马后炮”式的责问，总有一丢丢“似是而非”的感觉。
+学习的过程更像一种探索过程，对大部分人来说，事先恐怕都无法清晰地知道,
+书山的路通向何处，学海的舟引你走向哪里。对于不能预先知道细节的内容，
+通常会在开始的时候冠以“我的笔记”这么一个目录，然后下设一些粗略的学科名称目录，
+直到不再满意这样的安排。毫无疑问，下一步就是要用一种合适的方式将它们组织起来。&lt;/p>
+&lt;p>相对独立的主题自成体系，不同主题之间关联的内容可以连接起来，
+不仅在阅读时可以享受这种便捷的自由跳转，最好在设计和编写时也能如此。
+对我而言，答案就是 &lt;a href="https://github.com/vimwiki/vimwiki">vimwiki&lt;/a>.&lt;/p>
+&lt;p>阅读的时候自由跳转，这个好理解，可编写内容不都一篇一篇的来吗？
+编写的时候也“胡崩乱跳”的，听起来可不怎么美妙，怕不是有毛病？不，不要误会，
+这其实是指：1）同时在多个窗格(Pane)打开多个文档；2）在窗格之间进行“闪转腾挪”。&lt;/p>
+&lt;p>如果是编写过比较复杂的模块的小伙伴可能会更深有感触，
+这种不同文档之间的“旋转跳跃我开天眼”的要求其实并不过分,
+只恨自己的屏幕不够多不够大放不下那段段优雅的代码
+（据可靠的谣言称，有些程序猿一天80%的时间是在欣赏自己写的代码中度过）。&lt;/p>
+&lt;p>最典型的莫过于从函数调用的地方，跳转到在那遥远的地方的函数定义模块，
+如果这两个地方的关系隔着三五个或者更多的模块的时候，(可能也是需要重构的信号)
+那么，如果不能同时将这几个‘密接’文档铺在眼前，而是一个看完再看另一个，
+朋友，我不知道你的情况如何，反正我是很容易迷失在这茂密的代码丛林里，晕头转向。&lt;/p>
+&lt;p>总而言之，
+核心的问题在于如何组织这些文档，使得自己在构建个人‘知识库’的过程更丝滑畅快。&lt;/p>
+&lt;p>维基的特点就是“你中有我，我中有他”，比如说，
+在组织和构建关于“线性回归”内容，我希望有一个“入口”文档，称之为主题目录，
+这个文档只对要写的章节内容进行罗列和简介，更像一种“顶级菜单” (top level manu) ，
+这个菜单包含些什么菜呢？简介大概是这样的：&lt;/p>
+&lt;ol>
+&lt;li>简单线性回归
+&lt;ul>
+&lt;li>斜率和截距&lt;/li>
+&lt;li>最小二乘法&lt;/li>
+&lt;li>参数评估有多准
+&lt;ul>
+&lt;li>置信度区间&lt;/li>
+&lt;li>假设检验&lt;/li>
+&lt;li>P值: 有多少爱可以重来&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>多元线性回归
+&lt;ul>
+&lt;li>自变量和因变量到底有没有关系&lt;/li>
+&lt;li>因变量和哪些自变量有什么关系&lt;/li>
+&lt;li>模型拟合
+&lt;ul>
+&lt;li>残差(RSE)&lt;/li>
+&lt;li>$R^2$ 统计量&lt;/li>
+&lt;li>Adjusted $R^2$&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>贝叶斯线性回归
+&lt;ul>
+&lt;li>是先验还是偏见？
+&lt;ul>
+&lt;li>我认为 $\Theta$ 不只一个&lt;/li>
+&lt;li>贝叶斯定律&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>后验概率估计
+&lt;ul>
+&lt;li>MCMC&lt;/li>
+&lt;li>吉布斯采样&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>广义线性回归
+&lt;ul>
+&lt;li>指数族分布：不只有正态分布&lt;/li>
+&lt;li>最大熵：我来教你挑选分布&lt;/li>
+&lt;li>链接函数：线性空间到非线性空间的映射&lt;/li>
+&lt;li>汉密尔顿蒙特卡洛&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>这就是关于“线性回归”内容的主题目录，
+列出来的每个点都可以设置为链接点（但不是必须这么做），
+从这个主题目录，可以去到任何的单个文档，在每个文档里，
+都可以设置指向其他文档的链接，或者指向网络资源的链接（事事亲为并非必要）。&lt;/p>
+&lt;p>多年以来我已经或多或少地做了一些章节内容的笔记，缺的正是这样的一个主题目录。&lt;/p>
+&lt;p>至于编辑内容的时候要不要在一块屏幕上“同时”并列展开多个文档，并“跳来跳去”，
+可以说这只是一些人的特殊癖好，并不是非如此不可。
+比如，24寸屏幕上如果只打开一个文档，我觉得是对空间的极大浪费；
+但要知道，如果在13寸的屏幕上，有时我也进入 &lt;a href="https://github.com/junegunn/goyo.vim">goyo
+模式&lt;/a> 。&lt;/p>
+&lt;p>如果你点开前文 vimwiki 的链接，那你应该知道它是 Vim 的一个插件。&lt;/p>
+&lt;p>如果你尚不清楚 Vim 是干什么的，或者仅仅听说 Vim 的学习曲线是“出了名的吓人”，
+这是不对的，至少你可以看到：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:center">&lt;img alt="learning_curves" src="https://fgg100y.github.io/img/posts/vimwiki_intro/editors_learning_curves.jpg">&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:center">&lt;em>some text editors&amp;rsquo; learning curve&lt;/em>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Emacs 才是无可争议的 NO.1 😂&lt;/p>
+&lt;p>如果不幸的是至今您仍旧只在不幸的操作系统过活，👉 是的，我指的就是巨硬系统。
+不妨去&lt;a href="https://www.vim.org/download.php">下载 Gvim&lt;/a>来尝试别样的编辑的滋味，&lt;/p>
+&lt;p>或者您是刚刚开启 Linux 幸福之路的人，或者想试一试 Vim ，
+很简单，直接上手类型的，在 Terminal 中输入 &lt;code>vimtutor&lt;/code>，退出输入 &lt;code>:q&lt;/code>&lt;/p>
+&lt;p>最好的 vim 学习材料会在输入 &lt;code>:help&lt;/code> 之后出现（但不一定是最好的入门材料）。
+或许你会想看看一些入门的材料，比如 &lt;a href="http://vimcasts.org/">vimcast&lt;/a> 视频，
+比如，年代略微久远的 &lt;a href="https://vim.swaroopch.com/">A Byte of Vim&lt;/a>，
+内容及其详尽的 &lt;a href="http://www.oualline.com/vim-book.html">Vim Tutorial and Reference&lt;/a>&lt;/p>
+&lt;hr>
+&lt;p>Last update: 2024-07-04 Thu&lt;/p></description></item><item><title>Linear Regression: frequentist &amp; bayesian</title><link>https://fgg100y.github.io/posts/regressionmodels/linear_regression/</link><pubDate>Wed, 25 Aug 2021 13:49:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/regressionmodels/linear_regression/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>**Important Note**:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Almost all the contents (text, images) are came from these great books and
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>online resources:
@@ -4338,6 +4931,192 @@ $$&lt;/p>
 &lt;/li>
 &lt;li id="fn:2">
 &lt;p>Associated with a unit increase in $x$ there is some average change in $y$. The slope of the regression line estimates this change. The formula for the slope is $\frac{r \times SD_y}{SD_x}$. And the intercept of the regression line is just the predicted value for $y$ when $x$ is $0$.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>利器1: Oh, My Tmux</title><link>https://fgg100y.github.io/posts/thecli/2022-08-07-tmux/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://fgg100y.github.io/posts/thecli/2022-08-07-tmux/</guid><description>&lt;h2 id="tmuxhttpsgithubcomtmuxtmux" >
+&lt;div>
+&lt;a href="#tmuxhttpsgithubcomtmuxtmux">
+#
+&lt;/a>
+&lt;a href="https://github.com/tmux/tmux">Tmux&lt;/a>
+&lt;/div>
+&lt;/h2>&lt;p>&lt;a href="https://github.com/tmux/tmux">Tmux&lt;/a> 是一个终端多路复用器&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>：&amp;hellip;&lt;/p>
+&lt;blockquote>
+&lt;p>Tmux is a terminal multiplexer: it enables a number of terminals to be
+created, accessed, and controlled from a single screen. tmux may be detached
+from a screen and continue running in the background, then later reattached.&lt;/p>
+&lt;/blockquote>
+&lt;p>那到底什么是&lt;ruby>“终端”&lt;rt>terminal&lt;/rt>&lt;/ruby>？&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup> 我回答不了这个问题，但我发现了一个很好的解释 &amp;ndash;
+&lt;a href="https://unix.stackexchange.com/questions/4126/what-is-the-exact-difference-between-a-terminal-a-shell-a-tty-and-a-con">terminal&lt;/a>&lt;/p>
+&lt;p>突然想起《统计学》关于“卡方检验”那一章的经典导语：&lt;/p>
+&lt;blockquote>
+&lt;p>不要问它的含义，宁可问如何使用它。&amp;ndash; 维特根斯坦&lt;/p>
+&lt;/blockquote>
+&lt;p>本着“拿来主义”精神，那就来粗略看看 Tmux 能如何使用吧：&lt;/p>
+&lt;p>&lt;img alt="IMG_MyTmux &amp;ndash; (gif 失效)" src="https://fgg100y.github.io/img/posts/tmux/ssr_myTmuxDemo.gif">&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>启动 Termainal (CTRL+Enter, 这是个人定义的快捷键)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>启动 Tmux 进入我的工作环境 (须知：我这里展示的不是初始化的 Tmux 启动)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>检查一下昨天写的博客写到哪里了 (貌似差不多了，写其他内容)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>切换到下一场“会话”(session) &amp;ndash; vimwiki (这里是我个人项目根目录)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>按进度今天应该介绍一下 Tmux 这个工具 (然后，就到这里了)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>现在阳光明媚（过一会儿就变毒辣），白天还是换到白色背景合适些&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;del>搬砖滴干活咯各位&lt;/del>&lt;br>
+&lt;del>嗯，干活？更像是创作&lt;/del>&lt;br>
+&lt;del>创作？这算哪门子的&amp;hellip;&lt;/del>&lt;br>
+所以还是，干点活吧 ：）&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;h2 id="tmux-的一些关键配置" >
+&lt;div>
+&lt;a href="#tmux-%e7%9a%84%e4%b8%80%e4%ba%9b%e5%85%b3%e9%94%ae%e9%85%8d%e7%bd%ae">
+#
+&lt;/a>
+Tmux 的一些关键配置
+&lt;/div>
+&lt;/h2>&lt;p>如果还没有安装 Tmux，命令行中安装起来也不费事 (Debian系列)：&lt;code>apt install tmux&lt;/code>&lt;/p>
+&lt;p>以下的内容均围绕 &lt;code>~/.tmux.conf&lt;/code> 文件展开。如果没有就自己创建一个这文件。
+默认这些代码框里的内容（等宽字体那些）是要添加到 &lt;code>~/.tmux.conf&lt;/code> 文件里。&lt;/p>
+&lt;p>&amp;ldquo;#&amp;rdquo; 开头的语句是注释说明&lt;br>
+&amp;ldquo;$&amp;rdquo; 开头的语句是要在命令行运行的命令&lt;br>
+&amp;ldquo;:command&amp;rdquo; 以“冒号接命令名”开头的语句是要在vim命令模式运行的命令&lt;/p>
+&lt;h2 id="默认快捷键修改-ctrl-b---ctrl-a" >
+&lt;div>
+&lt;a href="#%e9%bb%98%e8%ae%a4%e5%bf%ab%e6%8d%b7%e9%94%ae%e4%bf%ae%e6%94%b9-ctrl-b---ctrl-a">
+#
+&lt;/a>
+默认快捷键修改: Ctrl-b -&amp;gt; Ctrl-a
+&lt;/div>
+&lt;/h2>&lt;p>Tmux 的默认快捷键是 &lt;code>ctrl-b&lt;/code>，这在键盘上距离略微有点远 (对于我的短手指来说)，
+因此我把它修改为 &lt;code>ctrl-a&lt;/code> 组合键。&lt;/p>
+&lt;p>将下面语句加入 .tmux.conf 文件：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">set&lt;/span> -g prefix C-a
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># # unbind the C-b&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>unbind C-b
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># # ensure that we can send Ctrl-a to other apps (e.g., vim)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">bind&lt;/span> C-a send-prefix
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># # setting the delay between prefix and command&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">set&lt;/span> -s escape-time &lt;span style="color:#ff9f43">1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>既然是要用快捷键，那么重新加载 .tmux.conf 文件的自然也安排上：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># reload the .tmux.conf file with Prefix-r&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">bind&lt;/span> r source-file ~/.tmux.conf &lt;span style="color:#5af78e">\;&lt;/span> display &lt;span style="color:#5af78e">&amp;#34;tmuxconf reloaded!&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后，在命令行直接输入快捷组合键：&lt;code>Ctrl+a+r&lt;/code> 即可使配置生效 (&lt;code>+&lt;/code>号的意思是同时摁下)。&lt;/p>
+&lt;h2 id="vimtmux-强强组合" >
+&lt;div>
+&lt;a href="#vimtmux-%e5%bc%ba%e5%bc%ba%e7%bb%84%e5%90%88">
+#
+&lt;/a>
+vim/tmux 强强组合
+&lt;/div>
+&lt;/h2>&lt;p>Tmux 支持多个终端窗格 (terminal panes)，每个窗格都是独立的终端，
+因此，最明显的事情就是，你可以同时在一块屏幕上“监控”多个不同任务，意思是，
+这些不同的任务在视觉上是“同时”呈现的（相对于重叠的 标签页(tab) 而言）。&lt;/p>
+&lt;p>如果你恰好也喜欢用 vim 进行码字，也打开了 vim 编辑器 (vim 本身也有窗格功能)，
+自然而然的，你肯定想以相同的快捷键来实现不同的 vim/tmux 窗格之间的切换。&lt;/p>
+&lt;p>幸运的是，已经有人实现了这样的功能，并共享了，这就是
+&lt;a href="https://github.com/christoomey/vim-tmux-navigator">vim-tmux-navigator&lt;/a>.&lt;/p>
+&lt;p>vim 有丰富的插件生态，这是 vim 强大生命力的一个体现。
+这么好的模式，自然值得借鉴。因此，tmux 也有一个用来管理插件的
+&lt;a href="https://github.com/tmux-plugins/tpm">tpm&lt;/a>.&lt;/p>
+&lt;p>需要在 vim 和 tmux 两个方面进行配置：&lt;/p>
+&lt;ol>
+&lt;li>在 vim 方面, 将以下语句加入 .vimrc 文件：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 如果你用的是 Vim-Plug 插件管理器的话&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;christoomey/vim-tmux-navigator&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后运行 &lt;code>:PlugInstall&lt;/code> 来安装这个插件。&lt;/p>
+&lt;p>如果你是第一次配置 vim 插件，先去了解
+&lt;a href="https://github.com/junegunn/vim-plug">Vim-Plug&lt;/a>.&lt;/p>
+&lt;ol start="2">
+&lt;li>在 tmux 方面，将下面语句加入 .tmux.conf 文件：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># tpm is a tmux-plugin manager. [details in its github repos]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">set&lt;/span> -g @plugin &lt;span style="color:#5af78e">&amp;#39;tmux-plugins/tpm&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># vim-tmux-navigator: Seamless navigation between tmux panes and vim splits&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">set&lt;/span> -g @plugin &lt;span style="color:#5af78e">&amp;#39;christoomey/vim-tmux-navigator&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># put this &amp;#39;run&amp;#39; command to the very end of .tmux.conf, says the tpm&amp;#39;s readme&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>run &lt;span style="color:#5af78e">&amp;#39;~/.tmux/plugins/tpm/tpm&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>加入这些内容之后，重新加载 tmux 环境, (在已经启动tmux的命令行运行以下命令)：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ tmux &lt;span style="color:#ff5c57">source&lt;/span> ~/.tmux.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="主题背景颜色切换" >
+&lt;div>
+&lt;a href="#%e4%b8%bb%e9%a2%98%e8%83%8c%e6%99%af%e9%a2%9c%e8%89%b2%e5%88%87%e6%8d%a2">
+#
+&lt;/a>
+主题背景颜色切换
+&lt;/div>
+&lt;/h2>&lt;p>在我的印象里，感觉黑色/暗色系一下子成了很多应用软件的默认背景色，
+我在命令行过活很多年了，对此很是习惯，个人很少看到谁的Terminal是白色背景的。
+主要应该是：1）配置了白天黑夜都友好的主题；2）不当回事儿。
+但有时候，特别是光线充足的时候，我比较喜欢白色的背景。
+所以，我需要能随心所欲切换背景色调。&lt;/p>
+&lt;p>这个貌似没法不依赖于外部脚本来实现，至少我没有发现可行的办法。因此，你也需要
+&lt;a href="https://www.seanh.cc/2021/01/02/change-between-light-and-dark-themes-in-tmux/">去下载这个脚本&lt;/a>&lt;/p>
+&lt;p>Linux 环境氛围是这样的，不要盲目相信别人写的脚本，特别是那些你不认识的人。
+相信开源和相信陌生人，毕竟不是同一件事。
+意思就是，你在使用这些脚本之前好歹也要看看人家到底写了什么吧。
+特别是这种都不超过一页内容的脚本。&lt;/p>
+&lt;p>什么？你说你看不懂。事实是，没有人在一开始就什么都看得懂。比如说，
+你看到脚本里有这么一句类似于windows上“清理垃圾”的命令： &lt;code>sudo rm -rf /*&lt;/code>，
+那你就要保持警惕了。
+据说，有些系统会阻止你这么干，但有些系统会“开心地”执行你的旨意；
+反正我没试过，我也没有以任何方式暗示或鼓励你要这么清理系统垃圾。&lt;/p>
+&lt;p>如果说你下载了那个脚本，放到你喜欢它待的位置，比如说， &lt;code>~/.tmux/bin/&lt;/code>，
+然后将下面这条语句加入 &lt;code>~/.tmux.conf&lt;/code> 文件中。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">bind&lt;/span> T run-shell ~/.tmux/bin/toggle-theme
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;h2 id="关于配置和插件以及管理插件的插件" >
+&lt;div>
+&lt;a href="#%e5%85%b3%e4%ba%8e%e9%85%8d%e7%bd%ae%e5%92%8c%e6%8f%92%e4%bb%b6%e4%bb%a5%e5%8f%8a%e7%ae%a1%e7%90%86%e6%8f%92%e4%bb%b6%e7%9a%84%e6%8f%92%e4%bb%b6">
+#
+&lt;/a>
+关于配置和插件以及管理插件的插件
+&lt;/div>
+&lt;/h2>&lt;p>以上内容分别对应着：&lt;/p>
+&lt;p>1）直接对 tmux 进行基本配置；&lt;/p>
+&lt;p>2）使用 tmux 插件管理器对 tmux 进行配置；&lt;/p>
+&lt;p>3）借用 脚本程序 对 tmux 进行配置。&lt;/p>
+&lt;p>毕竟，不是每个人都热衷于使用插件管理器，插件和主件之间的交互方式并不设限。你可以选择使用你觉得合适的方法来完成任务。
+要是觉得现有的都不满意，无法满足你的特殊需求，手痒痒的，那就自己搞一个。
+很多优秀的软件都是如此，它提供足够好的默认值，但也提供足够多的灵活性，让用户有的选。&lt;/p>
+&lt;p>刘建明说“以前没的选，现在想选回做好人，给个机会”，陈永仁答“去同法官讲”。“有的选”这一点十分可贵。&lt;/p>
+&lt;hr>
+&lt;p>Last update: 2024-07-04&lt;/p>
+&lt;blockquote>
+&lt;p>USER: Tmux 是什么？
+GPT4o: Tmux 是一个终端多路复用器 (terminal multiplexer)，允许用户在一个终端窗口内运行和管理多
+个终端会话。它提供了一种方便的方法来分割一个物理终端窗口成多个虚拟终端，并在这些虚拟终端
+之间自由切换。Tmux 的主要功能包括：&lt;/p>
+&lt;ul>
+&lt;li>会话管理：Tmux 可以创建、分离和重新附加会话，使用户可以在不同的终端会话之间快速切换。&lt;/li>
+&lt;li>窗口分割：用户可以在一个Tmux会话中将窗口分割成多个窗格，每个窗格可以独立运行一个命令行程序。&lt;/li>
+&lt;li>持久性：即使终端窗口关闭，Tmux 会话仍然会保持运行，这样用户可以稍后重新附加会话，继续工作。&lt;/li>
+&lt;li>可定制性：Tmux 提供了丰富的配置选项和快捷键，用户可以根据自己的需求进行定制。&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>而如今，或许应该问问GPT4o&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>想知道怎么像这样标注名词吗？去看看&lt;a href="https://www.junyi.dev/posts/a-writing-trick/">这篇博文&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/div></description></item></channel></rss>
