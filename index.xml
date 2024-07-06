@@ -1,16 +1,54 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>https://fgg100y.github.io/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 05 Jul 2024 22:40:23 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>职称评审</title><link>https://fgg100y.github.io/posts/personals/engineering_career_ladder/</link><pubDate>Fri, 05 Jul 2024 22:40:23 +0800</pubDate><guid>https://fgg100y.github.io/posts/personals/engineering_career_ladder/</guid><description>&lt;p>虽然人家只评估近五年的工作，但粗略算起来自己工作都快八年了，才爬了第二个阶梯。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>https://fgg100y.github.io/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 06 Jul 2024 15:34:59 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>rime_trime</title><link>https://fgg100y.github.io/posts/personals/momentsoflife/rime_trime/</link><pubDate>Sat, 06 Jul 2024 15:34:59 +0800</pubDate><guid>https://fgg100y.github.io/posts/personals/momentsoflife/rime_trime/</guid><description>&lt;p>&lt;a href="https://github.com/iDvel/rime-ice">rime-ice&lt;/a> 雾凇拼音 + &lt;a href="https://github.com/osfans/trime">trime&lt;/a> 同文输入法&lt;/p>
+&lt;p>&lt;img alt="IMG_trime_a_grimpse" src="images/trime_theme_4in1.png">&lt;/p>
+&lt;p>怎么在手机上使用这个输入法？比较无脑省力那种&amp;hellip;&lt;/p>
+&lt;p>应该说明：这篇文章基本是我自己的备忘录，我自己已经使用这些配置多年。
+如果你是第一次接触 rime/Trime，直接查看他们官网或者本文的参考链接，否则如果按着我的说法进行操作，大概率你会搞得自己火冒三丈。&lt;/p>
+&lt;hr>
+&lt;p>我的操作：&lt;/p>
+&lt;p>1.1 手机上下载 &lt;a href="https://f-droid.org/">F-Droid&lt;/a>，在 F-Droid 搜索并下载 Trime 输入法 (中文名：同文输入法&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>)&lt;/p>
+&lt;p>1.2 手机应用授权等其他操作&lt;/p>
+&lt;p>2.1 电脑端下载仓库&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">cd&lt;/span> rime_hub
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git clone https://github.com/iDvel/rime-ice.git
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>2.2 将手机接入电脑，将仓库复制到手机目录路径（通常是与Download,Documents同级的路径），将
+其名称修改为 &lt;code>rime&lt;/code> (rime-ice也可以，但要做出相应的适配和设置)&lt;/p>
+&lt;p>3.1 手机端打开 Trime 输入法，点击右上角部署&lt;/p>
+&lt;p>3.2 可能会报错弹出日志窗口，但不一定影响使用；否则，去官网等地方寻找解决方案&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/p>
+&lt;p>4.1 如果也在电脑端使用，可以借助 Plum 进行安装和更新：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>git clone --depth&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span> https://github.com/rime/plum
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">cd&lt;/span> plum
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bash rime-install iDvel/rime-ice:others/recipes/full
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">#全量更新：&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bash rime-install iDvel/rime-ice:others/recipes/full
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">#局部更新：&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bash rime-install iDvel/rime-ice:others/recipes/all_dicts
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>5 多端同步：电脑端更新，复制到手机等其他终端。&lt;/p>
+&lt;hr>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>同文输入法：把 RIME 装进 Android 手机 &lt;a href="https://sspai.com/post/77499">https://sspai.com/post/77499&lt;/a>&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>Rime 配置：雾凇拼音 &lt;a href="https://dvel.me/posts/rime-ice/">https://dvel.me/posts/rime-ice/&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>职称评审</title><link>https://fgg100y.github.io/posts/personals/engineering_career_ladder/</link><pubDate>Fri, 05 Jul 2024 22:40:23 +0800</pubDate><guid>https://fgg100y.github.io/posts/personals/engineering_career_ladder/</guid><description>&lt;p>虽然人家只评估近五年的工作，但粗略算起来自己工作都快八年了，才爬了第二个阶梯。&lt;/p>
 &lt;p>半路出家着实费劲。&lt;/p>
 &lt;p>&lt;img alt="MidLevel" src="https://fgg100y.github.io/posts/personals/engineering_career_ladder/images/fmh_engineering_career_blur_extra_info.png">&lt;/p>
 &lt;p>突然想起经典电影《三毛从军记》结尾部分的饱含沧桑而又莫名喜感的那一句台词：八年了&amp;hellip;&lt;/p>
 &lt;p>急躁时不免暗暗奢望有人：“看在技术的份上，拉兄弟我一把。” 😂&lt;/p>
 &lt;p>但话说回来，“当幸福来敲门”的时候，你最好是恰在家，做好准备。&lt;/p>
-&lt;p>要不然真有人拉你一把时，结果却弄成烂泥扶不上墙。恐怕没有比这更糟糕的了。&lt;/p></description></item><item><title>so_long_and_no_thanks</title><link>https://fgg100y.github.io/posts/momentsoflife/so_long/</link><pubDate>Thu, 04 Jul 2024 20:03:19 +0800</pubDate><guid>https://fgg100y.github.io/posts/momentsoflife/so_long/</guid><description>&lt;p>如果你看过《银河系漫游指南》，应该记得地球生物智慧排第一的是海豚（人类只排第三）😂&lt;/p>
+&lt;p>要不然真有人拉你一把时，结果却弄成烂泥扶不上墙。恐怕没有比这更糟糕的了。&lt;/p></description></item><item><title>so_long_and_no_thanks</title><link>https://fgg100y.github.io/posts/personals/momentsoflife/so_long/</link><pubDate>Thu, 04 Jul 2024 20:03:19 +0800</pubDate><guid>https://fgg100y.github.io/posts/personals/momentsoflife/so_long/</guid><description>&lt;p>如果你看过《银河系漫游指南》，应该记得地球生物智慧排第一的是海豚（人类只排第三）😂&lt;/p>
 &lt;p>离别时本来应该是来一句：&lt;/p>
 &lt;blockquote>
 &lt;p>“So long! And thanks for all the fish.&amp;quot;&lt;/p>
 &lt;/blockquote>
 &lt;p>但实际情况却是：&lt;/p>
-&lt;p>&lt;img alt="no_thanks" src="https://fgg100y.github.io/posts/momentsoflife/so_long/images/dophine.jpg">&lt;/p></description></item><item><title>Short_time_Fourier_Transform</title><link>https://fgg100y.github.io/posts/dsp101/2024-07-03-short_time_fourier_transform/</link><pubDate>Wed, 03 Jul 2024 11:25:37 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-07-03-short_time_fourier_transform/</guid><description>&lt;p>Sine Wave Signal&lt;/p>
+&lt;p>&lt;img alt="no_thanks" src="https://fgg100y.github.io/posts/personals/momentsoflife/so_long/images/dophine.jpg">&lt;/p></description></item><item><title>Short_time_Fourier_Transform</title><link>https://fgg100y.github.io/posts/dsp101/2024-07-03-short_time_fourier_transform/</link><pubDate>Wed, 03 Jul 2024 11:25:37 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-07-03-short_time_fourier_transform/</guid><description>&lt;p>Sine Wave Signal&lt;/p>
 &lt;p>An audio signal, y(t), composed of exactly one sine wave, can be completely described by
 the parameters $t, A, f$ and $\phi$,
 $$
