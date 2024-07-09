@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>自定义字体 on fgg blog</title><link>/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93/</link><description>fgg blog (自定义字体)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 09 Jul 2024 17:23:15 +0800</lastBuildDate><atom:link href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93/index.xml" rel="self" type="application/rss+xml"/><item><title>Add_and_test_custom_font</title><link>/posts/2024-07-09-test_custom_font/</link><pubDate>Tue, 09 Jul 2024 17:23:15 +0800</pubDate><guid>/posts/2024-07-09-test_custom_font/</guid><description>&lt;p>Linear regression:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>自定义字体 on fgg blog</title><link>/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93/</link><description>fgg blog (自定义字体)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 09 Jul 2024 21:53:56 +0800</lastBuildDate><atom:link href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E4%BD%93/index.xml" rel="self" type="application/rss+xml"/><item><title>Add_and_test_custom_font</title><link>/posts/2024-07-09-test_custom_font/</link><pubDate>Tue, 09 Jul 2024 21:53:56 +0800</pubDate><guid>/posts/2024-07-09-test_custom_font/</guid><description>&lt;p>Linear regression:&lt;/p>
 &lt;blockquote>
 &lt;p>$\text{You&amp;rsquo;ve got to draw the line somewhere.}$&lt;/p>
 &lt;/blockquote>
@@ -49,7 +49,7 @@ BuildDate=2024-07-04T08:13:25Z VendorInfo=gohugoio&lt;/span>&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;KingHwa_OldSong&amp;#39;&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;del>(此处gpt4o给出在&lt;code>assets/css/&lt;/code>中创建，但不对)&lt;/del>
-更新：其实它是对的(因为我提问的时间是已经有了版本号较高的hugo释出。)&lt;/p>
+更新：其实它是对的(因为我提问的时间是已经有了版本号较高的hugo释出了的)&lt;/p>
 &lt;p>更多关于自定义字体的讨论，可参考这里: &lt;a href="https://discourse.gohugo.io/t/how-to-add-custom-fonts-and-not-depend-on-google/34267/3">https://discourse.gohugo.io/t/how-to-add-custom-fonts-and-not-depend-on-google/34267/3&lt;/a>&lt;/p>
 &lt;ol start="3">
 &lt;li>修改 &lt;code>config.toml&lt;/code>：&lt;/li>

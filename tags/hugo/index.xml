@@ -1,4 +1,83 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on fgg blog</title><link>/tags/hugo/</link><description>fgg blog (Hugo)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 25 Aug 2023 13:49:40 +0800</lastBuildDate><atom:link href="/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>test rendering of equations of latex in Hugo</title><link>/posts/hugo101/test_math_equation_rendering/</link><pubDate>Fri, 25 Aug 2023 13:49:40 +0800</pubDate><guid>/posts/hugo101/test_math_equation_rendering/</guid><description>&lt;p>式子能正常渲染，但需要在两个地方的下标处添加额外转义字符 &lt;code>\&lt;/code>，
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on fgg blog</title><link>/tags/hugo/</link><description>fgg blog (Hugo)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 09 Jul 2024 21:53:56 +0800</lastBuildDate><atom:link href="/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>Add_and_test_custom_font</title><link>/posts/2024-07-09-test_custom_font/</link><pubDate>Tue, 09 Jul 2024 21:53:56 +0800</pubDate><guid>/posts/2024-07-09-test_custom_font/</guid><description>&lt;p>Linear regression:&lt;/p>
+&lt;blockquote>
+&lt;p>$\text{You&amp;rsquo;ve got to draw the line somewhere.}$&lt;/p>
+&lt;/blockquote>
+&lt;p>You&amp;rsquo;ve got to draw the line somewhere. (system-font)&lt;/p>
+&lt;p>&lt;span class="custom-en">You&amp;rsquo;ve got to draw the line somewhere. (NerdFont 3270)&lt;/span>&lt;/p>
+&lt;p>&lt;span class="custom-zh">中文：你必须在某个地方把那条线给画出来。(京華老宋体)&lt;/span>&lt;/p>
+&lt;hr>
+&lt;p>实作过程：&lt;/p>
+&lt;p>&lt;span class="custom-en">hugo version:
+v0.128.2-de36c1a95d28595d8243fd8b891665b069ed0850+extended linux/amd64
+BuildDate=2024-07-04T08:13:25Z VendorInfo=gohugoio&lt;/span>&lt;/p>
+&lt;hr>
+&lt;ol>
+&lt;li>
+&lt;p>将本地字体文件复制到 &lt;code>static/fonts/&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>创建文件 &lt;code>custom.css&lt;/code>:&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>
+&lt;p>如果hugo版本较低，比如0.92: 在 &lt;code>static/css/&lt;/code> 创建；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>否则，如0.128: 在 &lt;code>assets/css/&lt;/code> 创建；&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-css" data-lang="css">&lt;span style="display:flex;">&lt;span>@&lt;span style="color:#ff6ac1">font-face&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#5af78e">&amp;#39;3270NerdFont&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">src&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">url&lt;/span>&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;/fonts/3270NerdFont-Regular.ttf&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">)&lt;/span> &lt;span style="color:#ff6ac1">format&lt;/span>&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;truetype&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-weight&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">normal&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-style&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">normal&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>@&lt;span style="color:#ff6ac1">font-face&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#5af78e">&amp;#39;KingHwa_OldSong&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">src&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">url&lt;/span>&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;/fonts/KingHwa_OldSong.ttf&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">)&lt;/span> &lt;span style="color:#ff6ac1">format&lt;/span>&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;truetype&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-weight&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">normal&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-style&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">normal&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#f3f99d">custom-en&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;3270NerdFont&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#f3f99d">custom-zh&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;KingHwa_OldSong&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;del>(此处gpt4o给出在&lt;code>assets/css/&lt;/code>中创建，但不对)&lt;/del>
+更新：其实它是对的(因为我提问的时间是已经有了版本号较高的hugo释出了的)&lt;/p>
+&lt;p>更多关于自定义字体的讨论，可参考这里: &lt;a href="https://discourse.gohugo.io/t/how-to-add-custom-fonts-and-not-depend-on-google/34267/3">https://discourse.gohugo.io/t/how-to-add-custom-fonts-and-not-depend-on-google/34267/3&lt;/a>&lt;/p>
+&lt;ol start="3">
+&lt;li>修改 &lt;code>config.toml&lt;/code>：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-toml" data-lang="toml">&lt;span style="display:flex;">&lt;span>[params]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> customCSS = [&lt;span style="color:#5af78e">&amp;#34;css/custom.css&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="4">
+&lt;li>复制 &lt;code>themes/layouts/partials/head.html&lt;/code> 到根目录&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>cp themes/layouts/partials/head.html ./layouts/partials/head.html
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Optional:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cp themes/layouts/partials/head-extra.html ./layouts/partials/head-extra.html
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果主题设计得足够好，通常会给一份 &lt;code>head-extra.html&lt;/code> 用于定制化内容。
+此时，只需要将相应配置加入到 &lt;code>head-extra.html&lt;/code> 文件中，避免对 &lt;code>head.html&lt;/code> 的打扰。&lt;/p>
+&lt;p>增加的相应内容是：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;lt;!-- Other head content --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{{- range .Site.Params.customCSS }}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#ff6ac1">link&lt;/span> &lt;span style="color:#57c7ff">rel&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;stylesheet&amp;#34;&lt;/span> &lt;span style="color:#57c7ff">href&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;{{ . | relURL }}&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{{- end }}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="5">
+&lt;li>使用自定义字体&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>You&amp;#39;ve got to draw the line somewhere. (system-font)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;span class=&amp;#34;custom-en&amp;#34;&amp;gt;You&amp;#39;ve got to draw the line somewhere. (NerdFont 3270)&amp;lt;/span&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;span class=&amp;#34;custom-zh&amp;#34;&amp;gt;中文：你必须在某个地方把那条线给画出来。(京華老宋体)&amp;lt;/span&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>test rendering of equations of latex in Hugo</title><link>/posts/hugo101/test_math_equation_rendering/</link><pubDate>Fri, 25 Aug 2023 13:49:40 +0800</pubDate><guid>/posts/hugo101/test_math_equation_rendering/</guid><description>&lt;p>式子能正常渲染，但需要在两个地方的下标处添加额外转义字符 &lt;code>\&lt;/code>，
 也就是：&lt;code>\mathbb{E}\_{xxx}&lt;/code>和&lt;code>p\_{model}&lt;/code>，其他地方却不需要 &lt;code>\hat{p}_{data}&lt;/code>&lt;/p>
 &lt;p>$$
 \mathbb{E}_{x \sim \hat{p}_{data}} {\text{log}\ p_{model} {(x^i; \theta})}
