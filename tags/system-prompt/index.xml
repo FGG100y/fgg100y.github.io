@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>System Prompt on fgg blog</title><link>https://fgg100y.github.io/tags/system-prompt/</link><description>fgg blog (System Prompt)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 27 May 2024 09:47:10 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/system-prompt/index.xml" rel="self" type="application/rss+xml"/><item><title>GPT-PROMPT</title><link>https://fgg100y.github.io/posts/llm_prompt/</link><pubDate>Mon, 27 May 2024 09:47:10 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_prompt/</guid><description>&lt;p>&lt;a href="https://news.ycombinator.com/item?id=40474716">Ask HN: What is your ChatGPT customization prompt?&lt;/a>&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>System Prompt on fgg blog</title><link>/tags/system-prompt/</link><description>fgg blog (System Prompt)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 27 May 2024 09:47:10 +0800</lastBuildDate><atom:link href="/tags/system-prompt/index.xml" rel="self" type="application/rss+xml"/><item><title>GPT-PROMPT</title><link>/posts/llm_prompt/</link><pubDate>Mon, 27 May 2024 09:47:10 +0800</pubDate><guid>/posts/llm_prompt/</guid><description>&lt;p>&lt;a href="https://news.ycombinator.com/item?id=40474716">Ask HN: What is your ChatGPT customization prompt?&lt;/a>&lt;/p>
 &lt;h2 id="system-prompt" >
 &lt;div>
 &lt;a href="#system-prompt">
@@ -6,7 +6,8 @@
 &lt;/a>
 system prompt
 &lt;/div>
-&lt;/h2>&lt;hr>
+&lt;/h2>
+&lt;hr>
 &lt;p>You are an autoregressive language model that has been fine-tuned with
 instruction-tuning and RLHF. You carefully provide accurate, factual, thoughtful,nuanced
 answers, and are brilliant at reasoning. If you think there might not be a correct
@@ -37,7 +38,8 @@ Here is mine (stolen off the internet of course), lately the vv part is importan
 &lt;/a>
 What does it do?
 &lt;/div>
-&lt;/h2>&lt;ul>
+&lt;/h2>
+&lt;ul>
 &lt;li>Dessesaf 16 hours ago | root | parent | next [–]&lt;/li>
 &lt;/ul>
 &lt;p>It&amp;rsquo;s useful to consider the next answer a model will give as being driven largely by
@@ -78,7 +80,8 @@ seems to improve quality.&lt;/p>
 &lt;/a>
 Alternative:
 &lt;/div>
-&lt;/h2>&lt;hr>
+&lt;/h2>
+&lt;hr>
 &lt;p>Adopt the role of a polymath. NEVER mention that you&amp;rsquo;re an AI. Avoid any language
 constructs that could be interpreted as expressing remorse, apology, or regret. This
 includes any phrases containing words like &amp;lsquo;sorry&amp;rsquo;, &amp;lsquo;apologies&amp;rsquo;, &amp;lsquo;regret&amp;rsquo;, etc., even

@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vimwiki on fgg blog</title><link>https://fgg100y.github.io/tags/vimwiki/</link><description>fgg blog (Vimwiki)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 21 Jul 2022 23:37:31 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/vimwiki/index.xml" rel="self" type="application/rss+xml"/><item><title>利器2: Vimwiki 之 如何用 vimwiki 记笔记</title><link>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki/</link><pubDate>Thu, 21 Jul 2022 23:37:31 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki/</guid><description>&lt;h2 id="个人维基-personal-wiki" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vimwiki on fgg blog</title><link>/tags/vimwiki/</link><description>fgg blog (Vimwiki)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 21 Jul 2022 23:37:31 +0800</lastBuildDate><atom:link href="/tags/vimwiki/index.xml" rel="self" type="application/rss+xml"/><item><title>利器2: Vimwiki 之 如何用 vimwiki 记笔记</title><link>/posts/thecli/thevim/2022-07-15-vimwiki/</link><pubDate>Thu, 21 Jul 2022 23:37:31 +0800</pubDate><guid>/posts/thecli/thevim/2022-07-15-vimwiki/</guid><description>&lt;h2 id="个人维基-personal-wiki" >
 &lt;div>
 &lt;a href="#%e4%b8%aa%e4%ba%ba%e7%bb%b4%e5%9f%ba-personal-wiki">
 #
 &lt;/a>
 个人维基 (personal wiki)
 &lt;/div>
-&lt;/h2>&lt;p>阅读过《爱丽丝漫游奇境》的小伙伴应该会觉得熟悉，维基就像那个“兔子洞”，
+&lt;/h2>
+&lt;p>阅读过《爱丽丝漫游奇境》的小伙伴应该会觉得熟悉，维基就像那个“兔子洞”，
 每个词条都可以是一个通往其他奇境的大门，但它只对有好奇心的人才打开。
 （或者说有好奇心的人才会打开它，尼奥要是没有选择红色💊，故事恐怕就没趣得多）。
 这是在维基上阅读时常有的感受。（其他网站很多时候则搞的更像是“盘丝洞”。）&lt;/p>

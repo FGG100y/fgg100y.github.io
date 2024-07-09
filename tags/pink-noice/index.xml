@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pink Noice on fgg blog</title><link>https://fgg100y.github.io/tags/pink-noice/</link><description>fgg blog (Pink Noice)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 10 May 2024 11:23:02 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/pink-noice/index.xml" rel="self" type="application/rss+xml"/><item><title>Noise_in_DSP</title><link>https://fgg100y.github.io/posts/dsp101/2024-05-10-noise_in_dsp/</link><pubDate>Fri, 10 May 2024 11:23:02 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-05-10-noise_in_dsp/</guid><description>&lt;h1 id="whats-in-a-noise" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pink Noice on fgg blog</title><link>/tags/pink-noice/</link><description>fgg blog (Pink Noice)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 10 May 2024 11:23:02 +0800</lastBuildDate><atom:link href="/tags/pink-noice/index.xml" rel="self" type="application/rss+xml"/><item><title>Noise_in_DSP</title><link>/posts/dsp101/2024-05-10-noise_in_dsp/</link><pubDate>Fri, 10 May 2024 11:23:02 +0800</pubDate><guid>/posts/dsp101/2024-05-10-noise_in_dsp/</guid><description>&lt;h1 id="whats-in-a-noise" >
 &lt;div>
 &lt;a href="#whats-in-a-noise">
 ##
 &lt;/a>
 What&amp;rsquo;s in a &amp;ldquo;Noise&amp;rdquo;?
 &lt;/div>
-&lt;/h1>&lt;ul>
+&lt;/h1>
+&lt;ul>
 &lt;li>As in English, it can mean an unwanted signal of any kind. If two signals interfere
 with each other, each signal would consider the other to be noise.&lt;/li>
 &lt;/ul>
@@ -21,7 +22,8 @@ lacks the harmonic structure of the periodic signals.&lt;/li>
 &lt;/a>
 Uncorrelated noise
 &lt;/div>
-&lt;/h2>&lt;ul>
+&lt;/h2>
+&lt;ul>
 &lt;li>
 &lt;p>Uncorrelated uniform noise (UU noise)
 &amp;ldquo;uniform&amp;rdquo; means the signal contants random values from a uniform distribution,
@@ -44,7 +46,8 @@ equal mixture of light at all visible frequecies is white.)&lt;/p>
 &lt;/a>
 Brownian noise
 &lt;/div>
-&lt;/h2>&lt;p>In a Brownian noise, each value is the sum of the previous value and a random &amp;ldquo;step&amp;rdquo;. It
+&lt;/h2>
+&lt;p>In a Brownian noise, each value is the sum of the previous value and a random &amp;ldquo;step&amp;rdquo;. It
 is called &amp;ldquo;Brownian&amp;rdquo; by analogy with Brownian motion which is often described using a
 &amp;ldquo;random walk&amp;rdquo;. A random walk is a mathematical model of a path where the distance
 between steps is characterized by a random distribution.&lt;/p>
@@ -73,7 +76,8 @@ the power would be at the low-frequency end of the spectrum, which is red.&lt;/p
 &lt;/a>
 Pink noise
 &lt;/div>
-&lt;/h2>&lt;p>More generally, we can synthesize noise with any exponent, $\beta$, in power-frequency
+&lt;/h2>
+&lt;p>More generally, we can synthesize noise with any exponent, $\beta$, in power-frequency
 relationship:
 $$
 P = K / f^{\beta}
@@ -89,7 +93,8 @@ called &amp;ldquo;pink noise&amp;rdquo;.&lt;/p>
 &lt;/a>
 Gaussian noise
 &lt;/div>
-&lt;/h2>&lt;p>When people talk about &amp;ldquo;white noise&amp;rdquo;, they don&amp;rsquo;t always mean UU noise. In fact, more
+&lt;/h2>
+&lt;p>When people talk about &amp;ldquo;white noise&amp;rdquo;, they don&amp;rsquo;t always mean UU noise. In fact, more
 often they mean uncorrelative Gaussian noise (UG noise).&lt;/p>
 &lt;p>UG noise is similar in many ways to UU noise. The spectrum has equal power at all
 frequecies, on average, so UG is also white. And it has one other interesting property:

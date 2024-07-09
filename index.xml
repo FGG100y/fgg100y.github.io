@@ -1,4 +1,83 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>https://fgg100y.github.io/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 06 Jul 2024 15:34:59 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>rime_trime</title><link>https://fgg100y.github.io/posts/personals/momentsoflife/rime_trime/</link><pubDate>Sat, 06 Jul 2024 15:34:59 +0800</pubDate><guid>https://fgg100y.github.io/posts/personals/momentsoflife/rime_trime/</guid><description>&lt;p>&lt;a href="https://github.com/iDvel/rime-ice">rime-ice&lt;/a> 雾凇拼音 + &lt;a href="https://github.com/osfans/trime">trime&lt;/a> 同文输入法&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 09 Jul 2024 17:23:15 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>Add_and_test_custom_font</title><link>/posts/2024-07-09-test_custom_font/</link><pubDate>Tue, 09 Jul 2024 17:23:15 +0800</pubDate><guid>/posts/2024-07-09-test_custom_font/</guid><description>&lt;p>Linear regression:&lt;/p>
+&lt;blockquote>
+&lt;p>$\text{You&amp;rsquo;ve got to draw the line somewhere.}$&lt;/p>
+&lt;/blockquote>
+&lt;p>You&amp;rsquo;ve got to draw the line somewhere. (system-font)&lt;/p>
+&lt;p>&lt;span class="custom-en">You&amp;rsquo;ve got to draw the line somewhere. (NerdFont 3270)&lt;/span>&lt;/p>
+&lt;p>&lt;span class="custom-zh">中文：你必须在某个地方把那条线给画出来。(京華老宋体)&lt;/span>&lt;/p>
+&lt;hr>
+&lt;p>实作过程：&lt;/p>
+&lt;p>&lt;span class="custom-en">hugo version:
+v0.128.2-de36c1a95d28595d8243fd8b891665b069ed0850+extended linux/amd64
+BuildDate=2024-07-04T08:13:25Z VendorInfo=gohugoio&lt;/span>&lt;/p>
+&lt;hr>
+&lt;ol>
+&lt;li>
+&lt;p>将本地字体文件复制到 &lt;code>static/fonts/&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>创建文件 &lt;code>custom.css&lt;/code>:&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>
+&lt;p>如果hugo版本较低，比如0.92: 在 &lt;code>static/css/&lt;/code> 创建；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>否则，如0.128: 在 &lt;code>assets/css/&lt;/code> 创建；&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-css" data-lang="css">&lt;span style="display:flex;">&lt;span>@&lt;span style="color:#ff6ac1">font-face&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#5af78e">&amp;#39;3270NerdFont&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">src&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">url&lt;/span>&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;/fonts/3270NerdFont-Regular.ttf&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">)&lt;/span> &lt;span style="color:#ff6ac1">format&lt;/span>&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;truetype&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-weight&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">normal&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-style&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">normal&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>@&lt;span style="color:#ff6ac1">font-face&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#5af78e">&amp;#39;KingHwa_OldSong&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">src&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">url&lt;/span>&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;/fonts/KingHwa_OldSong.ttf&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">)&lt;/span> &lt;span style="color:#ff6ac1">format&lt;/span>&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;truetype&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-weight&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">normal&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-style&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">normal&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#f3f99d">custom-en&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;3270NerdFont&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#f3f99d">custom-zh&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;KingHwa_OldSong&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;del>(此处gpt4o给出在&lt;code>assets/css/&lt;/code>中创建，但不对)&lt;/del>
+更新：其实它是对的(因为我提问的时间是已经有了版本号较高的hugo释出。)&lt;/p>
+&lt;p>更多关于自定义字体的讨论，可参考这里: &lt;a href="https://discourse.gohugo.io/t/how-to-add-custom-fonts-and-not-depend-on-google/34267/3">https://discourse.gohugo.io/t/how-to-add-custom-fonts-and-not-depend-on-google/34267/3&lt;/a>&lt;/p>
+&lt;ol start="3">
+&lt;li>修改 &lt;code>config.toml&lt;/code>：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-toml" data-lang="toml">&lt;span style="display:flex;">&lt;span>[params]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> customCSS = [&lt;span style="color:#5af78e">&amp;#34;css/custom.css&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="4">
+&lt;li>复制 &lt;code>themes/layouts/partials/head.html&lt;/code> 到根目录&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>cp themes/layouts/partials/head.html ./layouts/partials/head.html
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Optional:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cp themes/layouts/partials/head-extra.html ./layouts/partials/head-extra.html
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果主题设计得足够好，通常会给一份 &lt;code>head-extra.html&lt;/code> 用于定制化内容。
+此时，只需要将相应配置加入到 &lt;code>head-extra.html&lt;/code> 文件中，避免对 &lt;code>head.html&lt;/code> 的打扰。&lt;/p>
+&lt;p>增加的相应内容是：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;lt;!-- Other head content --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{{- range .Site.Params.customCSS }}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#ff6ac1">link&lt;/span> &lt;span style="color:#57c7ff">rel&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;stylesheet&amp;#34;&lt;/span> &lt;span style="color:#57c7ff">href&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;{{ . | relURL }}&amp;#34;&lt;/span>&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{{- end }}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="5">
+&lt;li>使用自定义字体&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>You&amp;#39;ve got to draw the line somewhere. (system-font)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;span class=&amp;#34;custom-en&amp;#34;&amp;gt;You&amp;#39;ve got to draw the line somewhere. (NerdFont 3270)&amp;lt;/span&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;span class=&amp;#34;custom-zh&amp;#34;&amp;gt;中文：你必须在某个地方把那条线给画出来。(京華老宋体)&amp;lt;/span&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>rime_trime</title><link>/posts/personals/momentsoflife/rime_trime/</link><pubDate>Sat, 06 Jul 2024 15:34:59 +0800</pubDate><guid>/posts/personals/momentsoflife/rime_trime/</guid><description>&lt;p>&lt;a href="https://github.com/iDvel/rime-ice">rime-ice&lt;/a> 雾凇拼音 + &lt;a href="https://github.com/osfans/trime">trime&lt;/a> 同文输入法&lt;/p>
 &lt;p>&lt;img alt="IMG_trime_a_grimpse" src="images/trime_theme_4in1.png">&lt;/p>
 &lt;p>怎么在手机上使用这个输入法？比较无脑省力那种&amp;hellip;&lt;/p>
 &lt;p>应该说明：这篇文章基本是我自己的备忘录，我自己已经使用这些配置多年。
@@ -36,19 +115,19 @@
 &lt;p>Rime 配置：雾凇拼音 &lt;a href="https://dvel.me/posts/rime-ice/">https://dvel.me/posts/rime-ice/&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/div></description></item><item><title>职称评审</title><link>https://fgg100y.github.io/posts/personals/engineering_career_ladder/</link><pubDate>Fri, 05 Jul 2024 22:40:23 +0800</pubDate><guid>https://fgg100y.github.io/posts/personals/engineering_career_ladder/</guid><description>&lt;p>虽然人家只评估近五年的工作，但粗略算起来自己工作都快八年了，才爬了第二个阶梯。&lt;/p>
+&lt;/div></description></item><item><title>职称评审</title><link>/posts/personals/engineering_career_ladder/</link><pubDate>Fri, 05 Jul 2024 22:40:23 +0800</pubDate><guid>/posts/personals/engineering_career_ladder/</guid><description>&lt;p>虽然人家只评估近五年的工作，但粗略算起来自己工作都快八年了，才爬了第二个阶梯。&lt;/p>
 &lt;p>半路出家着实费劲。&lt;/p>
 &lt;p>&lt;img alt="MidLevel" src="https://fgg100y.github.io/posts/personals/engineering_career_ladder/images/fmh_engineering_career_blur_extra_info.png">&lt;/p>
 &lt;p>突然想起经典电影《三毛从军记》结尾部分的饱含沧桑而又莫名喜感的那一句台词：八年了&amp;hellip;&lt;/p>
 &lt;p>急躁时不免暗暗奢望有人：“看在技术的份上，拉兄弟我一把。” 😂&lt;/p>
 &lt;p>但话说回来，“当幸福来敲门”的时候，你最好是恰在家，做好准备。&lt;/p>
-&lt;p>要不然真有人拉你一把时，结果却弄成烂泥扶不上墙。恐怕没有比这更糟糕的了。&lt;/p></description></item><item><title>so_long_and_no_thanks</title><link>https://fgg100y.github.io/posts/personals/momentsoflife/so_long/</link><pubDate>Thu, 04 Jul 2024 20:03:19 +0800</pubDate><guid>https://fgg100y.github.io/posts/personals/momentsoflife/so_long/</guid><description>&lt;p>如果你看过《银河系漫游指南》，应该记得地球生物智慧排第一的是海豚（人类只排第三）😂&lt;/p>
+&lt;p>要不然真有人拉你一把时，结果却弄成烂泥扶不上墙。恐怕没有比这更糟糕的了。&lt;/p></description></item><item><title>so_long_and_no_thanks</title><link>/posts/personals/momentsoflife/so_long/</link><pubDate>Thu, 04 Jul 2024 20:03:19 +0800</pubDate><guid>/posts/personals/momentsoflife/so_long/</guid><description>&lt;p>如果你看过《银河系漫游指南》，应该记得地球生物智慧排第一的是海豚（人类只排第三）😂&lt;/p>
 &lt;p>离别时本来应该是来一句：&lt;/p>
 &lt;blockquote>
 &lt;p>“So long! And thanks for all the fish.&amp;quot;&lt;/p>
 &lt;/blockquote>
 &lt;p>但实际情况却是：&lt;/p>
-&lt;p>&lt;img alt="no_thanks" src="https://fgg100y.github.io/posts/personals/momentsoflife/so_long/images/dophine.jpg">&lt;/p></description></item><item><title>Short_time_Fourier_Transform</title><link>https://fgg100y.github.io/posts/dsp101/2024-07-03-short_time_fourier_transform/</link><pubDate>Wed, 03 Jul 2024 11:25:37 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-07-03-short_time_fourier_transform/</guid><description>&lt;p>Sine Wave Signal&lt;/p>
+&lt;p>&lt;img alt="no_thanks" src="https://fgg100y.github.io/posts/personals/momentsoflife/so_long/images/dophine.jpg">&lt;/p></description></item><item><title>Short_time_Fourier_Transform</title><link>/posts/dsp101/2024-07-03-short_time_fourier_transform/</link><pubDate>Wed, 03 Jul 2024 11:25:37 +0800</pubDate><guid>/posts/dsp101/2024-07-03-short_time_fourier_transform/</guid><description>&lt;p>Sine Wave Signal&lt;/p>
 &lt;p>An audio signal, y(t), composed of exactly one sine wave, can be completely described by
 the parameters $t, A, f$ and $\phi$,
 $$
@@ -88,7 +167,7 @@ matrix back to a waveform by &lt;em>inverse STFT&lt;/em> so that we may hear it.
 audio into short segments before applying the DFT. The shape of this window will affect
 which frequencies get emphasized or attenuated in the DFT. There are many types of
 &lt;a href="https://docs.scipy.org/doc/scipy/reference/signal.windows.html">window functions&lt;/a>.&lt;/p>
-&lt;p>&lt;img alt="windows" src="images/dsp_window_types.png">&lt;/p></description></item><item><title>Discrete_Fourier_Transform</title><link>https://fgg100y.github.io/posts/dsp101/2024-07-03-discrete_fourier_transform/</link><pubDate>Wed, 03 Jul 2024 09:46:45 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-07-03-discrete_fourier_transform/</guid><description>&lt;p>An analysis problem, which is equivalent to the &lt;strong>DFT&lt;/strong>:&lt;/p>
+&lt;p>&lt;img alt="windows" src="images/dsp_window_types.png">&lt;/p></description></item><item><title>Discrete_Fourier_Transform</title><link>/posts/dsp101/2024-07-03-discrete_fourier_transform/</link><pubDate>Wed, 03 Jul 2024 09:46:45 +0800</pubDate><guid>/posts/dsp101/2024-07-03-discrete_fourier_transform/</guid><description>&lt;p>An analysis problem, which is equivalent to the &lt;strong>DFT&lt;/strong>:&lt;/p>
 &lt;pre>&lt;code>Given a signal, how to find the amplitude and phase offset of its frequency
 components?
 &lt;/code>&lt;/pre>
@@ -157,7 +236,7 @@ conventional definition of DFT does not divide by &lt;code>N&lt;/code> (highligh
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> M
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description></item><item><title>ResNet</title><link>https://fgg100y.github.io/posts/resnet/</link><pubDate>Sat, 29 Jun 2024 09:17:15 +0800</pubDate><guid>https://fgg100y.github.io/posts/resnet/</guid><description>&lt;p>思维实验：
+&lt;/div></description></item><item><title>ResNet</title><link>/posts/resnet/</link><pubDate>Sat, 29 Jun 2024 09:17:15 +0800</pubDate><guid>/posts/resnet/</guid><description>&lt;p>思维实验：
 在浅层网络结构的基础上（比如20层），往后面直接添加更多的同映射隐层（identity layers），
 得到的深层网络（比如50层）理论上效果应该不会变差。但实验结果说明，它真会变差。意味着：
 SGD算法无法找到使得更深层网络性能不变差的参数。&lt;/p>
@@ -169,7 +248,8 @@ SGD算法无法找到使得更深层网络性能不变差的参数。&lt;/p>
 &lt;/a>
 Why, What, and How
 &lt;/div>
-&lt;/h2>&lt;blockquote>
+&lt;/h2>
+&lt;blockquote>
 &lt;p>Deeper neural networks are more difficult to train. We present a residual learning
 framework to ease the training of networks that are substantially deeper than those used
 previously. We explicitly reformulate the layers as learning residual functions with
@@ -188,7 +268,8 @@ reference to the layer inputs, instead of learning unreferenced functions.&lt;/p
 &lt;/a>
 残差网络结构
 &lt;/div>
-&lt;/h2>&lt;p>残差连接（aka, shortcut connection）在输入和输出的维度相同情况下可以直接使用如下结构块：&lt;/p>
+&lt;/h2>
+&lt;p>残差连接（aka, shortcut connection）在输入和输出的维度相同情况下可以直接使用如下结构块：&lt;/p>
 &lt;p>$$
 y = F(x, {W_i}) + x.
 $$&lt;/p>
@@ -212,7 +293,8 @@ $$&lt;/p>
 &lt;/a>
 残差连接为什么有用？
 &lt;/div>
-&lt;/h2>&lt;ol>
+&lt;/h2>
+&lt;ol>
 &lt;li>
 &lt;p>Easier Gradient Flow&lt;/p>
 &lt;ul>
@@ -237,16 +319,18 @@ $$&lt;/p>
 &lt;/a>
 此残差非彼残差（ResNet VS GDBT）
 &lt;/div>
-&lt;/h2>&lt;p>GBDT（梯度提升决策树）中的残差（residual）是指预测值与真实值之间的差值。&lt;/p>
+&lt;/h2>
+&lt;p>GBDT（梯度提升决策树）中的残差（residual）是指预测值与真实值之间的差值。&lt;/p>
 &lt;p>ResNet 中的残差（residual），是神经网络尝试去学习特征图（feature map）的残差（是网络块输出与输入之间的差值）。&lt;/p>
-&lt;p>Paper: &lt;a href="https://arxiv.org/pdf/1512.03385">https://arxiv.org/pdf/1512.03385&lt;/a>&lt;/p></description></item><item><title>knowledge_distillation2</title><link>https://fgg100y.github.io/posts/2024-06-28-knowledge_distillation2/</link><pubDate>Fri, 28 Jun 2024 11:25:43 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-28-knowledge_distillation2/</guid><description>&lt;h2 id="generalized-knowledge-distillation-gkd" >
+&lt;p>Paper: &lt;a href="https://arxiv.org/pdf/1512.03385">https://arxiv.org/pdf/1512.03385&lt;/a>&lt;/p></description></item><item><title>knowledge_distillation2</title><link>/posts/2024-06-28-knowledge_distillation2/</link><pubDate>Fri, 28 Jun 2024 11:25:43 +0800</pubDate><guid>/posts/2024-06-28-knowledge_distillation2/</guid><description>&lt;h2 id="generalized-knowledge-distillation-gkd" >
 &lt;div>
 &lt;a href="#generalized-knowledge-distillation-gkd">
 #
 &lt;/a>
 Generalized Knowledge Distillation (GKD)
 &lt;/div>
-&lt;/h2>&lt;p>泛化知识蒸馏是一种改进的知识蒸馏技术，旨在解决传统知识蒸馏方法在自回归序列模型中遇到的分
+&lt;/h2>
+&lt;p>泛化知识蒸馏是一种改进的知识蒸馏技术，旨在解决传统知识蒸馏方法在自回归序列模型中遇到的分
 布不匹配问题，特别是在训练和推理阶段之间。传统的知识蒸馏方法通常基于固定的输出序列集进行，
 这些序列或者是教师模型生成的，或者是基于真实数据的标签。然而，这导致学生模型在推理时生成
 的序列可能与训练时见到的序列分布不同，从而影响了学生模型的泛化能力。&lt;/p>
@@ -259,7 +343,8 @@ Generalized Knowledge Distillation (GKD)
 &lt;/a>
 GKD 技术要点
 &lt;/div>
-&lt;/h2>&lt;ul>
+&lt;/h2>
+&lt;ul>
 &lt;li>
 &lt;p>动态序列生成与反馈：GKD 在训练过程中，会根据学生模型的自我生成序列进行学习。这意味着学
 生模型在尝试生成序列时，如果生成错误或不理想的序列，它可以从教师模型那里获得直接反馈，
@@ -283,7 +368,8 @@ GKD 技术要点
 &lt;/a>
 动态序列生成
 &lt;/div>
-&lt;/h3>&lt;p>在传统的知识蒸馏中，学生模型通常基于预先定义好的固定数据集或由教师模型生成的输出序列进行
+&lt;/h3>
+&lt;p>在传统的知识蒸馏中，学生模型通常基于预先定义好的固定数据集或由教师模型生成的输出序列进行
 训练。而动态序列生成则打破了这一限制，它让学生模型自己生成输出序列，并在此基础上进行学习。
 这个过程涉及以下几个步骤：&lt;/p>
 &lt;ul>
@@ -303,7 +389,8 @@ GKD 技术要点
 &lt;/a>
 反馈机制
 &lt;/div>
-&lt;/h3>&lt;p>一旦学生模型生成了输出序列，接下来的关键步骤是获取教师模型的反馈：&lt;/p>
+&lt;/h3>
+&lt;p>一旦学生模型生成了输出序列，接下来的关键步骤是获取教师模型的反馈：&lt;/p>
 &lt;ul>
 &lt;li>
 &lt;p>教师模型评估：教师模型会对学生生成的序列进行评估，通常通过比较教师和学生模型在每个生成
@@ -320,7 +407,7 @@ GKD 技术要点
 师模型的表现。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;p>参考文献：https://arxiv.org/pdf/2306.13649&lt;/p></description></item><item><title>knowledge_distillation</title><link>https://fgg100y.github.io/posts/2024-06-27-knowledge_distillation/</link><pubDate>Thu, 27 Jun 2024 11:34:18 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-27-knowledge_distillation/</guid><description>&lt;p>知识蒸馏（Knowledge Distillation）是一种机器学习技术，它通过将大型、复杂的模型（称为教师
+&lt;p>参考文献：https://arxiv.org/pdf/2306.13649&lt;/p></description></item><item><title>knowledge_distillation</title><link>/posts/2024-06-27-knowledge_distillation/</link><pubDate>Thu, 27 Jun 2024 11:34:18 +0800</pubDate><guid>/posts/2024-06-27-knowledge_distillation/</guid><description>&lt;p>知识蒸馏（Knowledge Distillation）是一种机器学习技术，它通过将大型、复杂的模型（称为教师
 模型，Teacher Model）的知识“蒸馏”到小型、简洁的模型（称为学生模型，Student Model）中，从
 而实现模型压缩和加速，同时尽可能保持原始模型的性能。这一技术使得模型可以在资源有限的设备
 上高效运行，如手机或嵌入式设备。&lt;/p>
@@ -337,7 +424,8 @@ information that can be leveraged by a student network during training.&lt;/p>
 &lt;/a>
 基本原理
 &lt;/div>
-&lt;/h2>&lt;p>知识转移：核心思想是通过让学生模型模仿教师模型的输出行为，不仅包括硬分类标签，还有软概率
+&lt;/h2>
+&lt;p>知识转移：核心思想是通过让学生模型模仿教师模型的输出行为，不仅包括硬分类标签，还有软概率
 分布（softmax概率），这样可以传递更多关于数据分布的信息。软标签相比硬标签含有更多关于数
 据不确定性及类间关系的信息，有助于学生模型学习更细腻的决策边界。&lt;/p>
 &lt;p>特征蒸馏：除了输出层的知识外，泛化知识蒸馏还可以涉及中间层特征的学习，即学生模型试图学习
@@ -374,7 +462,8 @@ information that can be leveraged by a student network during training.&lt;/p>
 &lt;/a>
 知识蒸馏的三种代码实现：
 &lt;/div>
-&lt;/h2>&lt;ol>
+&lt;/h2>
+&lt;ol>
 &lt;li>知识转移：基于 softmax output 软标签&lt;/li>
 &lt;/ol>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
@@ -462,14 +551,15 @@ information that can be leveraged by a student network during training.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>optimizer&lt;span style="color:#ff6ac1">.&lt;/span>step()
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ...&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>具体参考：https://pytorch.org/tutorials/beginner/knowledge_distillation_tutorial.html?highlight=distill&lt;/p></description></item><item><title>mixup_beyond_ERM</title><link>https://fgg100y.github.io/posts/2024-06-27-mixup_beyond_erm/</link><pubDate>Thu, 27 Jun 2024 09:42:34 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-27-mixup_beyond_erm/</guid><description>&lt;h1 id="empirical-risk-minimazation-erm" >
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>具体参考：https://pytorch.org/tutorials/beginner/knowledge_distillation_tutorial.html?highlight=distill&lt;/p></description></item><item><title>mixup_beyond_ERM</title><link>/posts/2024-06-27-mixup_beyond_erm/</link><pubDate>Thu, 27 Jun 2024 09:42:34 +0800</pubDate><guid>/posts/2024-06-27-mixup_beyond_erm/</guid><description>&lt;h1 id="empirical-risk-minimazation-erm" >
 &lt;div>
 &lt;a href="#empirical-risk-minimazation-erm">
 ##
 &lt;/a>
 Empirical Risk Minimazation (ERM)
 &lt;/div>
-&lt;/h1>&lt;p>经验风险最小化, Empirical Risk Minimazation principle (Vapnik, 1998)&lt;/p>
+&lt;/h1>
+&lt;p>经验风险最小化, Empirical Risk Minimazation principle (Vapnik, 1998)&lt;/p>
 &lt;ol>
 &lt;li>基于ERM训练模型：亦即在训练数据集上学习以最小化其平均误差。&lt;/li>
 &lt;li>当前SOTA模型的参数量随着训练数据集规模增大而线性增加。&lt;/li>
@@ -508,7 +598,7 @@ $$&lt;/p>
 &lt;p>$(x_i, y_i)$ 和 $(x_j, y_j)$ 是从训练集中随机抽取的两个样例。$\lambda \in [0, 1]$。&lt;/p>
 &lt;p>因此，mixup通过结合先验知识扩展了训练分布，即特征向量的线性插值应导致相关目标的线性插值。
 mixup可以用几行代码实现，并且只引入最小的计算开销。&lt;/p>
-&lt;p>Mixup: beyond_ERM, &lt;a href="https://arxiv.org/pdf/1710.09412">https://arxiv.org/pdf/1710.09412&lt;/a>&lt;/p></description></item><item><title>路由器wifi连不上_但手机流量可以</title><link>https://fgg100y.github.io/posts/2024-06-16-wifi%E8%BF%9E%E4%B8%8D%E4%B8%8A_%E4%BD%86%E6%89%8B%E6%9C%BA%E6%B5%81%E9%87%8F%E5%8F%AF%E4%BB%A5/</link><pubDate>Sun, 16 Jun 2024 10:07:12 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-16-wifi%E8%BF%9E%E4%B8%8D%E4%B8%8A_%E4%BD%86%E6%89%8B%E6%9C%BA%E6%B5%81%E9%87%8F%E5%8F%AF%E4%BB%A5/</guid><description>&lt;p>Q：请问Wifi无法翻墙或访问某些网站，但用手机流量却可以是什么原因？&lt;/p>
+&lt;p>Mixup: beyond_ERM, &lt;a href="https://arxiv.org/pdf/1710.09412">https://arxiv.org/pdf/1710.09412&lt;/a>&lt;/p></description></item><item><title>路由器wifi连不上_但手机流量可以</title><link>/posts/2024-06-16-wifi%E8%BF%9E%E4%B8%8D%E4%B8%8A_%E4%BD%86%E6%89%8B%E6%9C%BA%E6%B5%81%E9%87%8F%E5%8F%AF%E4%BB%A5/</link><pubDate>Sun, 16 Jun 2024 10:07:12 +0800</pubDate><guid>/posts/2024-06-16-wifi%E8%BF%9E%E4%B8%8D%E4%B8%8A_%E4%BD%86%E6%89%8B%E6%9C%BA%E6%B5%81%E9%87%8F%E5%8F%AF%E4%BB%A5/</guid><description>&lt;p>Q：请问Wifi无法翻墙或访问某些网站，但用手机流量却可以是什么原因？&lt;/p>
 &lt;p>A:
 先说说你的wifi和5g环境下翻墙的问题，我猜测下你家里的宽带是不是移动的，手机流量用的是联通
 或者电信，总之，家庭宽带和5g不是一家isp。 如果是的话，这个问题就比较好理解，不同isp不同
@@ -542,7 +632,7 @@ txthinking，有点致敬编程随想的意思，感觉他应该最起码不红�
 &lt;p>@han_chinese:
 中國電信市場的移動數據網絡使用的是複雜的多重企業IPv4-NAT，加之，移動數據網絡業務很複雜。所以，GFW對移動數據網路的审查較弱。
 建議直接使用國外數據業務，像是Google-Fi，使用不受GFW影響的移動數據網絡。&lt;/p>
-&lt;p>&lt;a href="https://pincong.rocks/question/45451">点这里查阅信息来源&lt;/a>&lt;/p></description></item><item><title>calculate_gpu_vram_for_llama3-70B</title><link>https://fgg100y.github.io/posts/2024-06-13-calculate_gpu_vram_for_llama3-70b/</link><pubDate>Thu, 13 Jun 2024 16:11:47 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-13-calculate_gpu_vram_for_llama3-70b/</guid><description>&lt;p>How many GPUs do I need to be able to serve Llama 70B? In order to answer that, you need
+&lt;p>&lt;a href="https://pincong.rocks/question/45451">点这里查阅信息来源&lt;/a>&lt;/p></description></item><item><title>calculate_gpu_vram_for_llama3-70B</title><link>/posts/2024-06-13-calculate_gpu_vram_for_llama3-70b/</link><pubDate>Thu, 13 Jun 2024 16:11:47 +0800</pubDate><guid>/posts/2024-06-13-calculate_gpu_vram_for_llama3-70b/</guid><description>&lt;p>How many GPUs do I need to be able to serve Llama 70B? In order to answer that, you need
 to know how much GPU memory will be required by the Large Language Model.&lt;/p>
 &lt;p>The formula is simple:&lt;/p>
 &lt;p>$$
@@ -589,7 +679,7 @@ GPU memory required for serving Llama 70B&lt;/p>
 \frac{70 * 4bytes}{32/16} * 1.2=168GB
 $$&lt;/p>
 &lt;p>That&amp;rsquo;s quite a lot of memory. A single A100 80GB wouldn&amp;rsquo;t be enough, although 2x A100
-80GB should be enough to serve the Llama 2 70B model in 16 bit mode.&lt;/p></description></item><item><title>lean_principles</title><link>https://fgg100y.github.io/posts/mlteam101/lean_principles/</link><pubDate>Mon, 03 Jun 2024 17:59:09 +0800</pubDate><guid>https://fgg100y.github.io/posts/mlteam101/lean_principles/</guid><description>&lt;p>Principle 1: Identify value&lt;/p>
+80GB should be enough to serve the Llama 2 70B model in 16 bit mode.&lt;/p></description></item><item><title>lean_principles</title><link>/posts/mlteam101/lean_principles/</link><pubDate>Mon, 03 Jun 2024 17:59:09 +0800</pubDate><guid>/posts/mlteam101/lean_principles/</guid><description>&lt;p>Principle 1: Identify value&lt;/p>
 &lt;pre>&lt;code>Determine what is most valuable to the customer and focus on maximizing that value.
 &lt;/code>&lt;/pre>
 &lt;p>Principle 2: Map the value stream&lt;/p>
@@ -626,7 +716,7 @@ the process to eliminate waste and create a more efficient flow of materials and
 information.&lt;/li>
 &lt;li>Implement changes. Put the redesigned process into practice and continuously6.
 monitor and improve (principle 5).&lt;/li>
-&lt;/ol></description></item><item><title>EffectiveML 01: Delivering successful ML projects</title><link>https://fgg100y.github.io/posts/mlteam101/feedback_loops_and_times_to_feedback/</link><pubDate>Mon, 03 Jun 2024 17:12:37 +0800</pubDate><guid>https://fgg100y.github.io/posts/mlteam101/feedback_loops_and_times_to_feedback/</guid><description>&lt;p>Table: Comparison of feedback mechanisms and time-to-feedback in high- and low-effectiveness environments&lt;/p>
+&lt;/ol></description></item><item><title>EffectiveML 01: Delivering successful ML projects</title><link>/posts/mlteam101/feedback_loops_and_times_to_feedback/</link><pubDate>Mon, 03 Jun 2024 17:12:37 +0800</pubDate><guid>/posts/mlteam101/feedback_loops_and_times_to_feedback/</guid><description>&lt;p>Table: Comparison of feedback mechanisms and time-to-feedback in high- and low-effectiveness environments&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
@@ -707,14 +797,15 @@ five disciplines: product, software engineering, data, ML, and delivery:&lt;/p>
 &lt;li>team topologies&lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;/ul></description></item><item><title>tech interview prepare (for my resume)</title><link>https://fgg100y.github.io/posts/notes4resume/</link><pubDate>Mon, 27 May 2024 20:43:25 +0800</pubDate><guid>https://fgg100y.github.io/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
+&lt;/ul></description></item><item><title>tech interview prepare (for my resume)</title><link>/posts/notes4resume/</link><pubDate>Mon, 27 May 2024 20:43:25 +0800</pubDate><guid>/posts/notes4resume/</guid><description>&lt;h1 id="自我介绍" >
 &lt;div>
 &lt;a href="#%e8%87%aa%e6%88%91%e4%bb%8b%e7%bb%8d">
 ##
 &lt;/a>
 自我介绍
 &lt;/div>
-&lt;/h1>&lt;blockquote>
+&lt;/h1>
+&lt;blockquote>
 &lt;p>在自我介绍时，确保你提到的项目和技能与你申请的职位紧密相关，这样可以更好地展示你的专业
 能力和对职位的适应性。同时，保持自信和热情，让面试官感受到你对工作和团队的承诺。&lt;/p>
 &lt;/blockquote>
@@ -740,14 +831,16 @@ five disciplines: product, software engineering, data, ML, and delivery:&lt;/p>
 &lt;/a>
 Project 01 &amp;ndash; NLP
 &lt;/div>
-&lt;/h1>&lt;h2 id="sklearn-randomforest-model" >
+&lt;/h1>
+&lt;h2 id="sklearn-randomforest-model" >
 &lt;div>
 &lt;a href="#sklearn-randomforest-model">
 #
 &lt;/a>
 sklearn randomforest model
 &lt;/div>
-&lt;/h2>&lt;p>当谈到随机森林时，我们需要理解它的基础算法：决策树。随机森林是基于决策树的集成学习方法。所以，让我们首先来了解决策树的基本算法，然后再深入探讨随机森林。&lt;/p>
+&lt;/h2>
+&lt;p>当谈到随机森林时，我们需要理解它的基础算法：决策树。随机森林是基于决策树的集成学习方法。所以，让我们首先来了解决策树的基本算法，然后再深入探讨随机森林。&lt;/p>
 &lt;h3 id="1-决策树算法" >
 &lt;div>
 &lt;a href="#1-%e5%86%b3%e7%ad%96%e6%a0%91%e7%ae%97%e6%b3%95">
@@ -755,14 +848,16 @@ sklearn randomforest model
 &lt;/a>
 1. 决策树算法:
 &lt;/div>
-&lt;/h3>&lt;h4 id="11-cart算法-classification-and-regression-trees" >
+&lt;/h3>
+&lt;h4 id="11-cart算法-classification-and-regression-trees" >
 &lt;div>
 &lt;a href="#11-cart%e7%ae%97%e6%b3%95-classification-and-regression-trees">
 ###
 &lt;/a>
 1.1 CART算法 (Classification and Regression Trees):
 &lt;/div>
-&lt;/h4>&lt;p>CART算法是一种用于构建分类和回归树的决策树算法。它通过对数据集递归地进行二分来构建决策树。具体步骤如下：&lt;/p>
+&lt;/h4>
+&lt;p>CART算法是一种用于构建分类和回归树的决策树算法。它通过对数据集递归地进行二分来构建决策树。具体步骤如下：&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>&lt;strong>特征选择&lt;/strong>：对于分类问题，通常使用基尼指数（Gini index）或信息增益（Information Gain）来选择最佳的特征进行分裂；对于回归问题，通常使用平方误差来选择最佳的特征。&lt;/p>
@@ -784,14 +879,16 @@ sklearn randomforest model
 &lt;/a>
 2. 随机森林算法:
 &lt;/div>
-&lt;/h3>&lt;h4 id="21-构建随机森林" >
+&lt;/h3>
+&lt;h4 id="21-构建随机森林" >
 &lt;div>
 &lt;a href="#21-%e6%9e%84%e5%bb%ba%e9%9a%8f%e6%9c%ba%e6%a3%ae%e6%9e%97">
 ###
 &lt;/a>
 2.1 构建随机森林:
 &lt;/div>
-&lt;/h4>&lt;p>随机森林是通过构建多棵决策树并将它们集成起来来完成的。具体步骤如下：&lt;/p>
+&lt;/h4>
+&lt;p>随机森林是通过构建多棵决策树并将它们集成起来来完成的。具体步骤如下：&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>&lt;strong>随机抽样&lt;/strong>：从原始训练集中随机选择一部分样本（有放回抽样）来构建每棵决策树的训练集。这样可以保证每棵树的训练集略有差异，增加了模型的多样性。&lt;/p>
@@ -810,7 +907,8 @@ sklearn randomforest model
 &lt;/a>
 2.2 集成决策树:
 &lt;/div>
-&lt;/h4>&lt;p>构建多棵决策树后，随机森林采用不同的方式来集成它们的预测结果：&lt;/p>
+&lt;/h4>
+&lt;p>构建多棵决策树后，随机森林采用不同的方式来集成它们的预测结果：&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>分类任务&lt;/strong>：采用投票的方式，即每棵树投票选择最终的类别。&lt;/li>
 &lt;li>&lt;strong>回归任务&lt;/strong>：采用平均值的方式，即多棵树的预测结果取平均值。&lt;/li>
@@ -822,7 +920,8 @@ sklearn randomforest model
 &lt;/a>
 总结:
 &lt;/div>
-&lt;/h3>&lt;p>随机森林是一种强大的机器学习方法，基于决策树的集成学习。通过利用决策树的随机性和集成策略，随机森林能够有效地应对分类和回归问题，并在许多实际应用中表现优异。&lt;/p>
+&lt;/h3>
+&lt;p>随机森林是一种强大的机器学习方法，基于决策树的集成学习。通过利用决策树的随机性和集成策略，随机森林能够有效地应对分类和回归问题，并在许多实际应用中表现优异。&lt;/p>
 &lt;p>在 CART (Classification and Regression Trees) 算法中，节点的分裂依据是基于贪心算法。CART 算法通过贪心地选择每次分裂时能够最大程度减少不纯度（对于分类问题）或者最小化误差（对于回归问题）的特征来进行节点的分裂。这种贪心策略保证了在每个节点分裂时都选择了最优的特征来进行分裂。&lt;/p>
 &lt;h3 id="节点分裂的依据" >
 &lt;div>
@@ -831,14 +930,16 @@ sklearn randomforest model
 &lt;/a>
 节点分裂的依据：
 &lt;/div>
-&lt;/h3>&lt;h4 id="对于分类问题" >
+&lt;/h3>
+&lt;h4 id="对于分类问题" >
 &lt;div>
 &lt;a href="#%e5%af%b9%e4%ba%8e%e5%88%86%e7%b1%bb%e9%97%ae%e9%a2%98">
 ###
 &lt;/a>
 对于分类问题：
 &lt;/div>
-&lt;/h4>&lt;p>在分类问题中，CART 算法通常使用以下两种方法作为节点分裂的依据：&lt;/p>
+&lt;/h4>
+&lt;p>在分类问题中，CART 算法通常使用以下两种方法作为节点分裂的依据：&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>&lt;strong>基尼指数 (Gini index)&lt;/strong>：基尼指数衡量了从一个数据集中随机抽取两个样本，它们类别不一致的概率。具体地，对于一个节点 $t$，基尼指数可以计算为：&lt;/p>
@@ -858,7 +959,8 @@ sklearn randomforest model
 &lt;/a>
 对于回归问题：
 &lt;/div>
-&lt;/h4>&lt;p>在回归问题中，CART 算法通常使用平方误差 (Mean Squared Error, MSE) 作为节点分裂的依据。选择能够最小化节点分裂后样本的平方误差的特征来进行分裂。&lt;/p>
+&lt;/h4>
+&lt;p>在回归问题中，CART 算法通常使用平方误差 (Mean Squared Error, MSE) 作为节点分裂的依据。选择能够最小化节点分裂后样本的平方误差的特征来进行分裂。&lt;/p>
 &lt;h3 id="总结-1" >
 &lt;div>
 &lt;a href="#%e6%80%bb%e7%bb%93-1">
@@ -866,7 +968,8 @@ sklearn randomforest model
 &lt;/a>
 总结：
 &lt;/div>
-&lt;/h3>&lt;p>CART 算法在节点分裂时采用贪心算法，选择能够最大程度减少不纯度（分类问题）或者最小化误差（回归问题）的特征来进行分裂。这种贪心策略保证了每次分裂都选择了最优的特征，以构建出尽可能简单且有效的决策树。&lt;/p>
+&lt;/h3>
+&lt;p>CART 算法在节点分裂时采用贪心算法，选择能够最大程度减少不纯度（分类问题）或者最小化误差（回归问题）的特征来进行分裂。这种贪心策略保证了每次分裂都选择了最优的特征，以构建出尽可能简单且有效的决策树。&lt;/p>
 &lt;p>当谈到基于决策树的集成学习时，除了随机森林，还有一种重要的方法是提升树（Boosting）。提升树是一种迭代的集成学习方法，通过串行地构建一系列决策树来逐步提升模型的性能。下面我会详细介绍提升树的原理和实现方式。&lt;/p>
 &lt;h3 id="提升树的原理" >
 &lt;div>
@@ -875,14 +978,16 @@ sklearn randomforest model
 &lt;/a>
 提升树的原理：
 &lt;/div>
-&lt;/h3>&lt;h4 id="1-基本思想" >
+&lt;/h3>
+&lt;h4 id="1-基本思想" >
 &lt;div>
 &lt;a href="#1-%e5%9f%ba%e6%9c%ac%e6%80%9d%e6%83%b3">
 ###
 &lt;/a>
 1. 基本思想：
 &lt;/div>
-&lt;/h4>&lt;p>提升树的基本思想是通过训练一系列弱学习器（通常是决策树），然后将它们组合起来构成一个更强大的模型。每个弱学习器都专注于纠正之前模型的错误，因此在构建过程中会关注之前模型预测错误的样本。&lt;/p>
+&lt;/h4>
+&lt;p>提升树的基本思想是通过训练一系列弱学习器（通常是决策树），然后将它们组合起来构成一个更强大的模型。每个弱学习器都专注于纠正之前模型的错误，因此在构建过程中会关注之前模型预测错误的样本。&lt;/p>
 &lt;h4 id="2-算法流程" >
 &lt;div>
 &lt;a href="#2-%e7%ae%97%e6%b3%95%e6%b5%81%e7%a8%8b">
@@ -890,7 +995,8 @@ sklearn randomforest model
 &lt;/a>
 2. 算法流程：
 &lt;/div>
-&lt;/h4>&lt;p>提升树的算法流程如下：&lt;/p>
+&lt;/h4>
+&lt;p>提升树的算法流程如下：&lt;/p>
 &lt;ol>
 &lt;li>初始化模型为一个常数值，通常为目标变量的均值（对于回归问题）或者是类别的先验概率（对于分类问题）。&lt;/li>
 &lt;li>迭代地训练决策树，每次训练都会生成一个新的弱学习器。在每次迭代中，算法会计算当前模型的残差（对于回归问题）或者梯度（对于分类问题），然后训练一个新的决策树来拟合这些残差或者梯度。&lt;/li>
@@ -904,7 +1010,8 @@ sklearn randomforest model
 &lt;/a>
 3. 加法模型：
 &lt;/div>
-&lt;/h4>&lt;p>提升树的最终模型是一个加法模型，即多个弱学习器的加权求和。通过迭代训练，每个弱学习器都会对模型进行一定的修正，最终组合起来构成一个更强大的模型。&lt;/p>
+&lt;/h4>
+&lt;p>提升树的最终模型是一个加法模型，即多个弱学习器的加权求和。通过迭代训练，每个弱学习器都会对模型进行一定的修正，最终组合起来构成一个更强大的模型。&lt;/p>
 &lt;h3 id="实现" >
 &lt;div>
 &lt;a href="#%e5%ae%9e%e7%8e%b0">
@@ -912,7 +1019,8 @@ sklearn randomforest model
 &lt;/a>
 实现：
 &lt;/div>
-&lt;/h3>&lt;p>提升树的实现通常采用梯度提升算法（Gradient Boosting），其中最常见的是梯度提升决策树（Gradient Boosting Decision Trees，GBDT）。&lt;/p>
+&lt;/h3>
+&lt;p>提升树的实现通常采用梯度提升算法（Gradient Boosting），其中最常见的是梯度提升决策树（Gradient Boosting Decision Trees，GBDT）。&lt;/p>
 &lt;p>GBDT 算法的关键步骤包括计算残差或者梯度、训练决策树以拟合残差或者梯度、确定学习率等。GBDT 通过不断地迭代训练决策树来逐步优化模型，直到达到一定的迭代次数或者达到一定的性能指标。&lt;/p>
 &lt;h3 id="总结-2" >
 &lt;div>
@@ -921,7 +1029,8 @@ sklearn randomforest model
 &lt;/a>
 总结：
 &lt;/div>
-&lt;/h3>&lt;p>提升树是一种基于决策树的集成学习方法，通过迭代训练一系列决策树来逐步提升模型的性能。相较于随机森林，提升树通常会产生更加精确的预测，但需要更长的训练时间，并且对异常值和噪声数据更敏感。&lt;/p>
+&lt;/h3>
+&lt;p>提升树是一种基于决策树的集成学习方法，通过迭代训练一系列决策树来逐步提升模型的性能。相较于随机森林，提升树通常会产生更加精确的预测，但需要更长的训练时间，并且对异常值和噪声数据更敏感。&lt;/p>
 &lt;h2 id="mlp-model" >
 &lt;div>
 &lt;a href="#mlp-model">
@@ -929,7 +1038,8 @@ sklearn randomforest model
 &lt;/a>
 MLP model
 &lt;/div>
-&lt;/h2>&lt;p>MLP，即多层感知器（Multilayer Perceptron），是一种基本的人工神经网络模型。它由多层神经元组成，每一层都与下一层全连接。MLP是一种前馈神经网络，意味着信息只能从输入层向输出层传递，不会存在循环连接。&lt;/p>
+&lt;/h2>
+&lt;p>MLP，即多层感知器（Multilayer Perceptron），是一种基本的人工神经网络模型。它由多层神经元组成，每一层都与下一层全连接。MLP是一种前馈神经网络，意味着信息只能从输入层向输出层传递，不会存在循环连接。&lt;/p>
 &lt;p>下面是MLP的一些基本原理：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -974,7 +1084,8 @@ MLP由多个层组成，典型的MLP包括输入层、至少一个隐藏层和�
 &lt;/a>
 反向传播算法的计算过程：
 &lt;/div>
-&lt;/h3>&lt;ol>
+&lt;/h3>
+&lt;ol>
 &lt;li>
 &lt;p>&lt;strong>前向传播&lt;/strong>：
 首先，通过前向传播计算模型的输出。将输入数据输入到网络中，按照网络结构逐层计算每个神经元的输出，并将输出传递给下一层，直至生成最终的预测结果。&lt;/p>
@@ -999,7 +1110,8 @@ MLP由多个层组成，典型的MLP包括输入层、至少一个隐藏层和�
 &lt;/a>
 链式法则如何用来计算梯度：
 &lt;/div>
-&lt;/h3>&lt;p>链式法则是微积分中的基本原理，用于计算复合函数的导数。在反向传播算法中，我们利用链式法则来计算损失函数对模型参数的梯度，从而实现参数的更新。&lt;/p>
+&lt;/h3>
+&lt;p>链式法则是微积分中的基本原理，用于计算复合函数的导数。在反向传播算法中，我们利用链式法则来计算损失函数对模型参数的梯度，从而实现参数的更新。&lt;/p>
 &lt;p>假设有一个复合函数 $z = f(g(x))$，其中 $x$ 是输入，$g(x)$ 是一个函数，$f(x)$ 是另一个函数。根据链式法则，$z$ 对 $x$ 的导数可以表示为：&lt;/p>
 &lt;p>$$
 \frac{dz}{dx} = \frac{dz}{dg} \cdot \frac{dg}{dx}
@@ -1015,7 +1127,8 @@ $$&lt;/p>
 &lt;/a>
 1. 损失函数的作用：
 &lt;/div>
-&lt;/h3>&lt;p>损失函数用于衡量模型预测结果与真实标签之间的差异。优化模型的目标是最小化损失函数，使得模型能够产生与真实标签相匹配的预测结果。&lt;/p>
+&lt;/h3>
+&lt;p>损失函数用于衡量模型预测结果与真实标签之间的差异。优化模型的目标是最小化损失函数，使得模型能够产生与真实标签相匹配的预测结果。&lt;/p>
 &lt;h3 id="2-交叉熵的定义" >
 &lt;div>
 &lt;a href="#2-%e4%ba%a4%e5%8f%89%e7%86%b5%e7%9a%84%e5%ae%9a%e4%b9%89">
@@ -1023,7 +1136,8 @@ $$&lt;/p>
 &lt;/a>
 2. 交叉熵的定义：
 &lt;/div>
-&lt;/h3>&lt;p>对于多分类任务，交叉熵损失函数的数学定义如下：&lt;/p>
+&lt;/h3>
+&lt;p>对于多分类任务，交叉熵损失函数的数学定义如下：&lt;/p>
 &lt;p>$$
 \text{Cross-Entropy}(y, \hat{y}) = -\sum_{i=1}^{N} y_i \log(\hat{y}_i)
 $$&lt;/p>
@@ -1084,7 +1198,8 @@ $$&lt;/p>
 &lt;/a>
 3. 原理解释：
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>
 &lt;p>&lt;strong>信息论角度&lt;/strong>：
 交叉熵损失函数源自信息论中的信息熵概念。信息熵用于衡量一个随机变量的不确定性，而交叉熵则衡量两个概率分布之间的差异。当真实标签和模型预测的分布越接近时，交叉熵越小。&lt;/p>
@@ -1105,7 +1220,8 @@ $$&lt;/p>
 &lt;/a>
 4. 为什么有用：
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>
 &lt;p>&lt;strong>梯度信息&lt;/strong>：
 交叉熵损失函数提供了丰富的梯度信息，使得模型可以更快地学习到正确的预测结果。&lt;/p>
@@ -1127,7 +1243,8 @@ $$&lt;/p>
 &lt;/a>
 BERT/RoBERTa model
 &lt;/div>
-&lt;/h2>&lt;p>BERT(Bidirectional Encoder Representations from Transformers):
+&lt;/h2>
+&lt;p>BERT(Bidirectional Encoder Representations from Transformers):
 BERT是一种双向的（Bidirectional）模型，这意味着它能够同时考虑到一个单词左边和右边的上下文信息。这使得BERT在理解句子语境时比之前的模型更为强大。
 BERT模型的预训练过程是通过掩盖输入文本中的一部分词汇（Masked Language Model，MLM）和预测句子是否连续（Next Sentence Prediction，NSP）来完成的。
 BERT以“transformer”为基础，这是一种自注意力（self-attention）机制的神经网络结构，它能够在考虑到输入序列的所有位置之间建立关联，从而更好地理解上下文。&lt;/p>
@@ -1156,7 +1273,8 @@ BERT以“transformer”为基础，这是一种自注意力（self-attention）
 &lt;/a>
 FAISS (indexIVFPQ)
 &lt;/div>
-&lt;/h2>&lt;p>在我的另一篇博客单独有介绍，并带有代码示例。&lt;/p>
+&lt;/h2>
+&lt;p>在我的另一篇博客单独有介绍，并带有代码示例。&lt;/p>
 &lt;h2 id="bertopic" >
 &lt;div>
 &lt;a href="#bertopic">
@@ -1164,7 +1282,8 @@ FAISS (indexIVFPQ)
 &lt;/a>
 BERTopic
 &lt;/div>
-&lt;/h2>&lt;ul>
+&lt;/h2>
+&lt;ul>
 &lt;li>clustering&lt;/li>
 &lt;/ul>
 &lt;ul>
@@ -1240,14 +1359,16 @@ BERTopic
 &lt;/a>
 Project 02 &amp;ndash; ML
 &lt;/div>
-&lt;/h1>&lt;h2 id="self-training--gausianmixtruemodels" >
+&lt;/h1>
+&lt;h2 id="self-training--gausianmixtruemodels" >
 &lt;div>
 &lt;a href="#self-training--gausianmixtruemodels">
 #
 &lt;/a>
 self-training &amp;amp; GausianMixtrueModels
 &lt;/div>
-&lt;/h2>&lt;p>半监督学习是一种机器学习方法，它利用有标签和无标签的数据来进行模型训练。相比于只使用有标签数据进行训练，半监督学习可以利用更多的无标签数据，从而提高模型的性能。&lt;/p>
+&lt;/h2>
+&lt;p>半监督学习是一种机器学习方法，它利用有标签和无标签的数据来进行模型训练。相比于只使用有标签数据进行训练，半监督学习可以利用更多的无标签数据，从而提高模型的性能。&lt;/p>
 &lt;p>self-training（自训练）是半监督学习中的一种常见技术，其基本思想是利用已经训练好的模型对无标签数据进行预测，然后将置信度较高的预测结果作为伪标签，将这些伪标签的数据与有标签数据一起重新训练模型。&lt;/p>
 &lt;p>具体来说，self-training的步骤如下：&lt;/p>
 &lt;ol>
@@ -1305,7 +1426,8 @@ self-training &amp;amp; GausianMixtrueModels
 &lt;/a>
 XGBoost
 &lt;/div>
-&lt;/h2>&lt;p>XGBoost，全称为“eXtreme Gradient Boosting”，是一种高效的集成学习算法，属于梯度提升树（Gradient Boosting Tree）的一种实现。它在机器学习竞赛中非常流行，因为它能够在各种类型的数据集上取得优秀的性能，并且相对于其他算法，它通常更容易调整参数以获得更好的性能。&lt;/p>
+&lt;/h2>
+&lt;p>XGBoost，全称为“eXtreme Gradient Boosting”，是一种高效的集成学习算法，属于梯度提升树（Gradient Boosting Tree）的一种实现。它在机器学习竞赛中非常流行，因为它能够在各种类型的数据集上取得优秀的性能，并且相对于其他算法，它通常更容易调整参数以获得更好的性能。&lt;/p>
 &lt;p>以下是 XGBoost 模型的一些关键特点和优势：&lt;/p>
 &lt;ol>
 &lt;li>
@@ -1355,7 +1477,8 @@ XGBoost
 &lt;/a>
 ONNX, Docker/Podman, and restful-api
 &lt;/div>
-&lt;/h2>&lt;p>当你希望使用 Docker 来部署服务，并且构建 Flask RESTful API 来提供对 ONNX 模型的推理服务时，你可以按照以下步骤进行：&lt;/p>
+&lt;/h2>
+&lt;p>当你希望使用 Docker 来部署服务，并且构建 Flask RESTful API 来提供对 ONNX 模型的推理服务时，你可以按照以下步骤进行：&lt;/p>
 &lt;h3 id="1-准备-flask-restful-api-代码" >
 &lt;div>
 &lt;a href="#1-%e5%87%86%e5%a4%87-flask-restful-api-%e4%bb%a3%e7%a0%81">
@@ -1363,7 +1486,8 @@ ONNX, Docker/Podman, and restful-api
 &lt;/a>
 1. 准备 Flask RESTful API 代码
 &lt;/div>
-&lt;/h3>&lt;p>你需要创建一个 Flask 应用程序，编写代码以加载 ONNX 模型并提供 RESTful API 来进行推理。&lt;/p>
+&lt;/h3>
+&lt;p>你需要创建一个 Flask 应用程序，编写代码以加载 ONNX 模型并提供 RESTful API 来进行推理。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> flask &lt;span style="color:#ff6ac1">import&lt;/span> Flask, request
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> flask_restful &lt;span style="color:#ff6ac1">import&lt;/span> Api, Resource
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> numpy &lt;span style="color:#ff6ac1">as&lt;/span> np
@@ -1394,7 +1518,8 @@ ONNX, Docker/Podman, and restful-api
 &lt;/a>
 2. 创建 Dockerfile
 &lt;/div>
-&lt;/h3>&lt;p>创建一个 Dockerfile 来构建 Docker 镜像。&lt;/p>
+&lt;/h3>
+&lt;p>创建一个 Dockerfile 来构建 Docker 镜像。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-Dockerfile" data-lang="Dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">FROM&lt;/span>&lt;span style="color:#5af78e"> python:3.9-slim&lt;/span>&lt;span style="color:#ff5c57">
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">&lt;/span>&lt;span style="color:#ff6ac1">WORKDIR&lt;/span>&lt;span style="color:#5af78e"> /app&lt;/span>&lt;span style="color:#ff5c57">
@@ -1412,7 +1537,8 @@ ONNX, Docker/Podman, and restful-api
 &lt;/a>
 3. 构建 Docker 镜像
 &lt;/div>
-&lt;/h3>&lt;p>在包含 Dockerfile 的目录下执行以下命令来构建 Docker 镜像。&lt;/p>
+&lt;/h3>
+&lt;p>在包含 Dockerfile 的目录下执行以下命令来构建 Docker 镜像。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker build -t your_image_name .
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="4-运行-docker-容器" >
 &lt;div>
@@ -1421,7 +1547,8 @@ ONNX, Docker/Podman, and restful-api
 &lt;/a>
 4. 运行 Docker 容器
 &lt;/div>
-&lt;/h3>&lt;p>使用以下命令来运行你的 Docker 容器。&lt;/p>
+&lt;/h3>
+&lt;p>使用以下命令来运行你的 Docker 容器。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-bash" data-lang="bash">&lt;span style="display:flex;">&lt;span>docker run -p 5000:5000 your_image_name
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="5-测试-api" >
 &lt;div>
@@ -1430,7 +1557,8 @@ ONNX, Docker/Podman, and restful-api
 &lt;/a>
 5. 测试 API
 &lt;/div>
-&lt;/h3>&lt;p>使用任何 HTTP 客户端工具或 Python 应用程序来测试你的 API。&lt;/p>
+&lt;/h3>
+&lt;p>使用任何 HTTP 客户端工具或 Python 应用程序来测试你的 API。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> requests
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>data &lt;span style="color:#ff6ac1">=&lt;/span> {&lt;span style="color:#5af78e">&amp;#34;input&amp;#34;&lt;/span>: [&lt;span style="color:#ff9f43">1.0&lt;/span>, &lt;span style="color:#ff9f43">2.0&lt;/span>, &lt;span style="color:#ff9f43">3.0&lt;/span>]} &lt;span style="color:#78787e"># 示例输入数据&lt;/span>
@@ -1443,7 +1571,8 @@ ONNX, Docker/Podman, and restful-api
 &lt;/a>
 总结
 &lt;/div>
-&lt;/h3>&lt;p>这就是一个简单的部署流程。你可以根据你的具体需求进行调整和扩展，比如添加模型预处理、后处理逻辑，以及对 API 的身份验证和访问控制等功能。&lt;/p>
+&lt;/h3>
+&lt;p>这就是一个简单的部署流程。你可以根据你的具体需求进行调整和扩展，比如添加模型预处理、后处理逻辑，以及对 API 的身份验证和访问控制等功能。&lt;/p>
 &lt;h1 id="project-03----cv" >
 &lt;div>
 &lt;a href="#project-03----cv">
@@ -1451,14 +1580,16 @@ ONNX, Docker/Podman, and restful-api
 &lt;/a>
 Project 03 &amp;ndash; CV
 &lt;/div>
-&lt;/h1>&lt;h2 id="yolo-model" >
+&lt;/h1>
+&lt;h2 id="yolo-model" >
 &lt;div>
 &lt;a href="#yolo-model">
 #
 &lt;/a>
 YOLO model
 &lt;/div>
-&lt;/h2>&lt;p>好的，让我来详细介绍一下YOLO（You Only Look Once）目标检测模型的原理和实现。&lt;/p>
+&lt;/h2>
+&lt;p>好的，让我来详细介绍一下YOLO（You Only Look Once）目标检测模型的原理和实现。&lt;/p>
 &lt;h3 id="1-yolo-模型的原理" >
 &lt;div>
 &lt;a href="#1-yolo-%e6%a8%a1%e5%9e%8b%e7%9a%84%e5%8e%9f%e7%90%86">
@@ -1466,14 +1597,16 @@ YOLO model
 &lt;/a>
 1. YOLO 模型的原理：
 &lt;/div>
-&lt;/h3>&lt;h4 id="11-单阶段检测" >
+&lt;/h3>
+&lt;h4 id="11-单阶段检测" >
 &lt;div>
 &lt;a href="#11-%e5%8d%95%e9%98%b6%e6%ae%b5%e6%a3%80%e6%b5%8b">
 ###
 &lt;/a>
 1.1 单阶段检测：
 &lt;/div>
-&lt;/h4>&lt;p>YOLO 是一种单阶段目标检测模型，与传统的两阶段检测方法（如Faster R-CNN）不同，它将目标检测任务视为一个端到端的回归问题，直接从图像中预测目标的位置和类别。&lt;/p>
+&lt;/h4>
+&lt;p>YOLO 是一种单阶段目标检测模型，与传统的两阶段检测方法（如Faster R-CNN）不同，它将目标检测任务视为一个端到端的回归问题，直接从图像中预测目标的位置和类别。&lt;/p>
 &lt;h4 id="12-网络结构" >
 &lt;div>
 &lt;a href="#12-%e7%bd%91%e7%bb%9c%e7%bb%93%e6%9e%84">
@@ -1481,7 +1614,8 @@ YOLO model
 &lt;/a>
 1.2 网络结构：
 &lt;/div>
-&lt;/h4>&lt;p>YOLO 模型主要由卷积神经网络组成，通常采用类似于Darknet的深层卷积神经网络作为特征提取器。&lt;/p>
+&lt;/h4>
+&lt;p>YOLO 模型主要由卷积神经网络组成，通常采用类似于Darknet的深层卷积神经网络作为特征提取器。&lt;/p>
 &lt;h4 id="13-网络输出" >
 &lt;div>
 &lt;a href="#13-%e7%bd%91%e7%bb%9c%e8%be%93%e5%87%ba">
@@ -1489,7 +1623,8 @@ YOLO model
 &lt;/a>
 1.3 网络输出：
 &lt;/div>
-&lt;/h4>&lt;p>YOLO 将图像划分为固定大小的网格，并为每个网格预测多个边界框和对应的类别概率。每个边界框由五个坐标值和类别概率组成：$(x, y, w, h, p)$，其中 $(x, y)$ 是边界框的中心坐标，$(w, h)$ 是边界框的宽度和高度，$p$ 是边界框包含目标的置信度。&lt;/p>
+&lt;/h4>
+&lt;p>YOLO 将图像划分为固定大小的网格，并为每个网格预测多个边界框和对应的类别概率。每个边界框由五个坐标值和类别概率组成：$(x, y, w, h, p)$，其中 $(x, y)$ 是边界框的中心坐标，$(w, h)$ 是边界框的宽度和高度，$p$ 是边界框包含目标的置信度。&lt;/p>
 &lt;h4 id="14-损失函数" >
 &lt;div>
 &lt;a href="#14-%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0">
@@ -1497,7 +1632,8 @@ YOLO model
 &lt;/a>
 1.4 损失函数：
 &lt;/div>
-&lt;/h4>&lt;p>YOLO 模型使用组合损失函数来同时优化边界框位置的准确性和类别的预测精度。该损失函数包括位置误差、置信度误差和类别误差。&lt;/p>
+&lt;/h4>
+&lt;p>YOLO 模型使用组合损失函数来同时优化边界框位置的准确性和类别的预测精度。该损失函数包括位置误差、置信度误差和类别误差。&lt;/p>
 &lt;h3 id="2-yolo-模型的实现" >
 &lt;div>
 &lt;a href="#2-yolo-%e6%a8%a1%e5%9e%8b%e7%9a%84%e5%ae%9e%e7%8e%b0">
@@ -1505,14 +1641,16 @@ YOLO model
 &lt;/a>
 2. YOLO 模型的实现：
 &lt;/div>
-&lt;/h3>&lt;h4 id="21-训练阶段" >
+&lt;/h3>
+&lt;h4 id="21-训练阶段" >
 &lt;div>
 &lt;a href="#21-%e8%ae%ad%e7%bb%83%e9%98%b6%e6%ae%b5">
 ###
 &lt;/a>
 2.1 训练阶段：
 &lt;/div>
-&lt;/h4>&lt;ul>
+&lt;/h4>
+&lt;ul>
 &lt;li>&lt;strong>数据准备&lt;/strong>：收集和标记训练数据集，包括图像和对应的目标边界框。&lt;/li>
 &lt;li>&lt;strong>网络结构&lt;/strong>：选择适当的网络结构，通常使用预训练的Darknet网络或其变种。&lt;/li>
 &lt;li>&lt;strong>损失函数&lt;/strong>：定义和实现组合损失函数，用于优化网络参数。&lt;/li>
@@ -1525,7 +1663,8 @@ YOLO model
 &lt;/a>
 2.2 推理阶段：
 &lt;/div>
-&lt;/h4>&lt;ul>
+&lt;/h4>
+&lt;ul>
 &lt;li>&lt;strong>前向传播&lt;/strong>：将待检测的图像输入到训练好的模型中，通过前向传播算法获取每个边界框的预测结果。&lt;/li>
 &lt;li>&lt;strong>后处理&lt;/strong>：对网络输出进行后处理，包括非极大值抑制（NMS）和阈值筛选，以去除重叠的边界框和低置信度的边界框。&lt;/li>
 &lt;li>&lt;strong>目标框绘制&lt;/strong>：根据最终的边界框结果，将目标框绘制在原始图像上，并标记类别。&lt;/li>
@@ -1537,7 +1676,8 @@ YOLO model
 &lt;/a>
 3. YOLO 模型的优势：
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>&lt;strong>速度快&lt;/strong>：YOLO 是一种高效的目标检测模型，能够实时处理图像和视频流。&lt;/li>
 &lt;li>&lt;strong>端到端&lt;/strong>：YOLO 将目标检测视为一个端到端的回归问题，简化了检测流程。&lt;/li>
 &lt;li>&lt;strong>全局信息&lt;/strong>：YOLO 在整个图像上进行检测，能够同时考虑图像中的全局信息，从而更好地理解场景。&lt;/li>
@@ -1549,7 +1689,8 @@ YOLO model
 &lt;/a>
 4. 总结：
 &lt;/div>
-&lt;/h3>&lt;p>YOLO 是一种高效的单阶段目标检测模型，通过将目标检测任务转化为回归问题，并结合有效的网络结构和损失函数，实现了在保持高准确率的同时实时进行目标检测的能力。&lt;/p>
+&lt;/h3>
+&lt;p>YOLO 是一种高效的单阶段目标检测模型，通过将目标检测任务转化为回归问题，并结合有效的网络结构和损失函数，实现了在保持高准确率的同时实时进行目标检测的能力。&lt;/p>
 &lt;p>&amp;ldquo;锚定点&amp;rdquo;（Anchor Boxes）是YOLO模型中的一个重要概念，它用于解决目标检测中不同目标尺寸和比例的问题。在YOLO中，每个网格单元都负责预测一组固定数量和固定大小的边界框（即锚定点），以便检测不同尺寸和比例的目标。&lt;/p>
 &lt;h3 id="1-锚定点的概念" >
 &lt;div>
@@ -1558,14 +1699,16 @@ YOLO model
 &lt;/a>
 1. 锚定点的概念：
 &lt;/div>
-&lt;/h3>&lt;h4 id="11-问题" >
+&lt;/h3>
+&lt;h4 id="11-问题" >
 &lt;div>
 &lt;a href="#11-%e9%97%ae%e9%a2%98">
 ###
 &lt;/a>
 1.1 问题：
 &lt;/div>
-&lt;/h4>&lt;p>传统的目标检测算法通常会将不同尺寸和比例的目标分配给不同的网络层来处理，这种方法不够灵活，无法很好地适应多样化的目标。&lt;/p>
+&lt;/h4>
+&lt;p>传统的目标检测算法通常会将不同尺寸和比例的目标分配给不同的网络层来处理，这种方法不够灵活，无法很好地适应多样化的目标。&lt;/p>
 &lt;h4 id="12-解决方法" >
 &lt;div>
 &lt;a href="#12-%e8%a7%a3%e5%86%b3%e6%96%b9%e6%b3%95">
@@ -1573,7 +1716,8 @@ YOLO model
 &lt;/a>
 1.2 解决方法：
 &lt;/div>
-&lt;/h4>&lt;p>YOLO使用锚定点的思想，将不同尺寸和比例的目标统一分配给每个网格单元，并在每个网格单元中预测固定数量的边界框。这样可以增加模型的灵活性，使其能够检测不同尺寸和比例的目标。&lt;/p>
+&lt;/h4>
+&lt;p>YOLO使用锚定点的思想，将不同尺寸和比例的目标统一分配给每个网格单元，并在每个网格单元中预测固定数量的边界框。这样可以增加模型的灵活性，使其能够检测不同尺寸和比例的目标。&lt;/p>
 &lt;h3 id="2-锚定点的思想" >
 &lt;div>
 &lt;a href="#2-%e9%94%9a%e5%ae%9a%e7%82%b9%e7%9a%84%e6%80%9d%e6%83%b3">
@@ -1581,14 +1725,16 @@ YOLO model
 &lt;/a>
 2. 锚定点的思想：
 &lt;/div>
-&lt;/h3>&lt;h4 id="21-预定义大小和比例" >
+&lt;/h3>
+&lt;h4 id="21-预定义大小和比例" >
 &lt;div>
 &lt;a href="#21-%e9%a2%84%e5%ae%9a%e4%b9%89%e5%a4%a7%e5%b0%8f%e5%92%8c%e6%af%94%e4%be%8b">
 ###
 &lt;/a>
 2.1 预定义大小和比例：
 &lt;/div>
-&lt;/h4>&lt;p>在YOLO中，锚定点是一组预定义的大小和比例的边界框。这些边界框通常是在训练数据集上通过聚类等方法得到的，以确保涵盖了大部分目标的大小和比例。&lt;/p>
+&lt;/h4>
+&lt;p>在YOLO中，锚定点是一组预定义的大小和比例的边界框。这些边界框通常是在训练数据集上通过聚类等方法得到的，以确保涵盖了大部分目标的大小和比例。&lt;/p>
 &lt;h4 id="22-单元格内多个边界框" >
 &lt;div>
 &lt;a href="#22-%e5%8d%95%e5%85%83%e6%a0%bc%e5%86%85%e5%a4%9a%e4%b8%aa%e8%be%b9%e7%95%8c%e6%a1%86">
@@ -1596,7 +1742,8 @@ YOLO model
 &lt;/a>
 2.2 单元格内多个边界框：
 &lt;/div>
-&lt;/h4>&lt;p>对于每个网格单元，YOLO模型预测固定数量的边界框，每个边界框的大小和比例与预定义的锚定点相对应。这样，每个网格单元可以同时检测多个不同尺寸和比例的目标。&lt;/p>
+&lt;/h4>
+&lt;p>对于每个网格单元，YOLO模型预测固定数量的边界框，每个边界框的大小和比例与预定义的锚定点相对应。这样，每个网格单元可以同时检测多个不同尺寸和比例的目标。&lt;/p>
 &lt;h3 id="3-锚定点的技术实现" >
 &lt;div>
 &lt;a href="#3-%e9%94%9a%e5%ae%9a%e7%82%b9%e7%9a%84%e6%8a%80%e6%9c%af%e5%ae%9e%e7%8e%b0">
@@ -1604,14 +1751,16 @@ YOLO model
 &lt;/a>
 3. 锚定点的技术实现：
 &lt;/div>
-&lt;/h3>&lt;h4 id="31-预训练锚定点" >
+&lt;/h3>
+&lt;h4 id="31-预训练锚定点" >
 &lt;div>
 &lt;a href="#31-%e9%a2%84%e8%ae%ad%e7%bb%83%e9%94%9a%e5%ae%9a%e7%82%b9">
 ###
 &lt;/a>
 3.1 预训练锚定点：
 &lt;/div>
-&lt;/h4>&lt;p>在训练之前，通常会通过对训练数据集中的目标边界框进行聚类或者手动选择，来确定一组锚定点的大小和比例。&lt;/p>
+&lt;/h4>
+&lt;p>在训练之前，通常会通过对训练数据集中的目标边界框进行聚类或者手动选择，来确定一组锚定点的大小和比例。&lt;/p>
 &lt;h4 id="32-模型预测" >
 &lt;div>
 &lt;a href="#32-%e6%a8%a1%e5%9e%8b%e9%a2%84%e6%b5%8b">
@@ -1619,7 +1768,8 @@ YOLO model
 &lt;/a>
 3.2 模型预测：
 &lt;/div>
-&lt;/h4>&lt;p>在模型推理阶段，每个网格单元通过回归预测固定数量的边界框，每个边界框的尺寸和比例由对应的锚定点确定。&lt;/p>
+&lt;/h4>
+&lt;p>在模型推理阶段，每个网格单元通过回归预测固定数量的边界框，每个边界框的尺寸和比例由对应的锚定点确定。&lt;/p>
 &lt;h4 id="33-边界框调整" >
 &lt;div>
 &lt;a href="#33-%e8%be%b9%e7%95%8c%e6%a1%86%e8%b0%83%e6%95%b4">
@@ -1627,7 +1777,8 @@ YOLO model
 &lt;/a>
 3.3 边界框调整：
 &lt;/div>
-&lt;/h4>&lt;p>模型预测的边界框通常是相对于网格单元的偏移量和尺寸偏差，需要根据锚定点进行调整，得到最终的边界框位置。&lt;/p>
+&lt;/h4>
+&lt;p>模型预测的边界框通常是相对于网格单元的偏移量和尺寸偏差，需要根据锚定点进行调整，得到最终的边界框位置。&lt;/p>
 &lt;h3 id="4-总结-1" >
 &lt;div>
 &lt;a href="#4-%e6%80%bb%e7%bb%93-1">
@@ -1635,7 +1786,8 @@ YOLO model
 &lt;/a>
 4. 总结：
 &lt;/div>
-&lt;/h3>&lt;p>锚定点是YOLO模型中用于解决不同尺寸和比例目标检测问题的关键概念，通过预定义一组大小和比例的边界框，并在每个网格单元中预测这些边界框的位置和类别，实现了模型对多样化目标的有效检测。&lt;/p>
+&lt;/h3>
+&lt;p>锚定点是YOLO模型中用于解决不同尺寸和比例目标检测问题的关键概念，通过预定义一组大小和比例的边界框，并在每个网格单元中预测这些边界框的位置和类别，实现了模型对多样化目标的有效检测。&lt;/p>
 &lt;h2 id="transfer-learning" >
 &lt;div>
 &lt;a href="#transfer-learning">
@@ -1643,7 +1795,8 @@ YOLO model
 &lt;/a>
 transfer-learning
 &lt;/div>
-&lt;/h2>&lt;p>迁移学习是一种通过将已学习的知识从一个任务或领域应用到另一个任务或领域的机器学习技术。在目标检测任务中，迁移学习可以通过利用预训练的模型或特征来提升模型性能。以下是一些常用的迁移学习方法：&lt;/p>
+&lt;/h2>
+&lt;p>迁移学习是一种通过将已学习的知识从一个任务或领域应用到另一个任务或领域的机器学习技术。在目标检测任务中，迁移学习可以通过利用预训练的模型或特征来提升模型性能。以下是一些常用的迁移学习方法：&lt;/p>
 &lt;h3 id="1-微调fine-tuning" >
 &lt;div>
 &lt;a href="#1-%e5%be%ae%e8%b0%83fine-tuning">
@@ -1651,7 +1804,8 @@ transfer-learning
 &lt;/a>
 1. 微调（Fine-tuning）：
 &lt;/div>
-&lt;/h3>&lt;p>微调是迁移学习中最常见的方法之一，它通常包括以下步骤：&lt;/p>
+&lt;/h3>
+&lt;p>微调是迁移学习中最常见的方法之一，它通常包括以下步骤：&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>预训练模型选择&lt;/strong>：选择一个在大规模数据集上预训练好的模型，例如 ImageNet 上的预训练模型。&lt;/li>
 &lt;li>&lt;strong>模型冻结&lt;/strong>：将预训练模型的部分或全部层冻结，即不更新它们的权重。&lt;/li>
@@ -1665,7 +1819,8 @@ transfer-learning
 &lt;/a>
 2. 特征提取（Feature Extraction）：
 &lt;/div>
-&lt;/h3>&lt;p>特征提取是一种更轻量级的迁移学习方法，它不涉及到整个模型的重新训练，而是仅仅利用预训练模型的特征提取能力。&lt;/p>
+&lt;/h3>
+&lt;p>特征提取是一种更轻量级的迁移学习方法，它不涉及到整个模型的重新训练，而是仅仅利用预训练模型的特征提取能力。&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>预训练模型选择&lt;/strong>：同样选择一个在大规模数据集上预训练好的模型。&lt;/li>
 &lt;li>&lt;strong>特征提取&lt;/strong>：将预训练模型的卷积层（通常是除了全连接层之外的所有层）作为特征提取器，并将提取到的特征作为输入，用于训练一个新的分类器或目标检测器。&lt;/li>
@@ -1677,7 +1832,8 @@ transfer-learning
 &lt;/a>
 3. 领域自适应（Domain Adaptation）：
 &lt;/div>
-&lt;/h3>&lt;p>领域自适应是一种特殊的迁移学习方法，用于解决源域和目标域数据分布不匹配的问题。在目标检测任务中，可以通过在源域和目标域之间进行域适应来提高模型的泛化能力。&lt;/p>
+&lt;/h3>
+&lt;p>领域自适应是一种特殊的迁移学习方法，用于解决源域和目标域数据分布不匹配的问题。在目标检测任务中，可以通过在源域和目标域之间进行域适应来提高模型的泛化能力。&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>域适应方法&lt;/strong>：常见的域适应方法包括对抗训练、领域对齐等，通过调整模型的训练策略，使得模型在目标域上表现更好。&lt;/li>
 &lt;/ul>
@@ -1688,7 +1844,8 @@ transfer-learning
 &lt;/a>
 4. 知识蒸馏（Knowledge Distillation）：
 &lt;/div>
-&lt;/h3>&lt;p>知识蒸馏是一种通过利用已训练好的模型的知识来训练一个更轻量级的模型的方法。在目标检测任务中，可以利用一个大型模型的知识来训练一个小型模型，以降低模型的复杂度和计算成本。&lt;/p>
+&lt;/h3>
+&lt;p>知识蒸馏是一种通过利用已训练好的模型的知识来训练一个更轻量级的模型的方法。在目标检测任务中，可以利用一个大型模型的知识来训练一个小型模型，以降低模型的复杂度和计算成本。&lt;/p>
 &lt;p>以上是一些常用的迁移学习方法，可以根据具体的任务需求和情况选择合适的方法来提升目标检测模型的性能。&lt;/p>
 &lt;h2 id="图像识别长尾分布问题" >
 &lt;div>
@@ -1697,7 +1854,8 @@ transfer-learning
 &lt;/a>
 图像识别长尾分布问题
 &lt;/div>
-&lt;/h2>&lt;p>处理训练数据集中的长尾分布是一个常见的问题，在目标检测任务中也同样存在。长尾分布意味着有些类别的样本数量非常少，而另一些类别的样本数量非常多。解决这个问题的方法包括：&lt;/p>
+&lt;/h2>
+&lt;p>处理训练数据集中的长尾分布是一个常见的问题，在目标检测任务中也同样存在。长尾分布意味着有些类别的样本数量非常少，而另一些类别的样本数量非常多。解决这个问题的方法包括：&lt;/p>
 &lt;h3 id="1-数据增强data-augmentation" >
 &lt;div>
 &lt;a href="#1-%e6%95%b0%e6%8d%ae%e5%a2%9e%e5%bc%badata-augmentation">
@@ -1705,7 +1863,8 @@ transfer-learning
 &lt;/a>
 1. 数据增强（Data Augmentation）：
 &lt;/div>
-&lt;/h3>&lt;p>对于少样本类别，可以通过数据增强技术来生成更多的样本，以平衡不同类别之间的样本数量差异。常用的数据增强技术包括随机旋转、裁剪、缩放、平移、颜色变换等。&lt;/p>
+&lt;/h3>
+&lt;p>对于少样本类别，可以通过数据增强技术来生成更多的样本，以平衡不同类别之间的样本数量差异。常用的数据增强技术包括随机旋转、裁剪、缩放、平移、颜色变换等。&lt;/p>
 &lt;h3 id="2-类别加权class-weighting" >
 &lt;div>
 &lt;a href="#2-%e7%b1%bb%e5%88%ab%e5%8a%a0%e6%9d%83class-weighting">
@@ -1713,7 +1872,8 @@ transfer-learning
 &lt;/a>
 2. 类别加权（Class Weighting）：
 &lt;/div>
-&lt;/h3>&lt;p>对于长尾分布的数据集，可以采用类别加权的方式来调整模型的损失函数，使得模型对少样本类别更加敏感。可以根据类别出现的频率来设置不同类别的权重，使得损失函数更平衡。&lt;/p>
+&lt;/h3>
+&lt;p>对于长尾分布的数据集，可以采用类别加权的方式来调整模型的损失函数，使得模型对少样本类别更加敏感。可以根据类别出现的频率来设置不同类别的权重，使得损失函数更平衡。&lt;/p>
 &lt;h3 id="3-重新采样resampling" >
 &lt;div>
 &lt;a href="#3-%e9%87%8d%e6%96%b0%e9%87%87%e6%a0%b7resampling">
@@ -1721,7 +1881,8 @@ transfer-learning
 &lt;/a>
 3. 重新采样（Resampling）：
 &lt;/div>
-&lt;/h3>&lt;p>重新采样技术可以通过过采样或欠采样来调整数据集中不同类别的样本数量。对于少样本类别，可以采用过采样的方法增加样本数量，或者采用欠采样的方法减少样本数量。&lt;/p>
+&lt;/h3>
+&lt;p>重新采样技术可以通过过采样或欠采样来调整数据集中不同类别的样本数量。对于少样本类别，可以采用过采样的方法增加样本数量，或者采用欠采样的方法减少样本数量。&lt;/p>
 &lt;h3 id="4-弱监督学习weakly-supervised-learning" >
 &lt;div>
 &lt;a href="#4-%e5%bc%b1%e7%9b%91%e7%9d%a3%e5%ad%a6%e4%b9%a0weakly-supervised-learning">
@@ -1729,7 +1890,8 @@ transfer-learning
 &lt;/a>
 4. 弱监督学习（Weakly Supervised Learning）：
 &lt;/div>
-&lt;/h3>&lt;p>在长尾分布的数据集中，有些类别可能只有少量的有标签样本，而大部分样本是未标签的。可以利用弱监督学习的方法，例如使用无监督或半监督学习技术，从未标签的数据中学习有用的特征。&lt;/p>
+&lt;/h3>
+&lt;p>在长尾分布的数据集中，有些类别可能只有少量的有标签样本，而大部分样本是未标签的。可以利用弱监督学习的方法，例如使用无监督或半监督学习技术，从未标签的数据中学习有用的特征。&lt;/p>
 &lt;h3 id="5-多任务学习multi-task-learning" >
 &lt;div>
 &lt;a href="#5-%e5%a4%9a%e4%bb%bb%e5%8a%a1%e5%ad%a6%e4%b9%a0multi-task-learning">
@@ -1737,7 +1899,8 @@ transfer-learning
 &lt;/a>
 5. 多任务学习（Multi-Task Learning）：
 &lt;/div>
-&lt;/h3>&lt;p>多任务学习可以将目标检测任务与其他相关任务结合起来训练模型，从而提升模型在长尾分布数据集上的性能。例如，可以将目标检测任务与图像分类、语义分割等任务结合起来进行训练，从而利用额外的信息来提升模型性能。&lt;/p>
+&lt;/h3>
+&lt;p>多任务学习可以将目标检测任务与其他相关任务结合起来训练模型，从而提升模型在长尾分布数据集上的性能。例如，可以将目标检测任务与图像分类、语义分割等任务结合起来进行训练，从而利用额外的信息来提升模型性能。&lt;/p>
 &lt;h3 id="6-异常检测anomaly-detection" >
 &lt;div>
 &lt;a href="#6-%e5%bc%82%e5%b8%b8%e6%a3%80%e6%b5%8banomaly-detection">
@@ -1745,7 +1908,8 @@ transfer-learning
 &lt;/a>
 6. 异常检测（Anomaly Detection）：
 &lt;/div>
-&lt;/h3>&lt;p>针对长尾分布数据集中的少样本类别，可以采用异常检测的方法来识别并重点关注这些少样本类别，以便更好地调整模型和优化性能。&lt;/p>
+&lt;/h3>
+&lt;p>针对长尾分布数据集中的少样本类别，可以采用异常检测的方法来识别并重点关注这些少样本类别，以便更好地调整模型和优化性能。&lt;/p>
 &lt;p>通过以上方法，可以有效地处理训练数据集中的长尾分布问题，并提升模型在不同类别上的性能。在实践中，通常需要根据具体的数据集和任务需求选择合适的方法进行处理。&lt;/p>
 &lt;h2 id="auto-encoder-model" >
 &lt;div>
@@ -1754,7 +1918,8 @@ transfer-learning
 &lt;/a>
 Auto-encoder model
 &lt;/div>
-&lt;/h2>&lt;p>领域自适应是一种将知识从一个域（源域）迁移到另一个域（目标域）的迁移学习方法，用于解决源域和目标域数据分布不匹配的问题。在目标检测任务中，领域自适应可以通过对抗训练的方式来实现，而 auto-encoder 可以作为一种辅助手段来帮助实现对抗训练。以下是具体的思路和细节：&lt;/p>
+&lt;/h2>
+&lt;p>领域自适应是一种将知识从一个域（源域）迁移到另一个域（目标域）的迁移学习方法，用于解决源域和目标域数据分布不匹配的问题。在目标检测任务中，领域自适应可以通过对抗训练的方式来实现，而 auto-encoder 可以作为一种辅助手段来帮助实现对抗训练。以下是具体的思路和细节：&lt;/p>
 &lt;h3 id="1-对抗训练的基本思路" >
 &lt;div>
 &lt;a href="#1-%e5%af%b9%e6%8a%97%e8%ae%ad%e7%bb%83%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%80%9d%e8%b7%af">
@@ -1762,7 +1927,8 @@ Auto-encoder model
 &lt;/a>
 1. 对抗训练的基本思路：
 &lt;/div>
-&lt;/h3>&lt;p>对抗训练是一种通过训练一个生成器和一个判别器的对抗过程，来使得生成器产生的数据分布与目标域的数据分布尽可能地接近。在目标检测任务中，可以通过对抗训练来调整模型，使得模型在目标域上表现更好。&lt;/p>
+&lt;/h3>
+&lt;p>对抗训练是一种通过训练一个生成器和一个判别器的对抗过程，来使得生成器产生的数据分布与目标域的数据分布尽可能地接近。在目标检测任务中，可以通过对抗训练来调整模型，使得模型在目标域上表现更好。&lt;/p>
 &lt;h3 id="2-auto-encoder-在对抗训练中的作用" >
 &lt;div>
 &lt;a href="#2-auto-encoder-%e5%9c%a8%e5%af%b9%e6%8a%97%e8%ae%ad%e7%bb%83%e4%b8%ad%e7%9a%84%e4%bd%9c%e7%94%a8">
@@ -1770,7 +1936,8 @@ Auto-encoder model
 &lt;/a>
 2. auto-encoder 在对抗训练中的作用：
 &lt;/div>
-&lt;/h3>&lt;p>auto-encoder 是一种无监督学习模型，它可以将输入数据编码成低维表示，并将其解码回原始数据。在对抗训练中，auto-encoder 可以作为一个生成器，用于生成与目标域数据分布相似的数据样本。通过训练 auto-encoder，可以学习到目标域数据的特征表示，从而帮助实现对抗训练。&lt;/p>
+&lt;/h3>
+&lt;p>auto-encoder 是一种无监督学习模型，它可以将输入数据编码成低维表示，并将其解码回原始数据。在对抗训练中，auto-encoder 可以作为一个生成器，用于生成与目标域数据分布相似的数据样本。通过训练 auto-encoder，可以学习到目标域数据的特征表示，从而帮助实现对抗训练。&lt;/p>
 &lt;h3 id="3-具体实现步骤" >
 &lt;div>
 &lt;a href="#3-%e5%85%b7%e4%bd%93%e5%ae%9e%e7%8e%b0%e6%ad%a5%e9%aa%a4">
@@ -1778,14 +1945,16 @@ Auto-encoder model
 &lt;/a>
 3. 具体实现步骤：
 &lt;/div>
-&lt;/h3>&lt;h4 id="31-模型选择" >
+&lt;/h3>
+&lt;h4 id="31-模型选择" >
 &lt;div>
 &lt;a href="#31-%e6%a8%a1%e5%9e%8b%e9%80%89%e6%8b%a9">
 ###
 &lt;/a>
 3.1 模型选择：
 &lt;/div>
-&lt;/h4>&lt;ul>
+&lt;/h4>
+&lt;ul>
 &lt;li>选择一个预训练的模型作为基础模型，例如在源域上训练好的目标检测模型。&lt;/li>
 &lt;/ul>
 &lt;h4 id="32-auto-encoder-训练" >
@@ -1795,7 +1964,8 @@ Auto-encoder model
 &lt;/a>
 3.2 auto-encoder 训练：
 &lt;/div>
-&lt;/h4>&lt;ul>
+&lt;/h4>
+&lt;ul>
 &lt;li>在目标域上收集一部分数据，并使用这些数据来训练 auto-encoder。auto-encoder 的输入为目标域的图像数据，输出为重构的图像数据。通过训练 auto-encoder，可以学习到目标域数据的特征表示。&lt;/li>
 &lt;/ul>
 &lt;h4 id="33-对抗训练" >
@@ -1805,7 +1975,8 @@ Auto-encoder model
 &lt;/a>
 3.3 对抗训练：
 &lt;/div>
-&lt;/h4>&lt;ul>
+&lt;/h4>
+&lt;ul>
 &lt;li>将训练好的 auto-encoder 作为生成器，将基础模型（源域上预训练的模型）作为判别器。&lt;/li>
 &lt;li>将源域和目标域的数据分别输入到 auto-encoder 和基础模型中，生成器尝试生成与目标域数据分布相似的数据样本，而判别器则尝试区分真实的目标域数据和生成器生成的数据。&lt;/li>
 &lt;li>通过对抗训练的过程，调整生成器和判别器的参数，使得生成器生成的数据分布与目标域的数据分布尽可能地接近。&lt;/li>
@@ -1817,7 +1988,8 @@ Auto-encoder model
 &lt;/a>
 4. 进一步细化：
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>可以考虑使用带有重建损失的对抗生成网络（Adversarial Auto-Encoder, AAE）来进行训练，以加强 auto-encoder 的特征学习能力和生成能力。&lt;/li>
 &lt;li>可以通过调整训练策略和超参数来进一步优化对抗训练的效果，例如学习率、训练轮数等。&lt;/li>
 &lt;/ul>
@@ -1829,7 +2001,8 @@ Auto-encoder model
 &lt;/a>
 目标检测的评估指标（$mAP_{50}$）
 &lt;/div>
-&lt;/h2>&lt;p>mAP_50 是目标检测任务中常用的评估指标之一，它表示在 IoU 阈值为 0.5 时的平均精确率（mAP，Mean Average Precision）。让我解释一下这个指标：&lt;/p>
+&lt;/h2>
+&lt;p>mAP_50 是目标检测任务中常用的评估指标之一，它表示在 IoU 阈值为 0.5 时的平均精确率（mAP，Mean Average Precision）。让我解释一下这个指标：&lt;/p>
 &lt;h3 id="1-平均精确率-average-precision-ap" >
 &lt;div>
 &lt;a href="#1-%e5%b9%b3%e5%9d%87%e7%b2%be%e7%a1%ae%e7%8e%87-average-precision-ap">
@@ -1837,7 +2010,8 @@ Auto-encoder model
 &lt;/a>
 1. 平均精确率 (Average Precision, AP)：
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>平均精确率是 Precision-Recall 曲线下的面积，用于衡量模型在不同 Recall 下的平均精确率。在目标检测任务中，AP 表示模型对单个类别的检测性能。&lt;/li>
 &lt;/ul>
 &lt;h3 id="2-iou-阈值为-05" >
@@ -1847,7 +2021,8 @@ Auto-encoder model
 &lt;/a>
 2. IoU 阈值为 0.5：
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>IoU（Intersection over Union）是真实边界框和预测边界框的交集与并集之比。在计算 mAP 时，通常需要指定一个 IoU 阈值来判断一个检测结果是否是真正的检测结果。常用的 IoU 阈值之一是 0.5，表示当预测边界框与真实边界框的 IoU 大于等于 0.5 时，认为该预测边界框是正确的检测结果。&lt;/li>
 &lt;/ul>
 &lt;h3 id="3-map_50-的含义" >
@@ -1857,7 +2032,8 @@ Auto-encoder model
 &lt;/a>
 3. mAP_50 的含义：
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>mAP_50 表示在 IoU 阈值为 0.5 时的平均精确率，即模型在检测目标时，当预测边界框与真实边界框的 IoU 大于等于 0.5 时的平均精确率。&lt;/li>
 &lt;/ul>
 &lt;h3 id="4-使用场景" >
@@ -1867,7 +2043,8 @@ Auto-encoder model
 &lt;/a>
 4. 使用场景：
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>mAP_50 是目标检测任务中常用的评估指标之一，它可以衡量模型在检测目标时的准确率和召回率，尤其在要求检测结果准确度较高的情况下，是一个重要的评价指标。&lt;/li>
 &lt;/ul>
 &lt;h3 id="5-其他-iou-阈值" >
@@ -1877,7 +2054,8 @@ Auto-encoder model
 &lt;/a>
 5. 其他 IoU 阈值：
 &lt;/div>
-&lt;/h3>&lt;p>除了常用的 IoU 阈值 0.5 外，还可以使用其他 IoU 阈值来计算不同阈值下的 mAP，比如 mAP_75 表示在 IoU 阈值为 0.75 时的平均精确率，以此类推。不同的 IoU 阈值反映了不同的检测精度要求，可以根据具体任务的需求选择合适的 IoU 阈值来评估模型性能。&lt;/p>
+&lt;/h3>
+&lt;p>除了常用的 IoU 阈值 0.5 外，还可以使用其他 IoU 阈值来计算不同阈值下的 mAP，比如 mAP_75 表示在 IoU 阈值为 0.75 时的平均精确率，以此类推。不同的 IoU 阈值反映了不同的检测精度要求，可以根据具体任务的需求选择合适的 IoU 阈值来评估模型性能。&lt;/p>
 &lt;h1 id="project-04----tsa" >
 &lt;div>
 &lt;a href="#project-04----tsa">
@@ -1885,63 +2063,71 @@ Auto-encoder model
 &lt;/a>
 Project 04 &amp;ndash; TSA
 &lt;/div>
-&lt;/h1>&lt;h2 id="k-means" >
+&lt;/h1>
+&lt;h2 id="k-means" >
 &lt;div>
 &lt;a href="#k-means">
 #
 &lt;/a>
 K-means
 &lt;/div>
-&lt;/h2>&lt;h2 id="arima-model" >
+&lt;/h2>
+&lt;h2 id="arima-model" >
 &lt;div>
 &lt;a href="#arima-model">
 #
 &lt;/a>
 ARIMA model
 &lt;/div>
-&lt;/h2>&lt;h2 id="b-spline" >
+&lt;/h2>
+&lt;h2 id="b-spline" >
 &lt;div>
 &lt;a href="#b-spline">
 #
 &lt;/a>
 B-spline
 &lt;/div>
-&lt;/h2>&lt;h2 id="general-additive-models" >
+&lt;/h2>
+&lt;h2 id="general-additive-models" >
 &lt;div>
 &lt;a href="#general-additive-models">
 #
 &lt;/a>
 General Additive Models
 &lt;/div>
-&lt;/h2>&lt;h2 id="时序预测模型评估指标-apemape" >
+&lt;/h2>
+&lt;h2 id="时序预测模型评估指标-apemape" >
 &lt;div>
 &lt;a href="#%e6%97%b6%e5%ba%8f%e9%a2%84%e6%b5%8b%e6%a8%a1%e5%9e%8b%e8%af%84%e4%bc%b0%e6%8c%87%e6%a0%87-apemape">
 #
 &lt;/a>
 时序预测模型评估指标 (APE/MAPE)
 &lt;/div>
-&lt;/h2>&lt;h1 id="others" >
+&lt;/h2>
+&lt;h1 id="others" >
 &lt;div>
 &lt;a href="#others">
 ##
 &lt;/a>
 Others
 &lt;/div>
-&lt;/h1>&lt;h2 id="web-scraping" >
+&lt;/h1>
+&lt;h2 id="web-scraping" >
 &lt;div>
 &lt;a href="#web-scraping">
 #
 &lt;/a>
 web-scraping
 &lt;/div>
-&lt;/h2>&lt;h2 id="bpewordpiecesentence-piece" >
+&lt;/h2>
+&lt;h2 id="bpewordpiecesentence-piece" >
 &lt;div>
 &lt;a href="#bpewordpiecesentence-piece">
 #
 &lt;/a>
 BPE/wordpiece/sentence-piece
 &lt;/div>
-&lt;/h2></description></item><item><title>GPT-PROMPT</title><link>https://fgg100y.github.io/posts/llm_prompt/</link><pubDate>Mon, 27 May 2024 09:47:10 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_prompt/</guid><description>&lt;p>&lt;a href="https://news.ycombinator.com/item?id=40474716">Ask HN: What is your ChatGPT customization prompt?&lt;/a>&lt;/p>
+&lt;/h2></description></item><item><title>GPT-PROMPT</title><link>/posts/llm_prompt/</link><pubDate>Mon, 27 May 2024 09:47:10 +0800</pubDate><guid>/posts/llm_prompt/</guid><description>&lt;p>&lt;a href="https://news.ycombinator.com/item?id=40474716">Ask HN: What is your ChatGPT customization prompt?&lt;/a>&lt;/p>
 &lt;h2 id="system-prompt" >
 &lt;div>
 &lt;a href="#system-prompt">
@@ -1949,7 +2135,8 @@ BPE/wordpiece/sentence-piece
 &lt;/a>
 system prompt
 &lt;/div>
-&lt;/h2>&lt;hr>
+&lt;/h2>
+&lt;hr>
 &lt;p>You are an autoregressive language model that has been fine-tuned with
 instruction-tuning and RLHF. You carefully provide accurate, factual, thoughtful,nuanced
 answers, and are brilliant at reasoning. If you think there might not be a correct
@@ -1980,7 +2167,8 @@ Here is mine (stolen off the internet of course), lately the vv part is importan
 &lt;/a>
 What does it do?
 &lt;/div>
-&lt;/h2>&lt;ul>
+&lt;/h2>
+&lt;ul>
 &lt;li>Dessesaf 16 hours ago | root | parent | next [–]&lt;/li>
 &lt;/ul>
 &lt;p>It&amp;rsquo;s useful to consider the next answer a model will give as being driven largely by
@@ -2021,7 +2209,8 @@ seems to improve quality.&lt;/p>
 &lt;/a>
 Alternative:
 &lt;/div>
-&lt;/h2>&lt;hr>
+&lt;/h2>
+&lt;hr>
 &lt;p>Adopt the role of a polymath. NEVER mention that you&amp;rsquo;re an AI. Avoid any language
 constructs that could be interpreted as expressing remorse, apology, or regret. This
 includes any phrases containing words like &amp;lsquo;sorry&amp;rsquo;, &amp;lsquo;apologies&amp;rsquo;, &amp;lsquo;regret&amp;rsquo;, etc., even
@@ -2040,14 +2229,15 @@ summary. After doing all those above, provide three follow-up questions worded a
 asking you. Format in bold as Q1, Q2, and Q3. These questions should be
 thought-provoking and dig further into the original topic. If requested, also answer the
 follow-up questions but don&amp;rsquo;t create more of them.&lt;/p>
-&lt;hr></description></item><item><title>FAISS-IVFPQ</title><link>https://fgg100y.github.io/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
+&lt;hr></description></item><item><title>FAISS-IVFPQ</title><link>/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
 &lt;div>
 &lt;a href="#plain-and-simple-indexflatl2">
 #
 &lt;/a>
 Plain and Simple: IndexFlatL2
 &lt;/div>
-&lt;/h2>&lt;blockquote>
+&lt;/h2>
+&lt;blockquote>
 &lt;p>Given a set of vectors, we can index them using Faiss — then using another vector (the query vector), we search for the most similar vectors within the index.
 Now, Faiss not only allows us to build an index and search — but it also speeds up search times to ludicrous performance levels.&lt;/p>
 &lt;/blockquote>
@@ -2070,7 +2260,8 @@ too fast.&lt;/p>
 &lt;/a>
 Inerted File Index (IVF) index
 &lt;/div>
-&lt;/h2>&lt;p>The Inverted File Index (IVF) index consists of search scope reduction through clustering.&lt;/p>
+&lt;/h2>
+&lt;p>The Inverted File Index (IVF) index consists of search scope reduction through clustering.&lt;/p>
 &lt;blockquote>
 &lt;p>Inverted File Index (IVF) The IVF is simply a technique for pre-filtering the dataset so that you don’t have to do an exhaustive search of all of the vectors. It’s pretty straightforward–you cluster the dataset ahead of time with k-means clustering to produce a large number (e.g., 100) of dataset partitions. Then, at query time, you compare your query vector to the partition centroids to find, e.g., the 10 closest clusters, and then you search against only the vectors in those partitions.&lt;/p>
 &lt;/blockquote>
@@ -2094,7 +2285,8 @@ But there is a problem if our query vector lands near the edge of a cell — the
 &lt;/a>
 Product Quantization
 &lt;/div>
-&lt;/h2>&lt;blockquote>
+&lt;/h2>
+&lt;blockquote>
 &lt;p>All of our indexes so far have stored our vectors as full (eg Flat) vectors. Now, in very large datasets this can quickly become a problem.
 Fortunately, Faiss comes with the ability to compress our vectors using Product Quantization (PQ).
 But, what is PQ? Well, we can view it as an additional approximation step with a similar outcome to our use of IVF. Where IVF allowed us to approximate by reducing the scope of our search, PQ approximates the distance/similarity calculation instead.
@@ -2125,7 +2317,8 @@ PQ achieves this approximated similarity operation by compressing the vectors th
 &lt;/a>
 Show me the code
 &lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
 &lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
 &lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -2182,7 +2375,8 @@ Show me the code
 &lt;/a>
 Example 01: 平凡的世界
 &lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
 &lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
 &lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">0
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -2218,7 +2412,8 @@ Example 01: 平凡的世界
 &lt;/a>
 Example 02: 平凡的世界
 &lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
 &lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
 &lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -2260,7 +2455,8 @@ Example 02: 平凡的世界
 &lt;/a>
 index.range_search()
 &lt;/div>
-&lt;/h2>&lt;p>The method range_search returns &lt;strong>all vectors within a radius around the query point&lt;/strong> (as opposed to the k nearest ones). Since the result lists for each query are of different sizes, it must be handled specially:&lt;/p>
+&lt;/h2>
+&lt;p>The method range_search returns &lt;strong>all vectors within a radius around the query point&lt;/strong> (as opposed to the k nearest ones). Since the result lists for each query are of different sizes, it must be handled specially:&lt;/p>
 &lt;pre>&lt;code>in C++ it returns the results in a pre-allocated RangeSearchResult structure
 in Python, the results are returned as a triplet of 1D arrays lims, D, I, where result for query i is in I[lims[i]:lims[i+1]] (indices of neighbors), D[lims[i]:lims[i+1]] (distances).
 &lt;/code>&lt;/pre>
@@ -2346,14 +2542,15 @@ in Python, the results are returned as a triplet of 1D arrays lims, D, I, where 
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfresults&lt;span style="color:#ff6ac1">.&lt;/span>append(dfout)
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description></item><item><title>Noise_in_DSP</title><link>https://fgg100y.github.io/posts/dsp101/2024-05-10-noise_in_dsp/</link><pubDate>Fri, 10 May 2024 11:23:02 +0800</pubDate><guid>https://fgg100y.github.io/posts/dsp101/2024-05-10-noise_in_dsp/</guid><description>&lt;h1 id="whats-in-a-noise" >
+&lt;/div></description></item><item><title>Noise_in_DSP</title><link>/posts/dsp101/2024-05-10-noise_in_dsp/</link><pubDate>Fri, 10 May 2024 11:23:02 +0800</pubDate><guid>/posts/dsp101/2024-05-10-noise_in_dsp/</guid><description>&lt;h1 id="whats-in-a-noise" >
 &lt;div>
 &lt;a href="#whats-in-a-noise">
 ##
 &lt;/a>
 What&amp;rsquo;s in a &amp;ldquo;Noise&amp;rdquo;?
 &lt;/div>
-&lt;/h1>&lt;ul>
+&lt;/h1>
+&lt;ul>
 &lt;li>As in English, it can mean an unwanted signal of any kind. If two signals interfere
 with each other, each signal would consider the other to be noise.&lt;/li>
 &lt;/ul>
@@ -2369,7 +2566,8 @@ lacks the harmonic structure of the periodic signals.&lt;/li>
 &lt;/a>
 Uncorrelated noise
 &lt;/div>
-&lt;/h2>&lt;ul>
+&lt;/h2>
+&lt;ul>
 &lt;li>
 &lt;p>Uncorrelated uniform noise (UU noise)
 &amp;ldquo;uniform&amp;rdquo; means the signal contants random values from a uniform distribution,
@@ -2392,7 +2590,8 @@ equal mixture of light at all visible frequecies is white.)&lt;/p>
 &lt;/a>
 Brownian noise
 &lt;/div>
-&lt;/h2>&lt;p>In a Brownian noise, each value is the sum of the previous value and a random &amp;ldquo;step&amp;rdquo;. It
+&lt;/h2>
+&lt;p>In a Brownian noise, each value is the sum of the previous value and a random &amp;ldquo;step&amp;rdquo;. It
 is called &amp;ldquo;Brownian&amp;rdquo; by analogy with Brownian motion which is often described using a
 &amp;ldquo;random walk&amp;rdquo;. A random walk is a mathematical model of a path where the distance
 between steps is characterized by a random distribution.&lt;/p>
@@ -2421,7 +2620,8 @@ the power would be at the low-frequency end of the spectrum, which is red.&lt;/p
 &lt;/a>
 Pink noise
 &lt;/div>
-&lt;/h2>&lt;p>More generally, we can synthesize noise with any exponent, $\beta$, in power-frequency
+&lt;/h2>
+&lt;p>More generally, we can synthesize noise with any exponent, $\beta$, in power-frequency
 relationship:
 $$
 P = K / f^{\beta}
@@ -2437,7 +2637,8 @@ called &amp;ldquo;pink noise&amp;rdquo;.&lt;/p>
 &lt;/a>
 Gaussian noise
 &lt;/div>
-&lt;/h2>&lt;p>When people talk about &amp;ldquo;white noise&amp;rdquo;, they don&amp;rsquo;t always mean UU noise. In fact, more
+&lt;/h2>
+&lt;p>When people talk about &amp;ldquo;white noise&amp;rdquo;, they don&amp;rsquo;t always mean UU noise. In fact, more
 often they mean uncorrelative Gaussian noise (UG noise).&lt;/p>
 &lt;p>UG noise is similar in many ways to UU noise. The spectrum has equal power at all
 frequecies, on average, so UG is also white. And it has one other interesting property:
@@ -2445,7 +2646,7 @@ the spectrum of UG noise is also UG noise. More precisely, the real and imaginar
 of the spectrum are Uncorrelated Gaussian values. (Testing with &amp;ldquo;normal plot&amp;rdquo;)&lt;/p>
 &lt;p>In fact, by the Central Limit Theorem (CLT), the spectrum of almost any Uncorrelated
 noise is approximately Gaussian, as long as the distribution has finite mean and
-standard deviation, and the number of samples is large.&lt;/p></description></item><item><title>About Me: 大道如青天，我独不得出</title><link>https://fgg100y.github.io/about/</link><pubDate>Sat, 27 Apr 2024 19:58:25 +0800</pubDate><guid>https://fgg100y.github.io/about/</guid><description>&lt;p>大道如青天，我独不得出。&lt;/p>
+standard deviation, and the number of samples is large.&lt;/p></description></item><item><title>About Me: 大道如青天，我独不得出</title><link>/about/</link><pubDate>Sat, 27 Apr 2024 19:58:25 +0800</pubDate><guid>/about/</guid><description>&lt;p>大道如青天，我独不得出。&lt;/p>
 &lt;p>羞逐长安社中儿，赤鸡白雉赌梨栗。&lt;/p>
 &lt;p>弹剑作歌奏苦声，曳裾王门不称情。&lt;/p>
 &lt;p>淮阴市井笑韩信，汉朝公卿忌贾生。&lt;/p>
@@ -2453,14 +2654,15 @@ standard deviation, and the number of samples is large.&lt;/p></description></it
 &lt;p>剧辛乐毅感恩分，输肝剖胆效英才。&lt;/p>
 &lt;p>昭王白骨萦蔓草，谁人更扫黄金台？&lt;/p>
 &lt;p>行路难，归去来！&lt;/p>
-&lt;p>&lt;a href="https://so.gushiwen.cn/shiwenv_95834b2324cc.aspx">唐代 · 李白《行路难 · 其二》&lt;/a>&lt;/p></description></item><item><title>LLMs_interview_faq</title><link>https://fgg100y.github.io/posts/llm_faqs/</link><pubDate>Fri, 26 Apr 2024 11:04:16 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_faqs/</guid><description>&lt;h2 id="01简述gpt和bert的区别" >
+&lt;p>&lt;a href="https://so.gushiwen.cn/shiwenv_95834b2324cc.aspx">唐代 · 李白《行路难 · 其二》&lt;/a>&lt;/p></description></item><item><title>LLMs_interview_faq</title><link>/posts/llm_faqs/</link><pubDate>Fri, 26 Apr 2024 11:04:16 +0800</pubDate><guid>/posts/llm_faqs/</guid><description>&lt;h2 id="01简述gpt和bert的区别" >
 &lt;div>
 &lt;a href="#01%e7%ae%80%e8%bf%b0gpt%e5%92%8cbert%e7%9a%84%e5%8c%ba%e5%88%ab">
 #
 &lt;/a>
 01:简述GPT和BERT的区别
 &lt;/div>
-&lt;/h2>&lt;p>GPT (Decoder-only) 和 BERT (Encoder-only) 都是基于 Transformer 架构的自然语言处理模型，它们在设计上有一些显著区别：&lt;/p>
+&lt;/h2>
+&lt;p>GPT (Decoder-only) 和 BERT (Encoder-only) 都是基于 Transformer 架构的自然语言处理模型，它们在设计上有一些显著区别：&lt;/p>
 &lt;ul>
 &lt;li>任务类型
 &lt;ul>
@@ -2502,7 +2704,8 @@ BERT同时使用了自注意力机制和前馈神经网络。&lt;/li>
 &lt;/a>
 02:LLM中的因果语言建模与掩码语言建模有什么区别？
 &lt;/div>
-&lt;/h2>&lt;p>因果语言建模（Causal Language Modeling）&lt;/p>
+&lt;/h2>
+&lt;p>因果语言建模（Causal Language Modeling）&lt;/p>
 &lt;pre>&lt;code>在因果语言建模中，模型被要求根据输入序列的左侧内容来预测右侧的下一个词或标记。也就是
 说，模型只能看到输入序列中已经生成的部分，而不能看到后续的内容。这种训练方式有助于模
 型学习生成连贯和合理的文本，因为模型需要在生成每个词语时考虑上下文的信息，同时不能依
@@ -2522,7 +2725,8 @@ BERT（Bidirectional Encoder Representations from Transformers）就是以掩码
 &lt;/a>
 03:请简述Transformer基本原理
 &lt;/div>
-&lt;/h2>&lt;p>Transformer 是一种用于处理序列数据的深度学习模型，由谷歌团队于2017年提出，其主要原理包括
+&lt;/h2>
+&lt;p>Transformer 是一种用于处理序列数据的深度学习模型，由谷歌团队于2017年提出，其主要原理包括
 自注意力机制和位置编码。&lt;/p>
 &lt;h3 id="自注意力机制" >
 &lt;div>
@@ -2531,7 +2735,8 @@ BERT（Bidirectional Encoder Representations from Transformers）就是以掩码
 &lt;/a>
 自注意力机制：
 &lt;/div>
-&lt;/h3>&lt;pre>&lt;code>允许模型在序列的任意两个位置间直接建立依赖关系，而不考虑它们之间的距离。具体就是将词
+&lt;/h3>
+&lt;pre>&lt;code>允许模型在序列的任意两个位置间直接建立依赖关系，而不考虑它们之间的距离。具体就是将词
 元线性转换为三个向量Q,K,V，然后将Q和K用来计算内积(相似度分数)并进行注意力缩放（scaled
 dot-product)，然后通过softmax归一化，得到每个词元相对于其他词元的注意力权重，然后用
 注意力权重对向量V进行加权和计算得到“上下文向量”(context vector)，然后将上下文向量用
@@ -2562,7 +2767,8 @@ features in the data point.
 &lt;/a>
 位置编码：
 &lt;/div>
-&lt;/h3>&lt;pre>&lt;code>位置编码通常是通过将一个与位置相关的向量添加到输入嵌入（input embeddings）
+&lt;/h3>
+&lt;pre>&lt;code>位置编码通常是通过将一个与位置相关的向量添加到输入嵌入（input embeddings）
 中来实现的。这个向量为序列中的每个位置提供了一个唯一的表示，从而使模型能够
 区分不同的单词顺序。
 特别是基于 transformer 架构的模型，由于自注意力机制无法捕捉词元顺序，因此必
@@ -2590,7 +2796,8 @@ features in the data point.
 &lt;/a>
 残差连接与层归一化：
 &lt;/div>
-&lt;/h3>&lt;pre>&lt;code>+ 残差连接：将每个子层的输入与其输出相加，然后传递给下一层。这使得模型在学
+&lt;/h3>
+&lt;pre>&lt;code>+ 残差连接：将每个子层的输入与其输出相加，然后传递给下一层。这使得模型在学
 习过程中，能更容易地学习到残差（输入于输出之差），从而缓解梯度消失问题；
 提高训练稳定性；允许更深的网络结构；以及提高模型性能。
 + 层归一化：在每个层的输入之后都应用归一化，即对每个特征维度进行归一化操作，
@@ -2618,7 +2825,8 @@ respectively for an NLP task, and &amp;quot;pixel&amp;quot; and &amp;quot;image&
 &lt;/a>
 04: 注意力机制的改良版本们
 &lt;/div>
-&lt;/h2>&lt;p>MHA，GQA，MQA三种注意力机制的区别是什么？&lt;/p>
+&lt;/h2>
+&lt;p>MHA，GQA，MQA三种注意力机制的区别是什么？&lt;/p>
 &lt;p>注意力机制在自然语言处理和机器学习领域有多种不同的实现方式，其中常见的包括多头自注意力
 （Multi-Head Self-Attention，MHA）、全局注意力（Global Attention，GQA）和多头查询注意力
 （Multi-Query Attention，MQA）。这些不同的实现方式在机制和应用上有一些区别：&lt;/p>
@@ -2646,7 +2854,8 @@ respectively for an NLP task, and &amp;quot;pixel&amp;quot; and &amp;quot;image&
 &lt;/a>
 05: Attention的改良版本们
 &lt;/div>
-&lt;/h2>&lt;ul>
+&lt;/h2>
+&lt;ul>
 &lt;li>&lt;strong>简述一下 FlashAttention 的原理&lt;/strong>&lt;/li>
 &lt;/ul>
 &lt;p>Flash Attention是一种新型的注意力算法，旨在解决传统Transformer模型中自注意力机制的计
@@ -2660,7 +2869,8 @@ respectively for an NLP task, and &amp;quot;pixel&amp;quot; and &amp;quot;image&
 &lt;/a>
 Flash Attention的核心原理和技术：
 &lt;/div>
-&lt;/h3>&lt;pre>&lt;code>平铺（Tiling）：Flash Attention将输入分割成小块，并在每个块上执行注意力操作。这种方法减少了对高带宽内存的访问次数，因为不需要一次性将整个大矩阵加载到内存中。
+&lt;/h3>
+&lt;pre>&lt;code>平铺（Tiling）：Flash Attention将输入分割成小块，并在每个块上执行注意力操作。这种方法减少了对高带宽内存的访问次数，因为不需要一次性将整个大矩阵加载到内存中。
 重新计算（Recomputation）：在后向传播过程中，Flash Attention避免了存储大型中间矩阵（如S和P矩阵），而是利用前向传播中的统计量来快速重新计算这些矩阵，从而减少了内存消耗。
 在线Softmax：为了处理Softmax操作，Flash Attention采用了在线Softmax技术，它允许分块计算softmax，并通过适当的归一化因子来确保最终结果的正确性。
 内存层次结构意识（IO-Awareness）：Flash Attention考虑了GPU内存层次结构，优化了不同层级内存之间的数据访问，如在GPU的SRAM和HBM之间。
@@ -2672,7 +2882,8 @@ Flash Attention的核心原理和技术：
 &lt;/a>
 Flash Attention-2：
 &lt;/div>
-&lt;/h3>&lt;p>在Flash Attention的基础上，研究人员进一步提出了Flash Attention-2，它通过改进工作分配和并行化策略，进一步提高了计算速度。Flash Attention-2的优化包括：&lt;/p>
+&lt;/h3>
+&lt;p>在Flash Attention的基础上，研究人员进一步提出了Flash Attention-2，它通过改进工作分配和并行化策略，进一步提高了计算速度。Flash Attention-2的优化包括：&lt;/p>
 &lt;pre>&lt;code>减少非矩阵乘法（non-matmul）的浮点运算次数（FLOPs）。
 通过在不同的线程块上并行化注意力计算，提高了GPU的占用率。
 在每个线程块内，将工作分配给不同的warp，以减少通过共享内存的通信。
@@ -2695,7 +2906,8 @@ Flash Attention-2：
 &lt;/a>
 06:LLM微调与量化
 &lt;/div>
-&lt;/h2>&lt;p>30.参数高效的微调（PEFT）有哪些方法？
+&lt;/h2>
+&lt;p>30.参数高效的微调（PEFT）有哪些方法？
 31.LORA微调相比于微调适配器或前缀微调有什么优势？
 32.有了解过什么是稀疏微调吗？
 33.训练后量化（PTQ）和量化感知训练（QAT）与什么区别？
@@ -2708,7 +2920,8 @@ Flash Attention-2：
 &lt;/a>
 07:嵌入向量模型
 &lt;/div>
-&lt;/h2>&lt;p>40.自前主流的中文嵌入向量模型有哪些？&lt;/p>
+&lt;/h2>
+&lt;p>40.自前主流的中文嵌入向量模型有哪些？&lt;/p>
 &lt;h2 id="其他" >
 &lt;div>
 &lt;a href="#%e5%85%b6%e4%bb%96">
@@ -2716,7 +2929,8 @@ Flash Attention-2：
 &lt;/a>
 其他
 &lt;/div>
-&lt;/h2>&lt;p>45.DeepSpeed推理对算子融合做了哪些优化？
+&lt;/h2>
+&lt;p>45.DeepSpeed推理对算子融合做了哪些优化？
 48.请介绍一下微软的ZeRO优化器&lt;/p>
 &lt;p>3.为什么现在的大模型大多是decoder-only的架构？
 4.讲一下生成式语言模型的工作机理
@@ -2745,14 +2959,15 @@ Flash Attention-2：
 41.为什么LLM的知识更新很困难？
 42.RAG和微调的区别是什么？
 43.大模型一般评测方法及基准是什么？
-50.什么是投机采样技术，请举例说明？&lt;/p></description></item><item><title>Tokenization: BPE, Unigram and more</title><link>https://fgg100y.github.io/posts/llm_tokenization/</link><pubDate>Mon, 22 Apr 2024 15:41:56 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_tokenization/</guid><description>&lt;h1 id="there-is-more-than-one-way-to-tokenize-a-sentence" >
+50.什么是投机采样技术，请举例说明？&lt;/p></description></item><item><title>Tokenization: BPE, Unigram and more</title><link>/posts/llm_tokenization/</link><pubDate>Mon, 22 Apr 2024 15:41:56 +0800</pubDate><guid>/posts/llm_tokenization/</guid><description>&lt;h1 id="there-is-more-than-one-way-to-tokenize-a-sentence" >
 &lt;div>
 &lt;a href="#there-is-more-than-one-way-to-tokenize-a-sentence">
 ##
 &lt;/a>
 There is more than one way to tokenize a sentence
 &lt;/div>
-&lt;/h1>&lt;ul>
+&lt;/h1>
+&lt;ul>
 &lt;li>
 &lt;p>word-level chunks/tokens&lt;/p>
 &lt;ul>
@@ -2838,7 +3053,8 @@ special end-of-text token and the symbols learned with 50,000 merges.
 &lt;/a>
 Probabilistic Subword Tokenization
 &lt;/div>
-&lt;/h1>&lt;p>Using the frequency of subword patterns for tokenization can result in ambiguous final
+&lt;/h1>
+&lt;p>Using the frequency of subword patterns for tokenization can result in ambiguous final
 encodings. The problem is that we have no way to predict which particular token is more
 likely to be the best one when encoding any new input text.
 Luckily, needing to predict the most likely sequence of text is not a unique problem to
@@ -2898,7 +3114,8 @@ unigram model.&lt;/p>
 &lt;/a>
 briefly summarize:
 &lt;/div>
-&lt;/h1>&lt;ul>
+&lt;/h1>
+&lt;ul>
 &lt;li>
 &lt;p>BPE: Just uses the frequency of occurrences to identify the best match at every
 iteration until it reaches the predefined vocabulary size.&lt;/p>
@@ -2921,7 +3138,8 @@ over until it reaches the final token limit.&lt;/p>
 &lt;/a>
 SentencePiece
 &lt;/div>
-&lt;/h1>&lt;p>SentencePiece basically tries to bring all the subword tokenization tools and techniques
+&lt;/h1>
+&lt;p>SentencePiece basically tries to bring all the subword tokenization tools and techniques
 under one banner. It’s kind of like the Swiss Army knife for subword tokenization. To be
 a Swiss Army-like tool something has to be capable of solving multiple problems. So what
 problems is SentencePiece addressing:&lt;/p>
@@ -2953,7 +3171,7 @@ algorithm to speed it up so that you can use it as part of an end-to-end solutio
 &lt;blockquote>
 &lt;p>&lt;a href="https://www.openteams.com/tokenizers-how-machines-read/">https://www.openteams.com/tokenizers-how-machines-read/&lt;/a>&lt;/p>
 &lt;/blockquote>
-&lt;p>TODO: 补充中文&lt;/p></description></item><item><title>test rendering of equations of latex in Hugo</title><link>https://fgg100y.github.io/posts/hugo101/test_math_equation_rendering/</link><pubDate>Fri, 25 Aug 2023 13:49:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/hugo101/test_math_equation_rendering/</guid><description>&lt;p>式子能正常渲染，但需要在两个地方的下标处添加额外转义字符 &lt;code>\&lt;/code>，
+&lt;p>TODO: 补充中文&lt;/p></description></item><item><title>test rendering of equations of latex in Hugo</title><link>/posts/hugo101/test_math_equation_rendering/</link><pubDate>Fri, 25 Aug 2023 13:49:40 +0800</pubDate><guid>/posts/hugo101/test_math_equation_rendering/</guid><description>&lt;p>式子能正常渲染，但需要在两个地方的下标处添加额外转义字符 &lt;code>\&lt;/code>，
 也就是：&lt;code>\mathbb{E}\_{xxx}&lt;/code>和&lt;code>p\_{model}&lt;/code>，其他地方却不需要 &lt;code>\hat{p}_{data}&lt;/code>&lt;/p>
 &lt;p>$$
 \mathbb{E}_{x \sim \hat{p}_{data}} {\text{log}\ p_{model} {(x^i; \theta})}
@@ -3009,14 +3227,15 @@ Hugo的markdown文档里的数学公式块，如果不确定，就在下标那�
 讽刺的是：不把它们放在 &lt;code>$$&lt;/code> 数学公式块里，我还必须添加转义字符，否则渲染不出这个效果😂):&lt;/p>
 &lt;p>\tag{5.59}
 \theta_{ML} = \underset{\theta}{\operatorname{argmax}} \mathbb{E}_{x \sim \hat{p}_{data}}{\log p_{model} {(x^i; \theta})}&lt;/p>
-&lt;p>数学公式块里表达下标的语法，无端端要添加一个前置转义字符，这就是我所没有料到的。想必应该是Hugo没有做好关于转义字符的上下文解析问题，且先将就着吧。&lt;/p></description></item><item><title>利器4: Vim 编辑器 -- 只因为在键盘之中，方向键太遥远</title><link>https://fgg100y.github.io/posts/thecli/thevim/2022-08-13-vim8/</link><pubDate>Sat, 13 Aug 2022 21:37:59 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/thevim/2022-08-13-vim8/</guid><description>&lt;h2 id="vim-初体验" >
+&lt;p>数学公式块里表达下标的语法，无端端要添加一个前置转义字符，这就是我所没有料到的。想必应该是Hugo没有做好关于转义字符的上下文解析问题，且先将就着吧。&lt;/p></description></item><item><title>利器4: Vim 编辑器 -- 只因为在键盘之中，方向键太遥远</title><link>/posts/thecli/thevim/2022-08-13-vim8/</link><pubDate>Sat, 13 Aug 2022 21:37:59 +0800</pubDate><guid>/posts/thecli/thevim/2022-08-13-vim8/</guid><description>&lt;h2 id="vim-初体验" >
 &lt;div>
 &lt;a href="#vim-%e5%88%9d%e4%bd%93%e9%aa%8c">
 #
 &lt;/a>
 Vim 初体验
 &lt;/div>
-&lt;/h2>&lt;p>“多年以后，面对显示屏，&amp;ldquo;逃离了巨硬·仍旧愤怒·懵懂菜鸟&amp;quot;将会回想起初次尝试 Vim 编辑器
+&lt;/h2>
+&lt;p>“多年以后，面对显示屏，&amp;ldquo;逃离了巨硬·仍旧愤怒·懵懂菜鸟&amp;quot;将会回想起初次尝试 Vim 编辑器
 而被困在里面叫天不应叫地不灵的那个遥远的下午”。&lt;/p>
 &lt;p>那时候的我（2017），是个二十多岁的青年，刚刚认识终端和 Linux 大概是怎么一回事，
 感觉恰似上天给我关了那扇“窗”，自己推开了 Linux 世界的大门。
@@ -3045,14 +3264,16 @@ Vim 初体验
 &lt;/a>
 Vim 编辑器
 &lt;/div>
-&lt;/h2>&lt;h3 id="vim-是干啥的" >
+&lt;/h2>
+&lt;h3 id="vim-是干啥的" >
 &lt;div>
 &lt;a href="#vim-%e6%98%af%e5%b9%b2%e5%95%a5%e7%9a%84">
 ##
 &lt;/a>
 Vim 是干啥的
 &lt;/div>
-&lt;/h3>&lt;p>首先应该了解： Vim 适用于什么场景？&lt;/p>
+&lt;/h3>
+&lt;p>首先应该了解： Vim 适用于什么场景？&lt;/p>
 &lt;blockquote>
 &lt;p>“Vim是从 vi 发展出来的一个文本编辑器。
 其代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。
@@ -3076,7 +3297,8 @@ Vim 是干啥的
 &lt;/a>
 编辑器之战
 &lt;/div>
-&lt;/h3>&lt;blockquote>
+&lt;/h3>
+&lt;blockquote>
 &lt;p>“编辑器之战是指计算机编程领域内，
 两类文本编辑器 vi（以及衍生版本）和 Emacs 用户之间的对抗冲突。
 这已经成为黑客文化和自由软件社区文化的一部分。&lt;/p>
@@ -3111,7 +3333,8 @@ Vim 是干啥的
 &lt;/a>
 vim 及其配置
 &lt;/div>
-&lt;/h2>&lt;p>如果你是想入门而还在门口徘徊的，可以先在终端 (Terminal) 里输入 &lt;code>vimtutor&lt;/code>，
+&lt;/h2>
+&lt;p>如果你是想入门而还在门口徘徊的，可以先在终端 (Terminal) 里输入 &lt;code>vimtutor&lt;/code>，
 然后看看你感觉如何。如果你认真追随，你会发现一切自有道理。貌似还挺好玩。
 嗯，咦，怎么退出这编辑器呢？&lt;/p>
 &lt;h3 id="现代码仔如何在终端界面退出vim编辑器" >
@@ -3121,7 +3344,8 @@ vim 及其配置
 &lt;/a>
 现代码仔如何在终端界面退出vim编辑器
 &lt;/div>
-&lt;/h3>&lt;p>如果你和我当初一样一头雾水&amp;hellip; 淡定淡定，输入 &lt;code>:q&lt;/code> ，按下 &lt;code>Enter&lt;/code> 即可退出。&lt;/p>
+&lt;/h3>
+&lt;p>如果你和我当初一样一头雾水&amp;hellip; 淡定淡定，输入 &lt;code>:q&lt;/code> ，按下 &lt;code>Enter&lt;/code> 即可退出。&lt;/p>
 &lt;p>嗯，如果你正在输入，需要先按下 &lt;code>Esc&lt;/code>，然后输入 &lt;code>:q&lt;/code> 来退出。&lt;/p>
 &lt;p>这个操作也不好使？八成你是在别的模式里，比如 &lt;code>Ex mode&lt;/code>，
 八成它也会提示你输入 &lt;code>visual&lt;/code> 来返回到 &lt;code>normal mode&lt;/code>。&lt;/p>
@@ -3140,7 +3364,8 @@ vim 共有 &lt;a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">12种模
 &lt;/a>
 vimrc
 &lt;/div>
-&lt;/h2>&lt;p>应当注意：从第一次在终端输入 &lt;code>vim&lt;/code> 到开始了解和使用自己配置的 &lt;code>.vimrc&lt;/code>，
+&lt;/h2>
+&lt;p>应当注意：从第一次在终端输入 &lt;code>vim&lt;/code> 到开始了解和使用自己配置的 &lt;code>.vimrc&lt;/code>，
 从前者到后者，每个人所经历的时间不太一样，毕竟每个人的生活和目的千差万别。
 （倒不是说，刚开始使用 vim 就不能直接上手个人配置，而是想说明，
 “步子迈大了，容易扯着蛋”；一旦放弃了探索和思考，容易一碰挫折就十分沮丧。）
@@ -3179,7 +3404,8 @@ vimrc
 &lt;/a>
 vimrc (~/.vimrc)
 &lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-vim" data-lang="vim">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34; ================================Part-1: Plugins============&lt;/span>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-vim" data-lang="vim">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34; ================================Part-1: Plugins============&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>call plug#begin(&lt;span style="color:#5af78e">&amp;#39;~/.vim/bundle&amp;#39;&lt;/span>) &lt;span style="color:#78787e">&amp;#34; reuse the bundle dir&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== tmux ===-------------------------------&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;christoomey/vim-tmux-navigator&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; vim &amp;lt;-&amp;gt; tmux, pane dance&lt;/span>
@@ -3247,14 +3473,15 @@ vimrc (~/.vimrc)
 &lt;hr>
 &lt;p>更详细的使用方法应该直接去 &lt;a href="https://github.com/junegunn/vim-plug">vim-plug&lt;/a>
 的主页了解，那里不仅告诉大家应该怎么安装此插件，还给出各种情况的说明和例子。&lt;/p>
-&lt;hr></description></item><item><title>利器1: Oh, My Tmux -- 键盘驱动(为主)的工作流</title><link>https://fgg100y.github.io/posts/thecli/2022-08-07-tmux/</link><pubDate>Sun, 07 Aug 2022 21:17:59 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/2022-08-07-tmux/</guid><description>&lt;h2 id="tmuxhttpsgithubcomtmuxtmux" >
+&lt;hr></description></item><item><title>利器1: Oh, My Tmux -- 键盘驱动(为主)的工作流</title><link>/posts/thecli/2022-08-07-tmux/</link><pubDate>Sun, 07 Aug 2022 21:17:59 +0800</pubDate><guid>/posts/thecli/2022-08-07-tmux/</guid><description>&lt;h2 id="tmuxhttpsgithubcomtmuxtmux" >
 &lt;div>
 &lt;a href="#tmuxhttpsgithubcomtmuxtmux">
 #
 &lt;/a>
 &lt;a href="https://github.com/tmux/tmux">Tmux&lt;/a>
 &lt;/div>
-&lt;/h2>&lt;p>&lt;a href="https://github.com/tmux/tmux">Tmux&lt;/a> 是一个终端多路复用器&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>：&amp;hellip;&lt;/p>
+&lt;/h2>
+&lt;p>&lt;a href="https://github.com/tmux/tmux">Tmux&lt;/a> 是一个终端多路复用器&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>：&amp;hellip;&lt;/p>
 &lt;blockquote>
 &lt;p>Tmux is a terminal multiplexer: it enables a number of terminals to be
 created, accessed, and controlled from a single screen. tmux may be detached
@@ -3302,7 +3529,8 @@ from a screen and continue running in the background, then later reattached.&lt;
 &lt;/a>
 Tmux 的一些关键配置
 &lt;/div>
-&lt;/h2>&lt;p>如果还没有安装 Tmux，命令行中安装起来也不费事 (Debian系列)：&lt;code>apt install tmux&lt;/code>&lt;/p>
+&lt;/h2>
+&lt;p>如果还没有安装 Tmux，命令行中安装起来也不费事 (Debian系列)：&lt;code>apt install tmux&lt;/code>&lt;/p>
 &lt;p>以下的内容均围绕 &lt;code>~/.tmux.conf&lt;/code> 文件展开。如果没有就自己创建一个这文件。
 默认这些代码框里的内容（等宽字体那些）是要添加到 &lt;code>~/.tmux.conf&lt;/code> 文件里。&lt;/p>
 &lt;p>&amp;ldquo;#&amp;rdquo; 开头的语句是注释说明&lt;br>
@@ -3315,7 +3543,8 @@ Tmux 的一些关键配置
 &lt;/a>
 默认快捷键修改: Ctrl-b -&amp;gt; Ctrl-a
 &lt;/div>
-&lt;/h2>&lt;p>Tmux 的默认快捷键是 &lt;code>ctrl-b&lt;/code>，这在键盘上距离略微有点远 (对于我的短手指来说)，
+&lt;/h2>
+&lt;p>Tmux 的默认快捷键是 &lt;code>ctrl-b&lt;/code>，这在键盘上距离略微有点远 (对于我的短手指来说)，
 因此我把它修改为 &lt;code>ctrl-a&lt;/code> 组合键。&lt;/p>
 &lt;p>将下面语句加入 .tmux.conf 文件：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">set&lt;/span> -g prefix C-a
@@ -3336,7 +3565,8 @@ Tmux 的一些关键配置
 &lt;/a>
 vim/tmux 强强组合
 &lt;/div>
-&lt;/h2>&lt;p>Tmux 支持多个终端窗格 (terminal panes)，每个窗格都是独立的终端，
+&lt;/h2>
+&lt;p>Tmux 支持多个终端窗格 (terminal panes)，每个窗格都是独立的终端，
 因此，最明显的事情就是，你可以同时在一块屏幕上“监控”多个不同任务，意思是，
 这些不同的任务在视觉上是“同时”呈现的（相对于重叠的 标签页(tab) 而言）。&lt;/p>
 &lt;p>如果你恰好也喜欢用 vim 进行码字，也打开了 vim 编辑器 (vim 本身也有窗格功能)，
@@ -3374,7 +3604,8 @@ vim/tmux 强强组合
 &lt;/a>
 主题背景颜色切换
 &lt;/div>
-&lt;/h2>&lt;p>在我的印象里，感觉黑色/暗色系一下子成了很多应用软件的默认背景色，
+&lt;/h2>
+&lt;p>在我的印象里，感觉黑色/暗色系一下子成了很多应用软件的默认背景色，
 我在命令行过活很多年了，对此很是习惯，个人很少看到谁的Terminal是白色背景的。
 主要应该是：1）配置了白天黑夜都友好的主题；2）不当回事儿。
 但有时候，特别是光线充足的时候，我比较喜欢白色的背景。
@@ -3401,7 +3632,8 @@ vim/tmux 强强组合
 &lt;/a>
 关于配置和插件以及管理插件的插件
 &lt;/div>
-&lt;/h2>&lt;p>以上内容分别对应着：&lt;/p>
+&lt;/h2>
+&lt;p>以上内容分别对应着：&lt;/p>
 &lt;p>1）直接对 tmux 进行基本配置；&lt;/p>
 &lt;p>2）使用 tmux 插件管理器对 tmux 进行配置；&lt;/p>
 &lt;p>3）借用 脚本程序 对 tmux 进行配置。&lt;/p>
@@ -3433,7 +3665,7 @@ GPT4o: Tmux 是一个终端多路复用器 (terminal multiplexer)，允许用户
 &lt;p>想知道怎么像这样标注名词吗？去看看&lt;a href="https://www.junyi.dev/posts/a-writing-trick/">这篇博文&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/div></description></item><item><title>利器2: Vimwiki 之 安装和适配数据科学的一些配置</title><link>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki_part2/</link><pubDate>Sat, 06 Aug 2022 23:33:32 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki_part2/</guid><description>&lt;p>Last update: 2022-08-06 23:33:32&lt;/p>
+&lt;/div></description></item><item><title>利器2: Vimwiki 之 安装和适配数据科学的一些配置</title><link>/posts/thecli/thevim/2022-07-15-vimwiki_part2/</link><pubDate>Sat, 06 Aug 2022 23:33:32 +0800</pubDate><guid>/posts/thecli/thevim/2022-07-15-vimwiki_part2/</guid><description>&lt;p>Last update: 2022-08-06 23:33:32&lt;/p>
 &lt;h2 id="vimwiki-插件简介安装和一些设置" >
 &lt;div>
 &lt;a href="#vimwiki-%e6%8f%92%e4%bb%b6%e7%ae%80%e4%bb%8b%e5%ae%89%e8%a3%85%e5%92%8c%e4%b8%80%e4%ba%9b%e8%ae%be%e7%bd%ae">
@@ -3441,7 +3673,8 @@ GPT4o: Tmux 是一个终端多路复用器 (terminal multiplexer)，允许用户
 &lt;/a>
 vimwiki 插件简介、安装和一些设置
 &lt;/div>
-&lt;/h2>&lt;p>在 vimwiki 里，所有的入口集中在指定的项目根目录下的 index.md 文档里。也就是要构
+&lt;/h2>
+&lt;p>在 vimwiki 里，所有的入口集中在指定的项目根目录下的 index.md 文档里。也就是要构
 建的整个笔记系统（随便管它叫什么），index.md 可以成为它的整体框架以及各个主题的
 索引。从这里可以去到各个主题，从各个主题的索引去到对应的内容，也可以从一个内容
 去到另一个内容，内容可以是本地文档内/文档间，这完全取决于如何构建内容之间的连接。&lt;/p>
@@ -3470,7 +3703,8 @@ vimwiki 插件简介、安装和一些设置
 &lt;/a>
 安装 vimwiki 插件
 &lt;/div>
-&lt;/h3>&lt;p>(使用管理插件的 &lt;a href="https://github.com/junegunn/vim-plug">Vim-Plug&lt;/a> 插件来安装和管理)&lt;/p>
+&lt;/h3>
+&lt;p>(使用管理插件的 &lt;a href="https://github.com/junegunn/vim-plug">Vim-Plug&lt;/a> 插件来安装和管理)&lt;/p>
 &lt;p>将下面的语句加入你自己的 vim 配置文件中，&lt;/p>
 &lt;p>&lt;code>Plug 'vimwiki/vimwiki'&lt;/code>&lt;/p>
 &lt;p>然后运行命令 &lt;code>:PlugInstall&lt;/code>&lt;/p>
@@ -3482,7 +3716,8 @@ vimwiki 插件简介、安装和一些设置
 &lt;/a>
 配置 vimwiki 插件
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>markdwon 格式&lt;/li>
 &lt;/ul>
 &lt;p>vimwiki 默认使用 .wiki 格式，但这个格式的语法没有 markdown 语法使用的广泛和普遍,
@@ -3568,7 +3803,8 @@ vimwiki 的默认快捷键, 比如， &lt;code>2&amp;lt;leader&amp;gt;ww&lt;/cod
 &lt;/a>
 数学公式的呈现
 &lt;/div>
-&lt;/h3>&lt;p>&lt;code>vimwiki2html&lt;/code> 命令和 &amp;ldquo;mathjax&amp;rdquo; 目录&lt;/p>
+&lt;/h3>
+&lt;p>&lt;code>vimwiki2html&lt;/code> 命令和 &amp;ldquo;mathjax&amp;rdquo; 目录&lt;/p>
 &lt;p>vimwiki 自带了一个 &lt;code>vimwiki2html&lt;/code> 命令，顾名思义，就是把 mardown/wiki 格式的源
 文档转换成 html 格式的文档。但这个命令并不支持数学公式的渲染，得改造。这正是
 &lt;a href="https://www.mathjax.org/">mathjax&lt;/a> 闪亮登场的地方。已经有人把 &lt;code>vimwiki2html&lt;/code>
@@ -3612,7 +3848,8 @@ vimwiki 的默认快捷键, 比如， &lt;code>2&amp;lt;leader&amp;gt;ww&lt;/cod
 &lt;/a>
 markdown 文档的即时展示: &lt;code>vim-instant-markdown&lt;/code>
 &lt;/div>
-&lt;/h2>&lt;p>前面说过，大部分的 markdown 并非“所见即所得”，但如果一个人的欲望正常，通常都想
+&lt;/h2>
+&lt;p>前面说过，大部分的 markdown 并非“所见即所得”，但如果一个人的欲望正常，通常都想
 要看看正在写的内容到底是什么显示效果，毕竟，早发现早治疗嘛（一气呵成的爽文自然
 是有，但我更相信优秀的作品通常是修改出来的）。当然，早就有人把这种正常不过的
 需求实现并共享了，那就是： &lt;a href="https://github.com/instant-markdown/vim-instant-markdown">vim instant markdown&lt;/a>
@@ -3629,7 +3866,8 @@ markdown 文档的即时展示: &lt;code>vim-instant-markdown&lt;/code>
 &lt;/a>
 markdown 文档的即时展示: jekyll-site
 &lt;/div>
-&lt;/h2>&lt;p>&lt;code>vim-instant-markdown&lt;/code> 展示的就是文档的呈现内容，也仅仅就是内容而已。如果想要
+&lt;/h2>
+&lt;p>&lt;code>vim-instant-markdown&lt;/code> 展示的就是文档的呈现内容，也仅仅就是内容而已。如果想要
 更多，那么，备选方案就是静态网站生成器（如&lt;a href="https://jekyllrb.com/">jekyll&lt;/a>)，
 顾名思义，就是这玩意儿直接给你打包生成网站需要的一揽子部件。
 （网站意味着高度定制的自由，是不是听着就觉得开心？如果你够耐心看到这里，我就
@@ -3660,7 +3898,7 @@ markdown 文档的即时展示: jekyll-site
 &lt;p>是的，距离太远可能直接放弃，而一步之遥最是销魂 😂&lt;/p>
 &lt;p>其实，该庆幸的是我碰上的问题早就有人先碰上也先解决了，我只是找到了这个方法，
 应该说是‘搜索’到了这个方法，并作了必要的调整。‘闻道有先后’的基础就是分享，
-对于这些解决了实际问题的人，很是感激他们的分享，没有分享，大家的日子不会好过。&lt;/p></description></item><item><title>利器3: Jupyterlab and its Kernels</title><link>https://fgg100y.github.io/posts/thecli/2022-07-22-jupyterwithdskernels/</link><pubDate>Fri, 22 Jul 2022 22:01:51 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/2022-07-22-jupyterwithdskernels/</guid><description>&lt;p>&lt;img alt="IMG_jupyterlab" src="images/jupyter_kernels.png">&lt;/p>
+对于这些解决了实际问题的人，很是感激他们的分享，没有分享，大家的日子不会好过。&lt;/p></description></item><item><title>利器3: Jupyterlab and its Kernels</title><link>/posts/thecli/2022-07-22-jupyterwithdskernels/</link><pubDate>Fri, 22 Jul 2022 22:01:51 +0800</pubDate><guid>/posts/thecli/2022-07-22-jupyterwithdskernels/</guid><description>&lt;p>&lt;img alt="IMG_jupyterlab" src="images/jupyter_kernels.png">&lt;/p>
 &lt;p>New machine needs to be tailored for a better personal workflow. And this is
 about how &lt;a href="https://jupyter.org/">jupyter&lt;/a> can be a multi-language support
 co-work platform for regular DataScience works. Also note that Julia community
@@ -3673,7 +3911,8 @@ has &lt;a href="https://github.com/fonsp/Pluto.jl">pluto&lt;/a> notebook, and R 
 &lt;/a>
 JuPyteR: Julia + Python + R all in one
 &lt;/div>
-&lt;/h1>&lt;p>1 check the Python came with system&lt;/p>
+&lt;/h1>
+&lt;p>1 check the Python came with system&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ which python3
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If there is no python3 yet, install one:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ sudo apt install python3
@@ -3704,14 +3943,15 @@ here&lt;/a>&lt;/p>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note that if the path of binary of Julia somehow changed (reinstall etc),
 one need to perform extra command &lt;code>Pkg.build(&amp;quot;IJulia&amp;quot;)&lt;/code> which tells jupyter
 where to find the binary of Julia.&lt;/p>
-&lt;p>6 launch jupyterlab server, and that&amp;rsquo;s it!&lt;/p></description></item><item><title>利器2: Vimwiki 之 如何用 vimwiki 记笔记</title><link>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki/</link><pubDate>Thu, 21 Jul 2022 23:37:31 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki/</guid><description>&lt;h2 id="个人维基-personal-wiki" >
+&lt;p>6 launch jupyterlab server, and that&amp;rsquo;s it!&lt;/p></description></item><item><title>利器2: Vimwiki 之 如何用 vimwiki 记笔记</title><link>/posts/thecli/thevim/2022-07-15-vimwiki/</link><pubDate>Thu, 21 Jul 2022 23:37:31 +0800</pubDate><guid>/posts/thecli/thevim/2022-07-15-vimwiki/</guid><description>&lt;h2 id="个人维基-personal-wiki" >
 &lt;div>
 &lt;a href="#%e4%b8%aa%e4%ba%ba%e7%bb%b4%e5%9f%ba-personal-wiki">
 #
 &lt;/a>
 个人维基 (personal wiki)
 &lt;/div>
-&lt;/h2>&lt;p>阅读过《爱丽丝漫游奇境》的小伙伴应该会觉得熟悉，维基就像那个“兔子洞”，
+&lt;/h2>
+&lt;p>阅读过《爱丽丝漫游奇境》的小伙伴应该会觉得熟悉，维基就像那个“兔子洞”，
 每个词条都可以是一个通往其他奇境的大门，但它只对有好奇心的人才打开。
 （或者说有好奇心的人才会打开它，尼奥要是没有选择红色💊，故事恐怕就没趣得多）。
 这是在维基上阅读时常有的感受。（其他网站很多时候则搞的更像是“盘丝洞”。）&lt;/p>
@@ -3832,7 +4072,7 @@ where to find the binary of Julia.&lt;/p>
 比如，年代略微久远的 &lt;a href="https://vim.swaroopch.com/">A Byte of Vim&lt;/a>，
 内容及其详尽的 &lt;a href="http://www.oualline.com/vim-book.html">Vim Tutorial and Reference&lt;/a>&lt;/p>
 &lt;hr>
-&lt;p>Last update: 2024-07-04 Thu&lt;/p></description></item><item><title>Linear Regression: frequentist and bayesian</title><link>https://fgg100y.github.io/posts/regressionmodels/linear_regression/</link><pubDate>Wed, 25 Aug 2021 13:49:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/regressionmodels/linear_regression/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>**Important Note**:
+&lt;p>Last update: 2024-07-04 Thu&lt;/p></description></item><item><title>Linear Regression: frequentist and bayesian</title><link>/posts/regressionmodels/linear_regression/</link><pubDate>Wed, 25 Aug 2021 13:49:40 +0800</pubDate><guid>/posts/regressionmodels/linear_regression/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>**Important Note**:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Almost all the contents (text, images) are came from these great books and
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>online resources:
@@ -3860,7 +4100,8 @@ where to find the binary of Julia.&lt;/p>
 &lt;/a>
 Part-0: Regression 101
 &lt;/div>
-&lt;/h2>&lt;blockquote>
+&lt;/h2>
+&lt;blockquote>
 &lt;p>$\text{You&amp;rsquo;ve got to draw the line somewhere.}$&lt;/p>
 &lt;/blockquote>
 &lt;h3 id="introduction" >
@@ -3870,7 +4111,8 @@ Part-0: Regression 101
 &lt;/a>
 Introduction
 &lt;/div>
-&lt;/h3>&lt;p>The regression method describes how one variable depends on another. For example, take height and weight. Naturally, the taller men weighed more. How much of an increase in weight is associated with a unit increase in height? To get started, look at the scatter diagram (figure 1 on below). Height is plotted on the horizontal axis, and weight on the vertical. The summary statistics are&lt;/p>
+&lt;/h3>
+&lt;p>The regression method describes how one variable depends on another. For example, take height and weight. Naturally, the taller men weighed more. How much of an increase in weight is associated with a unit increase in height? To get started, look at the scatter diagram (figure 1 on below). Height is plotted on the horizontal axis, and weight on the vertical. The summary statistics are&lt;/p>
 &lt;p>$\text{average height} \approx 70 \ inches,\qquad SD \approx 3 \ inches$&lt;/p>
 &lt;p>$\text{average height} \approx 70 \ inches, \qquad SD \approx 45 \ pounds, \qquad r \approx 0.40$&lt;/p>
 &lt;p>The scales on the vertical and horizontal axes have been chosen so that one SD of height and one SD of weight cover the same distance on the page. This makes the SD line (dashed) rise at 45 degreed across the page. There is a fair amount of scatter around the line: $r$ is only 0.40.&lt;/p>
@@ -3993,7 +4235,8 @@ $$&lt;/p>
 &lt;/a>
 Slope and Intercept
 &lt;/div>
-&lt;/h3>&lt;p>Does education pay? Figure 1 shows the relationship between income and education, for a sample of 562 men age 25-29 in 2005. The summary statistics are
+&lt;/h3>
+&lt;p>Does education pay? Figure 1 shows the relationship between income and education, for a sample of 562 men age 25-29 in 2005. The summary statistics are
 $$
 \begin{eqnarray}
 \text{average education} &amp;amp;\approx&amp;amp; 12.5\ \text{years}, &amp;amp;\qquad&amp;amp; SD \approx 3\ \text{years} \\
@@ -4043,7 +4286,8 @@ If you run an observational study, the regression line only describes the data t
 &lt;/a>
 The Least Squares
 &lt;/div>
-&lt;/h3>&lt;p>Sometimes the points on a scatter diagram seem to be following a line. The problem discussed in this section is &lt;strong>how to find the line which best fits the points&lt;/strong>. Usually, this involves a compromise: moving the line closer to some points will increase it distance from others. To resolve the conflict, two steps are necessary.&lt;/p>
+&lt;/h3>
+&lt;p>Sometimes the points on a scatter diagram seem to be following a line. The problem discussed in this section is &lt;strong>how to find the line which best fits the points&lt;/strong>. Usually, this involves a compromise: moving the line closer to some points will increase it distance from others. To resolve the conflict, two steps are necessary.&lt;/p>
 &lt;ul>
 &lt;li>First, define an average distance from the line to all the points.&lt;/li>
 &lt;li>Second, move the line around until this average distance is as small as possible.&lt;/li>
@@ -4173,7 +4417,8 @@ The graph of this equation is a perfect straight line. If the points in figure 5
 &lt;/a>
 Assessing the Accuaracy of the Coefficient Estimates
 &lt;/div>
-&lt;/h3>&lt;p>Assume that the &lt;em>true&lt;/em> relationship (e.g., the Hooke’s law) between $X$ and $Y$ takes the form $Y = f(X) + \epsilon$ for some unknown function $f$, where $\epsilon$ is a mean-zero random error term. If $f$ is to be approximated by a linear function, then we can write this relationship as
+&lt;/h3>
+&lt;p>Assume that the &lt;em>true&lt;/em> relationship (e.g., the Hooke’s law) between $X$ and $Y$ takes the form $Y = f(X) + \epsilon$ for some unknown function $f$, where $\epsilon$ is a mean-zero random error term. If $f$ is to be approximated by a linear function, then we can write this relationship as
 $$
 Y = \beta_0 + \beta_1 X + \epsilon.
 $$
@@ -4202,7 +4447,8 @@ $$&lt;/p>
 &lt;/a>
 Confidence Interval
 &lt;/div>
-&lt;/h4>&lt;p>Standard errors can be used to compute the &lt;em>confidence intervals&lt;/em>. A 95% confidence interval is defined as a range of values such that with 95% probability, the range will contain the true unknown value of the parameters. The range is defined in terms of lower and upper limits computed from the sample of data.&lt;/p>
+&lt;/h4>
+&lt;p>Standard errors can be used to compute the &lt;em>confidence intervals&lt;/em>. A 95% confidence interval is defined as a range of values such that with 95% probability, the range will contain the true unknown value of the parameters. The range is defined in terms of lower and upper limits computed from the sample of data.&lt;/p>
 &lt;p>For linear regression, the 95% confidence interval for $\beta_1$ approximately takes the form
 $$
 \hat{\beta_1} \pm 2 \cdot SE(\hat{\beta_1}).
@@ -4220,7 +4466,8 @@ NOTE that here we make an assumption that the errors are Gaussian. And the facto
 &lt;/a>
 Hypothesis tests
 &lt;/div>
-&lt;/h4>&lt;p>Standard errors can also be used to perform &lt;em>hypothesis tests&lt;/em> on the coefficients. The most common hypothesis test involves testing the &lt;em>null hypothesis&lt;/em> of
+&lt;/h4>
+&lt;p>Standard errors can also be used to perform &lt;em>hypothesis tests&lt;/em> on the coefficients. The most common hypothesis test involves testing the &lt;em>null hypothesis&lt;/em> of
 $$
 H_0 : \text{There is no relationship between X and Y}
 $$
@@ -4268,7 +4515,8 @@ which it is drawn, i.e., the evidence is misleading.&lt;/p>
 &lt;/a>
 Assessing the Accuracy of the Model
 &lt;/div>
-&lt;/h3>&lt;p>Once we have rejected the null hypothesis in favor of the altervative hypothesis, it is natrual to want to quantify &lt;em>the extent to which the model fits the data&lt;/em>. The quality of a linear regression fit is typically assessed using two related quantities: the &lt;em>residual standard error&lt;/em> ($RSE$) and the $R^2$ statistic.&lt;/p>
+&lt;/h3>
+&lt;p>Once we have rejected the null hypothesis in favor of the altervative hypothesis, it is natrual to want to quantify &lt;em>the extent to which the model fits the data&lt;/em>. The quality of a linear regression fit is typically assessed using two related quantities: the &lt;em>residual standard error&lt;/em> ($RSE$) and the $R^2$ statistic.&lt;/p>
 &lt;h4 id="residual-standard-error" >
 &lt;div>
 &lt;a href="#residual-standard-error">
@@ -4276,7 +4524,8 @@ Assessing the Accuracy of the Model
 &lt;/a>
 Residual Standard Error
 &lt;/div>
-&lt;/h4>&lt;p>From the model $Y = \beta_0 + \beta_1 X + \epsilon$ that associated with each observation is an error term $\epsilon$. Due to the presence of these error terms, even if we knew the true regression line (i.e., $\beta$s were known), we would not be perfectly predict $Y$ from $X$. The $RSE$ is an estimate of the standard deviation of $\epsilon$. Roughly speaking, it is the average amount that the response will deviate from the true regression line. It is computed using the formula
+&lt;/h4>
+&lt;p>From the model $Y = \beta_0 + \beta_1 X + \epsilon$ that associated with each observation is an error term $\epsilon$. Due to the presence of these error terms, even if we knew the true regression line (i.e., $\beta$s were known), we would not be perfectly predict $Y$ from $X$. The $RSE$ is an estimate of the standard deviation of $\epsilon$. Roughly speaking, it is the average amount that the response will deviate from the true regression line. It is computed using the formula
 $$
 RSE
 = \sqrt{{1 \over n-2} RSS}
@@ -4291,7 +4540,8 @@ NOTE that $RSE$ is slightly different from &lt;em>r.m.s error&lt;/em> which the 
 &lt;/a>
 $R^2$ Statistic
 &lt;/div>
-&lt;/h4>&lt;p>The $RSE$ provides an absolute measure of lack of fit of the model to the data. But since it is measured in the units of $Y$, it is not always clear what consititues a good $RSE$. The $R^2$ statistic provides an alternative measure of fit. It takes the form of a &lt;em>proportion&lt;/em>, the proportion of variance explained, and so it always takes on a value between $0$ and $1$, and is independent of the scale of $Y$.&lt;/p>
+&lt;/h4>
+&lt;p>The $RSE$ provides an absolute measure of lack of fit of the model to the data. But since it is measured in the units of $Y$, it is not always clear what consititues a good $RSE$. The $R^2$ statistic provides an alternative measure of fit. It takes the form of a &lt;em>proportion&lt;/em>, the proportion of variance explained, and so it always takes on a value between $0$ and $1$, and is independent of the scale of $Y$.&lt;/p>
 &lt;p>To calculate $R^2$, we use the formula
 $$
 R^2 = \frac{TSS - RSS}{TSS} = 1 - \frac{RSS}{TSS}
@@ -4304,7 +4554,8 @@ where $TSS = \sum(y_i - \bar{y})^2$ is the &lt;em>total sum of squares&lt;/em>. 
 &lt;/a>
 Multiple Linear Regression
 &lt;/div>
-&lt;/h3>&lt;p>Simple linear regression[^3] is a useful approach for predicting a response on the basis of a single predictor variable. But in practice we often have more than one predictor. One option is to run multiple separate simple linear regression, each of which uses a different feature as a predictor. However, this approach is not entirely satisfactory[^4].&lt;/p>
+&lt;/h3>
+&lt;p>Simple linear regression[^3] is a useful approach for predicting a response on the basis of a single predictor variable. But in practice we often have more than one predictor. One option is to run multiple separate simple linear regression, each of which uses a different feature as a predictor. However, this approach is not entirely satisfactory[^4].&lt;/p>
 &lt;p>Instead of fitting a separate simple linear regression model for each predictor, a better approach is to extend the simple linear regression model[^5] so that it can directly accommodate multiple predictors. We can do this by giving each predictor a separate slope coefficient in a single model. In general, suppose we have $p$ distinct predictors. Then the multiple linear regression model takes the form&lt;/p>
 &lt;p>$$
 \tag{3.19}
@@ -4357,7 +4608,8 @@ equation).&lt;/p>
 &lt;/a>
 One: Is There a Relationship Between the Response and Predictions?
 &lt;/div>
-&lt;/h4>&lt;p>Recall that in the simple linear regression setting, in order to determine whether there is a relationship between the response and the predictor we can simply check whether the slope equals $0$. In the multiple regression setting with $p$ predictors, we need to ask whether all of the regression coefficients are zero. We also use a &lt;strong>hypothesis test&lt;/strong> to answer this question. We test the &lt;strong>null hypothesis&lt;/strong>,
+&lt;/h4>
+&lt;p>Recall that in the simple linear regression setting, in order to determine whether there is a relationship between the response and the predictor we can simply check whether the slope equals $0$. In the multiple regression setting with $p$ predictors, we need to ask whether all of the regression coefficients are zero. We also use a &lt;strong>hypothesis test&lt;/strong> to answer this question. We test the &lt;strong>null hypothesis&lt;/strong>,
 $$
 H_0:\beta_0 = \beta_1 = \ldots = \beta_p = 0
 $$
@@ -4407,7 +4659,8 @@ For each individual predictor a t-statistic and a p-value can be obtain, these s
 &lt;/a>
 Two: Deciding on Important Variable
 &lt;/div>
-&lt;/h4>&lt;p>If we conclude on the basis of the F-statistic and its associated p-value that at least one of the predictors is related to the response, then it is natural to wonder which are the guilty ones. The task of determining which predictors are associated with the response, in order to fit a single model involving only those predictors, is referred to as &lt;strong>variable selection&lt;/strong>.&lt;/p>
+&lt;/h4>
+&lt;p>If we conclude on the basis of the F-statistic and its associated p-value that at least one of the predictors is related to the response, then it is natural to wonder which are the guilty ones. The task of determining which predictors are associated with the response, in order to fit a single model involving only those predictors, is referred to as &lt;strong>variable selection&lt;/strong>.&lt;/p>
 &lt;p>Ideally, we would like to preform variable selection by trying out a lot of different models, each containing a different subset of the predictors. Unfortunately, there are a total $2^p$ models that contain subsets of $p$ variables (Note that even with a moderate value of $p$, say, $p=30$, then $2^{30}=1,073,741,824$ models make this infeasible). We need an automated and efficient approach to choose a smaller set of models to consider. There are three classical approaches for this task:&lt;/p>
 &lt;ul>
 &lt;li>Forward selection. We begin with the &lt;strong>null model&lt;/strong> (which contains only the intercept). We then fit $p$ simple linear regressions and add to the null model the variable that results in the lowest $RSS$, and then add to that model the variable which results in the lowest $RSS$ for the new two-variable model. This approach is continued until some stopping rule is satisfied.&lt;/li>
@@ -4422,7 +4675,8 @@ Two: Deciding on Important Variable
 &lt;/a>
 Three: Model Fit
 &lt;/div>
-&lt;/h4>&lt;p>Two of the most common numerical measures of model fit are the $RSE$ and the $R^2$. Recall that in simple regression, $R^2$ is the square of the correlation coefficient between predictor and the response. In multiple linear regression, it turns out that it equals the square of the correlation coefficient between the response and the fitted model (this implies that the fitted model maximizes this correlation among all possible linear model).&lt;/p>
+&lt;/h4>
+&lt;p>Two of the most common numerical measures of model fit are the $RSE$ and the $R^2$. Recall that in simple regression, $R^2$ is the square of the correlation coefficient between predictor and the response. In multiple linear regression, it turns out that it equals the square of the correlation coefficient between the response and the fitted model (this implies that the fitted model maximizes this correlation among all possible linear model).&lt;/p>
 &lt;p>To calculate $R^2$, we use the formula
 $$
 \begin{eqnarray}
@@ -4450,7 +4704,8 @@ Thus model with more variables can have higher $RSE$ if the decrease in $RSS$ is
 &lt;/a>
 Adjusted $R^2$ &lt;a href="https://en.wikipedia.org/wiki/Coefficient_of_determination#Adjusted_R2">(From wiki)&lt;/a>
 &lt;/div>
-&lt;/h5>&lt;p>The use of an adjusted $R^2$ (one common notation is $\bar{R}^2$; another is $R_{adj}^2$)
+&lt;/h5>
+&lt;p>The use of an adjusted $R^2$ (one common notation is $\bar{R}^2$; another is $R_{adj}^2$)
 is an attempt to account for the phenomenon of the $R^2$ automatically and spuriously
 increasing when extra explanatory variables are added to the model. There are many
 different ways of adjusting, by far the most used one, to the point that it is typically
@@ -4502,7 +4757,8 @@ The second vector is constrained by the relation $\sum(X_i - \bar{X}) = 0$. The 
 &lt;/a>
 Four: Prediction
 &lt;/div>
-&lt;/h4>&lt;p>Once we have fit the multiple regression model, it is straightforward to apply the fitted model $\hat{y} = \hat{f}(X) = \hat{\beta} X$ (a more verbose version see $\ref{mlrpred}$) in order to predict the response based on the values of the predictors. However, there are three sorts of uncertainty associated with this prediction.&lt;/p>
+&lt;/h4>
+&lt;p>Once we have fit the multiple regression model, it is straightforward to apply the fitted model $\hat{y} = \hat{f}(X) = \hat{\beta} X$ (a more verbose version see $\ref{mlrpred}$) in order to predict the response based on the values of the predictors. However, there are three sorts of uncertainty associated with this prediction.&lt;/p>
 &lt;ol>
 &lt;li>The coefficient estimate is the least squares estimation of the true coefficient which is unknown. The inaccuracy in the coefficient estimates is related to the &lt;em>reducible error&lt;/em>[^9]. We can compute a &lt;strong>confidence interval&lt;/strong> in order to determine how close $\hat{y}$ will be to $f(X)$.&lt;/li>
 &lt;li>In practice assuming a linear model for $f(X)$ is almost always an approximation of reality, so if the true pattern is non-linear, there is an additional reducible error called &lt;em>model bias&lt;/em>.&lt;/li>
@@ -4515,7 +4771,8 @@ Four: Prediction
 &lt;/a>
 Summary
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>
 &lt;p>The regression line can be specified by two descriptive statistics: the &lt;em>slope&lt;/em> and the &lt;em>intercept&lt;/em>.&lt;/p>
 &lt;/li>
@@ -4539,7 +4796,8 @@ Summary
 &lt;/a>
 Part-I: How to learn
 &lt;/div>
-&lt;/h2>&lt;p>Linear regression is of course an extremely simple and limited learning algorithm, but it provides an example of how a learning algorithm can work.&lt;/p>
+&lt;/h2>
+&lt;p>Linear regression is of course an extremely simple and limited learning algorithm, but it provides an example of how a learning algorithm can work.&lt;/p>
 &lt;h3 id="normal-equation" >
 &lt;div>
 &lt;a href="#normal-equation">
@@ -4547,7 +4805,8 @@ Part-I: How to learn
 &lt;/a>
 Normal Equation
 &lt;/div>
-&lt;/h3>&lt;p>The goal is to build a system that can take a vector $x \in \mathbb{R^n}$ as input and predict the value of a scalar $y \in \mathbb{R}$ as its output. The output of linear regression is a linear function of the input. Let $\hat{y}$ be the value that our model predicts $y$ should take on. We define the output to be
+&lt;/h3>
+&lt;p>The goal is to build a system that can take a vector $x \in \mathbb{R^n}$ as input and predict the value of a scalar $y \in \mathbb{R}$ as its output. The output of linear regression is a linear function of the input. Let $\hat{y}$ be the value that our model predicts $y$ should take on. We define the output to be
 $$
 \begin{equation}
 \tag{5.3}
@@ -4635,7 +4894,8 @@ $$&lt;/p>
 &lt;/a>
 Gradient-based method
 &lt;/div>
-&lt;/h3>&lt;p>Example: Linear Least Squares&lt;/p>
+&lt;/h3>
+&lt;p>Example: Linear Least Squares&lt;/p>
 &lt;p>Suppose we want to find the value of $x$ that minimizes&lt;/p>
 &lt;p>$$
 \tag{4.21}
@@ -4686,7 +4946,8 @@ $$
 &lt;/a>
 Newton&amp;rsquo;s method
 &lt;/div>
-&lt;/h3>&lt;p>Sometimes we need to find all the partial derivatives of a function whose input and output are both vectors. The matrix containing all such partial derivatives is known as a &lt;strong>Jacobian matrix&lt;/strong>. Specifically, if we have a function $f: \mathbb{R}^m \rightarrow \mathbb{R}^n$, then the Jacobian matrix $\mathbf{J} \in \mathbb{R}^{m \times n}$ of $f$ is defined such that $J_{i, j} = \frac{\partial}{\partial x_j}f(x)_i$.&lt;/p>
+&lt;/h3>
+&lt;p>Sometimes we need to find all the partial derivatives of a function whose input and output are both vectors. The matrix containing all such partial derivatives is known as a &lt;strong>Jacobian matrix&lt;/strong>. Specifically, if we have a function $f: \mathbb{R}^m \rightarrow \mathbb{R}^n$, then the Jacobian matrix $\mathbf{J} \in \mathbb{R}^{m \times n}$ of $f$ is defined such that $J_{i, j} = \frac{\partial}{\partial x_j}f(x)_i$.&lt;/p>
 &lt;p>We are also sometimes interested in a derivative of a derivative. This is known as a &lt;strong>second derivative&lt;/strong>. For example, for a function $f : \mathbb{R}^n \rightarrow \mathbb{R}$, the derivative with respect to $x_i$ of the derivative of $f$ with respect to $x_j$ is denoted as $\frac{\partial^2}{\partial x_i \partial x_j}f$.&lt;/p>
 &lt;p>In a single dimension, we can denote $\frac{d^2}{d x^2}$ by $f&amp;rsquo;&amp;rsquo;(x)$. The second derivative tells us how the first derivative will change when we vary the input. This is important because it tells us whether a gradient step will cause as much of an improvement as we would expect based on the gradient alone. We can think of the second derivative as measuring &lt;strong>curvature&lt;/strong>.&lt;/p>
 &lt;p>Suppose we have a quadratic function (or in practice it can be approximated well as quadratic, at least locally). If such a function has:&lt;/p>
@@ -4751,14 +5012,16 @@ $$&lt;/p>
 &lt;/a>
 Part_II: Why that Work
 &lt;/div>
-&lt;/h2>&lt;h3 id="linear-regression-as-maximum-likelihood" >
+&lt;/h2>
+&lt;h3 id="linear-regression-as-maximum-likelihood" >
 &lt;div>
 &lt;a href="#linear-regression-as-maximum-likelihood">
 ##
 &lt;/a>
 Linear Regression as Maximum Likelihood
 &lt;/div>
-&lt;/h3>&lt;p>Previously, we motivated linear regression as an algorithm that learns to take an input $x$ and produce an output value $\hat{y}$. The mapping from $x$ to $\hat{y}$ is chosen to minimize mean squared error, a criterion that we introduced more or less arbitrarily. We now revisit linear regression from the point of view of maximum likelihood estimation.&lt;/p>
+&lt;/h3>
+&lt;p>Previously, we motivated linear regression as an algorithm that learns to take an input $x$ and produce an output value $\hat{y}$. The mapping from $x$ to $\hat{y}$ is chosen to minimize mean squared error, a criterion that we introduced more or less arbitrarily. We now revisit linear regression from the point of view of maximum likelihood estimation.&lt;/p>
 &lt;p>Instead of producing a single prediction $\hat{y}$, we now think of the model as producing a conditional distribution $p(y | x)$. We can imagine that with an infinitely large training set, we might see several training examples with the same input value $x$ but different values of $y$. The goal of the learning algorithm is now to fit the distribution $p(y | x)$ to all those different $y$ values that are all compatible with $x$.&lt;/p>
 &lt;p>To derive the same linear regression algorithm we obtained before, we &lt;strong>define&lt;/strong> $p(y | x) = \mathcal{N}(y; \hat{y}(x; w), \sigma^2)$. In this example, we assume that the variance is fixed to some constant $\sigma^2$ chosen by user.&lt;/p>
 &lt;p>Since the examples are assumed to be i.i.d., the conditional log-likelihood is given by&lt;/p>
@@ -4781,7 +5044,8 @@ $$&lt;/p>
 &lt;/a>
 Maximum Likelihood Estimation
 &lt;/div>
-&lt;/h4>&lt;p>Rather than guessing that some function might make a good estimator and then analyzing its bias and variance, we would like to have some principle from which we can derive specific functions that are good estimators for different models.&lt;/p>
+&lt;/h4>
+&lt;p>Rather than guessing that some function might make a good estimator and then analyzing its bias and variance, we would like to have some principle from which we can derive specific functions that are good estimators for different models.&lt;/p>
 &lt;p>The most common such principle is the maximum likelihood principle.&lt;/p>
 &lt;p>Consider a set of m examples $\mathbb{X} = {x^{(1)}, \cdots, x^{(m)}}$ are i.i.d from true but unknown data-generating distribution $p_{data}(\mathbf{x})$.&lt;/p>
 &lt;p>Let $p_{model}(\mathbf{x}; \mathbf{\theta})$ be a parametric family of probability distribution over the same space indexed by $\mathbf{\theta}$. In other words, $p_{model}({x}; \mathbf{\theta})$ maps any configuration $x$ to a real number estimating the true probability $p_{data}({x})$.&lt;/p>
@@ -4863,7 +5127,8 @@ $$&lt;/p>
 &lt;/a>
 Bayesian Linear Regression
 &lt;/div>
-&lt;/h3>&lt;p>So far we have discussed &lt;strong>frequentist statistics&lt;/strong> and approaches based on estimating a single value of $\theta$, then making all predictions thereafter based on that one estimate. An other approach is to consider all possible values of $\theta$ when making a prediction. The latter is the domain of &lt;strong>Bayesian statistics&lt;/strong>.&lt;/p>
+&lt;/h3>
+&lt;p>So far we have discussed &lt;strong>frequentist statistics&lt;/strong> and approaches based on estimating a single value of $\theta$, then making all predictions thereafter based on that one estimate. An other approach is to consider all possible values of $\theta$ when making a prediction. The latter is the domain of &lt;strong>Bayesian statistics&lt;/strong>.&lt;/p>
 &lt;ul>
 &lt;li>Freqentist: the true parameter value $\theta$ is fixed but unknown, while the point estimate $\hat{\theta}$ is a random variable on account of it being a function of the dataset (which is seen as random).&lt;/li>
 &lt;li>Bayesian: the Bayesian uses probability to reflect degrees of certainty in states of knowledge. The dataset is directly observed and so is not random. On the other hand, the true parameter $\theta$ is unknown or uncertain and thus is represented as random variable.&lt;/li>
@@ -4966,7 +5231,8 @@ $$&lt;/p>
 &lt;/a>
 Maximum A Posteriori (MAP) Estimation
 &lt;/div>
-&lt;/h4>&lt;p>While the most principled approach is to make predictions using the full Bayesian posterior distribution over the parameter $\theta$, it is still often desirable to have a single point estimate. One common reason for desiring a point estimate is that most operations involving the Bayesian posterior for most interesting models are intractable, and a point estimate offers a tractable approximation.&lt;/p>
+&lt;/h4>
+&lt;p>While the most principled approach is to make predictions using the full Bayesian posterior distribution over the parameter $\theta$, it is still often desirable to have a single point estimate. One common reason for desiring a point estimate is that most operations involving the Bayesian posterior for most interesting models are intractable, and a point estimate offers a tractable approximation.&lt;/p>
 &lt;p>Rather than simply returning to the MLE, we can still gain some of the benefit of the Bayesian approach by allowing the prior to influence the choice of the point estimate. One rational way to do this id to choose the &lt;strong>maximum a posteriori&lt;/strong> (MAP) point estimate. The MAP estimate chooses the point of maximal posterior probability ( or maximal probability density in the more common case of continuous $\theta$):
 $$
 \tag{5.79}
@@ -4983,14 +5249,16 @@ We recognize, on the righthand side, $\text{log} \ p(x | \mathbf{\theta})$, that
 &lt;/a>
 MLE and MAP: 殊途同归
 &lt;/div>
-&lt;/h3>&lt;h4 id="binary-variables" >
+&lt;/h3>
+&lt;h4 id="binary-variables" >
 &lt;div>
 &lt;a href="#binary-variables">
 ###
 &lt;/a>
 Binary Variables
 &lt;/div>
-&lt;/h4>&lt;ul>
+&lt;/h4>
+&lt;ul>
 &lt;li>
 &lt;p>Coin flipping: heads = 1, tails = 0 with bias $\mu$
 $$
@@ -5027,7 +5295,8 @@ $$&lt;/p>
 &lt;/a>
 The Bias of a Coin
 &lt;/div>
-&lt;/h4>&lt;p>Suppose that we have a coin, and we would like to figure out what the probability is that it will flip up heads.&lt;/p>
+&lt;/h4>
+&lt;p>Suppose that we have a coin, and we would like to figure out what the probability is that it will flip up heads.&lt;/p>
 &lt;ul>
 &lt;li>How should we estimate the bias?&lt;/li>
 &lt;/ul>
@@ -5061,7 +5330,8 @@ $$&lt;/p>
 &lt;/a>
 MLE
 &lt;/div>
-&lt;/h4>&lt;ul>
+&lt;/h4>
+&lt;ul>
 &lt;li>
 &lt;p>Data: Observed set of $\alpha_H$ heads and $\alpha_T$ tails&lt;/p>
 &lt;/li>
@@ -5103,7 +5373,8 @@ $$&lt;/p>
 &lt;/a>
 MAP
 &lt;/div>
-&lt;/h4>&lt;p>Suppose we have 5 coin flips all of which are heads, Our estimate of the bias is: ???&lt;/p>
+&lt;/h4>
+&lt;p>Suppose we have 5 coin flips all of which are heads, Our estimate of the bias is: ???&lt;/p>
 &lt;ul>
 &lt;li>MLE would give $\theta_{MLE} = 1$&lt;/li>
 &lt;li>This event occurs with probability $1 / 2^5 = 1/32$ for a fair coin&lt;/li>
@@ -5199,7 +5470,8 @@ $$&lt;/p>
 &lt;/a>
 Sample Complexity
 &lt;/div>
-&lt;/h4>&lt;p>How many coin flips do we need in order to guarantee that our learned parameter does not differ too much from the true parameter (with high probability)? Say, I want to know the coin parameter $\theta$, within $\epsilon = 0.1$ error with probability at least $1 - \delta = 0.95$.&lt;/p>
+&lt;/h4>
+&lt;p>How many coin flips do we need in order to guarantee that our learned parameter does not differ too much from the true parameter (with high probability)? Say, I want to know the coin parameter $\theta$, within $\epsilon = 0.1$ error with probability at least $1 - \delta = 0.95$.&lt;/p>
 &lt;p>Using the Chernoff bound, we have
 $$
 p(|\theta_{true} - \theta_{MLE}| \geq \epsilon) \leq 2e^{-2N \epsilon^2} \\

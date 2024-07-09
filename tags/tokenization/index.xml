@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tokenization on fgg blog</title><link>https://fgg100y.github.io/tags/tokenization/</link><description>fgg blog (Tokenization)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 22 Apr 2024 15:41:56 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/tokenization/index.xml" rel="self" type="application/rss+xml"/><item><title>Tokenization: BPE, Unigram and more</title><link>https://fgg100y.github.io/posts/llm_tokenization/</link><pubDate>Mon, 22 Apr 2024 15:41:56 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_tokenization/</guid><description>&lt;h1 id="there-is-more-than-one-way-to-tokenize-a-sentence" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tokenization on fgg blog</title><link>/tags/tokenization/</link><description>fgg blog (Tokenization)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 22 Apr 2024 15:41:56 +0800</lastBuildDate><atom:link href="/tags/tokenization/index.xml" rel="self" type="application/rss+xml"/><item><title>Tokenization: BPE, Unigram and more</title><link>/posts/llm_tokenization/</link><pubDate>Mon, 22 Apr 2024 15:41:56 +0800</pubDate><guid>/posts/llm_tokenization/</guid><description>&lt;h1 id="there-is-more-than-one-way-to-tokenize-a-sentence" >
 &lt;div>
 &lt;a href="#there-is-more-than-one-way-to-tokenize-a-sentence">
 ##
 &lt;/a>
 There is more than one way to tokenize a sentence
 &lt;/div>
-&lt;/h1>&lt;ul>
+&lt;/h1>
+&lt;ul>
 &lt;li>
 &lt;p>word-level chunks/tokens&lt;/p>
 &lt;ul>
@@ -91,7 +92,8 @@ special end-of-text token and the symbols learned with 50,000 merges.
 &lt;/a>
 Probabilistic Subword Tokenization
 &lt;/div>
-&lt;/h1>&lt;p>Using the frequency of subword patterns for tokenization can result in ambiguous final
+&lt;/h1>
+&lt;p>Using the frequency of subword patterns for tokenization can result in ambiguous final
 encodings. The problem is that we have no way to predict which particular token is more
 likely to be the best one when encoding any new input text.
 Luckily, needing to predict the most likely sequence of text is not a unique problem to
@@ -151,7 +153,8 @@ unigram model.&lt;/p>
 &lt;/a>
 briefly summarize:
 &lt;/div>
-&lt;/h1>&lt;ul>
+&lt;/h1>
+&lt;ul>
 &lt;li>
 &lt;p>BPE: Just uses the frequency of occurrences to identify the best match at every
 iteration until it reaches the predefined vocabulary size.&lt;/p>
@@ -174,7 +177,8 @@ over until it reaches the final token limit.&lt;/p>
 &lt;/a>
 SentencePiece
 &lt;/div>
-&lt;/h1>&lt;p>SentencePiece basically tries to bring all the subword tokenization tools and techniques
+&lt;/h1>
+&lt;p>SentencePiece basically tries to bring all the subword tokenization tools and techniques
 under one banner. It’s kind of like the Swiss Army knife for subword tokenization. To be
 a Swiss Army-like tool something has to be capable of solving multiple problems. So what
 problems is SentencePiece addressing:&lt;/p>

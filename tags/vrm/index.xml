@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VRM on fgg blog</title><link>https://fgg100y.github.io/tags/vrm/</link><description>fgg blog (VRM)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 27 Jun 2024 09:42:34 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/vrm/index.xml" rel="self" type="application/rss+xml"/><item><title>mixup_beyond_ERM</title><link>https://fgg100y.github.io/posts/2024-06-27-mixup_beyond_erm/</link><pubDate>Thu, 27 Jun 2024 09:42:34 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-27-mixup_beyond_erm/</guid><description>&lt;h1 id="empirical-risk-minimazation-erm" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VRM on fgg blog</title><link>/tags/vrm/</link><description>fgg blog (VRM)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 27 Jun 2024 09:42:34 +0800</lastBuildDate><atom:link href="/tags/vrm/index.xml" rel="self" type="application/rss+xml"/><item><title>mixup_beyond_ERM</title><link>/posts/2024-06-27-mixup_beyond_erm/</link><pubDate>Thu, 27 Jun 2024 09:42:34 +0800</pubDate><guid>/posts/2024-06-27-mixup_beyond_erm/</guid><description>&lt;h1 id="empirical-risk-minimazation-erm" >
 &lt;div>
 &lt;a href="#empirical-risk-minimazation-erm">
 ##
 &lt;/a>
 Empirical Risk Minimazation (ERM)
 &lt;/div>
-&lt;/h1>&lt;p>经验风险最小化, Empirical Risk Minimazation principle (Vapnik, 1998)&lt;/p>
+&lt;/h1>
+&lt;p>经验风险最小化, Empirical Risk Minimazation principle (Vapnik, 1998)&lt;/p>
 &lt;ol>
 &lt;li>基于ERM训练模型：亦即在训练数据集上学习以最小化其平均误差。&lt;/li>
 &lt;li>当前SOTA模型的参数量随着训练数据集规模增大而线性增加。&lt;/li>

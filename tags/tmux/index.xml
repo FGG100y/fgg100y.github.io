@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tmux on fgg blog</title><link>https://fgg100y.github.io/tags/tmux/</link><description>fgg blog (Tmux)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 07 Aug 2022 21:17:59 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/tmux/index.xml" rel="self" type="application/rss+xml"/><item><title>利器1: Oh, My Tmux -- 键盘驱动(为主)的工作流</title><link>https://fgg100y.github.io/posts/thecli/2022-08-07-tmux/</link><pubDate>Sun, 07 Aug 2022 21:17:59 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/2022-08-07-tmux/</guid><description>&lt;h2 id="tmuxhttpsgithubcomtmuxtmux" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tmux on fgg blog</title><link>/tags/tmux/</link><description>fgg blog (Tmux)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 07 Aug 2022 21:17:59 +0800</lastBuildDate><atom:link href="/tags/tmux/index.xml" rel="self" type="application/rss+xml"/><item><title>利器1: Oh, My Tmux -- 键盘驱动(为主)的工作流</title><link>/posts/thecli/2022-08-07-tmux/</link><pubDate>Sun, 07 Aug 2022 21:17:59 +0800</pubDate><guid>/posts/thecli/2022-08-07-tmux/</guid><description>&lt;h2 id="tmuxhttpsgithubcomtmuxtmux" >
 &lt;div>
 &lt;a href="#tmuxhttpsgithubcomtmuxtmux">
 #
 &lt;/a>
 &lt;a href="https://github.com/tmux/tmux">Tmux&lt;/a>
 &lt;/div>
-&lt;/h2>&lt;p>&lt;a href="https://github.com/tmux/tmux">Tmux&lt;/a> 是一个终端多路复用器&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>：&amp;hellip;&lt;/p>
+&lt;/h2>
+&lt;p>&lt;a href="https://github.com/tmux/tmux">Tmux&lt;/a> 是一个终端多路复用器&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>：&amp;hellip;&lt;/p>
 &lt;blockquote>
 &lt;p>Tmux is a terminal multiplexer: it enables a number of terminals to be
 created, accessed, and controlled from a single screen. tmux may be detached
@@ -53,7 +54,8 @@ from a screen and continue running in the background, then later reattached.&lt;
 &lt;/a>
 Tmux 的一些关键配置
 &lt;/div>
-&lt;/h2>&lt;p>如果还没有安装 Tmux，命令行中安装起来也不费事 (Debian系列)：&lt;code>apt install tmux&lt;/code>&lt;/p>
+&lt;/h2>
+&lt;p>如果还没有安装 Tmux，命令行中安装起来也不费事 (Debian系列)：&lt;code>apt install tmux&lt;/code>&lt;/p>
 &lt;p>以下的内容均围绕 &lt;code>~/.tmux.conf&lt;/code> 文件展开。如果没有就自己创建一个这文件。
 默认这些代码框里的内容（等宽字体那些）是要添加到 &lt;code>~/.tmux.conf&lt;/code> 文件里。&lt;/p>
 &lt;p>&amp;ldquo;#&amp;rdquo; 开头的语句是注释说明&lt;br>
@@ -66,7 +68,8 @@ Tmux 的一些关键配置
 &lt;/a>
 默认快捷键修改: Ctrl-b -&amp;gt; Ctrl-a
 &lt;/div>
-&lt;/h2>&lt;p>Tmux 的默认快捷键是 &lt;code>ctrl-b&lt;/code>，这在键盘上距离略微有点远 (对于我的短手指来说)，
+&lt;/h2>
+&lt;p>Tmux 的默认快捷键是 &lt;code>ctrl-b&lt;/code>，这在键盘上距离略微有点远 (对于我的短手指来说)，
 因此我把它修改为 &lt;code>ctrl-a&lt;/code> 组合键。&lt;/p>
 &lt;p>将下面语句加入 .tmux.conf 文件：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">set&lt;/span> -g prefix C-a
@@ -87,7 +90,8 @@ Tmux 的一些关键配置
 &lt;/a>
 vim/tmux 强强组合
 &lt;/div>
-&lt;/h2>&lt;p>Tmux 支持多个终端窗格 (terminal panes)，每个窗格都是独立的终端，
+&lt;/h2>
+&lt;p>Tmux 支持多个终端窗格 (terminal panes)，每个窗格都是独立的终端，
 因此，最明显的事情就是，你可以同时在一块屏幕上“监控”多个不同任务，意思是，
 这些不同的任务在视觉上是“同时”呈现的（相对于重叠的 标签页(tab) 而言）。&lt;/p>
 &lt;p>如果你恰好也喜欢用 vim 进行码字，也打开了 vim 编辑器 (vim 本身也有窗格功能)，
@@ -125,7 +129,8 @@ vim/tmux 强强组合
 &lt;/a>
 主题背景颜色切换
 &lt;/div>
-&lt;/h2>&lt;p>在我的印象里，感觉黑色/暗色系一下子成了很多应用软件的默认背景色，
+&lt;/h2>
+&lt;p>在我的印象里，感觉黑色/暗色系一下子成了很多应用软件的默认背景色，
 我在命令行过活很多年了，对此很是习惯，个人很少看到谁的Terminal是白色背景的。
 主要应该是：1）配置了白天黑夜都友好的主题；2）不当回事儿。
 但有时候，特别是光线充足的时候，我比较喜欢白色的背景。
@@ -152,7 +157,8 @@ vim/tmux 强强组合
 &lt;/a>
 关于配置和插件以及管理插件的插件
 &lt;/div>
-&lt;/h2>&lt;p>以上内容分别对应着：&lt;/p>
+&lt;/h2>
+&lt;p>以上内容分别对应着：&lt;/p>
 &lt;p>1）直接对 tmux 进行基本配置；&lt;/p>
 &lt;p>2）使用 tmux 插件管理器对 tmux 进行配置；&lt;/p>
 &lt;p>3）借用 脚本程序 对 tmux 进行配置。&lt;/p>

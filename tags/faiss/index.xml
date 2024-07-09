@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FAISS on fgg blog</title><link>https://fgg100y.github.io/tags/faiss/</link><description>fgg blog (FAISS)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 22 May 2024 11:15:40 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/faiss/index.xml" rel="self" type="application/rss+xml"/><item><title>FAISS-IVFPQ</title><link>https://fgg100y.github.io/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>https://fgg100y.github.io/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FAISS on fgg blog</title><link>/tags/faiss/</link><description>fgg blog (FAISS)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 22 May 2024 11:15:40 +0800</lastBuildDate><atom:link href="/tags/faiss/index.xml" rel="self" type="application/rss+xml"/><item><title>FAISS-IVFPQ</title><link>/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
 &lt;div>
 &lt;a href="#plain-and-simple-indexflatl2">
 #
 &lt;/a>
 Plain and Simple: IndexFlatL2
 &lt;/div>
-&lt;/h2>&lt;blockquote>
+&lt;/h2>
+&lt;blockquote>
 &lt;p>Given a set of vectors, we can index them using Faiss — then using another vector (the query vector), we search for the most similar vectors within the index.
 Now, Faiss not only allows us to build an index and search — but it also speeds up search times to ludicrous performance levels.&lt;/p>
 &lt;/blockquote>
@@ -28,7 +29,8 @@ too fast.&lt;/p>
 &lt;/a>
 Inerted File Index (IVF) index
 &lt;/div>
-&lt;/h2>&lt;p>The Inverted File Index (IVF) index consists of search scope reduction through clustering.&lt;/p>
+&lt;/h2>
+&lt;p>The Inverted File Index (IVF) index consists of search scope reduction through clustering.&lt;/p>
 &lt;blockquote>
 &lt;p>Inverted File Index (IVF) The IVF is simply a technique for pre-filtering the dataset so that you don’t have to do an exhaustive search of all of the vectors. It’s pretty straightforward–you cluster the dataset ahead of time with k-means clustering to produce a large number (e.g., 100) of dataset partitions. Then, at query time, you compare your query vector to the partition centroids to find, e.g., the 10 closest clusters, and then you search against only the vectors in those partitions.&lt;/p>
 &lt;/blockquote>
@@ -52,7 +54,8 @@ But there is a problem if our query vector lands near the edge of a cell — the
 &lt;/a>
 Product Quantization
 &lt;/div>
-&lt;/h2>&lt;blockquote>
+&lt;/h2>
+&lt;blockquote>
 &lt;p>All of our indexes so far have stored our vectors as full (eg Flat) vectors. Now, in very large datasets this can quickly become a problem.
 Fortunately, Faiss comes with the ability to compress our vectors using Product Quantization (PQ).
 But, what is PQ? Well, we can view it as an additional approximation step with a similar outcome to our use of IVF. Where IVF allowed us to approximate by reducing the scope of our search, PQ approximates the distance/similarity calculation instead.
@@ -83,7 +86,8 @@ PQ achieves this approximated similarity operation by compressing the vectors th
 &lt;/a>
 Show me the code
 &lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
 &lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
 &lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -140,7 +144,8 @@ Show me the code
 &lt;/a>
 Example 01: 平凡的世界
 &lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
 &lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
 &lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">0
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -176,7 +181,8 @@ Example 01: 平凡的世界
 &lt;/a>
 Example 02: 平凡的世界
 &lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
+&lt;/h2>
+&lt;div class="highlight">&lt;div style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
 &lt;table style="border-spacing:0;padding:0;margin:0;border:0;">&lt;tr>&lt;td style="vertical-align:top;padding:0;margin:0;border:0;">
 &lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">&lt;code>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 0
 &lt;/span>&lt;span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -218,7 +224,8 @@ Example 02: 平凡的世界
 &lt;/a>
 index.range_search()
 &lt;/div>
-&lt;/h2>&lt;p>The method range_search returns &lt;strong>all vectors within a radius around the query point&lt;/strong> (as opposed to the k nearest ones). Since the result lists for each query are of different sizes, it must be handled specially:&lt;/p>
+&lt;/h2>
+&lt;p>The method range_search returns &lt;strong>all vectors within a radius around the query point&lt;/strong> (as opposed to the k nearest ones). Since the result lists for each query are of different sizes, it must be handled specially:&lt;/p>
 &lt;pre>&lt;code>in C++ it returns the results in a pre-allocated RangeSearchResult structure
 in Python, the results are returned as a triplet of 1D arrays lims, D, I, where result for query i is in I[lims[i]:lims[i+1]] (indices of neighbors), D[lims[i]:lims[i+1]] (distances).
 &lt;/code>&lt;/pre>

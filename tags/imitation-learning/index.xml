@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Imitation Learning on fgg blog</title><link>https://fgg100y.github.io/tags/imitation-learning/</link><description>fgg blog (Imitation Learning)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 28 Jun 2024 11:25:43 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/imitation-learning/index.xml" rel="self" type="application/rss+xml"/><item><title>knowledge_distillation2</title><link>https://fgg100y.github.io/posts/2024-06-28-knowledge_distillation2/</link><pubDate>Fri, 28 Jun 2024 11:25:43 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-28-knowledge_distillation2/</guid><description>&lt;h2 id="generalized-knowledge-distillation-gkd" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Imitation Learning on fgg blog</title><link>/tags/imitation-learning/</link><description>fgg blog (Imitation Learning)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 28 Jun 2024 11:25:43 +0800</lastBuildDate><atom:link href="/tags/imitation-learning/index.xml" rel="self" type="application/rss+xml"/><item><title>knowledge_distillation2</title><link>/posts/2024-06-28-knowledge_distillation2/</link><pubDate>Fri, 28 Jun 2024 11:25:43 +0800</pubDate><guid>/posts/2024-06-28-knowledge_distillation2/</guid><description>&lt;h2 id="generalized-knowledge-distillation-gkd" >
 &lt;div>
 &lt;a href="#generalized-knowledge-distillation-gkd">
 #
 &lt;/a>
 Generalized Knowledge Distillation (GKD)
 &lt;/div>
-&lt;/h2>&lt;p>泛化知识蒸馏是一种改进的知识蒸馏技术，旨在解决传统知识蒸馏方法在自回归序列模型中遇到的分
+&lt;/h2>
+&lt;p>泛化知识蒸馏是一种改进的知识蒸馏技术，旨在解决传统知识蒸馏方法在自回归序列模型中遇到的分
 布不匹配问题，特别是在训练和推理阶段之间。传统的知识蒸馏方法通常基于固定的输出序列集进行，
 这些序列或者是教师模型生成的，或者是基于真实数据的标签。然而，这导致学生模型在推理时生成
 的序列可能与训练时见到的序列分布不同，从而影响了学生模型的泛化能力。&lt;/p>
@@ -18,7 +19,8 @@ Generalized Knowledge Distillation (GKD)
 &lt;/a>
 GKD 技术要点
 &lt;/div>
-&lt;/h2>&lt;ul>
+&lt;/h2>
+&lt;ul>
 &lt;li>
 &lt;p>动态序列生成与反馈：GKD 在训练过程中，会根据学生模型的自我生成序列进行学习。这意味着学
 生模型在尝试生成序列时，如果生成错误或不理想的序列，它可以从教师模型那里获得直接反馈，
@@ -42,7 +44,8 @@ GKD 技术要点
 &lt;/a>
 动态序列生成
 &lt;/div>
-&lt;/h3>&lt;p>在传统的知识蒸馏中，学生模型通常基于预先定义好的固定数据集或由教师模型生成的输出序列进行
+&lt;/h3>
+&lt;p>在传统的知识蒸馏中，学生模型通常基于预先定义好的固定数据集或由教师模型生成的输出序列进行
 训练。而动态序列生成则打破了这一限制，它让学生模型自己生成输出序列，并在此基础上进行学习。
 这个过程涉及以下几个步骤：&lt;/p>
 &lt;ul>
@@ -62,7 +65,8 @@ GKD 技术要点
 &lt;/a>
 反馈机制
 &lt;/div>
-&lt;/h3>&lt;p>一旦学生模型生成了输出序列，接下来的关键步骤是获取教师模型的反馈：&lt;/p>
+&lt;/h3>
+&lt;p>一旦学生模型生成了输出序列，接下来的关键步骤是获取教师模型的反馈：&lt;/p>
 &lt;ul>
 &lt;li>
 &lt;p>教师模型评估：教师模型会对学生生成的序列进行评估，通常通过比较教师和学生模型在每个生成

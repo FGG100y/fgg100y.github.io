@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tearch/Student Models on fgg blog</title><link>https://fgg100y.github.io/tags/tearch/student-models/</link><description>fgg blog (Tearch/Student Models)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 27 Jun 2024 11:34:18 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/tearch/student-models/index.xml" rel="self" type="application/rss+xml"/><item><title>knowledge_distillation</title><link>https://fgg100y.github.io/posts/2024-06-27-knowledge_distillation/</link><pubDate>Thu, 27 Jun 2024 11:34:18 +0800</pubDate><guid>https://fgg100y.github.io/posts/2024-06-27-knowledge_distillation/</guid><description>&lt;p>知识蒸馏（Knowledge Distillation）是一种机器学习技术，它通过将大型、复杂的模型（称为教师
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tearch/Student Models on fgg blog</title><link>/tags/tearch/student-models/</link><description>fgg blog (Tearch/Student Models)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 27 Jun 2024 11:34:18 +0800</lastBuildDate><atom:link href="/tags/tearch/student-models/index.xml" rel="self" type="application/rss+xml"/><item><title>knowledge_distillation</title><link>/posts/2024-06-27-knowledge_distillation/</link><pubDate>Thu, 27 Jun 2024 11:34:18 +0800</pubDate><guid>/posts/2024-06-27-knowledge_distillation/</guid><description>&lt;p>知识蒸馏（Knowledge Distillation）是一种机器学习技术，它通过将大型、复杂的模型（称为教师
 模型，Teacher Model）的知识“蒸馏”到小型、简洁的模型（称为学生模型，Student Model）中，从
 而实现模型压缩和加速，同时尽可能保持原始模型的性能。这一技术使得模型可以在资源有限的设备
 上高效运行，如手机或嵌入式设备。&lt;/p>
@@ -15,7 +15,8 @@ information that can be leveraged by a student network during training.&lt;/p>
 &lt;/a>
 基本原理
 &lt;/div>
-&lt;/h2>&lt;p>知识转移：核心思想是通过让学生模型模仿教师模型的输出行为，不仅包括硬分类标签，还有软概率
+&lt;/h2>
+&lt;p>知识转移：核心思想是通过让学生模型模仿教师模型的输出行为，不仅包括硬分类标签，还有软概率
 分布（softmax概率），这样可以传递更多关于数据分布的信息。软标签相比硬标签含有更多关于数
 据不确定性及类间关系的信息，有助于学生模型学习更细腻的决策边界。&lt;/p>
 &lt;p>特征蒸馏：除了输出层的知识外，泛化知识蒸馏还可以涉及中间层特征的学习，即学生模型试图学习
@@ -52,7 +53,8 @@ information that can be leveraged by a student network during training.&lt;/p>
 &lt;/a>
 知识蒸馏的三种代码实现：
 &lt;/div>
-&lt;/h2>&lt;ol>
+&lt;/h2>
+&lt;ol>
 &lt;li>知识转移：基于 softmax output 软标签&lt;/li>
 &lt;/ol>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>

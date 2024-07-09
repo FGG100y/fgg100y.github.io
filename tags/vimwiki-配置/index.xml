@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vimwiki 配置 on fgg blog</title><link>https://fgg100y.github.io/tags/vimwiki-%E9%85%8D%E7%BD%AE/</link><description>fgg blog (Vimwiki 配置)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 06 Aug 2022 23:33:32 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/vimwiki-%E9%85%8D%E7%BD%AE/index.xml" rel="self" type="application/rss+xml"/><item><title>利器2: Vimwiki 之 安装和适配数据科学的一些配置</title><link>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki_part2/</link><pubDate>Sat, 06 Aug 2022 23:33:32 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/thevim/2022-07-15-vimwiki_part2/</guid><description>&lt;p>Last update: 2022-08-06 23:33:32&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vimwiki 配置 on fgg blog</title><link>/tags/vimwiki-%E9%85%8D%E7%BD%AE/</link><description>fgg blog (Vimwiki 配置)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 06 Aug 2022 23:33:32 +0800</lastBuildDate><atom:link href="/tags/vimwiki-%E9%85%8D%E7%BD%AE/index.xml" rel="self" type="application/rss+xml"/><item><title>利器2: Vimwiki 之 安装和适配数据科学的一些配置</title><link>/posts/thecli/thevim/2022-07-15-vimwiki_part2/</link><pubDate>Sat, 06 Aug 2022 23:33:32 +0800</pubDate><guid>/posts/thecli/thevim/2022-07-15-vimwiki_part2/</guid><description>&lt;p>Last update: 2022-08-06 23:33:32&lt;/p>
 &lt;h2 id="vimwiki-插件简介安装和一些设置" >
 &lt;div>
 &lt;a href="#vimwiki-%e6%8f%92%e4%bb%b6%e7%ae%80%e4%bb%8b%e5%ae%89%e8%a3%85%e5%92%8c%e4%b8%80%e4%ba%9b%e8%ae%be%e7%bd%ae">
@@ -6,7 +6,8 @@
 &lt;/a>
 vimwiki 插件简介、安装和一些设置
 &lt;/div>
-&lt;/h2>&lt;p>在 vimwiki 里，所有的入口集中在指定的项目根目录下的 index.md 文档里。也就是要构
+&lt;/h2>
+&lt;p>在 vimwiki 里，所有的入口集中在指定的项目根目录下的 index.md 文档里。也就是要构
 建的整个笔记系统（随便管它叫什么），index.md 可以成为它的整体框架以及各个主题的
 索引。从这里可以去到各个主题，从各个主题的索引去到对应的内容，也可以从一个内容
 去到另一个内容，内容可以是本地文档内/文档间，这完全取决于如何构建内容之间的连接。&lt;/p>
@@ -35,7 +36,8 @@ vimwiki 插件简介、安装和一些设置
 &lt;/a>
 安装 vimwiki 插件
 &lt;/div>
-&lt;/h3>&lt;p>(使用管理插件的 &lt;a href="https://github.com/junegunn/vim-plug">Vim-Plug&lt;/a> 插件来安装和管理)&lt;/p>
+&lt;/h3>
+&lt;p>(使用管理插件的 &lt;a href="https://github.com/junegunn/vim-plug">Vim-Plug&lt;/a> 插件来安装和管理)&lt;/p>
 &lt;p>将下面的语句加入你自己的 vim 配置文件中，&lt;/p>
 &lt;p>&lt;code>Plug 'vimwiki/vimwiki'&lt;/code>&lt;/p>
 &lt;p>然后运行命令 &lt;code>:PlugInstall&lt;/code>&lt;/p>
@@ -47,7 +49,8 @@ vimwiki 插件简介、安装和一些设置
 &lt;/a>
 配置 vimwiki 插件
 &lt;/div>
-&lt;/h3>&lt;ul>
+&lt;/h3>
+&lt;ul>
 &lt;li>markdwon 格式&lt;/li>
 &lt;/ul>
 &lt;p>vimwiki 默认使用 .wiki 格式，但这个格式的语法没有 markdown 语法使用的广泛和普遍,
@@ -133,7 +136,8 @@ vimwiki 的默认快捷键, 比如， &lt;code>2&amp;lt;leader&amp;gt;ww&lt;/cod
 &lt;/a>
 数学公式的呈现
 &lt;/div>
-&lt;/h3>&lt;p>&lt;code>vimwiki2html&lt;/code> 命令和 &amp;ldquo;mathjax&amp;rdquo; 目录&lt;/p>
+&lt;/h3>
+&lt;p>&lt;code>vimwiki2html&lt;/code> 命令和 &amp;ldquo;mathjax&amp;rdquo; 目录&lt;/p>
 &lt;p>vimwiki 自带了一个 &lt;code>vimwiki2html&lt;/code> 命令，顾名思义，就是把 mardown/wiki 格式的源
 文档转换成 html 格式的文档。但这个命令并不支持数学公式的渲染，得改造。这正是
 &lt;a href="https://www.mathjax.org/">mathjax&lt;/a> 闪亮登场的地方。已经有人把 &lt;code>vimwiki2html&lt;/code>
@@ -177,7 +181,8 @@ vimwiki 的默认快捷键, 比如， &lt;code>2&amp;lt;leader&amp;gt;ww&lt;/cod
 &lt;/a>
 markdown 文档的即时展示: &lt;code>vim-instant-markdown&lt;/code>
 &lt;/div>
-&lt;/h2>&lt;p>前面说过，大部分的 markdown 并非“所见即所得”，但如果一个人的欲望正常，通常都想
+&lt;/h2>
+&lt;p>前面说过，大部分的 markdown 并非“所见即所得”，但如果一个人的欲望正常，通常都想
 要看看正在写的内容到底是什么显示效果，毕竟，早发现早治疗嘛（一气呵成的爽文自然
 是有，但我更相信优秀的作品通常是修改出来的）。当然，早就有人把这种正常不过的
 需求实现并共享了，那就是： &lt;a href="https://github.com/instant-markdown/vim-instant-markdown">vim instant markdown&lt;/a>
@@ -194,7 +199,8 @@ markdown 文档的即时展示: &lt;code>vim-instant-markdown&lt;/code>
 &lt;/a>
 markdown 文档的即时展示: jekyll-site
 &lt;/div>
-&lt;/h2>&lt;p>&lt;code>vim-instant-markdown&lt;/code> 展示的就是文档的呈现内容，也仅仅就是内容而已。如果想要
+&lt;/h2>
+&lt;p>&lt;code>vim-instant-markdown&lt;/code> 展示的就是文档的呈现内容，也仅仅就是内容而已。如果想要
 更多，那么，备选方案就是静态网站生成器（如&lt;a href="https://jekyllrb.com/">jekyll&lt;/a>)，
 顾名思义，就是这玩意儿直接给你打包生成网站需要的一揽子部件。
 （网站意味着高度定制的自由，是不是听着就觉得开心？如果你够耐心看到这里，我就

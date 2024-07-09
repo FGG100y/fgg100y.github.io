@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GPT/BERT on fgg blog</title><link>https://fgg100y.github.io/tags/gpt/bert/</link><description>fgg blog (GPT/BERT)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 26 Apr 2024 11:04:16 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/gpt/bert/index.xml" rel="self" type="application/rss+xml"/><item><title>LLMs_interview_faq</title><link>https://fgg100y.github.io/posts/llm_faqs/</link><pubDate>Fri, 26 Apr 2024 11:04:16 +0800</pubDate><guid>https://fgg100y.github.io/posts/llm_faqs/</guid><description>&lt;h2 id="01简述gpt和bert的区别" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GPT/BERT on fgg blog</title><link>/tags/gpt/bert/</link><description>fgg blog (GPT/BERT)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 26 Apr 2024 11:04:16 +0800</lastBuildDate><atom:link href="/tags/gpt/bert/index.xml" rel="self" type="application/rss+xml"/><item><title>LLMs_interview_faq</title><link>/posts/llm_faqs/</link><pubDate>Fri, 26 Apr 2024 11:04:16 +0800</pubDate><guid>/posts/llm_faqs/</guid><description>&lt;h2 id="01简述gpt和bert的区别" >
 &lt;div>
 &lt;a href="#01%e7%ae%80%e8%bf%b0gpt%e5%92%8cbert%e7%9a%84%e5%8c%ba%e5%88%ab">
 #
 &lt;/a>
 01:简述GPT和BERT的区别
 &lt;/div>
-&lt;/h2>&lt;p>GPT (Decoder-only) 和 BERT (Encoder-only) 都是基于 Transformer 架构的自然语言处理模型，它们在设计上有一些显著区别：&lt;/p>
+&lt;/h2>
+&lt;p>GPT (Decoder-only) 和 BERT (Encoder-only) 都是基于 Transformer 架构的自然语言处理模型，它们在设计上有一些显著区别：&lt;/p>
 &lt;ul>
 &lt;li>任务类型
 &lt;ul>
@@ -47,7 +48,8 @@ BERT同时使用了自注意力机制和前馈神经网络。&lt;/li>
 &lt;/a>
 02:LLM中的因果语言建模与掩码语言建模有什么区别？
 &lt;/div>
-&lt;/h2>&lt;p>因果语言建模（Causal Language Modeling）&lt;/p>
+&lt;/h2>
+&lt;p>因果语言建模（Causal Language Modeling）&lt;/p>
 &lt;pre>&lt;code>在因果语言建模中，模型被要求根据输入序列的左侧内容来预测右侧的下一个词或标记。也就是
 说，模型只能看到输入序列中已经生成的部分，而不能看到后续的内容。这种训练方式有助于模
 型学习生成连贯和合理的文本，因为模型需要在生成每个词语时考虑上下文的信息，同时不能依
@@ -67,7 +69,8 @@ BERT（Bidirectional Encoder Representations from Transformers）就是以掩码
 &lt;/a>
 03:请简述Transformer基本原理
 &lt;/div>
-&lt;/h2>&lt;p>Transformer 是一种用于处理序列数据的深度学习模型，由谷歌团队于2017年提出，其主要原理包括
+&lt;/h2>
+&lt;p>Transformer 是一种用于处理序列数据的深度学习模型，由谷歌团队于2017年提出，其主要原理包括
 自注意力机制和位置编码。&lt;/p>
 &lt;h3 id="自注意力机制" >
 &lt;div>
@@ -76,7 +79,8 @@ BERT（Bidirectional Encoder Representations from Transformers）就是以掩码
 &lt;/a>
 自注意力机制：
 &lt;/div>
-&lt;/h3>&lt;pre>&lt;code>允许模型在序列的任意两个位置间直接建立依赖关系，而不考虑它们之间的距离。具体就是将词
+&lt;/h3>
+&lt;pre>&lt;code>允许模型在序列的任意两个位置间直接建立依赖关系，而不考虑它们之间的距离。具体就是将词
 元线性转换为三个向量Q,K,V，然后将Q和K用来计算内积(相似度分数)并进行注意力缩放（scaled
 dot-product)，然后通过softmax归一化，得到每个词元相对于其他词元的注意力权重，然后用
 注意力权重对向量V进行加权和计算得到“上下文向量”(context vector)，然后将上下文向量用
@@ -107,7 +111,8 @@ features in the data point.
 &lt;/a>
 位置编码：
 &lt;/div>
-&lt;/h3>&lt;pre>&lt;code>位置编码通常是通过将一个与位置相关的向量添加到输入嵌入（input embeddings）
+&lt;/h3>
+&lt;pre>&lt;code>位置编码通常是通过将一个与位置相关的向量添加到输入嵌入（input embeddings）
 中来实现的。这个向量为序列中的每个位置提供了一个唯一的表示，从而使模型能够
 区分不同的单词顺序。
 特别是基于 transformer 架构的模型，由于自注意力机制无法捕捉词元顺序，因此必
@@ -135,7 +140,8 @@ features in the data point.
 &lt;/a>
 残差连接与层归一化：
 &lt;/div>
-&lt;/h3>&lt;pre>&lt;code>+ 残差连接：将每个子层的输入与其输出相加，然后传递给下一层。这使得模型在学
+&lt;/h3>
+&lt;pre>&lt;code>+ 残差连接：将每个子层的输入与其输出相加，然后传递给下一层。这使得模型在学
 习过程中，能更容易地学习到残差（输入于输出之差），从而缓解梯度消失问题；
 提高训练稳定性；允许更深的网络结构；以及提高模型性能。
 + 层归一化：在每个层的输入之后都应用归一化，即对每个特征维度进行归一化操作，
@@ -163,7 +169,8 @@ respectively for an NLP task, and &amp;quot;pixel&amp;quot; and &amp;quot;image&
 &lt;/a>
 04: 注意力机制的改良版本们
 &lt;/div>
-&lt;/h2>&lt;p>MHA，GQA，MQA三种注意力机制的区别是什么？&lt;/p>
+&lt;/h2>
+&lt;p>MHA，GQA，MQA三种注意力机制的区别是什么？&lt;/p>
 &lt;p>注意力机制在自然语言处理和机器学习领域有多种不同的实现方式，其中常见的包括多头自注意力
 （Multi-Head Self-Attention，MHA）、全局注意力（Global Attention，GQA）和多头查询注意力
 （Multi-Query Attention，MQA）。这些不同的实现方式在机制和应用上有一些区别：&lt;/p>
@@ -191,7 +198,8 @@ respectively for an NLP task, and &amp;quot;pixel&amp;quot; and &amp;quot;image&
 &lt;/a>
 05: Attention的改良版本们
 &lt;/div>
-&lt;/h2>&lt;ul>
+&lt;/h2>
+&lt;ul>
 &lt;li>&lt;strong>简述一下 FlashAttention 的原理&lt;/strong>&lt;/li>
 &lt;/ul>
 &lt;p>Flash Attention是一种新型的注意力算法，旨在解决传统Transformer模型中自注意力机制的计
@@ -205,7 +213,8 @@ respectively for an NLP task, and &amp;quot;pixel&amp;quot; and &amp;quot;image&
 &lt;/a>
 Flash Attention的核心原理和技术：
 &lt;/div>
-&lt;/h3>&lt;pre>&lt;code>平铺（Tiling）：Flash Attention将输入分割成小块，并在每个块上执行注意力操作。这种方法减少了对高带宽内存的访问次数，因为不需要一次性将整个大矩阵加载到内存中。
+&lt;/h3>
+&lt;pre>&lt;code>平铺（Tiling）：Flash Attention将输入分割成小块，并在每个块上执行注意力操作。这种方法减少了对高带宽内存的访问次数，因为不需要一次性将整个大矩阵加载到内存中。
 重新计算（Recomputation）：在后向传播过程中，Flash Attention避免了存储大型中间矩阵（如S和P矩阵），而是利用前向传播中的统计量来快速重新计算这些矩阵，从而减少了内存消耗。
 在线Softmax：为了处理Softmax操作，Flash Attention采用了在线Softmax技术，它允许分块计算softmax，并通过适当的归一化因子来确保最终结果的正确性。
 内存层次结构意识（IO-Awareness）：Flash Attention考虑了GPU内存层次结构，优化了不同层级内存之间的数据访问，如在GPU的SRAM和HBM之间。
@@ -217,7 +226,8 @@ Flash Attention的核心原理和技术：
 &lt;/a>
 Flash Attention-2：
 &lt;/div>
-&lt;/h3>&lt;p>在Flash Attention的基础上，研究人员进一步提出了Flash Attention-2，它通过改进工作分配和并行化策略，进一步提高了计算速度。Flash Attention-2的优化包括：&lt;/p>
+&lt;/h3>
+&lt;p>在Flash Attention的基础上，研究人员进一步提出了Flash Attention-2，它通过改进工作分配和并行化策略，进一步提高了计算速度。Flash Attention-2的优化包括：&lt;/p>
 &lt;pre>&lt;code>减少非矩阵乘法（non-matmul）的浮点运算次数（FLOPs）。
 通过在不同的线程块上并行化注意力计算，提高了GPU的占用率。
 在每个线程块内，将工作分配给不同的warp，以减少通过共享内存的通信。
@@ -240,7 +250,8 @@ Flash Attention-2：
 &lt;/a>
 06:LLM微调与量化
 &lt;/div>
-&lt;/h2>&lt;p>30.参数高效的微调（PEFT）有哪些方法？
+&lt;/h2>
+&lt;p>30.参数高效的微调（PEFT）有哪些方法？
 31.LORA微调相比于微调适配器或前缀微调有什么优势？
 32.有了解过什么是稀疏微调吗？
 33.训练后量化（PTQ）和量化感知训练（QAT）与什么区别？
@@ -253,7 +264,8 @@ Flash Attention-2：
 &lt;/a>
 07:嵌入向量模型
 &lt;/div>
-&lt;/h2>&lt;p>40.自前主流的中文嵌入向量模型有哪些？&lt;/p>
+&lt;/h2>
+&lt;p>40.自前主流的中文嵌入向量模型有哪些？&lt;/p>
 &lt;h2 id="其他" >
 &lt;div>
 &lt;a href="#%e5%85%b6%e4%bb%96">
@@ -261,7 +273,8 @@ Flash Attention-2：
 &lt;/a>
 其他
 &lt;/div>
-&lt;/h2>&lt;p>45.DeepSpeed推理对算子融合做了哪些优化？
+&lt;/h2>
+&lt;p>45.DeepSpeed推理对算子融合做了哪些优化？
 48.请介绍一下微软的ZeRO优化器&lt;/p>
 &lt;p>3.为什么现在的大模型大多是decoder-only的架构？
 4.讲一下生成式语言模型的工作机理

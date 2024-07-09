@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jupyterlab on fgg blog</title><link>https://fgg100y.github.io/tags/jupyterlab/</link><description>fgg blog (Jupyterlab)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 22 Jul 2022 22:01:51 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/jupyterlab/index.xml" rel="self" type="application/rss+xml"/><item><title>利器3: Jupyterlab and its Kernels</title><link>https://fgg100y.github.io/posts/thecli/2022-07-22-jupyterwithdskernels/</link><pubDate>Fri, 22 Jul 2022 22:01:51 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/2022-07-22-jupyterwithdskernels/</guid><description>&lt;p>&lt;img alt="IMG_jupyterlab" src="images/jupyter_kernels.png">&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jupyterlab on fgg blog</title><link>/tags/jupyterlab/</link><description>fgg blog (Jupyterlab)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 22 Jul 2022 22:01:51 +0800</lastBuildDate><atom:link href="/tags/jupyterlab/index.xml" rel="self" type="application/rss+xml"/><item><title>利器3: Jupyterlab and its Kernels</title><link>/posts/thecli/2022-07-22-jupyterwithdskernels/</link><pubDate>Fri, 22 Jul 2022 22:01:51 +0800</pubDate><guid>/posts/thecli/2022-07-22-jupyterwithdskernels/</guid><description>&lt;p>&lt;img alt="IMG_jupyterlab" src="images/jupyter_kernels.png">&lt;/p>
 &lt;p>New machine needs to be tailored for a better personal workflow. And this is
 about how &lt;a href="https://jupyter.org/">jupyter&lt;/a> can be a multi-language support
 co-work platform for regular DataScience works. Also note that Julia community
@@ -11,7 +11,8 @@ has &lt;a href="https://github.com/fonsp/Pluto.jl">pluto&lt;/a> notebook, and R 
 &lt;/a>
 JuPyteR: Julia + Python + R all in one
 &lt;/div>
-&lt;/h1>&lt;p>1 check the Python came with system&lt;/p>
+&lt;/h1>
+&lt;p>1 check the Python came with system&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ which python3
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If there is no python3 yet, install one:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ sudo apt install python3

@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vim on fgg blog</title><link>https://fgg100y.github.io/tags/vim/</link><description>fgg blog (Vim)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 13 Aug 2022 21:37:59 +0800</lastBuildDate><atom:link href="https://fgg100y.github.io/tags/vim/index.xml" rel="self" type="application/rss+xml"/><item><title>利器4: Vim 编辑器 -- 只因为在键盘之中，方向键太遥远</title><link>https://fgg100y.github.io/posts/thecli/thevim/2022-08-13-vim8/</link><pubDate>Sat, 13 Aug 2022 21:37:59 +0800</pubDate><guid>https://fgg100y.github.io/posts/thecli/thevim/2022-08-13-vim8/</guid><description>&lt;h2 id="vim-初体验" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vim on fgg blog</title><link>/tags/vim/</link><description>fgg blog (Vim)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 13 Aug 2022 21:37:59 +0800</lastBuildDate><atom:link href="/tags/vim/index.xml" rel="self" type="application/rss+xml"/><item><title>利器4: Vim 编辑器 -- 只因为在键盘之中，方向键太遥远</title><link>/posts/thecli/thevim/2022-08-13-vim8/</link><pubDate>Sat, 13 Aug 2022 21:37:59 +0800</pubDate><guid>/posts/thecli/thevim/2022-08-13-vim8/</guid><description>&lt;h2 id="vim-初体验" >
 &lt;div>
 &lt;a href="#vim-%e5%88%9d%e4%bd%93%e9%aa%8c">
 #
 &lt;/a>
 Vim 初体验
 &lt;/div>
-&lt;/h2>&lt;p>“多年以后，面对显示屏，&amp;ldquo;逃离了巨硬·仍旧愤怒·懵懂菜鸟&amp;quot;将会回想起初次尝试 Vim 编辑器
+&lt;/h2>
+&lt;p>“多年以后，面对显示屏，&amp;ldquo;逃离了巨硬·仍旧愤怒·懵懂菜鸟&amp;quot;将会回想起初次尝试 Vim 编辑器
 而被困在里面叫天不应叫地不灵的那个遥远的下午”。&lt;/p>
 &lt;p>那时候的我（2017），是个二十多岁的青年，刚刚认识终端和 Linux 大概是怎么一回事，
 感觉恰似上天给我关了那扇“窗”，自己推开了 Linux 世界的大门。
@@ -34,14 +35,16 @@ Vim 初体验
 &lt;/a>
 Vim 编辑器
 &lt;/div>
-&lt;/h2>&lt;h3 id="vim-是干啥的" >
+&lt;/h2>
+&lt;h3 id="vim-是干啥的" >
 &lt;div>
 &lt;a href="#vim-%e6%98%af%e5%b9%b2%e5%95%a5%e7%9a%84">
 ##
 &lt;/a>
 Vim 是干啥的
 &lt;/div>
-&lt;/h3>&lt;p>首先应该了解： Vim 适用于什么场景？&lt;/p>
+&lt;/h3>
+&lt;p>首先应该了解： Vim 适用于什么场景？&lt;/p>
 &lt;blockquote>
 &lt;p>“Vim是从 vi 发展出来的一个文本编辑器。
 其代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。
@@ -65,7 +68,8 @@ Vim 是干啥的
 &lt;/a>
 编辑器之战
 &lt;/div>
-&lt;/h3>&lt;blockquote>
+&lt;/h3>
+&lt;blockquote>
 &lt;p>“编辑器之战是指计算机编程领域内，
 两类文本编辑器 vi（以及衍生版本）和 Emacs 用户之间的对抗冲突。
 这已经成为黑客文化和自由软件社区文化的一部分。&lt;/p>
@@ -100,7 +104,8 @@ Vim 是干啥的
 &lt;/a>
 vim 及其配置
 &lt;/div>
-&lt;/h2>&lt;p>如果你是想入门而还在门口徘徊的，可以先在终端 (Terminal) 里输入 &lt;code>vimtutor&lt;/code>，
+&lt;/h2>
+&lt;p>如果你是想入门而还在门口徘徊的，可以先在终端 (Terminal) 里输入 &lt;code>vimtutor&lt;/code>，
 然后看看你感觉如何。如果你认真追随，你会发现一切自有道理。貌似还挺好玩。
 嗯，咦，怎么退出这编辑器呢？&lt;/p>
 &lt;h3 id="现代码仔如何在终端界面退出vim编辑器" >
@@ -110,7 +115,8 @@ vim 及其配置
 &lt;/a>
 现代码仔如何在终端界面退出vim编辑器
 &lt;/div>
-&lt;/h3>&lt;p>如果你和我当初一样一头雾水&amp;hellip; 淡定淡定，输入 &lt;code>:q&lt;/code> ，按下 &lt;code>Enter&lt;/code> 即可退出。&lt;/p>
+&lt;/h3>
+&lt;p>如果你和我当初一样一头雾水&amp;hellip; 淡定淡定，输入 &lt;code>:q&lt;/code> ，按下 &lt;code>Enter&lt;/code> 即可退出。&lt;/p>
 &lt;p>嗯，如果你正在输入，需要先按下 &lt;code>Esc&lt;/code>，然后输入 &lt;code>:q&lt;/code> 来退出。&lt;/p>
 &lt;p>这个操作也不好使？八成你是在别的模式里，比如 &lt;code>Ex mode&lt;/code>，
 八成它也会提示你输入 &lt;code>visual&lt;/code> 来返回到 &lt;code>normal mode&lt;/code>。&lt;/p>
@@ -129,7 +135,8 @@ vim 共有 &lt;a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">12种模
 &lt;/a>
 vimrc
 &lt;/div>
-&lt;/h2>&lt;p>应当注意：从第一次在终端输入 &lt;code>vim&lt;/code> 到开始了解和使用自己配置的 &lt;code>.vimrc&lt;/code>，
+&lt;/h2>
+&lt;p>应当注意：从第一次在终端输入 &lt;code>vim&lt;/code> 到开始了解和使用自己配置的 &lt;code>.vimrc&lt;/code>，
 从前者到后者，每个人所经历的时间不太一样，毕竟每个人的生活和目的千差万别。
 （倒不是说，刚开始使用 vim 就不能直接上手个人配置，而是想说明，
 “步子迈大了，容易扯着蛋”；一旦放弃了探索和思考，容易一碰挫折就十分沮丧。）
@@ -168,7 +175,8 @@ vimrc
 &lt;/a>
 vimrc (~/.vimrc)
 &lt;/div>
-&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-vim" data-lang="vim">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34; ================================Part-1: Plugins============&lt;/span>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-vim" data-lang="vim">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34; ================================Part-1: Plugins============&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>call plug#begin(&lt;span style="color:#5af78e">&amp;#39;~/.vim/bundle&amp;#39;&lt;/span>) &lt;span style="color:#78787e">&amp;#34; reuse the bundle dir&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">&amp;#34; &amp;#34;-------------------=== tmux ===-------------------------------&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Plug &lt;span style="color:#5af78e">&amp;#39;christoomey/vim-tmux-navigator&amp;#39;&lt;/span> &lt;span style="color:#78787e">&amp;#34; vim &amp;lt;-&amp;gt; tmux, pane dance&lt;/span>
