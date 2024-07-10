@@ -16,17 +16,9 @@ BuildDate=2024-07-04T08:13:25Z VendorInfo=gohugoio&lt;/span>&lt;/p>
 &lt;p>将本地字体文件复制到 &lt;code>static/fonts/&lt;/code>&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>创建文件 &lt;code>custom.css&lt;/code>:&lt;/p>
+&lt;p>在 &lt;code>assets/css/&lt;/code> (或 &lt;code>static/css/&lt;/code>) 创建文件 &lt;code>custom.css&lt;/code>:&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;ul>
-&lt;li>
-&lt;p>如果hugo版本较低，比如0.92: 在 &lt;code>static/css/&lt;/code> 创建；&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>否则，如0.128: 在 &lt;code>assets/css/&lt;/code> 创建；&lt;/p>
-&lt;/li>
-&lt;/ul>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-css" data-lang="css">&lt;span style="display:flex;">&lt;span>@&lt;span style="color:#ff6ac1">font-face&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#5af78e">&amp;#39;3270NerdFont&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">src&lt;/span>&lt;span style="color:#ff6ac1">:&lt;/span> &lt;span style="color:#ff6ac1">url&lt;/span>&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;/fonts/3270NerdFont-Regular.ttf&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">)&lt;/span> &lt;span style="color:#ff6ac1">format&lt;/span>&lt;span style="color:#ff6ac1">(&lt;/span>&lt;span style="color:#5af78e">&amp;#39;truetype&amp;#39;&lt;/span>&lt;span style="color:#ff6ac1">);&lt;/span>
@@ -48,9 +40,7 @@ BuildDate=2024-07-04T08:13:25Z VendorInfo=gohugoio&lt;/span>&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>.&lt;span style="color:#f3f99d">custom-zh&lt;/span> {
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">font-family&lt;/span>: &lt;span style="color:#5af78e">&amp;#39;KingHwa_OldSong&amp;#39;&lt;/span>;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;del>(此处gpt4o给出在&lt;code>assets/css/&lt;/code>中创建，但不对)&lt;/del>
-更新：其实它是对的(因为我提问的时间是已经有了版本号较高的hugo释出了的)&lt;/p>
-&lt;p>更多关于自定义字体的讨论，可参考这里: &lt;a href="https://discourse.gohugo.io/t/how-to-add-custom-fonts-and-not-depend-on-google/34267/3">https://discourse.gohugo.io/t/how-to-add-custom-fonts-and-not-depend-on-google/34267/3&lt;/a>&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>更多关于自定义字体的讨论，可参考这里: &lt;a href="https://discourse.gohugo.io/t/how-to-add-custom-fonts-and-not-depend-on-google/34267/3">https://discourse.gohugo.io/t/how-to-add-custom-fonts-and-not-depend-on-google/34267/3&lt;/a>&lt;/p>
 &lt;ol start="3">
 &lt;li>修改 &lt;code>config.toml&lt;/code>：&lt;/li>
 &lt;/ol>
