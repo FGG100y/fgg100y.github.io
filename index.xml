@@ -1,4 +1,153 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 09 Jul 2024 21:53:56 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>Add_and_test_custom_font</title><link>/posts/2024-07-09-test_custom_font/</link><pubDate>Tue, 09 Jul 2024 21:53:56 +0800</pubDate><guid>/posts/2024-07-09-test_custom_font/</guid><description>&lt;p>Linear regression:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 10 Jul 2024 16:19:58 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>python_module</title><link>/posts/cs101/python_module/</link><pubDate>Wed, 10 Jul 2024 16:19:58 +0800</pubDate><guid>/posts/cs101/python_module/</guid><description>&lt;h2 id="layout-of-python-installations" >
+&lt;div>
+&lt;a href="#layout-of-python-installations">
+#
+&lt;/a>
+Layout of Python installations
+&lt;/div>
+&lt;/h2>
+&lt;p>All paths in the table are relative to the installation root:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Files&lt;/th>
+&lt;th>Windows&lt;/th>
+&lt;th>Linux and macOS&lt;/th>
+&lt;th>Notes&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Interpreter&lt;/td>
+&lt;td>python.exe&lt;/td>
+&lt;td>bin/python3.x&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Standard library&lt;/td>
+&lt;td>Lib and DLLs&lt;/td>
+&lt;td>lib/python3.x&lt;/td>
+&lt;td>Extension modules are located under DLLs on Windows. Fedora places the standard library under lib64 instead of lib.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Third-party packages&lt;/td>
+&lt;td>Lib\site-packages&lt;/td>
+&lt;td>lib/python3.x/site-packages&lt;/td>
+&lt;td>Debian and Ubuntu put packages in dist-packages. Fedora places extension modules under lib64 instead of lib.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Entry-point scriptsa&lt;/td>
+&lt;td>Scripts&lt;/td>
+&lt;td>bin&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="the-interpreter" >
+&lt;div>
+&lt;a href="#the-interpreter">
+#
+&lt;/a>
+The interpreter
+&lt;/div>
+&lt;/h2>
+&lt;p>The Python interpreter ties the environment to three things:&lt;/p>
+&lt;ul>
+&lt;li>A specific version of the Python language (e.g., 2.x.y, 3.x.y)&lt;/li>
+&lt;li>A specific implementation of Python (e.g., CPython, PyPy)&lt;/li>
+&lt;li>A specific build of the interpreter (e.g., 32bit, 64bit, Intel or Apple)&lt;/li>
+&lt;/ul>
+&lt;p>Try this command (in Bash) to print metadata complied into the interpreter:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -m sysconfig
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="the-modules" >
+&lt;div>
+&lt;a href="#the-modules">
+#
+&lt;/a>
+The modules
+&lt;/div>
+&lt;/h2>
+&lt;p>Modules are containers of Python objects that you load via the &lt;code>import&lt;/code> statement.
+Modules come in various forms and shapes:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Simple modules
+In the simplest case, a &lt;code>module&lt;/code> is a single file containing Python source code. The
+statement &lt;code>import string&lt;/code> executes the code in &lt;em>string.py&lt;/em> and binds the result to
+the name &lt;code>string&lt;/code> in the local scope.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Packages
+Directories with &lt;em>&lt;strong>init&lt;/strong>.py&lt;/em> files are known as &lt;em>packages&lt;/em> which allow you to
+organize modules in a hierarchy. The statement &lt;code>import email.message&lt;/code> loads the
+&lt;code>message&lt;/code> module from the &lt;code>email&lt;/code> package.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Namespace packages
+Directories with modules but no &lt;em>&lt;strong>init&lt;/strong>.py&lt;/em> are known as &lt;em>namespace packages&lt;/em>. One
+may use them to organize modules in a common namespace such as a company name (say
+&lt;code>dsta.voicedsp&lt;/code> and &lt;code>dsta.vedioprepr&lt;/code>). Unlike with regular packages, one can
+distribute each module in a namespace package separately.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Extension modules
+Extension modules such as &lt;code>math&lt;/code> module, contain native code compiled from low-level
+language like C. They are shared libraries with a special entry-point&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup> that lets
+you import them as modules from Python. People write them for performance reasons or
+to make existing C libraries available as Python modules. Their names end in &lt;code>.pyd&lt;/code>
+on Windows, &lt;code>.dylib&lt;/code> on macOS, and &lt;code>.so&lt;/code> on Linux.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Built-in modules
+Some modules from the standard library, such as &lt;code>sys&lt;/code> and &lt;code>builtins&lt;/code> modules, are
+compiled into the interpreter. The variable &lt;code>sys.builtin_module_names&lt;/code> lists all of
+these modules.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Frozen modules
+Some modules from the standard library are written in Python but have their
+bytecode&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup> embedding in the interpreter. Recent versions of Python freeze every
+module that&amp;rsquo;s imported during interpreter startup, such as &lt;code>os&lt;/code> and &lt;code>io&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="python-virtual-environment" >
+&lt;div>
+&lt;a href="#python-virtual-environment">
+#
+&lt;/a>
+Python virtual environment
+&lt;/div>
+&lt;/h2>
+&lt;p>Python environments consist of an interpreter and modules. Virtual environments share
+the interpreter and the standard library with their parent environment.&lt;/p>
+&lt;p>&lt;img alt="py-venv" src="https://fgg100y.github.io/posts/cs101/python_module/images/py_python_and_venv.png">&lt;/p>
+&lt;p>A Python environment can contain only a single version of each third-party package &amp;ndash;
+if two projects require different versions of the same package, they can’t be
+installed side by side. That’s why it’s considered good practice to install every Python
+application, and every project you work on, in a dedicated virtual environment.&lt;/p>
+&lt;p>NOTE
+&lt;span class="custom-en">
+The term &lt;em>package&lt;/em> carries some ambiguity in the Python world. It refers both to modules
+and to the artifacts used for distributing modules (aka &lt;em>distributions&lt;/em>).
+&lt;/span>&lt;/p>
+&lt;p>For more details and interesting contents, go to the newest version of &lt;em>&amp;ldquo;Hypermodern
+Python Tooling&amp;rdquo;&lt;/em> by Claudio Jolowicz.&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>An entry-point script is an executable file in &lt;em>Scripts/&lt;/em> (Windows) or &lt;em>bin/&lt;/em>
+(Linux and macOS) with a single purpose: it launches a Python application by
+importing the module with its entry-point function and calling that function.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>Bytecode is an intermediate representation of Python code that is
+platform-independent and optimized for fast execution. The interpreter compiles pure
+Python modules to bytecode when it loads them for the first time. Their names end in
+&lt;code>.pyc&lt;/code> and they are cached in &lt;code>__pycache__&lt;/code> directories.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>Add_and_test_custom_font</title><link>/posts/hugo101/2024-07-09-test_custom_font/</link><pubDate>Tue, 09 Jul 2024 21:53:56 +0800</pubDate><guid>/posts/hugo101/2024-07-09-test_custom_font/</guid><description>&lt;p>Linear regression:&lt;/p>
 &lt;blockquote>
 &lt;p>$\text{You&amp;rsquo;ve got to draw the line somewhere.}$&lt;/p>
 &lt;/blockquote>
