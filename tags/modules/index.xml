@@ -130,8 +130,61 @@ application, and every project you work on, in a dedicated virtual environment.&
 The term &lt;em>package&lt;/em> carries some ambiguity in the Python world. It refers both to modules
 and to the artifacts used for distributing modules (aka &lt;em>distributions&lt;/em>).
 &lt;/span>&lt;/p>
-&lt;p>For more details and interesting contents, go to the newest version of &lt;em>&amp;ldquo;Hypermodern
-Python Tooling&amp;rdquo;&lt;/em> by Claudio Jolowicz.&lt;/p>
+&lt;h2 id="the-module-path" >
+&lt;div>
+&lt;a href="#the-module-path">
+#
+&lt;/a>
+The module path
+&lt;/div>
+&lt;/h2>
+&lt;p>It&amp;rsquo;s helpful to look at entries of &lt;code>sys.path&lt;/code> to debugg the import error, naturally,
+one may wonder where do the entries on &lt;code>sys.path&lt;/code> come from at first?&lt;/p>
+&lt;p>When the interpreter starts up, it constructs the module path in two steps:&lt;/p>
+&lt;ol>
+&lt;li>It builds an initial module path which includes the standard library,&lt;/li>
+&lt;li>It imports the &lt;code>site&lt;/code> module (from standard library) which extends the module path to
+include the site packages from the current environment.&lt;/li>
+&lt;/ol>
+&lt;p>The locations on the initial module path fall into three categories, and they occur in
+this order:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>The current directory or the directory containing the Python scripts (if any)
+The first item on &lt;code>sys.path&lt;/code> can be any of the following:&lt;/p>
+&lt;ul>
+&lt;li>If you ran &lt;code>python3 &amp;lt;script&amp;gt;&lt;/code>, the directory where the script is located&lt;/li>
+&lt;li>If you ran &lt;code>python3 -m &amp;lt;module&amp;gt;&lt;/code>, the current directory&lt;/li>
+&lt;li>Otherwise, the empty string, which also denotes the current directory
+&lt;strong>Safty issue&lt;/strong>: having the working directory on &lt;code>sys.path&lt;/code> is quite unsafe, as an
+attacker (or you, mistakenly) can override the standard library by placing Python
+files in the victim&amp;rsquo;s directory. To avoid this,&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>Python-3.11 provides &lt;code>-P&lt;/code> option or the PYTHONSAFEPATH variable to omit the
+current directory from &lt;code>sys.path&lt;/code>;&lt;/li>
+&lt;li>Using a virtual environment.&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>The locations in the PYTHONPATH environment variable (if set)
+Avoid this mechanism for the same reasons as the current working directory and use a
+virtual environment instead.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The locations of the standard library
+The location of the standard library is not hardcoded in the interpreter. Rather,
+Python looks for landmark files on the path to its own executable and uses them to
+locate the current environment (&lt;code>sys.prefix&lt;/code>) and the Python installation
+(&lt;code>sys.base_prefix&lt;/code>). One such landmark file is &lt;em>pyvenv.cfg&lt;/em>, which marks a virtual
+environment and points to its parent installation via the &lt;code>home&lt;/code> key. Another
+landmark file is &lt;em>os.py&lt;/em>, the file containing the standard &lt;code>os&lt;/code> module: Python uses
+&lt;em>os.py&lt;/em> to discover the prefix outside a virtual environment and to locate the
+standard library itself.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>For more glory details and interesting contents, go to the newest version (2024) of
+&lt;em>&amp;ldquo;Hypermodern Python Tooling&amp;rdquo;&lt;/em> by Claudio Jolowicz.&lt;/p>
 &lt;div class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
