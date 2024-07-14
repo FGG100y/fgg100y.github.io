@@ -1,4 +1,52 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 10 Jul 2024 16:19:58 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>python_module</title><link>/posts/cs101/python_module/</link><pubDate>Wed, 10 Jul 2024 16:19:58 +0800</pubDate><guid>/posts/cs101/python_module/</guid><description>&lt;h2 id="layout-of-python-installations" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 14 Jul 2024 22:36:18 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>wsl2_and_unicode</title><link>/posts/cs101/wsl2_and_unicode/</link><pubDate>Sun, 14 Jul 2024 22:36:18 +0800</pubDate><guid>/posts/cs101/wsl2_and_unicode/</guid><description>&lt;p>WSL2的 &lt;code>locale&lt;/code> 一直是默认设置值 &amp;ndash; &amp;ldquo;C.UTF-8&amp;rdquo;。然后今天用 python 解析路径文件中文名时，
+最终保存下来的竟是 unicode (&amp;quot;\u5c0f\u6728\u4ed4-\u7761\u7740\u4e862&amp;quot;)，这倒是破天荒第一
+次碰上 :&amp;rsquo;) 为了省心的解决问题，必须去找 GPT 阁下。&lt;/p>
+&lt;p>但 GPT4o 最先要我确认是否是终端的编码问题：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 这就是原原本本 copy 得到的unicode字符串&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">echo&lt;/span> -e &lt;span style="color:#5af78e">&amp;#34;\u5c0f\u6728\u4ed4-\u7761\u7740\u4e862&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后 GPT4o 很详细的告知应该如何在命令行终端生成和设置 &amp;ldquo;zh_CN.UTF-8&amp;rdquo;，以及如何在 python 中进行
+转义系列的重编码和解码来显示中文字串，但尝试之后没成功。原来是我理解有误。&lt;/p>
+&lt;p>GPT4o:
+It appears there may be a misunderstanding regarding the purpose and usage of the
+unicode-escape encoding. The unicode-escape codec is used to interpret escape sequences
+in strings, but it does not process normal Unicode escape sequences (\uXXXX) that are
+already present in a Unicode string.&lt;/p>
+&lt;p>If you have a string that looks like a Unicode escape sequence and you need to convert
+it into actual Unicode characters, you can use the unicode-escape codec. However, your
+string needs to be encoded in a way that the codec understands.&lt;/p>
+&lt;p>Here&amp;rsquo;s the corrected approach to convert a string with Unicode escape sequences into
+actual Chinese characters:&lt;/p>
+&lt;pre>&lt;code>Given String: You have a string with Unicode escape sequences.
+Decode: Use unicode-escape to decode the string.
+&lt;/code>&lt;/pre>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Given string with Unicode escape sequences&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>unicode_str &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#5af78e">&amp;#34;&lt;/span>&lt;span style="color:#5af78e">\\&lt;/span>&lt;span style="color:#5af78e">u5c0f&lt;/span>&lt;span style="color:#5af78e">\\&lt;/span>&lt;span style="color:#5af78e">u6728&lt;/span>&lt;span style="color:#5af78e">\\&lt;/span>&lt;span style="color:#5af78e">u4ed4-&lt;/span>&lt;span style="color:#5af78e">\\&lt;/span>&lt;span style="color:#5af78e">u7761&lt;/span>&lt;span style="color:#5af78e">\\&lt;/span>&lt;span style="color:#5af78e">u7740&lt;/span>&lt;span style="color:#5af78e">\\&lt;/span>&lt;span style="color:#5af78e">u4e862&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Decode the Unicode escape sequences&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>decoded_str &lt;span style="color:#ff6ac1">=&lt;/span> unicode_str&lt;span style="color:#ff6ac1">.&lt;/span>encode(&lt;span style="color:#5af78e">&amp;#39;utf-8&amp;#39;&lt;/span>)&lt;span style="color:#ff6ac1">.&lt;/span>decode(&lt;span style="color:#5af78e">&amp;#39;unicode-escape&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(decoded_str)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Explanation&lt;/p>
+&lt;pre>&lt;code>The string unicode_str contains Unicode escape sequences.
+The encode('utf-8') part ensures the string is in a byte format.
+The decode('unicode-escape') part interprets the byte format as Unicode escape sequences and converts them into actual characters.
+&lt;/code>&lt;/pre>
+&lt;p>This should correctly output the Chinese characters:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>小木仔-睡着了2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note&lt;/p>
+&lt;p>Ensure that your string uses double backslashes (\uXXXX) if you&amp;rsquo;re defining it directly
+in the script. This is necessary because a single backslash (\uXXXX) would be
+interpreted as an actual Unicode character during the string definition phase, not as an
+escape sequence.&lt;/p>
+&lt;hr>
+&lt;p>一点牢骚：又学了一些没用的知识，毕竟：首先你为什么要用WSL这破烂玩意儿呢？？？&lt;/p>
+&lt;p>&lt;del>因为这本来是买给非终端爱好者人士使用的电脑&lt;/del>&lt;/p>
+&lt;p>&lt;del>可人家毕竟也没有用，还是你自个霸占着。
+前不久发现巨硬又在系统明火执仗地搞偷窥活动（设置&amp;gt;隐私和安全性&amp;gt;活动历史记录）就信誓旦旦说
+立刻马上刻不容缓废掉这个恶心玩意&lt;/del>&lt;/p>
+&lt;p>&lt;del>最近比较忙哔哩，新安装的2T盘不好清理吧啦，总觉着人家最终要用咕噜&lt;/del>&lt;/p>
+&lt;p>本质上是因为捏着鼻子还能勉强用用，但估计也撑不了多久了。&lt;/p>
+&lt;p>毕竟 Linux 才是&lt;ruby>根&lt;rt>root&lt;/rt>&lt;/ruby>，才有&lt;ruby>家&lt;rt>home/&lt;/rt>&lt;/ruby>的感觉 :)&lt;/p></description></item><item><title>python_module</title><link>/posts/cs101/python_module/</link><pubDate>Wed, 10 Jul 2024 16:19:58 +0800</pubDate><guid>/posts/cs101/python_module/</guid><description>&lt;h2 id="layout-of-python-installations" >
 &lt;div>
 &lt;a href="#layout-of-python-installations">
 #
