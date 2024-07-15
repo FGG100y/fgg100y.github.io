@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Unicode on fgg blog</title><link>/tags/unicode/</link><description>fgg blog (Unicode)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 14 Jul 2024 22:36:18 +0800</lastBuildDate><atom:link href="/tags/unicode/index.xml" rel="self" type="application/rss+xml"/><item><title>wsl2_and_unicode</title><link>/posts/cs101/wsl2_and_unicode/</link><pubDate>Sun, 14 Jul 2024 22:36:18 +0800</pubDate><guid>/posts/cs101/wsl2_and_unicode/</guid><description>&lt;p>WSL2的 &lt;code>locale&lt;/code> 一直是默认设置值 &amp;ndash; &amp;ldquo;C.UTF-8&amp;rdquo;。然后今天用 python 解析路径文件中文名时，
 最终保存下来的竟是 unicode (&amp;quot;\u5c0f\u6728\u4ed4-\u7761\u7740\u4e862&amp;quot;)，这倒是破天荒第一
-次碰上 :&amp;rsquo;) 为了省心的解决问题，必须去找 GPT 阁下。&lt;/p>
+次碰上 :&amp;rsquo;) 为了省事，必须去找 GPT 阁下。&lt;/p>
 &lt;p>但 GPT4o 最先要我确认是否是终端的编码问题：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 这就是原原本本 copy 得到的unicode字符串&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">echo&lt;/span> -e &lt;span style="color:#5af78e">&amp;#34;\u5c0f\u6728\u4ed4-\u7761\u7740\u4e862&amp;#34;&lt;/span>

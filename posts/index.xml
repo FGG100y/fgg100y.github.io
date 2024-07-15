@@ -1,6 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 14 Jul 2024 22:36:18 +0800</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>wsl2_and_unicode</title><link>/posts/cs101/wsl2_and_unicode/</link><pubDate>Sun, 14 Jul 2024 22:36:18 +0800</pubDate><guid>/posts/cs101/wsl2_and_unicode/</guid><description>&lt;p>WSL2的 &lt;code>locale&lt;/code> 一直是默认设置值 &amp;ndash; &amp;ldquo;C.UTF-8&amp;rdquo;。然后今天用 python 解析路径文件中文名时，
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 15 Jul 2024 21:47:50 +0800</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>poor_dad</title><link>/posts/personals/momentsoflife/poor_dad/</link><pubDate>Mon, 15 Jul 2024 21:47:50 +0800</pubDate><guid>/posts/personals/momentsoflife/poor_dad/</guid><description>&lt;p>地铁口出口处。立着的行李箱上儿子半跪着倾向爸爸，爸爸一只手抓着行李箱杆子，另一只手拿着手机。
+女儿在旁边也想往行李箱上挤，被爸爸制止。女儿开始有哭腔，爸爸没看她，注意力全在手机上，
+大约是在打车、看地图、联系人或者玩游戏，不知道。女儿三番两次，还是不行，被爸爸大声呵斥危险。
+后面她干脆往地上就是一坐，赖哭着乱踢双腿。赖哭声里传达的大约是委屈的信号（前不久我刚领教
+过我大舅哥他那差不多年纪大的幼稚园女儿的赖地式哭闹，所以对这个信号颇为熟悉）。&lt;/p>
+&lt;p>等我走下地铁口，委屈信号已经变成多个均匀间隔的求关注信号了。&lt;/p>
+&lt;hr>
+&lt;p>一点牢骚：
+后来我就进闸口了。就算有，我也不可能辨别出回应信号了；就算有，或许回应的也太迟了点。&lt;/p>
+&lt;p>这可能是小事一桩，也可能是大事一件。因为我总忍不住想起前不久看的那部导演本来想拍老爸结果
+拍了他家龙凤双胞胎的纪录片《姐姐》(1996年)。&lt;/p></description></item><item><title>wsl2_and_unicode</title><link>/posts/cs101/wsl2_and_unicode/</link><pubDate>Sun, 14 Jul 2024 22:36:18 +0800</pubDate><guid>/posts/cs101/wsl2_and_unicode/</guid><description>&lt;p>WSL2的 &lt;code>locale&lt;/code> 一直是默认设置值 &amp;ndash; &amp;ldquo;C.UTF-8&amp;rdquo;。然后今天用 python 解析路径文件中文名时，
 最终保存下来的竟是 unicode (&amp;quot;\u5c0f\u6728\u4ed4-\u7761\u7740\u4e862&amp;quot;)，这倒是破天荒第一
-次碰上 :&amp;rsquo;) 为了省心的解决问题，必须去找 GPT 阁下。&lt;/p>
+次碰上 :&amp;rsquo;) 为了省事，必须去找 GPT 阁下。&lt;/p>
 &lt;p>但 GPT4o 最先要我确认是否是终端的编码问题：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 这就是原原本本 copy 得到的unicode字符串&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">echo&lt;/span> -e &lt;span style="color:#5af78e">&amp;#34;\u5c0f\u6728\u4ed4-\u7761\u7740\u4e862&amp;#34;&lt;/span>
