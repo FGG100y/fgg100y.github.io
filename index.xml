@@ -14,8 +14,8 @@ doc/docx 这类文件，而是 text/csv/tsv/json 等等正常的文件) 的某�
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># print the last 50 characters of the string in the 3rd column of the 10th row&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>awk &lt;span style="color:#5af78e">&amp;#39;NR==10 { len=length($3); print substr($3, len-50, 50) }&amp;#39;&lt;/span> &lt;span style="color:#ff5c57">FS&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;\t&amp;#34;&lt;/span> file.tsv
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>至于参数代表啥意思，我通常不让 GPT4o 多费唇舌。&lt;/p>
-&lt;p>（毕竟就算解释了我还是会动手验证一番，再者，最关键是我还没开通 plus 会员，所以要听柯景腾
-他老妈的那句劝：得省着点用哦 :）&lt;/p></description></item><item><title>wsl2_and_unicode</title><link>/posts/cs101/wsl2_and_unicode/</link><pubDate>Tue, 16 Jul 2024 21:27:30 +0800</pubDate><guid>/posts/cs101/wsl2_and_unicode/</guid><description>&lt;h2 id="关于-localeunicodejsondump-以及被冤枉的-wsl2" >
+&lt;p>（毕竟就算解释了我还是会动手验证一番，再者，最关键是我还没开通 plus 会员，所以得听柯景腾
+他老妈的那句劝：要省着点用哦 :）&lt;/p></description></item><item><title>wsl2_and_unicode</title><link>/posts/cs101/wsl2_and_unicode/</link><pubDate>Tue, 16 Jul 2024 21:27:30 +0800</pubDate><guid>/posts/cs101/wsl2_and_unicode/</guid><description>&lt;h2 id="关于-localeunicodejsondump-以及被冤枉的-wsl2" >
 &lt;div>
 &lt;a href="#%e5%85%b3%e4%ba%8e-localeunicodejsondump-%e4%bb%a5%e5%8f%8a%e8%a2%ab%e5%86%a4%e6%9e%89%e7%9a%84-wsl2">
 #
