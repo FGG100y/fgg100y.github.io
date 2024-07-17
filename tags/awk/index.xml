@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Awk on fgg blog</title><link>/tags/awk/</link><description>fgg blog (Awk)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 17 Jul 2024 19:12:45 +0800</lastBuildDate><atom:link href="/tags/awk/index.xml" rel="self" type="application/rss+xml"/><item><title>awk_to_inspect_substrings</title><link>/posts/cs101/awk_sed_cat_head_etc/awk_to_inspect_substringsl/</link><pubDate>Wed, 17 Jul 2024 19:12:45 +0800</pubDate><guid>/posts/cs101/awk_sed_cat_head_etc/awk_to_inspect_substringsl/</guid><description>&lt;p>在命令行工作具有极高的自由度，但远非完美。比如，你想要查看某个文件内(这里绝对不是指
+doc/docx 这类文件，而是 text/csv/tsv/json 等等正常的文件) 的某一行的内容，如果那一行有很
+多列，而其中要是某一列的内容特别长（就是&lt;code>cat&lt;/code>出来占据了整个屏幕这种长度），那么，你想要对
+这个文件的内容有所了解，可能需要额外的软件来打开此文件，再好好欣赏之。或者，其实在命令行
+就可以呢？&amp;ndash; &lt;code>awk&lt;/code> 了解一下。&lt;/p>
+&lt;p>像我就是碰上这么个情况，将图片转换成 base64 编码的 byte-data 后，在 Jupyterlab 打开发现
+有些行怎么是空行？（首先我不是去质疑代码，而是质疑“眼见为实”）&lt;/p>
+&lt;p>所以，必须要查看某一行的内容，并且要截断过长的字串，老伙计 GPT4o 很快给出答案：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># To print the 10th row and truncate the 3rd column to 50 characters&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>awk &lt;span style="color:#5af78e">&amp;#39;NR==10 { $3=substr($3, 1, 50) &amp;#34;...&amp;#34;; print }&amp;#39;&lt;/span> &lt;span style="color:#ff5c57">FS&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;\t&amp;#34;&lt;/span> &lt;span style="color:#ff5c57">OFS&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;\t&amp;#34;&lt;/span> file.tsv
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这还没完，因为 base64 编码的缘故（以及输入图片比较相似）导致 &lt;code>awk&lt;/code> 到的结果都是一模一样
+的起始字串，自然而然就怀疑这是巧合还是错误，所以，必须查看字串尾部内容是否也一样, 这当然
+难不倒一点脾气也不会有的 GPT4o 老哥：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># print the last 50 characters of the string in the 3rd column of the 10th row&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>awk &lt;span style="color:#5af78e">&amp;#39;NR==10 { len=length($3); print substr($3, len-50, 50) }&amp;#39;&lt;/span> &lt;span style="color:#ff5c57">FS&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;\t&amp;#34;&lt;/span> file.tsv
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>至于参数代表啥意思，我通常不让 GPT4o 多费唇舌。&lt;/p>
+&lt;p>（毕竟就算解释了我还是会动手验证一番，再者，最关键是我还没开通 plus 会员，所以要听柯景腾
+他老妈的那句劝：得省着点用哦 :）&lt;/p></description></item></channel></rss>
