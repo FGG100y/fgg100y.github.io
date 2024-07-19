@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 17 Jul 2024 19:12:45 +0800</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>awk_to_inspect_substrings</title><link>/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/</link><pubDate>Wed, 17 Jul 2024 19:12:45 +0800</pubDate><guid>/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/</guid><description>&lt;p>在命令行工作远非完美，但具有极高的自由度。比如，你想要查看某个文件内(这里绝对不是指
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on fgg blog</title><link>/posts/</link><description>fgg blog (Posts)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 17 Jul 2024 20:41:19 +0800</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>inspect_substrings_in_file_using_sed_awk_jq</title><link>/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/</link><pubDate>Wed, 17 Jul 2024 19:12:45 +0800</pubDate><guid>/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/</guid><description>&lt;p>在命令行工作远非完美，但具有极高的自由度。比如，你想要查看某个文件内(这里绝对不是指
 doc/docx 这类怪胎，而是 text/csv/tsv/json 等等正常的文件) 的某一行的内容，如果那一行有很
 多列，而其中要是某一列的内容特别长（就是&lt;code>sed&lt;/code>出来占据了整个屏幕这种长度），那么，你想要对
 这个文件的内容有所了解，可能需要额外的软件来打开此文件，再好好欣赏之。或者，其实在命令行
@@ -7,6 +7,14 @@ doc/docx 这类怪胎，而是 text/csv/tsv/json 等等正常的文件) 的某�
 &lt;p>像我就是碰上这么个情况，将图片转换成 base64 编码的 byte-data 后，在 Jupyterlab 打开发现
 有些行怎么是空行？（首先我不是去质疑代码，而是质疑“眼见为实”）&lt;/p>
 &lt;p>所以，必须要查看某一行的内容，并且要截断过长的字串，老伙计 GPT4o 很快给出答案：&lt;/p>
+&lt;h2 id="tsv" >
+&lt;div>
+&lt;a href="#tsv">
+#
+&lt;/a>
+TSV
+&lt;/div>
+&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># To print the 10th row and truncate the 3rd column to 50 characters&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>awk &lt;span style="color:#5af78e">&amp;#39;NR==10 { $3=substr($3, 1, 50) &amp;#34;...&amp;#34;; print }&amp;#39;&lt;/span> &lt;span style="color:#ff5c57">FS&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;\t&amp;#34;&lt;/span> &lt;span style="color:#ff5c57">OFS&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;\t&amp;#34;&lt;/span> file.tsv
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这还没完，因为 base64 编码的缘故（以及输入图片比较相似）导致 &lt;code>awk&lt;/code> 到的结果都是一模一样
@@ -14,7 +22,22 @@ doc/docx 这类怪胎，而是 text/csv/tsv/json 等等正常的文件) 的某�
 难不倒一点脾气也不会有的 GPT4o 老哥：&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># print the last 50 characters of the string in the 3rd column of the 10th row&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>awk &lt;span style="color:#5af78e">&amp;#39;NR==10 { len=length($3); print substr($3, len-50, 50) }&amp;#39;&lt;/span> &lt;span style="color:#ff5c57">FS&lt;/span>&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;\t&amp;#34;&lt;/span> file.tsv
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>至于参数代表啥意思，我通常不让 GPT4o 多费唇舌。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="jsonl" >
+&lt;div>
+&lt;a href="#jsonl">
+#
+&lt;/a>
+JSONL
+&lt;/div>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># To print the 10th row and the field names of json object&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sed -n &lt;span style="color:#5af78e">&amp;#39;10p&amp;#39;&lt;/span> file.jsonl | jq &lt;span style="color:#5af78e">&amp;#39;keys&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># To print the 10th row and the first 10 chars of strings or 10 elements of array&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sed -n &lt;span style="color:#5af78e">&amp;#39;10p&amp;#39;&lt;/span> file.jsonl | jq &lt;span style="color:#5af78e">&amp;#39;.field_name[:10]&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;hr>
+&lt;p>话痨多两句：&lt;/p>
+&lt;p>至于参数代表啥意思，我通常不让 GPT4o 多费唇舌。&lt;/p>
 &lt;p>（毕竟就算解释了我还是会动手验证一番，再者，最关键是我还没开通 plus 会员，所以得听柯景腾
 他老妈的那句劝：要省着点用哦 :）&lt;/p></description></item><item><title>wsl2_and_unicode</title><link>/posts/cs101/wsl2_and_unicode/</link><pubDate>Tue, 16 Jul 2024 21:27:30 +0800</pubDate><guid>/posts/cs101/wsl2_and_unicode/</guid><description>&lt;h2 id="关于-localeunicodejsondump-以及被冤枉的-wsl2" >
 &lt;div>
