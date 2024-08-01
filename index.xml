@@ -1,4 +1,41 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 17 Jul 2024 20:41:19 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>inspect_substrings_in_file_using_sed_awk_jq</title><link>/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/</link><pubDate>Wed, 17 Jul 2024 19:12:45 +0800</pubDate><guid>/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/</guid><description>&lt;p>在命令行工作远非完美，但具有极高的自由度。比如，你想要查看某个文件内(这里绝对不是指
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 01 Aug 2024 19:25:54 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>matplotlibIssue</title><link>/posts/pyplot/matplotlibissue/</link><pubDate>Thu, 01 Aug 2024 17:58:28 +0800</pubDate><guid>/posts/pyplot/matplotlibissue/</guid><description>&lt;p>matplotlib是个好工具，但还没好透，做出来的图中中文变框框。需要额外设置。&lt;/p>
+&lt;ol>
+&lt;li>获取 matplotlibrc&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 查看matplotlib安装在哪里：&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>python -c &lt;span style="color:#5af78e">&amp;#34;import matplotlib;print(matplotlib.__file__)&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># your-venv/lib/python3.x/site-packages/matplotlib/mpl-data&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 复制 matplotlibrc 到用户配置目录&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mv your-venv/lib/python3.x/site-packages/matplotlib/mpl-data/matplotlibrc ~/.config/matplotlib/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;li>修改 matplotlibrc&lt;/li>
+&lt;/ol>
+&lt;p>编辑器中打开 matplotlibrc 文件，找到并修改以下两个地方：&lt;/p>
+&lt;p>&amp;lsquo;#font.family: sans-serif&amp;rsquo; &amp;raquo; font.family: sans-serif
+&amp;lsquo;#font.sans-serif: DejaVu Sans,&amp;hellip;&amp;rsquo; &amp;raquo; font.sans-serif: DejaVu Sans,&amp;hellip;&lt;/p>
+&lt;p>然后添加中文字体（ttf 文件的文件名，如下文的 &lt;code>simfang&lt;/code> 仿宋字体）
+font.sans-serif: &lt;code>simfang&lt;/code>, DejaVu Sans,&amp;hellip;&lt;/p>
+&lt;p>最后将 &lt;code>simfang.ttf&lt;/code> 字体文件加入到 &lt;code>mpl-data/fonts/ttf/&lt;/code> 目录中。&lt;/p>
+&lt;p>注：更容易维护的一种配置方式应该是这样：
+使用 &lt;code>ln -s&lt;/code> 命令将个人字体库 (&lt;code>.local/share/fonts/&lt;/code>) 中的某个字体映射到上述目录&lt;/p>
+&lt;p>注2：可能需要删除matplotlib的缓存&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>rm -rf /home/user/.cache/matplotlib
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
+&lt;li>&lt;code>mpl.rcParams&lt;/code> 代码块&lt;/li>
+&lt;/ol>
+&lt;p>在作图的模块中添加以下代码：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> matplotlib &lt;span style="color:#ff6ac1">as&lt;/span> mpl
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> matplotlib.pyplot &lt;span style="color:#ff6ac1">as&lt;/span> plt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 中文减号显示问题&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mpl&lt;span style="color:#ff6ac1">.&lt;/span>rcParams[&lt;span style="color:#5af78e">&amp;#39;axes.unicode_minus&amp;#39;&lt;/span>] &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff6ac1">False&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 中文字符显示问题&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 名字与ttf文件的名字不同: simfang.ttf &amp;gt;&amp;gt; &amp;#39;FangSong&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mpl&lt;span style="color:#ff6ac1">.&lt;/span>rcParams[&lt;span style="color:#5af78e">&amp;#39;font.sans-serif&amp;#39;&lt;/span>] &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#5af78e">&amp;#39;FangSong&amp;#39;&lt;/span>]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>最后，如果有多个 venv 环境，难道要一个一个去修改吗？
+&lt;code>pipx&lt;/code> 大法是解药。&lt;/p></description></item><item><title>inspect_substrings_in_file_using_sed_awk_jq</title><link>/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/</link><pubDate>Wed, 17 Jul 2024 19:12:45 +0800</pubDate><guid>/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/</guid><description>&lt;p>在命令行工作远非完美，但具有极高的自由度。比如，你想要查看某个文件内(这里绝对不是指
 doc/docx 这类怪胎，而是 text/csv/tsv/json 等等正常的文件) 的某一行的内容，如果那一行有很
 多列，而其中要是某一列的内容特别长（就是&lt;code>sed&lt;/code>出来占据了整个屏幕这种长度），那么，你想要对
 这个文件的内容有所了解，可能需要额外的软件来打开此文件，再好好欣赏之。或者，其实在命令行
