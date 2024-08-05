@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pipe Table on fgg blog</title><link>/tags/pipe-table/</link><description>fgg blog (Pipe Table)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 05 Aug 2024 15:29:29 +0800</lastBuildDate><atom:link href="/tags/pipe-table/index.xml" rel="self" type="application/rss+xml"/><item><title>pipe_table_and_md_to_pdf</title><link>/posts/thecli/md2pdf_using_pandoc/</link><pubDate>Mon, 05 Aug 2024 15:29:29 +0800</pubDate><guid>/posts/thecli/md2pdf_using_pandoc/</guid><description>&lt;h2 id="three-steps-to-produce-good-format-of-pdf-from-md" >
+&lt;div>
+&lt;a href="#three-steps-to-produce-good-format-of-pdf-from-md">
+#
+&lt;/a>
+three steps to produce good format of .pdf from .md
+&lt;/div>
+&lt;/h2>
+&lt;p>如果你的 markdown 文档不是全英文，如果你的表格是 &lt;code>pipe table&lt;/code> 类型（简单来说就是用 &amp;ldquo;|&amp;rdquo;
+这个符号来围成，洋人就管它叫 pipe table），然后表格中某些格子中的内容特别长，如果寄希望
+直接用pandoc 默认命令进行文档格式转换，则大概率不会立即得到“美观”的pdf文档。需要进行一定
+的处理：&lt;/p>
+&lt;ol>
+&lt;li>放在 &lt;code>md&lt;/code> 文档最开头的元数据（meta data）：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>---
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>output:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pdf_document:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> latex_engine: xelatex
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> keep_tex: true
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> extra_dependencies: [&amp;#34;fontspec&amp;#34;]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>header-includes:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - \usepackage{xeCJK}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - \usepackage{tabularx}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - \usepackage{fontspec}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - \setmainfont{Noto Sans CJK SC}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> - \setmonofont{Noto Sans Mono CJK SC}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>---
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;li>table_preamble.tex 文件&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">\u&lt;/span>sepackage&lt;span style="color:#ff6ac1">{&lt;/span>xeCJK&lt;span style="color:#ff6ac1">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">\u&lt;/span>sepackage&lt;span style="color:#ff6ac1">{&lt;/span>tabularx&lt;span style="color:#ff6ac1">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
+&lt;li>命令行命令&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>pandoc your_cool.md -o document.pdf --pdf-engine&lt;span style="color:#ff6ac1">=&lt;/span>xelatex --include-in-header&lt;span style="color:#ff6ac1">=&lt;/span>table_preamble.tex
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!-- ![tb01](images/blog_test_tb01_Screenshot_20240805_175815.png)![tb02](images/blog_test_tb02_Screenshot_20240805_180004.png) -->
+&lt;hr>
+&lt;h2 id="table-format-expected" >
+&lt;div>
+&lt;a href="#table-format-expected">
+#
+&lt;/a>
+table format expected
+&lt;/div>
+&lt;/h2>
+&lt;div style="display: flex; justify-content: space-between;">
+&lt;img src="images/blog_test_tb01_Screenshot_20240805_175815.png" alt="Image 1" style="width: 45%;"/>
+&lt;img src="images/blog_test_tb02_Screenshot_20240805_180004.png" alt="Image 2" style="width: 45%;"/>
+&lt;/div>
+&lt;hr>
+&lt;h2 id="table-rendering-testing" >
+&lt;div>
+&lt;a href="#table-rendering-testing">
+#
+&lt;/a>
+table rendering testing
+&lt;/div>
+&lt;/h2>
+&lt;p>表1: 测试表1 (pipe table syntax)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>| | time | describe | s2c | w2c |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| -- | ---- | ------- | -- | -- |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| 80891 | 2022-03-21 | xx区xxxxxxxxx南路南十三巷6号旁，一暗渠直排污水至雨水沟，水质浑浊，气味难闻，底部... | H | L |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| 9191 | 2020-10-07 | 河段康陂路5号往上游900米河床有漂浮物,排出污水 | H | L |
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>| 765 | 2022-05-10 | 蔗基水闸口有大量漂浮物和死鱼 | L | H |
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>time&lt;/th>
+&lt;th>describe&lt;/th>
+&lt;th>s2c&lt;/th>
+&lt;th>w2c&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>80891&lt;/td>
+&lt;td>2022-03-21&lt;/td>
+&lt;td>xx区xxxxxxxxx南路南十三巷6号旁，一暗渠直排污水至雨水沟，水质浑浊，气味难闻，底部&amp;hellip;&lt;/td>
+&lt;td>H&lt;/td>
+&lt;td>L&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>9191&lt;/td>
+&lt;td>2020-10-07&lt;/td>
+&lt;td>河段康陂路5号往上游900米河床有漂浮物,排出污水&lt;/td>
+&lt;td>H&lt;/td>
+&lt;td>L&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>765&lt;/td>
+&lt;td>2022-05-10&lt;/td>
+&lt;td>蔗基水闸口有大量漂浮物和死鱼&lt;/td>
+&lt;td>L&lt;/td>
+&lt;td>H&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>表2: 测试表2 (tabularx table syntax)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>\begin{tabularx}{\textwidth}{|X|X|X|}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>\hline
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Header 1 &amp;amp; Header 2 &amp;amp; Header 3 \\
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>\hline
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Long content that should wrap &amp;amp; 非常长的一段话 非常长的一段话 非常长的一段话 非常长的一段话 非常长的一段话 非常长的一段话 南路南十三巷6号旁，一暗渠直排污水至雨水沟，水质浑浊，气味难闻，底部... &amp;amp; More content \\
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>\hline
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>\end{tabularx}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>\begin{tabularx}{\textwidth}{|X|X|X|}
+\hline
+Header 1 &amp;amp; Header 2 &amp;amp; Header 3 \
+\hline
+Long content that should wrap &amp;amp; 非常长的一段话 非常长的一段话 非常长的一段话 非常长的一段话 非常长的一段话 非常长的一段话 南路南十三巷6号旁，一暗渠直排污水至雨水沟，水质浑浊，气味难闻，底部&amp;hellip; &amp;amp; More content \
+\hline
+\end{tabularx}&lt;/p></description></item></channel></rss>
