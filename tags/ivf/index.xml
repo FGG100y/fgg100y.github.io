@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IVF on fgg blog</title><link>/tags/ivf/</link><description>fgg blog (IVF)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 22 May 2024 11:15:40 +0800</lastBuildDate><atom:link href="/tags/ivf/index.xml" rel="self" type="application/rss+xml"/><item><title>FAISS-IVFPQ</title><link>/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><guid>/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IVF on fgg blog</title><link>/tags/ivf/</link><description>fgg blog (IVF)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Wed, 22 May 2024 11:15:40 +0800</lastBuildDate><atom:link href="/tags/ivf/index.xml" rel="self" type="application/rss+xml"/><item><title>FAISS-IVFPQ</title><link>/posts/faiss101/</link><pubDate>Wed, 22 May 2024 11:15:40 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/faiss101/</guid><description>&lt;h2 id="plain-and-simple-indexflatl2" >
 &lt;div>
 &lt;a href="#plain-and-simple-indexflatl2">
 #
@@ -22,12 +23,12 @@ too fast.&lt;/p>
 &lt;/ul>
 &lt;p>&lt;img alt="IMG:index&amp;rsquo;s performance" src="https://fgg100y.github.io/posts/faiss101/images/faiss-three-indexes-performance.webp">
 &lt;em>&lt;p style="text-align: center;">Image credit: &lt;a href="https://www.pinecone.io/learn/series/faiss/faiss-tutorial/">pinecone.io&lt;/a>&lt;/p>&lt;/em>&lt;/p>
-&lt;h2 id="inerted-file-index-ivf-index" >
+&lt;h2 id="inverted-file-index-ivf-index" >
 &lt;div>
-&lt;a href="#inerted-file-index-ivf-index">
+&lt;a href="#inverted-file-index-ivf-index">
 #
 &lt;/a>
-Inerted File Index (IVF) index
+Inverted File Index (IVF) index
 &lt;/div>
 &lt;/h2>
 &lt;p>The Inverted File Index (IVF) index consists of search scope reduction through clustering.&lt;/p>
@@ -225,9 +226,15 @@ Example 02: 平凡的世界
 index.range_search()
 &lt;/div>
 &lt;/h2>
-&lt;p>The method range_search returns &lt;strong>all vectors within a radius around the query point&lt;/strong> (as opposed to the k nearest ones). Since the result lists for each query are of different sizes, it must be handled specially:&lt;/p>
+&lt;p>简而言之：&lt;code>range_search()&lt;/code> 捞回射程半径内（threshold控制）的所有近邻。因此不同的
+&lt;code>query_vector&lt;/code> 可能会得到不同长度的返回结果，从而需要特别处理。&lt;/p>
+&lt;p>The method range_search returns &lt;strong>all vectors within a radius around the query point&lt;/strong>
+(as opposed to the k nearest ones). Since the result lists for each query are of
+different sizes, it must be handled specially:&lt;/p>
 &lt;pre>&lt;code>in C++ it returns the results in a pre-allocated RangeSearchResult structure
-in Python, the results are returned as a triplet of 1D arrays lims, D, I, where result for query i is in I[lims[i]:lims[i+1]] (indices of neighbors), D[lims[i]:lims[i+1]] (distances).
+in Python, the results are returned as a triplet of 1D arrays lims, D, I, where
+result for query i is in I[lims[i]:lims[i+1]] (indices of neighbors), D[lims[i]:
+lims[i+1]] (distances).
 &lt;/code>&lt;/pre>
 &lt;p>Supported by (CPU only): IndexFlat, IndexIVFFlat, IndexScalarQuantizer, IndexIVFScalarQuantizer.&lt;/p>
 &lt;p>from &lt;a href="https://github.com/facebookresearch/faiss/wiki/Special-operations-on-indexes#range-search">official doc&lt;/a>&lt;/p>

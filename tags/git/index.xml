@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on fgg blog</title><link>/tags/git/</link><description>fgg blog (Git)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Wed, 21 Aug 2024 13:54:50 +0800</lastBuildDate><atom:link href="/tags/git/index.xml" rel="self" type="application/rss+xml"/><item><title>merge_exists_and_not_empty_directory</title><link>/posts/thecli/gitops/2024-08-21-merge_exists_and_not_empty_directory/</link><pubDate>Wed, 21 Aug 2024 13:54:50 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/thecli/gitops/2024-08-21-merge_exists_and_not_empty_directory/</guid><description>&lt;h2 id="为什么" >
+&lt;div>
+&lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88">
+#
+&lt;/a>
+为什么
+&lt;/div>
+&lt;/h2>
+&lt;p>为什么会有这种需求？要把仓库和另一个非空目录给合并起来？&lt;/p>
+&lt;p>因为，首先这是实验性质的操作。其次，我有一个已经开发的项目，然后发现
+&lt;a href="https://github.com/drivendataorg/cookiecutter-data-science">cookiecutter-data-science&lt;/a>
+更新到 v2 版本了，我想要这个版本的目录结构。最后，我想知道能否实现这个操作。答案是：可以，
+而且挺简单。&lt;/p>
+&lt;h2 id="实作" >
+&lt;div>
+&lt;a href="#%e5%ae%9e%e4%bd%9c">
+#
+&lt;/a>
+实作
+&lt;/div>
+&lt;/h2>
+&lt;p>1: 将仓库目录下的 &lt;code>.git&lt;/code> 复制到想要合并的“非空目录”&lt;/p>
+&lt;p>2: &lt;code>git reset --hard&lt;/code>&lt;/p>
+&lt;p>3: 没有了，就这样就可以。不用点开全文。&lt;/p></description></item></channel></rss>

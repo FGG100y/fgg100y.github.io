@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Awk on fgg blog</title><link>/tags/awk/</link><description>fgg blog (Awk)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 17 Jul 2024 19:12:45 +0800</lastBuildDate><atom:link href="/tags/awk/index.xml" rel="self" type="application/rss+xml"/><item><title>inspect_substrings_in_file_using_sed_awk_jq</title><link>/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/</link><pubDate>Wed, 17 Jul 2024 19:12:45 +0800</pubDate><guid>/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/</guid><description>&lt;p>在命令行工作远非完美，但具有极高的自由度。比如，你想要查看某个文件内(这里绝对不是指
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Awk on fgg blog</title><link>/tags/awk/</link><description>fgg blog (Awk)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Wed, 17 Jul 2024 19:12:45 +0800</lastBuildDate><atom:link href="/tags/awk/index.xml" rel="self" type="application/rss+xml"/><item><title>inspect_substrings_in_file_using_sed_awk_jq</title><link>/posts/thecli/awk_sed_cat_head_etc/awk_use_cases/</link><pubDate>Wed, 17 Jul 2024 19:12:45 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/thecli/awk_sed_cat_head_etc/awk_use_cases/</guid><description>&lt;p>在命令行工作远非完美，但具有极高的自由度。比如，你想要查看某个文件内(这里绝对不是指
 doc/docx 这类怪胎，而是 text/csv/tsv/json 等等正常的文件) 的某一行的内容，如果那一行有很
 多列，而其中要是某一列的内容特别长（就是&lt;code>sed&lt;/code>出来占据了整个屏幕这种长度），那么，你想要对
 这个文件的内容有所了解，可能需要额外的软件来打开此文件，再好好欣赏之。或者，其实在命令行
 就可以呢？&amp;ndash; &lt;code>awk&lt;/code> 了解一下。&lt;/p>
-&lt;p>&lt;img alt="is_value_missing" src="https://fgg100y.github.io/posts/cs101/awk_sed_cat_head_etc/awk_use_cases/images/awk-to-the-rescue.png">&lt;/p>
+&lt;p>&lt;img alt="is_value_missing" src="https://fgg100y.github.io/posts/thecli/awk_sed_cat_head_etc/awk_use_cases/images/awk-to-the-rescue.png">&lt;/p>
 &lt;p>像我就是碰上这么个情况，将图片转换成 base64 编码的 byte-data 后，在 Jupyterlab 打开发现
 有些行怎么是空行？（首先我不是去质疑代码，而是质疑“眼见为实”）&lt;/p>
 &lt;p>所以，必须要查看某一行的内容，并且要截断过长的字串，老伙计 GPT4o 很快给出答案：&lt;/p>

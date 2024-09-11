@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on fgg blog</title><link>/tags/hugo/</link><description>fgg blog (Hugo)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 09 Jul 2024 21:53:56 +0800</lastBuildDate><atom:link href="/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>Add_and_test_custom_font</title><link>/posts/hugo101/2024-07-09-test_custom_font/</link><pubDate>Tue, 09 Jul 2024 21:53:56 +0800</pubDate><guid>/posts/hugo101/2024-07-09-test_custom_font/</guid><description>&lt;p>Linear regression:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on fgg blog</title><link>/tags/hugo/</link><description>fgg blog (Hugo)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Tue, 09 Jul 2024 21:53:56 +0800</lastBuildDate><atom:link href="/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>Add_and_test_custom_font</title><link>/posts/hugo101/2024-07-09-test_custom_font/</link><pubDate>Tue, 09 Jul 2024 21:53:56 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/hugo101/2024-07-09-test_custom_font/</guid><description>&lt;p>Linear regression:&lt;/p>
 &lt;blockquote>
 &lt;p>$\text{You&amp;rsquo;ve got to draw the line somewhere.}$&lt;/p>
 &lt;/blockquote>
@@ -67,7 +68,7 @@ BuildDate=2024-07-04T08:13:25Z VendorInfo=gohugoio&lt;/span>&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;span class=&amp;#34;custom-en&amp;#34;&amp;gt;You&amp;#39;ve got to draw the line somewhere. (NerdFont 3270)&amp;lt;/span&amp;gt;
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;span class=&amp;#34;custom-zh&amp;#34;&amp;gt;中文：你必须在某个地方把那条线给画出来。(京華老宋体)&amp;lt;/span&amp;gt;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>test rendering of equations of latex in Hugo</title><link>/posts/hugo101/test_math_equation_rendering/</link><pubDate>Fri, 25 Aug 2023 13:49:40 +0800</pubDate><guid>/posts/hugo101/test_math_equation_rendering/</guid><description>&lt;p>式子能正常渲染，但需要在两个地方的下标处添加额外转义字符 &lt;code>\&lt;/code>，
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>test rendering of equations of latex in Hugo</title><link>/posts/hugo101/test_math_equation_rendering/</link><pubDate>Fri, 25 Aug 2023 13:49:40 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/hugo101/test_math_equation_rendering/</guid><description>&lt;p>式子能正常渲染，但需要在两个地方的下标处添加额外转义字符 &lt;code>\&lt;/code>，
 也就是：&lt;code>\mathbb{E}\_{xxx}&lt;/code>和&lt;code>p\_{model}&lt;/code>，其他地方却不需要 &lt;code>\hat{p}_{data}&lt;/code>&lt;/p>
 &lt;p>$$
 \mathbb{E}_{x \sim \hat{p}_{data}} {\text{log}\ p_{model} {(x^i; \theta})}

@@ -1,0 +1,1784 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Xgs on fgg blog</title><link>/tags/xgs/</link><description>fgg blog (Xgs)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Mon, 13 Jul 2020 12:11:47 +0800</lastBuildDate><atom:link href="/tags/xgs/index.xml" rel="self" type="application/rss+xml"/><item><title>Book Notes: semi-supervised clustering methods</title><link>/posts/ml101/clusteringmethods/semi-supervised_clustering/</link><pubDate>Mon, 13 Jul 2020 12:11:47 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/ml101/clusteringmethods/semi-supervised_clustering/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>注明：
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>原理部分的内容均来自周志华的西瓜书，真正的大师之作。
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>其他内容来自开源包文档、开源电子书、ipynb文档等。
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="半监督聚类-semi-supervised-clustering" >
+&lt;div>
+&lt;a href="#%e5%8d%8a%e7%9b%91%e7%9d%a3%e8%81%9a%e7%b1%bb-semi-supervised-clustering">
+#
+&lt;/a>
+半监督聚类 （semi-supervised clustering）
+&lt;/div>
+&lt;/h2>
+&lt;p>聚类是一种典型的无监督学习任务，然而在现实聚类任务中我们往往能获得一些额外的监督信息，于是可以通过半监督聚类来利用额外监督信息以获得更好的聚类效果。&lt;/p>
+&lt;p>聚类任务中获得额外监督信息大致有两种类型：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>样本约束：&lt;/p>
+&lt;p>必连 (must-link): 指的是样本必属于同一个簇&lt;/p>
+&lt;p>勿连 (cannot-link): 样本必不属于同一个簇&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>样本标签：&lt;/p>
+&lt;p>监督信息来自少量带有标签的样本&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h3 id="约束k均值算法-pseudo-code" >
+&lt;div>
+&lt;a href="#%e7%ba%a6%e6%9d%9fk%e5%9d%87%e5%80%bc%e7%ae%97%e6%b3%95-pseudo-code">
+##
+&lt;/a>
+约束$k$均值算法 (pseudo-code)
+&lt;/div>
+&lt;/h3>
+&lt;p>约束$k$均值算法 (Constrained k-means) 是利用第一类监督信息的代表。给定样本集 $D={x_1, x_2, \ldots, x_m}$ 以及 “必连” 关系集合 $\cal{M}$ 和 “勿连” 关系集合 $\cal{C}$ ，$(x_i, x_j) \in \cal{M}$ 表示 $x_i, x_j$ 必属于同簇，$(x_i, x_j) \in \cal{C}$ 表示 $x_i, x_j$ 必不属于同簇。该算法是 $k$-means 算法的扩展，它在聚类过程中要确保样本的约束得到满足，否则返回错误提示，算法如下：&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>输入&lt;/strong>： 样本集 $D = {x_1, x_2, \ldots, x_m}$;&lt;/p>
+&lt;p>​ 必连约束集合 $\cal{M}$ ;&lt;/p>
+&lt;p>​ 勿连约束集合 $\cal{C}$ ;&lt;/p>
+&lt;p>​ 聚类簇数 $k$.&lt;/p>
+&lt;p>过程：&lt;/p>
+&lt;p>01: 从 $D$ 中随机选取 $k$ 个样本作为初始均值向量 ${\mu_1, \mu_2, \ldots, \mu_k}$;&lt;/p>
+&lt;p>02: &lt;strong>repeat&lt;/strong>&lt;/p>
+&lt;p>03: $C_j = \phi (1 \le j \le k)$;&lt;/p>
+&lt;p>04: &lt;strong>for&lt;/strong> $i = 1, 2, \ldots, m$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>05: 计算样本 $x_i$ 与各个均值向量 $\mu_j (1 \le j \le k)$ 的距离： $d_{ij} = ||x_i - \mu_j||_2$;&lt;/p>
+&lt;p>06: $\cal{K} = {1, 2, \ldots, k}$;&lt;/p>
+&lt;p>07: $\text{is_merged} = false$;&lt;/p>
+&lt;p>08: &lt;strong>while&lt;/strong> $\neg\ \text{is_merged}$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>09: 基于 $\cal{K}$ 找出与样本 $x_i$ 距离最近的簇： $r = argmin_{j \in \cal{K}}\ d_{ij}$;&lt;/p>
+&lt;p>10: 检测将 $x_i$ 划入聚类簇 $C_r$ 是否会违背 $\cal{K}$ 与 $\cal{C}$ 中的约束；&lt;/p>
+&lt;p>11： &lt;strong>if&lt;/strong> $\neg\ \text{is_voilated}$ &lt;strong>then&lt;/strong>&lt;/p>
+&lt;p>12: $C_r = C_r \cup {x_i}$;&lt;/p>
+&lt;p>13: $\text{is_merged} = true$&lt;/p>
+&lt;p>14: &lt;strong>else&lt;/strong>&lt;/p>
+&lt;p>15: $\cal{K} = K \setminus {r}$;&lt;/p>
+&lt;p>16: &lt;strong>if&lt;/strong> $\cal{K} = \phi$ &lt;strong>then&lt;/strong>&lt;/p>
+&lt;p>17: &lt;strong>break&lt;/strong> 并返回错误提示&lt;/p>
+&lt;p>18: &lt;strong>end if&lt;/strong>&lt;/p>
+&lt;p>19: &lt;strong>end if&lt;/strong>&lt;/p>
+&lt;p>20: &lt;strong>end while&lt;/strong>&lt;/p>
+&lt;p>21: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>22: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, k$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>23: $\mu_j = {1 \over |C_j|} \sum_{x \in C_j} x$;&lt;/p>
+&lt;p>24: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>25: &lt;strong>until&lt;/strong> 均值向量均为更新&lt;/p>
+&lt;p>&lt;strong>输出&lt;/strong>：簇划分 ${C_1, C_2, \ldots, C_k}$&lt;/p>
+&lt;hr>
+&lt;hr>
+&lt;h3 id="约束种子-k-均值算法-pseudo-code" >
+&lt;div>
+&lt;a href="#%e7%ba%a6%e6%9d%9f%e7%a7%8d%e5%ad%90-k-%e5%9d%87%e5%80%bc%e7%ae%97%e6%b3%95-pseudo-code">
+##
+&lt;/a>
+约束种子 $k$ 均值算法 (pseudo-code)
+&lt;/div>
+&lt;/h3>
+&lt;p>约束种子 $k$ 均值算法 (Constrained Seed k-means) 利用第二种监督信息，即少量有标记样本（此处样本标记指的是簇标记‘cluster label’，而不是类别标记‘class label’）。给定样本集 $D = {x_1, x_2, \ldots, x_m}$，假定少量的有标记样本为 $S = \cup^k_{j=1} S_j \subset D$，其中，$S_j \ne \phi$ 为隶属于第 $j$ 个聚类簇的样本。这样的监督信息利用起来很容易：直接将他们作为‘种子’，用他们初始化 $k$ 均值算法的 $k$ 个聚类中心，并且在聚类簇迭代更新过程中不改变种子样本的簇隶属关系。其算法描述如下：&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>输入&lt;/strong>: 样本集 $D = {x_1, x_2, \ldots, x_m}$;&lt;/p>
+&lt;p>​ 少量有标记样本 $S = \cup^k_{j=1} S_j$;&lt;/p>
+&lt;p>​ 聚类簇数 $k$.&lt;/p>
+&lt;p>过程:&lt;/p>
+&lt;p>01: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, k$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>02: $\mu_j = {1 \over |S_j|} \sum_{x \in S} x$&lt;/p>
+&lt;p>03: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>04: &lt;strong>repeat&lt;/strong>&lt;/p>
+&lt;p>05: $C_j = \phi (1 \le j \le k)$;&lt;/p>
+&lt;p>06: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, k$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>07: &lt;strong>for all&lt;/strong> $x \in S_j$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>08: $C_j = C_j \cup {x}$&lt;/p>
+&lt;p>09: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>10: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>11: &lt;strong>for all&lt;/strong> $x_i \in D \setminus S$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>12: 计算样本 $x_i$ 与各个均值向量 $\mu_j (1 \le j \le k)$ 的距离： $d_{ij} = ||x_i -\mu_j||_2$;&lt;/p>
+&lt;p>13: 找出与样本 $x_i$ 距离最近的簇： $r = argmin_{j \in {1, 2, \ldots, k}} d_{ij}$;&lt;/p>
+&lt;p>14: 将样本 $x_i$ 划入相应的簇： $C_r = C_r \cup {x_i}$&lt;/p>
+&lt;p>15: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>16: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, k$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>17: $\mu_j = {1 \over |C_j|} \sum_{x \in C_j} x$;&lt;/p>
+&lt;p>18: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>19: &lt;strong>until&lt;/strong> 均值向量均未更新&lt;/p>
+&lt;p>&lt;strong>输出&lt;/strong>: 簇划分 ${C_1, C_2, \ldots, C_k}$&lt;/p>
+&lt;hr></description></item><item><title>Book Notes: clustering methods</title><link>/posts/ml101/clusteringmethods/prototype-based_clustering/</link><pubDate>Sat, 13 Jun 2020 16:11:47 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/ml101/clusteringmethods/prototype-based_clustering/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>注明：
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>原理部分的内容均来自周志华的西瓜书，真正的大师之作。
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>其他内容来自开源包文档、开源电子书、ipynb文档等。
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="原型聚类" >
+&lt;div>
+&lt;a href="#%e5%8e%9f%e5%9e%8b%e8%81%9a%e7%b1%bb">
+#
+&lt;/a>
+原型聚类
+&lt;/div>
+&lt;/h2>
+&lt;p>原型&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>聚类也称为 “基于原型的聚类(prototype-based clustering)”，此类算法假设聚类结构能够通过一组原型刻画，在现实聚类任务中极为常用。通常情形下，算法先对原型进行初始化，然后对原型进行迭代更新求解。采用不同的原型表示、不同的求解方式，将产生不同的算法。&lt;/p>
+&lt;h3 id="k-均值聚类算法" >
+&lt;div>
+&lt;a href="#k-%e5%9d%87%e5%80%bc%e8%81%9a%e7%b1%bb%e7%ae%97%e6%b3%95">
+##
+&lt;/a>
+$k$ 均值聚类算法
+&lt;/div>
+&lt;/h3>
+&lt;p>给定样本集 $D = {x_1, \ldots, x_m }$ ，“$k$ 均值($k$-means)” 算法针对聚类所得簇划分 $\mathcal{C} = {C_1, \ldots, C_k }$ 最小化平方误差
+$$
+\tag{9.24}
+E = \sum^k_{i=1} \sum_{x \in C_i} ||x - \mu_i||^2_2 ,
+$$
+其中，$\mu_i = {1 \over |C_i|} \sum_{x \in C_i} x$ 是簇 $C_i$ 的均值向量。直观来看，式(9.24)在一定程度上刻画了簇内样本围绕簇均值向量的紧密程度，$E$ 值越小则簇内样本相似度越高。&lt;/p>
+&lt;p>最小化式(9.24)并不容易，找到它的最优解需考察样本集 $D$ 的所有可能簇划分，这是一个 NP 难问题&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup> 。因此，$k$ 均值算法采用了贪心策略，通过迭代优化来近似求解式(9.24)。算法流程如下，其中第1行对均值向量进行初始化，在第4-8行与第9-16行依次对当前簇划分及均值向量迭代更新，若迭代更新后聚类结果保持不变，则在第18行将当前的簇划分结果返回。&lt;/p>
+&lt;hr>
+&lt;p>&lt;code>k 均值算法流程&lt;/code>&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>输入&lt;/strong>：样本集 $D = {x_1, \ldots, x_m }$ ；&lt;/p>
+&lt;p>​ 聚类簇数 $k$&lt;/p>
+&lt;p>&lt;strong>过程&lt;/strong>：&lt;/p>
+&lt;p>1: 从 $D$ 中随机选择 $k$ 个样本作为初始均值向量 ${\mu_1, \ldots, \mu_k }$&lt;/p>
+&lt;p>2: &lt;strong>repeat&lt;/strong>&lt;/p>
+&lt;p>3: 令 $C_i = \phi \quad (1 \le i \le k)$&lt;/p>
+&lt;p>4: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, m$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>5: 计算样本 $x_j$ 与各个均值向量 $\mu_i \ (1 \le i \le k)$ 的距离：$d_{ji} = ||x_j - \mu_i||_2$ ；&lt;/p>
+&lt;p>6: 根据距离最近的均值向量确定 $x_j$ 的簇标记&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>：$\lambda_j = \text{argmin}&lt;em>{i \in {1, 2, \ldots, k}} d&lt;/em>{ji}$ ；&lt;/p>
+&lt;p>7: 将样本 $x_j$ 划入相应的簇：$C_{\lambda_j} = C_{\lambda_j} \cup {x_j}$ ；&lt;/p>
+&lt;p>8: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>9: &lt;strong>for&lt;/strong> $i = 1, 2, \ldots, k$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>10: 计算新均值向量：$\mu_i&amp;rsquo; = {1 \over |C_i|} \sum_{x \in C_i} x$ ；&lt;/p>
+&lt;p>11: &lt;strong>if&lt;/strong> $\mu_i&amp;rsquo; \ne \mu_i$ &lt;strong>then&lt;/strong>&lt;/p>
+&lt;p>12: 将当前均值向量 $\mu_i$ 更新为 $\mu_i'$&lt;/p>
+&lt;p>13: &lt;strong>else&lt;/strong>&lt;/p>
+&lt;p>14: 保持当前均值向量不变&lt;/p>
+&lt;p>15: &lt;strong>end if&lt;/strong>&lt;/p>
+&lt;p>16: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>17: &lt;strong>until&lt;/strong> 当前均值向量均未更新&lt;/p>
+&lt;p>&lt;strong>输出&lt;/strong>：簇划分 $\mathcal{C} = {C_1, C_2, \ldots, C_k }$&lt;/p>
+&lt;hr>
+&lt;h3 id="k-means-in-action" >
+&lt;div>
+&lt;a href="#k-means-in-action">
+##
+&lt;/a>
+K-Means in Action
+&lt;/div>
+&lt;/h3>
+&lt;h4 id="finding-the-optimal-number-of-clusters" >
+&lt;div>
+&lt;a href="#finding-the-optimal-number-of-clusters">
+###
+&lt;/a>
+Finding the optimal number of clusters
+&lt;/div>
+&lt;/h4>
+&lt;p>In general, it will not be easy to know how to set $k$, and the result might be quite bad if you set it to the wrong value (see Figure 9-7).&lt;/p>
+&lt;p>&lt;img alt="cluster No." src="./images/handson_cluster_numbers.png">&lt;/p>
+&lt;p>You might be thinking that we could just pick the model with lowest inertia. Unfortunately, the inertia is not a good performance metric when trying to choose $k$ because it keeps getting lower as we increase $k$. Indeed, the more clusters there are, the closer each instance will be to its closest centroid, and therefore the lower the inertia will be (see Figure 9-8: a plot of the inertia as a function of $k$).&lt;/p>
+&lt;p>&lt;img alt="cluster inertia" src="./images/handson_cluster_inertia.png">&lt;/p>
+&lt;p>This technique for choosing the best value for the number of clusters is rather coarse. A more precise approach (but more computationally expensive) is to use the &lt;strong>silhouette score&lt;/strong>, which is the mean silhouette coefficient (轮廓系数) over all the instances. An instance&amp;rsquo;s silhouette coefficient is equal to $(b - a) / \max(a, b)$, where $a$ is the mean distance to the other instances in the same cluster (i.e., the mean intra-cluster distance) and $b$ is the mean nearest-cluster distance (i.e., the mean distance to the instances of the next cluster, defined as the one that minimizes $b$, excluding the instance&amp;rsquo;s own cluster).&lt;/p>
+&lt;p>The silhouette coefficient can vary between -1 and +1.&lt;/p>
+&lt;ul>
+&lt;li>silhouette coefficient close to +1 means that the instance is well inside its own cluster and far from other clusters&lt;/li>
+&lt;li>silhouette coefficient close to 0 means that it is close to a cluster boundary&lt;/li>
+&lt;li>silhouette coefficient close to -1 means that the instance may have been assigned to the wrong cluster&lt;/li>
+&lt;/ul>
+&lt;p>To compute the silhouette score, you can use sklearn&amp;rsquo;s &lt;code>silhouette_score()&lt;/code> function:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> sklearn.metrics &lt;span style="color:#ff6ac1">import&lt;/span> silhouette_score
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># give it all the instances in the dataset&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># and the labels they were assigned&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>silhouette_score(X, kmeans_model&lt;span style="color:#ff6ac1">.&lt;/span>labels_)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>We can also compare the silhouette scores for different numbers of clusters (see Figure 9-9):&lt;/p>
+&lt;p>&lt;img alt="silhouette scores" src="./images/handson_cluster_silhouette_scores.png">&lt;/p>
+&lt;p>As the Figure 9-9 shows, this visualization is much richer than the previous one: although it confirms that $k = 4$ is a very good choice, it also underlines the fact that $k = 5$ is quite good as well, and much better than $k &amp;gt; 5$. This is not visible when comparing the inertias.&lt;/p>
+&lt;p>&lt;strong>silhouette diagram&lt;/strong>&lt;/p>
+&lt;p>An even more informative visualization is obtained when you plot every instance&amp;rsquo;s silhouette coefficient, sorted by the cluster they are assigned to and by the value of the coefficient. This is called a &lt;em>silhouette diagram&lt;/em> (see Figure 9-10). Each diagram contains one knife shape per cluster. The shape&amp;rsquo;s height indicates the number of instances the cluster contains, and its width represents the sorted silhouette coefficients of the instances in the cluster (wider is better). The dashed line indicated the mean silhouette coefficient.&lt;/p>
+&lt;p>&lt;img alt="silhouette coefficient sorted" src="./images/handson_cluster_silhouette_coefficients_sorted.png">&lt;/p>
+&lt;p>The dashed line represents the mean silhouette score for each number of clusters. When most of the instances in a cluster have a lower coefficient than this score, then the cluster is rather bad since this means its instances are much too close to other clusters (such as when $k = 3, k = 6$). But when $k =4$ or $k = 5$ , the clusters look pretty good: most instances extend beyond the dashed line. When $k = 4$ , the cluster at index 1 is rather big. When $k = 5$ , all clusters have similar sizes. So, even though the overall silhouette score from $k=4$ is slightly greater than for $k=5$ , it seems like a good idea to use $k=5$ to get clusters of similar sizes.&lt;/p>
+&lt;h4 id="limits-of-k-means" >
+&lt;div>
+&lt;a href="#limits-of-k-means">
+###
+&lt;/a>
+Limits of K-Means
+&lt;/div>
+&lt;/h4>
+&lt;p>Despite its many merits, most notably being fast and scalable, K-Means is not perfect. As we saw, it is necessary to run the algorithm several times to avoid suboptimal solutions, plus you need to specify the number of clusters, which can be quite a hassle. Moreover, K-Means does not behave very well when the clusters have varying sizes, different densities, or non-spherical shapes (see Figure 9-11).&lt;/p>
+&lt;p>&lt;img alt="cluster shapes" src="./images/handson_cluster_shapes.png">&lt;/p>
+&lt;p>As Figure 9-11 shows, neither of these solutions is any good (the solution on the right is just terrible even though its inertia is lower). So, depending on the data, different clustering algorithms may perform better. On these types of elliptical clusters, &lt;em>Gaussian mixture models&lt;/em> work great.&lt;/p>
+&lt;h3 id="学习向量量化" >
+&lt;div>
+&lt;a href="#%e5%ad%a6%e4%b9%a0%e5%90%91%e9%87%8f%e9%87%8f%e5%8c%96">
+##
+&lt;/a>
+学习向量量化
+&lt;/div>
+&lt;/h3>
+&lt;p>与 $k$ 均值算法类似，“学习向量量化(Learning Vector Quantization, LVQ)” 也是试图找到一组原型向量来刻画聚类结构，但与一般聚类算法不同的是，LVQ 假设数据样本带有类别标记&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>&lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup> ，学习过程利用样本的这些监督信息来辅助聚类。&lt;/p>
+&lt;p>给定样本集 $D = {(x_1, y_1), \ldots, (x_m, y_m) }$ ，每个样本 $x_j$ 是由 $n$ 个属性描述的特征向量 $(x_{j1}; x_{j2}; \ldots;x_{jn})$ ， $y_j \in \mathcal{Y}$ 是样本 $x_j$ 的类别标记。LVQ 的目标是学得一组 $n$ 维原型向量 ${p_1, p_2, \ldots, p_q }$ ，每个原型向量代表一个聚类簇，簇标记 $t_i \in \mathcal{Y}$ 。&lt;/p>
+&lt;p>&lt;code>LVQ 算法&lt;/code> 描述如下：算法第1行先对原型向量进行初始化，例如对第q个簇可以从类别标记为 $t_q$ 的样本中随机选取一个作为原型向量。算法第2-12行对原型向量进行迭代优化。在每一轮迭代中，算法随机选取一个有标记的训练样本，找出与其距离最近的原型向量，并根据两者的类别标记是否一致来对原型向量进行相应的更新。在第12行中，若算法的停止条件已满足（例如达到最大迭代轮数，或原型向量趋于稳定），则将当前原型向量作为最终结果返回。&lt;/p>
+&lt;hr>
+&lt;p>&lt;code>LVQ 算法&lt;/code>&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>输入&lt;/strong>：样本集 $D = {(x_1, y_1), \ldots, (x_m, y_m) }$ ；&lt;/p>
+&lt;p>​ 原型向量个数 $q$ ，各原型向量预设类别标记 ${ t_1, t_2, \ldots, t_q}$ ；&lt;/p>
+&lt;p>​ 学习率 $\eta \in (0, 1)$ .&lt;/p>
+&lt;p>&lt;strong>过程&lt;/strong>：&lt;/p>
+&lt;p>01: 初始化一组原型向量 ${p_1, p_2, \ldots, p_q }$&lt;/p>
+&lt;p>02: &lt;strong>repeat&lt;/strong>&lt;/p>
+&lt;p>03: 从样本集 $D$ 随机选取样本 $(x_j, y_j)$ ；&lt;/p>
+&lt;p>04: 计算样本 $x_j$ 与 $p_i (1 \le i \le q)$ 的距离：$d_{ji} = ||x_j - p_i||_2$ ；&lt;/p>
+&lt;p>05: 找出与 $x_j$ 距离最近的原型向量 $p_{i*}$ ，$i* = \text{argmin}&lt;em>{i \in {1, 2, \ldots, q}} d&lt;/em>{ji}$ ；&lt;/p>
+&lt;p>06: &lt;strong>if&lt;/strong> $y_j = t_{i*}$ &lt;strong>then&lt;/strong>&lt;/p>
+&lt;p>07: $p&amp;rsquo; = p_{i*} + \eta \cdot (x_j - p_{i*})$&lt;/p>
+&lt;p>08: &lt;strong>else&lt;/strong>&lt;/p>
+&lt;p>09: $p&amp;rsquo; = p_{i*} - \eta \cdot (x_j - p_{i*})$&lt;/p>
+&lt;p>10: &lt;strong>end if&lt;/strong>&lt;/p>
+&lt;p>11: 将原型向量 $p_{i*}$ 更新为 $p'$&lt;/p>
+&lt;p>12: &lt;strong>until&lt;/strong> 满足停止条件&lt;/p>
+&lt;p>&lt;strong>输出&lt;/strong>：原型向量 ${p_1, p_2, \ldots, p_q }$&lt;/p>
+&lt;hr>
+&lt;p>显然，LVQ 的关键是第6-10行，即如何更新原型向量。直观上看，对样本 $x_j$ ，若最近的原型向量 $p_{i*}$ 与 $x_j$ 的类别标记相同，则令 $p_{i*}$ 与 $x_j$ 的方向靠拢，如&lt;code>LVQ 算法&lt;/code> 第7行所示，此时新原型向量为
+$$
+\tag{9.25}
+p&amp;rsquo; = p_{i*} + \eta \cdot (x_j - p_{i*}) ,
+$$
+$p&amp;rsquo;$ 与 $x_j$ 之间的距离为
+$$
+\begin{eqnarray}
+||p&amp;rsquo; - x_j||&lt;em>2
+&amp;amp;=&amp;amp; ||p&lt;/em>{i*} + \eta \cdot (x_j - p_{i*}) - x_j||&lt;em>2 \
+\
+\tag{9.26}
+&amp;amp;=&amp;amp; (1 - \eta) \cdot ||p&lt;/em>{i*} - x_j||&lt;em>2 .
+\end{eqnarray}
+$$
+令学习率 $\eta \in (0, 1)$ ，则原型向量 $p&lt;/em>{i*}$ 在更新为 $p&amp;rsquo;$ 之后将更接近 $x_j$ 。&lt;/p>
+&lt;p>类似的，若 $p_{i*}$ 与 $x_j$ 的类别标记不同，则更新后的原型向量与 $x_j$ 之间的距离将增大 $(1 + \eta) \cdot ||p_{i*} - x_j||_2$ ，从而更远离 $x_j$ 。&lt;/p>
+&lt;p>在学得一组原型向量 ${p_1, p_2, \ldots, p_q }$ 后，即可实现对样本空间 $\cal{X}$ 的簇划分。对任意样本 $x$ ，它将被划入与其距离最近的原型向量所代表的簇中；换言之，每个原型向量 $p_i$ 定义了一个与之相关的一个区域 $R_i$&lt;sup id="fnref:6">&lt;a href="#fn:6" class="footnote-ref" role="doc-noteref">6&lt;/a>&lt;/sup> ，该区域中每个样本与 $p_i$ 的距离不大于它与其他原型向量 $p_{i&amp;rsquo;} (i \ne i&amp;rsquo;)$ 的距离，即
+$$
+\tag{9.27}
+R_i = {x \in \mathcal{X} \quad \text{so that} \quad ||x - p_i||&lt;em>2 \le ||x - p&lt;/em>{i&amp;rsquo;}||_2, i&amp;rsquo; \ne i } .
+$$
+由此形成了对样本空间 $\cal{X}$ 的簇划分 ${R_1, R_2, \ldots, R_q }$ ，该划分通常称为 “Voronoi 剖分(Voronoi tessellation)” 。&lt;/p>
+&lt;h2 id="高斯混合聚类gmm" >
+&lt;div>
+&lt;a href="#%e9%ab%98%e6%96%af%e6%b7%b7%e5%90%88%e8%81%9a%e7%b1%bbgmm">
+#
+&lt;/a>
+高斯混合聚类(GMM)
+&lt;/div>
+&lt;/h2>
+&lt;p>与 $k$ 均值、LVQ 用原型向量类刻画聚类结构不同，高斯混合(Mixture-of-Gaussian) 聚类算法采用概率模型来表达聚类原型。&lt;/p>
+&lt;blockquote>
+&lt;p>简单回顾 | 多元高斯分布&lt;/p>
+&lt;p>多元高斯分布的定义：对 $n$ 维样本空间 $\cal{X}$ 中随机向量 $x$ ，若 $x$ 服从高斯分布，其概率密度函数为
+$$
+\tag{9.28}
+p(x) = {1 \over {(2 \pi)^{n \over 2} |\Sigma|^{1 \over 2}}} \exp {\bigg(-{1\over2}(x - \mu)^{\mathsf{T}} \Sigma^{-1} (x - \mu) \bigg)} ,
+$$
+其中，$\exp(x) = e^x$ ，$\mu$ 是 $n$ 维均值向量，$\Sigma$ 是 $n \times n$ 的协方差矩阵(并且是“对称正定矩阵”， 正定矩阵意思是其eigenvalues都大于零)，$|\Sigma|$ 是其行列式，$\Sigma^{-1}$ 是其逆矩阵。由式(9.28)可看出，高斯分布完全由均值向量 $\mu$ 和协方差矩阵 $\Sigma$ 这两个参数确定。为了明确显示高斯分布与相应参数的依赖关系，将概率密度函数记为 $p(x | \mu, \Sigma)$ 。&lt;/p>
+&lt;/blockquote>
+&lt;p>我们可以定义高斯混合分布&lt;sup id="fnref:7">&lt;a href="#fn:7" class="footnote-ref" role="doc-noteref">7&lt;/a>&lt;/sup>
+$$
+\tag{9.29}
+p_{\cal{M}} (x) = \sum^k_{i=1} \alpha_i \cdot p(x | \mu_i, \Sigma_i) ,
+$$
+该分布共由 $k$ 个混合成分组成，每个混合成分对应一个高斯分布。其中 $\mu_i$ 与 $\Sigma_i$ 是第 $i$ 个高斯混合成分的参数，而 $\alpha_i &amp;gt; 0$ 为相应的 “混合系数(mixture coefficient)” ，且有 $\sum^k_{i=1} \alpha_i = 1$ 。&lt;/p>
+&lt;p>假设样本的生成过程由高斯混合分布给出：首先，根据 $\alpha_1, \alpha_2, \ldots, \alpha_k$ 定义的先验分布选择高斯混合成分，其中 $\alpha_i$ 为选择第 $i$ 个混合成分的概率；然后，根据被选择的混合成分的概率密度函数进行采样，从而生成相应的样本。&lt;/p>
+&lt;p>若训练集 $D = {x_1, \ldots, x_m }$ 由上述过程生成，令随机变量 $z_j \in {1, 2, \ldots, k }$ 表示生成样本 $x_j$ 的高斯混合成分，其取值未知。显然，$z_j$ 的先验概率 $P(z_j = i)$ 对应于 $\alpha_i (i = 1, 2, \ldots, k)$ 。根据贝叶斯定理，$z_j$ 的后验概率分布对应于
+$$
+\begin{eqnarray}
+p_{\mathcal{M}}(z_j = i | x_j)
+&amp;amp;=&amp;amp; \frac{P(z_j = i) \cdot p_{\mathcal{M}}(x_j | z_j = i)}{p_{\mathcal{M}}(x_j)} \
+\
+\tag{9.30} \label{eq_bayes_posterior}
+&amp;amp;=&amp;amp; \frac{\alpha_i \cdot p(x_j | \mu_i, \Sigma_i) }{\sum^k_{l=1} \alpha_l \cdot p(x_j | \mu_l, \Sigma_l)} .
+\end{eqnarray}
+$$
+换言之，$p_{\mathcal{M}}(z_j = i | x_j)$ 给出了样本 $x_j$ 由第 $i$ 个高斯混合成分生成的后验概率。为方便叙述，将其简记为 $\gamma_{ji} (i = 1, 2, \ldots, k)$ 。&lt;/p>
+&lt;p>当高斯混合分布(式9.29)已知时，高斯混合聚类将把样本集 $D$ 划分为 $k$ 个簇 $\mathcal{C} = {C_1, \ldots, C_k }$ ，每个样本 $x_j$ 的簇标记 $\lambda_j$ 如下确定：
+$$
+\tag{9.31} \label{eq_cluster_idx}
+\lambda_j
+= \underset{i \in {1, 2, \ldots, k }}{\operatorname{argmax}} \gamma_{ji} .
+$$
+因此，从原型聚类的角度来看，高斯混合聚类是采用概率模型(高斯分布)对原型进行刻画，簇划分则由原型对应后验概率确定。&lt;/p>
+&lt;p>那么，对于式(9.29)，模型参数 ${\alpha_i, \mu_i, \Sigma_i | 1 \le i \le k }$ 如何求解呢？显然，给定样本集 $D$ ，可采用极大似然估计，即最大化似然(对数似然)
+$$
+\begin{eqnarray}
+LL(D)
+&amp;amp;=&amp;amp; \ln \bigg(\prod^m_{j=1} p_{\mathcal{M}}(x_j) \bigg) \
+\
+\tag{9.32}
+&amp;amp;=&amp;amp; \sum^m_{j=1} \ln \bigg(\sum^k_{i=1} \alpha_i \cdot p(x_j | \mu_i, \Sigma_i) \bigg) ,
+\end{eqnarray}
+$$
+常用 EM 算法&lt;sup id="fnref:8">&lt;a href="#fn:8" class="footnote-ref" role="doc-noteref">8&lt;/a>&lt;/sup> 进行迭代优化求解，得到
+$$
+\tag{9.34}
+\mu_i = \frac{\sum^m_{j=1} \gamma_{ji} x_j}{\sum^m_{j=1} \gamma_{ji}} ,
+$$
+即各&lt;strong>混合成分的均值&lt;/strong>可通过样本加权平均来估计，样本权重是每个样本属于该成分的后验概率。类似的，对&lt;strong>混合成分的协方差矩阵&lt;/strong>有
+$$
+\tag{9.35}
+\Sigma_i = \frac{\sum^m_{j=1} \gamma_{ji}(x_j - \mu_i)(x_j - \mu_i)^{\mathsf{T}}}{\sum^m_{j=1} \gamma_{ji}} .
+$$
+对应混合系数 $\alpha_i$ ，除了要最大化 $LL(D)$ ，还需要满足 $\alpha_i \le 0,\sum^k_{i=1} \alpha_i = 1$ 。考虑解 $LL(D)$ 的拉格朗日形式
+$$
+\tag{9.36}
+LL(D) + \lambda \bigg(\sum^k_{i=1} \alpha_i - 1 \bigg) ,
+$$
+其中 $\lambda$ 为拉格朗日乘子。由式(9.36)对 $\alpha_i$ 的导数为 0，有
+$$
+\tag{9.37}
+\sum^m_{j=1} \frac{p(x_j | \mu_i, \Sigma_i)}{\sum^k_{l=1} \alpha_l \cdot p(x_j | \mu_l, \Sigma_l)} + \lambda = 0 ,
+$$
+两边同乘以 $\alpha_i$ ，对所有样本求和可知 $\lambda = -m$ ，有
+$$
+\tag{9.38}
+\alpha_i = {1 \over m} \sum^m_{j=1} \gamma_{ji} ,
+$$
+即每个&lt;strong>高斯成分的混合系数&lt;/strong>由样本属于该成分的平均后验概率确定。&lt;/p>
+&lt;p>由上述推导即可获得高斯混合模型的 EM 算法：在每步迭代中，先根据当前参数来计算每个样本属于每个高斯混合成分的后验概率 $\gamma_{ji}$ （E 步），再根据式(9.34)、(9.35)和(9.38)更新模型参数 ${\alpha_i, \mu_i, \Sigma_i | 1 \le i \le k }$ （M 步）。&lt;/p>
+&lt;hr>
+&lt;p>&lt;code>高斯混合聚类算法&lt;/code>&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>输入&lt;/strong>：样本集 $D = {x_1, \ldots, x_m }$ ；&lt;/p>
+&lt;p>​ 高斯混合成分个数 $k$ 。&lt;/p>
+&lt;p>&lt;strong>过程&lt;/strong>：&lt;/p>
+&lt;p>01: 初始化高斯混合分布的模型参数 ${\alpha_i, \mu_i, \Sigma_i | 1 \le i \le k }$&lt;/p>
+&lt;p>02: &lt;strong>repeat&lt;/strong>&lt;/p>
+&lt;p>03: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, m$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>04: 根据式($\ref{eq_bayes_posterior}$)计算样本 $x_j$ 由各混合成分生成的后验概率，即 $\gamma_{ji} = p_{\mathcal{M}}(z_j = i | x_j) (1 \le i \le k)$&lt;/p>
+&lt;p>05: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>06: &lt;strong>for&lt;/strong> $i = 1, 2, \ldots, k$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>07: 计算新的均值向量：$\mu_i&amp;rsquo; = \frac{\sum^m_{j=1} \gamma_{ji} x_j}{\sum^m_{j=1} \gamma_{ji}}$&lt;/p>
+&lt;p>08: 计算新的协方差矩阵：$\Sigma_i&amp;rsquo; = \frac{\sum^m_{j=1} \gamma_{ji}(x_j - \mu_i)(x_j - \mu_i)^{\mathsf{T}}}{\sum^m_{j=1} \gamma_{ji}}$&lt;/p>
+&lt;p>09: 计算新的混合系数：$\alpha_i&amp;rsquo; = {1 \over m} \sum^m_{j=1} \gamma_{ji}$&lt;/p>
+&lt;p>10: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>11: 将模型参数 ${\alpha_i, \mu_i, \Sigma_i | 1 \le i \le k }$ 更新为 ${\alpha_i&amp;rsquo;, \mu_i&amp;rsquo;, \Sigma_i&amp;rsquo; | 1 \le i \le k }$&lt;/p>
+&lt;p>12: &lt;strong>until&lt;/strong> 满足停止条件&lt;/p>
+&lt;p>13: $C_i = \phi (1 \le i \le k)$&lt;/p>
+&lt;p>14: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, m$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>15: 根据式($\ref{eq_cluster_idx}$)确定 $x_j$ 的簇标记 $\lambda_j$ ;&lt;/p>
+&lt;p>16: 将 $x_j$ 划入相应的簇：$C_{\lambda_j} = C_{\lambda_j} \cup {x_j }$&lt;/p>
+&lt;p>17: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>输出&lt;/strong>：簇划分 $\mathcal{C} = {C_1, C_2, \ldots, C_k }$&lt;/p>
+&lt;hr>
+&lt;h3 id="gaussian-mixture-models-in-action" >
+&lt;div>
+&lt;a href="#gaussian-mixture-models-in-action">
+##
+&lt;/a>
+Gaussian Mixture Models in Action
+&lt;/div>
+&lt;/h3>
+&lt;p>A &lt;em>Gaussian mixture model (GMM)&lt;/em> is a probabilistic model that assumes that the instances were generated from a mixture of several Gaussian distributions whose parameters are unknown. All the instances generated from a single Gaussian distribution from a cluster that typically looks like an ellipsoid with different shape, sizes, density and orientation.&lt;/p>
+&lt;p>There are several GMM variants. In the simplest variant, implemented in the &lt;code>GaussianMixture&lt;/code> class, you must know in advance the number $k$ of Gaussian distributions. The dataset $\bf{X}$ is assumed to have been generated through the following probabilistic process:&lt;/p>
+&lt;ul>
+&lt;li>For each instance, a cluster is picked randomly from among $k$ clusters. The probability of choosing the $j^{th}$ cluster is defined by the cluster&amp;rsquo;s weight, $\phi^{(j)}$. The index of the cluster chosen for the $i^{th}$ instance is noted as $z^{(i)}$ .&lt;/li>
+&lt;li>If $z^{(i)} = j$, meaning the $i^{th}$ instance has been assigned to the $j^{th}$ cluster, the location $\bf{x}^{(i)}$ of this instance is sampled randomly from the Gaussian distribution with mean $\mathbf{\mu}^{(j)}$ and covariance matrix $\mathbf{\Sigma}^{(j)}$ . This is noted $\mathbf{x}^{(i)} \sim \mathcal{N}(\mathbf{\mu}^{(j)}, \mathbf{\Sigma}^{(j)})$.&lt;/li>
+&lt;/ul>
+&lt;p>This generative process can be represented as a graphical model (Figure 9-16).&lt;/p>
+&lt;p>&lt;img alt="gmm" src="./images/handson_cluster_gmm.png">&lt;/p>
+&lt;h4 id="gmm-for-clustering" >
+&lt;div>
+&lt;a href="#gmm-for-clustering">
+###
+&lt;/a>
+GMM for Clustering
+&lt;/div>
+&lt;/h4>
+&lt;p>So, what can you do with such a model? Well, given the dataset $\bf{X}$ , you typically want to start by estimating the weights $\phi$ and all the distribution parameters $\mathbf{\mu}^{(1)}$ to $\mathbf{\mu}^{(k)}$ and $\mathbf{\Sigma}^{(1)}$ to $\mathbf{\Sigma}^{(k)}$ . Sklearn&amp;rsquo;s &lt;code>GaussianMixture&lt;/code> class makes this super easy:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> sklearn.mixture &lt;span style="color:#ff6ac1">import&lt;/span> GaussianMixture
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># This class relies on the Expectation-Maximization(EM) algorithm,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># which has many similarities with K-Means algorithm:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># it also initializes the cluster parameters randomly,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># then it repeats two steps until convergence:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># * first assigning instances to clusters (E step)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># * then updating the clusters (M step)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Think of EM as a generalization of K-Means that not only finds&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># * the clusters (mu_1 to mu_k), but also&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># * their size, shape, and orientation (Sigma_1 to Sigma_k), as well as&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># * their relative weights (phi_1 to phi_k)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Unlike K-Means, EM uses soft clustering assignments, not hard assignments,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># unfortunately, just like K-Means, EM can end up converging to poor solutions,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># so it needs to be run several times, keeping only the best solution. This is&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># why we set n_init=10. (By default, n_init=1)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>gmm &lt;span style="color:#ff6ac1">=&lt;/span> GaussianMixture(n_components&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">3&lt;/span>, n_init&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">10&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>gmm&lt;span style="color:#ff6ac1">.&lt;/span>fit(X)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(gmm&lt;span style="color:#ff6ac1">.&lt;/span>converged_) &lt;span style="color:#78787e"># True or False&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(gmm&lt;span style="color:#ff6ac1">.&lt;/span>n_iter_) &lt;span style="color:#78787e"># how many EM iterations using&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(gmm&lt;span style="color:#ff6ac1">.&lt;/span>weights_) &lt;span style="color:#78787e"># cluster weights&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(gmm&lt;span style="color:#ff6ac1">.&lt;/span>means_) &lt;span style="color:#78787e"># means vectors&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(gmm&lt;span style="color:#ff6ac1">.&lt;/span>covariances_) &lt;span style="color:#78787e"># covariance matrices&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># now that the gmm can easily&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 1. assign each instance to the most likely cluster (hard clustering)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 2. estimate the probability that it belongs to a particular cluster (soft clustering)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>res_hc &lt;span style="color:#ff6ac1">=&lt;/span> gmm&lt;span style="color:#ff6ac1">.&lt;/span>predict(X) &lt;span style="color:#78787e"># hard clustering&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>res_sc &lt;span style="color:#ff6ac1">=&lt;/span> gmm&lt;span style="color:#ff6ac1">.&lt;/span>predict_proba(x) &lt;span style="color:#78787e"># soft clustering&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># estimate the density of the model at any given location&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>log_pdf_scores &lt;span style="color:#ff6ac1">=&lt;/span> gmm&lt;span style="color:#ff6ac1">.&lt;/span>score_samples(X)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pdf_values &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>exp(log_pdf_scores)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># these pdf_values are not probabilities, but probability densities,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># to estimate the probability that an instance will fall within a&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># particular region, one would have to integrate the PDF over that region.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># A GMM is a generative model, meaning you can sample new instances form it&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># (note that they are ordered by cluster index):&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>X_new, y_new &lt;span style="color:#ff6ac1">=&lt;/span> gmm&lt;span style="color:#ff6ac1">.&lt;/span>sample(&lt;span style="color:#ff9f43">6&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Figure 9-17 shows the cluster means, the decision boundaries (dashed lines), and the density contours of this model.&lt;/p>
+&lt;p>&lt;img alt="trained gmm" src="./images/handson_trained_gmm.png">&lt;/p>
+&lt;p>It seems the algorithm clearly found an excellent solution. Of course, we made its task easy by generating the data using a set of 2D Gaussian distributions (real life data is not always so Gaussian and low-dimensional). We also gave the algorithm the correct number of clusters.&lt;/p>
+&lt;p>When there are many dimensions, or many clusters, or few instances, EM can struggle to converge to the optimal solution. In such cases, we might need to reduce the difficulty of the task by limiting the number of parameters that the algorithm has to learn. One way to do this is to constraints the covariance matrices (limited the range of shapes and orientations the clusters can have) by setting the &lt;code>covariance_type&lt;/code> hyperparameter to one of the following values:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>covariance_type=&amp;quot;spherical&amp;quot;&lt;/code> :&lt;/p>
+&lt;p>All clusters must be spherical, but can have different diameters (i.e., different variances)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>covariance_type=&amp;quot;diag&amp;quot;&lt;/code> :&lt;/p>
+&lt;p>Clusters can take on any ellipsoidal shape of any size, but ellipsoid&amp;rsquo;s axes must parallel to the coordinate axes&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>covariance_type=&amp;quot;tied&amp;quot;&lt;/code> :&lt;/p>
+&lt;p>All the cluster must have the same ellipsoidal shape, size, and orientation (i.e., all share one covariance matrix)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>covariance_type=&amp;quot;full&amp;quot;&lt;/code> : (by default)&lt;/p>
+&lt;p>This means that each cluster can take on any shape, size, and orientation. If there is a large numbers of features, it will not scale well.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img alt="constrained gmm" src="./images/handson_constrained_gmm.png">&lt;/p>
+&lt;h4 id="gmm-for-anomaly-detection" >
+&lt;div>
+&lt;a href="#gmm-for-anomaly-detection">
+###
+&lt;/a>
+GMM for Anomaly Detection
+&lt;/div>
+&lt;/h4>
+&lt;p>&lt;em>Anomaly detection&lt;/em> (a.k.a., &lt;em>outlier detection&lt;/em>) is the task of detecting instances that deviate strongly from the norm. Using GMM for anomaly detection is quite simple: any instance located in a low-density region can be considered an anomaly. So one must define what density threshold to use.&lt;/p>
+&lt;p>For example, in a manufacturing company that tries to detect defective products, the ratio of defective products is usually well known. Say it is equal to 4%. You then set the density threshold ($\rho$) to be the value that results in having 4% of the instances located in areas below $\rho$:&lt;/p>
+&lt;ul>
+&lt;li>If getting too many false positives (good products flagged as defective), lower the value of $\rho$&lt;/li>
+&lt;li>If getting too many false negatives (defective products not flag as defective), lower the value of $\rho$&lt;/li>
+&lt;/ul>
+&lt;p>This is the usual precision/recall trade-off&lt;sup id="fnref:9">&lt;a href="#fn:9" class="footnote-ref" role="doc-noteref">9&lt;/a>&lt;/sup> .&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># defective products example&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>densities &lt;span style="color:#ff6ac1">=&lt;/span> gmm&lt;span style="color:#ff6ac1">.&lt;/span>score_samlpe(X)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>density_threshold &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>percentile(densities, &lt;span style="color:#ff9f43">4&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>anomalies &lt;span style="color:#ff6ac1">=&lt;/span> X[densities &lt;span style="color:#ff6ac1">&amp;lt;&lt;/span> density_threshold]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img alt="anomaly detection" src="./images/handson_gmm_anomaly_detection.png">&lt;/p>
+&lt;h4 id="selecting-the-number-of-clusters" >
+&lt;div>
+&lt;a href="#selecting-the-number-of-clusters">
+###
+&lt;/a>
+Selecting the Number of Clusters
+&lt;/div>
+&lt;/h4>
+&lt;p>With K-Means, we could use the inertia or the silhouette score to select the appropriate number of clusters. But with GMM, it is not possible to use these metrics because they are not reliable when the clusters are not spherical or have different sizes. Instead, we can try to find the model that minimizes a &lt;em>theoretical information criterion&lt;/em>, such the &lt;em>Bayes information criterion (BIC)&lt;/em> or the &lt;em>Akaike information criterion (AIC)&lt;/em>, defined as follows
+$$
+\begin{eqnarray}
+BIC &amp;amp;=&amp;amp; \log(m)p - 2 \log(\hat{L}) \
+\
+AIC &amp;amp;=&amp;amp; 2p - 2 \log(\hat{L})
+\end{eqnarray}
+$$
+where $m$ is the number of instances, $p$ is the number of parameters learned by the model, and $\hat{L}$ is the maximized value of the &lt;em>likelihood function&lt;/em> of the model.&lt;/p>
+&lt;p>Both the $BIC$ and $AIC$ penalize models that have more parameters to learn (e.g., more clusters) and reward models that fit the data well. They often end up selecting the same model. When they differ, $BIC$ tends to select simpler model (fewer parameters) while not fit the data quite as well as $AIC$ (especially true for larger datasets).&lt;/p>
+&lt;p>To compute the $BIC$ and $AIC$ , call the &lt;code>bic()&lt;/code> and &lt;code>aic()&lt;/code> methods:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># gmms contains gmm trained with different k&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> gmm &lt;span style="color:#ff6ac1">in&lt;/span> gmms:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> bic_scores&lt;span style="color:#ff6ac1">.&lt;/span>append(gmm&lt;span style="color:#ff6ac1">.&lt;/span>bic(x))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> aic_scores&lt;span style="color:#ff6ac1">.&lt;/span>append(gmm&lt;span style="color:#ff6ac1">.&lt;/span>aic(x))
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img alt="bic aic metrics" src="./images/handson_gmm_bic_aic_metrics.png">&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>“原型” 是指样本空间中具有代表性的点。&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>NP hardness problem (&lt;a href="https://wikimili.com/en/NP_(complexity)">non-deterministic polynomial-time&lt;/a> hardness): wait&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>$\lambda_j$ 实际是 ${1, 2, \ldots, k }$ 中的某个数，是 $k$ 个不同聚类簇 $\cal{C}$ 的下标，因为 $\text{argmin}_{i \in {1, 2, \ldots, k}} (\text{expression}_i)$ 函数就是返回使得 $\text{expression}$ 最小的那个 $i$ 。&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4">
+&lt;p>SOM 是基于无标记样本的聚类算法，而 LVQ 可看作 SOM 基于监督信息的扩展。SOM（Self-Organizing Map, 自组织映射）网络是一种竞争型学习(competitive learning) 的无监督神经网络，它能将高维输入数据映射到低维空间(通常二维) ，同时保持输入数据在高维空间的拓扑结构，即将高维空间中相似的样本点映射到网络输出层的邻近神经元。&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:5">
+&lt;p>竞争型学习是神经网络中常用的一种无监督学习策略，在使用该策略时，网络的输出神经元互相竞争，每一时刻仅有一个竞争获胜的神经元被激活，其他神经元的状态被抑制（“胜者通吃(winner-take-all)原则”）。&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:6">
+&lt;p>若将 $R_i$ 中样本全用原型向量 $p_i$ 表示，则可实现数据的 “有损压缩(lossy compression)”，这称为 “向量量化( vector quantization)” ；LVQ 由此而得名。&amp;#160;&lt;a href="#fnref:6" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:7">
+&lt;p>$p_{\cal{M}} (·)$ 也是概率密度函数，$\int {p_{\cal{M}}(x)dx} = 1$.&amp;#160;&lt;a href="#fnref:7" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:8">
+&lt;p>Expectation-Maximization 算法(EM，期望最大化算法) 是常用的估计参数隐变量的利器，它是一种迭代式的方法，其核心思想是：若模型参数 $\Theta$ 已知，则可根据训练数据推断出最优隐变量 $\mathbf{Z}$ 的值（E 步）；反之，若 $\mathbf{Z}$ 的值已知，则可方便地对参数 $\Theta$ 做极大似然估计（M 步）。进一步，若我们不是取 $\mathbf{Z}$ 的期望，而是基于$\Theta$ 计算隐变量 $\mathbf{Z}$ 的概率分布 $P(\bf{Z} | X, \Theta)$ ，则 EM 算法的两个步骤是：以当前参数 $\Theta^t$ 推断 $P(\bf{Z} | X, \Theta^t)$ ，并计算对数似然 $LL(\bf{\Theta} | X, Z)$ 关于 $\bf{Z}$ 的期望，即 $\mathbb{E}(\Theta | \Theta^t)$（E 步）；寻找参数最大化期望似然，即 $\Theta^{t+1} = \text{argmax}_{\Theta} \mathbb{E}(\Theta | \Theta^t)$ （M 步）。EM 算法可看作用 “坐标下降法” 来最大化对数似然下界的过程。&amp;#160;&lt;a href="#fnref:8" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:9">
+&lt;p>Evaluate model performance in classification task.&amp;#160;&lt;a href="#fnref:9" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>Book Notes: Deep-Forest Model</title><link>/posts/ml101/treebasedmodels/deepforest/</link><pubDate>Sat, 31 Aug 2019 14:11:27 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/ml101/treebasedmodels/deepforest/</guid><description>&lt;h1 id="deep-foresthttpsarxivorgabs170208835" >
+&lt;div>
+&lt;a href="#deep-foresthttpsarxivorgabs170208835">
+##
+&lt;/a>
+&lt;a href="https://arxiv.org/abs/1702.08835">Deep Forest&lt;/a>
+&lt;/div>
+&lt;/h1>
+&lt;ul>
+&lt;li>online paper, follow the link to all the details.&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>In this paper, we extend our preliminary study which proposes the &lt;a href="https://fgg100y.github.io/">gcForest&lt;/a> (multi-Grained Cascade Forest) approach for constructing deep forest, a non-NN style deep model. This is a novel decision tree ensemble, with a cascade structure which enables representation learning by forests. Its representational learning ability can be further enhanced by multi-grained scanning, potentially enabling gcForest to be contextual or structural aware. The cascade levels can be automatically determined such that the model complexity can be determined in a data-dependent way rather than manually designed before training; this enables gcForest to work well even on small-scale data, and enables users to control training costs according to computational resource available. Moreover, the gcForest has much fewer hyper-parameters than DNNs. Even better news is that its performance is quite robust to hyper-parameter settings; our experiments show that in most cases, it is able to get excellent performance by using the default setting, even across different data from different domains.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="inspiration-from-dnns1" >
+&lt;div>
+&lt;a href="#inspiration-from-dnns1">
+#
+&lt;/a>
+Inspiration from DNNs&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>
+&lt;/div>
+&lt;/h2>
+&lt;p>It is widely recognized that the &lt;em>representation learning&lt;/em> ability is crucial for the success of deep neural networks. We believe&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup> that the model complexity itself cannot explain the success of DNNs (e.g., large flat networks are not as successful as deep ones) and the &lt;em>layer-by-layer processing&lt;/em> is what really crucial for representation learning in DNNs. Figure 1 provides an illustration&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>&lt;img alt="layer-by-layer_processing" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\df_crucial_of_representation_learning.png">&lt;/p>
+&lt;p>Learning models, e.g., decision trees and Boosting machines, which also conduct layer-by-layer processing, why they are not as successful as DNNs? We believe that the most important distinguishing factor is that, in contrast to DNNs where new features are generated as illustrated in Figure 1, decision trees and Boosting machines always work on the original feature representation without creating new features during the learning process, or in other words, there is no in-model feature transformation. Moreover, DTs and Boosting machines can only have limited model complexity.&lt;/p>
+&lt;p>Overall, we conjecture that behind the mystery of DNNs there are three crucial characteristics, i.e., layer-by-layer processing, in-model feature transformation, and sufficient model complexity. We will try to endow these characteristics to our non-NN style deep model.&lt;/p>
+&lt;h2 id="inspiration-from-ensemble-learning" >
+&lt;div>
+&lt;a href="#inspiration-from-ensemble-learning">
+#
+&lt;/a>
+Inspiration from Ensemble Learning
+&lt;/div>
+&lt;/h2>
+&lt;p>It is well known that an ensemble (multiple learners are trained and combined) can usually achieve better generalization performance than single learners.&lt;/p>
+&lt;p>To construct a good ensemble, the individual learners should be &lt;em>accurate&lt;/em> and &lt;em>diverse&lt;/em>. Combining only accurate learners is often inferior to combining some accurate learners with some relatively weaker ones, because the complementarity is more important than pure accuracy. Here is the equation derived from &lt;em>error-ambiguity decomposition&lt;/em>&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>:
+$$
+\tag{1}
+E = \bar{E} - \bar{A},
+$$
+where $E$ denotes the error of an ensemble, $\bar{E}$ denotes the average error of individual classifiers in the ensemble, and $\bar{A}$ denotes the average &lt;em>ambiguity&lt;/em>, later called &lt;em>diversity&lt;/em>, among the individual classifiers. Eq. 1 reveals that, the more accurate and more diverse the individual classifiers, the better the ensemble. However, it could not be taken as an objective function for optimization, because the &lt;em>ambiguity&lt;/em> term is mathematically defined in the derivation and cannot be operated directly&lt;sup id="fnref1:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>. Actually, &lt;em>&amp;ldquo;what is diversity?&amp;rdquo;&lt;/em> remains the holy grail problem in ensemble learning.&lt;/p>
+&lt;p>In practice, the basic strategy of diversity enhancement is to inject randomness based on some heuristics during the training process. Roughly speaking, there are four major category of mechanisms&lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>data sample manipulation&lt;/strong>: which works by generating different data samples to trian individual learners.&lt;/p>
+&lt;p>E.g., bootstrap sampling is exploited by Bagging; sequential importance sampling is adopted by AdaBoost.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>input feature manipulation&lt;/strong>: which works by generating different feature subspaces to train individual learners.&lt;/p>
+&lt;p>E.g., the Random Subspace approach randomly picks a subset of features.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>learning parameter manipulation&lt;/strong>: which works by using different parameter settings of the base learning algorithm to generate diverse individual learners.&lt;/p>
+&lt;p>E.g., different initial selections can be applied to individual neural networks; different split selections can be applied to individual decision trees.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>output representation manipulation&lt;/strong>: which works by using different output representations to generate diverse individual learners.&lt;/p>
+&lt;p>E.g., the ECOC approach employs error-correcting output codes; the Flipping Output method randomly changes the labels of some training instances.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>Note that, however, these mechanisms are not always effective. More information about ensemble learning can be found in the book Ensemble Methods&lt;sup id="fnref1:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>Next we give you, the gcForest, which can be viewed as a decision tree ensemble approach that utilizes almost all categories of mechanisms for diversity enhancement.&lt;/p>
+&lt;h2 id="the-gcforest-approach" >
+&lt;div>
+&lt;a href="#the-gcforest-approach">
+#
+&lt;/a>
+The gcForest Approach
+&lt;/div>
+&lt;/h2>
+&lt;p>First introduce the cascade forest structure, and then the multi-grained scanning, followed by the overall architecture.&lt;/p>
+&lt;h3 id="cascade-forest-structure" >
+&lt;div>
+&lt;a href="#cascade-forest-structure">
+##
+&lt;/a>
+Cascade Forest Structure
+&lt;/div>
+&lt;/h3>
+&lt;p>Representation learning in DNNs mostly relies on the layer-by-layer processing of raw features. Inspired by this recognition, gcForest employs a cascade structure, as illustrated in Figure 2, where each level of cascade receives feature information processed by its preceding level, and outputs its processing result to the next level.&lt;/p>
+&lt;p>&lt;img alt="cascade-forest structure" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\df_cascade_forest_structure.png">&lt;/p>
+&lt;p>Each level is an ensemble of decision tree forests, i.e., an &lt;em>ensemble&lt;/em> of &lt;em>ensembles&lt;/em>. Here, we include different types of forests to encourage the &lt;em>diversity&lt;/em>, because diversity is crucial for ensemble construction.&lt;/p>
+&lt;p>For simplicity, suppose that we use two completely-random tree forests and two random forests. Each completely-random tree forest contains 500 completely-random trees, generated by randomly selecting a feature for split at each node of the tree, and growing tree until pure leaf, i.e., each leaf node contains only the same class of instances. Similarly, each random forest contains 500 trees, by randomly selecting $\sqrt{d}$ number of features as candidate ($d$ is the number of input features) and choosing the one with the best &lt;em>gini&lt;/em> value for split. (Note that the number of trees in each forest is a hyper-parameter.)&lt;/p>
+&lt;p>Given an instance, each forest will produce an estimate of class distribution, by counting the percentage of different classes of training examples at the leaf node where concerned instance falls, and then averaging across all trees in the same forest, as illustrated in Figure 3, where red color highlights paths along which the instance traverses to leaf nodes.&lt;/p>
+&lt;p>&lt;img alt="class-vector generation" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\df_class-vector_generation.png">&lt;/p>
+&lt;p>The estimated class distribution forms a class vector, which is then concatenated with the original feature vector to be input to the next level of cascade. For example, suppose there are three classes, then each of the four forests will produce a three-dimensional class vector; thus the next level of cascade will receive 12 ($= 3 \times 4$) augmented features.&lt;/p>
+&lt;p>Note that here we take the simplest form of class vectors, i.e., the class distribution at the leaf nodes into which the concerned instance falls. The more complex form of class vectors can be constructed by getting more distributions such as class distribution of the parent nodes which express prior distribution, the sibling nodes which express complementary distribution, etc.&lt;/p>
+&lt;p>To reduce the risk of over-fitting, class vector produced by each forest is generated by $k$-fold cross validation. In detail, each instance will be used as training data for $k - 1$ times, resulting $k - 1$ class vectors, which are then averaged to produce the final class vector as augmented features for the next level of cascade. After expanding a new level, the performance of the whole cascade can be estimated on validation set, and the training procedure will terminate if there is no significant performance gain; thus, the number of cascade levels is automatically determined. Note that the training error rather than cross validation error can also be used to control the cascade growth when the training cost is concerned or limited computation resource available.&lt;/p>
+&lt;h3 id="multi-grained-scanning" >
+&lt;div>
+&lt;a href="#multi-grained-scanning">
+##
+&lt;/a>
+Multi-Grained Scanning
+&lt;/div>
+&lt;/h3>
+&lt;p>DNNs are powerful in handling feature relationships, e.g., convolutional-NN are effective on image data where spatial relationships among the raw pixels are critical; recurrent-NN are effective on sequence data where sequential relationships are critical. Inspired by this recognition, we enhance cascade forest with a procedure of multi-grained scanning.&lt;/p>
+&lt;p>&lt;img alt="sliding-windows scanning" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\df_sliding-windows_scanning.png">&lt;/p>
+&lt;p>As Figure 4 illustrates, sliding windows are used to scan the raw features. Suppose there are 400 raw features and a window size of 100 features is used. For sequence data, a 100-dimensional feature vector will be generated by sliding the window for one feature; in total 301 feature vectors are produced. If the raw features are with spacial relationships, such as a $20 \times 20$ panel of 400 image pixels, then a $10 \times 10$ window will produce 121 feature vectors. All feature vectors extracted from positive/negative training examples are regarded as positive/negative instances, which will then be used to generate class vectors like in Section [Cascade Forest Structure](###Cascade Forest Structure): the instance extracted from the same size of windows will be used to train a completely-random tree forest and a random forest, and then the class vectors are generated and concatenated as transformed features. As Figure 4 illustrates, suppose that there are 3 classes and a 100-dimensional window is used; then, 301 three-dimensional class vectors are produced by each forest, leading to a 1860-dimensional transformed feature vector corresponding to the original 400-dimensional raw feature vector.&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>convolution operations&lt;/strong>: padding and strides&lt;/p>
+&lt;p>when the input shape is $(n_h \times n_w)$, the &lt;em>convolution kernel&lt;/em>&amp;rsquo;s shape is $(k_h \times k_w)$,&lt;/p>
+&lt;p>&lt;strong>with no padding and stride (default with $s_h = s_w = 1$)&lt;/strong>, then output shape will be:
+$$
+(n_h - k_h + 1, n_w - k_w + 1),
+$$
+&lt;strong>with padding (add $p_h$ rows and $p_w$ columns ) and stride $(s_h = s_w = 1)$,&lt;/strong> then output shape will be:
+$$
+(n_h - k_h + p_h + 1, n_w - k_w + p_w + 1),
+$$
+&lt;strong>with padding (add $p_h$ rows and $p_w$ columns ) and stride $(s_h, s_w)$,&lt;/strong> then output shape will be:
+$$
+\bigg((n_h-k_h+p_h+s_h)/s_h, (n_w-k_w+p_w+s_w)/s_w \bigg)
+$$&lt;/p>
+&lt;p>If we set $p_h=k_h-1$ and $p_w=k_w-1$, then the output shape will be simplified to:
+$$
+\bigg((n_h+s_h-1)/s_h, (n_w+s_w-1)/s_w \bigg)
+$$&lt;/p>
+&lt;p>Going a step further, if the input height and width are divisible by the strides on the height and width, then the output shape will be:
+$$
+\bigg((n_h/s_h)， (n_w/s_w)\bigg)
+$$&lt;/p>
+&lt;hr>
+&lt;p>For the instances extracted from the windows, we simply assign them with the label of the original training example. Here, some label assignments are inherently incorrect. For example, suppose the original training example is a positive image about &amp;ldquo;car&amp;rdquo;; it is clearly that many extracted instances do not contain a car, and therefore, they are incorrectly labeled as positive. This is actually related to the Flipping Output method&lt;sup id="fnref:6">&lt;a href="#fn:6" class="footnote-ref" role="doc-noteref">6&lt;/a>&lt;/sup>, a representative of output representation manipulation for ensemble diversity enhancement.&lt;/p>
+&lt;p>Note that when transformed feature vectors are too long to be accommodated, feature sampling can be performed, e.g., by subsampling the instances generated by sliding window scanning, since completely-random trees do not rely on feature split selection whereas random forests are quite insensitive to inaccurate feature split selection. Such a feature sampling process is also related to the Random Subspace method&lt;sup id="fnref:7">&lt;a href="#fn:7" class="footnote-ref" role="doc-noteref">7&lt;/a>&lt;/sup>, a representative of input feature manipulation for ensemble diversity enhancement.&lt;/p>
+&lt;p>Figure 4 shows only one size of sliding window. By using multiple sizes of sliding windows, differently grained feature vectors will be generated, as show in Figure 5.&lt;/p>
+&lt;p>&lt;img alt="multi-grained scanning" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\df_multi-grained_scanning.png">&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>DNNs, in a more technically view, is &amp;ldquo;multiple layers of parameterized differentiable nonlinear modules that can be trained by back-propagation.&amp;rdquo; Also note that back-propagation requires differentiability.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>There is no rigorous justification yet.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>I. Goodfellow, Y. Bengio, and A. Courville. Deep Learning. MIT Press, Cambridge, MA, 2016.&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4">
+&lt;p>A. Krogh and J. Vedelsby. Neural network ensembles, cross validation, and active learning. In G. Tesauro, D. S.Touretzky, and T. K. Leen, editors, Advances in Neural Information Processing Systems 7, pages 231{238. 1995.&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&amp;#160;&lt;a href="#fnref1:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:5">
+&lt;p>Z.-H. Zhou. Ensemble Methods: Foundations and Algorithms. CRC, Boca Raton, FL, 2012.&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&amp;#160;&lt;a href="#fnref1:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:6">
+&lt;p>L. Breiman. Randomizing outputs to increase prediction accuracy. Machine Learning, 40(3):113–120, 2000.&amp;#160;&lt;a href="#fnref:6" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:7">
+&lt;p>T. K. Ho. The random subspace method for constructing decision forests. IEEE Trans. Pattern Analysis and Machine Intelligence, 20(8):832–844, 1998.&amp;#160;&lt;a href="#fnref:7" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>Book Notes: Tree-based Models</title><link>/posts/ml101/treebasedmodels/treemodels/</link><pubDate>Sat, 31 Aug 2019 11:11:27 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/ml101/treebasedmodels/treemodels/</guid><description>&lt;h1 id="tree-based-models" >
+&lt;div>
+&lt;a href="#tree-based-models">
+##
+&lt;/a>
+Tree-based models
+&lt;/div>
+&lt;/h1>
+&lt;h2 id="part-i-theorist-views" >
+&lt;div>
+&lt;a href="#part-i-theorist-views">
+#
+&lt;/a>
+Part-I: Theorist views
+&lt;/div>
+&lt;/h2>
+&lt;p>&lt;strong>基本术语和符号约定&lt;/strong>&lt;/p>
+&lt;p>一般地，令 $D = {x_1, x_2, \ldots, x_m }$ 表示包含 $m$ 个示例的数据集，每个示例由 $d$ 个属性描述，则每个示例 $x_i = (x_{i1}, x_{i2}, \ldots, x_{id})$ 是 $d$ 维样本空间 $\mathcal{X}$ 的一个向量&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>，$x_i \in \mathcal{X}$, 其中 $x_{ij}$ 是 $x_i$ 在第 $j$ 个属性上的取值， $d$ 称为样本 $x_i$ 的“维数”（dimensionality）。&lt;/p>
+&lt;p>要建立一个关于“预测(prediction)”的模型，单有示例数据（也称为样本，sample）还不行，我们还需要获得训练样本的“结果”信息，例如，一个描述西瓜的记录“（（色泽=青绿；根蒂=蜷缩；敲声=浊响），好瓜）”。这里，关于示例结果的信息，例如 “好瓜” ，称为 “标记(label)”；拥有了标记信息的示例，则称之为 &amp;ldquo;样例(example)&amp;quot;。&lt;/p>
+&lt;p>一般地，用 $(x_i, y_i)$ 表示第 $i$ 个样例，其中 $y_i \in \mathcal{Y}$ 是示例 $x_i$ 的标记， $\mathcal{Y}$ 是所有标记的集合，亦称“标记空间(label space)”或“输出空间”。&lt;/p>
+&lt;p>如果我们想要预测的是离散值，例如 “好瓜” “坏瓜”，此类学习任务称为 “分类(classification)”；如果要预测的是连续值， 例如西瓜的成熟度0.9，0.4，此类学习任务称为 “回归(regression)”。二分类(binary classification)任务中，通常令 $\mathcal{Y} = {-1, +1 }$ 或 $\mathcal{Y} = {0, 1 }$；对于多分类(multi-class classification), $|\mathcal{Y}| &amp;gt; 2$；对回归任务，$\mathcal{Y} = \R$，$\R$ 为实数集。&lt;/p>
+&lt;h2 id="decision-tree" >
+&lt;div>
+&lt;a href="#decision-tree">
+#
+&lt;/a>
+Decision Tree
+&lt;/div>
+&lt;/h2>
+&lt;h3 id="决策树生成算法" >
+&lt;div>
+&lt;a href="#%e5%86%b3%e7%ad%96%e6%a0%91%e7%94%9f%e6%88%90%e7%ae%97%e6%b3%95">
+##
+&lt;/a>
+决策树生成算法
+&lt;/div>
+&lt;/h3>
+&lt;p>一般的，一棵决策树包含一个根结点、若干个内部结点和若干个叶结点；叶结点对应于决策结果，其他每个结点对应于一个属性测试；每个结点包含的样本集合根据属性测试的结果被划分到子结点中；根结点包含样本全集。从根结点到每个叶结点的路径对应了一个判定测试序列。&lt;/p>
+&lt;p>决策树学习的目的是为了产生一棵泛化性能强的决策树，亦即处理未见示例（unseen samples）的能力强的决策树。其基本流程遵循简单且直观的“分而治之”（divide-and-conquer）策略，如&lt;code>决策树学习基本算法&lt;/code>所示。&lt;/p>
+&lt;hr>
+&lt;p>&lt;code>决策树学习基本算法&lt;/code>&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>输入&lt;/strong>： 训练集 $D = {(x_1, y_1), \dots, ({x_m, y_m}) }$; \
+属性集 $A = {a_1, \ldots, a_d }$&lt;/p>
+&lt;p>&lt;strong>过程&lt;/strong>： 函数 $\text{TreeGenerate}(D, A)$&lt;/p>
+&lt;p>1: 生成结点 $\text{node}$;&lt;/p>
+&lt;p>2: &lt;strong>if&lt;/strong> $D$ 中样本全属于同一类别 $C$ &lt;strong>then&lt;/strong>&lt;/p>
+&lt;p>3: 将 $\text{node}$ 标记为 $C$ 类叶结点；&lt;strong>return&lt;/strong>&lt;/p>
+&lt;p>4: &lt;strong>end if&lt;/strong>&lt;/p>
+&lt;p>5: &lt;strong>if&lt;/strong> $A = \phi$ &lt;strong>OR&lt;/strong> $D$ 中样本在$A$ 上取值相同 &lt;strong>then&lt;/strong>&lt;/p>
+&lt;p>6: 将 $\text{node}$ 标记为叶结点，其类别标记为 $D$ 中样本数量最多的类；&lt;strong>return&lt;/strong>&lt;/p>
+&lt;p>7: &lt;strong>end if&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>8&lt;/strong>: 从 $A$ 中选择最优划分属性 $a_*$;&lt;/p>
+&lt;p>9: &lt;strong>for&lt;/strong> 属性 $a_&lt;em>$ 的每一个值 $a_&lt;/em>^v$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>10: 为 $\text{node}$ 生成一个分支；令 $D_v$ 表示 $D$ 中在 $a_&lt;em>$ 上取值为 $a_&lt;/em>^v$ 的样本子集；&lt;/p>
+&lt;p>11: &lt;strong>if&lt;/strong> $D_v$ 为空 &lt;strong>then&lt;/strong>&lt;/p>
+&lt;p>12: 将分支结点标记为叶结点，其类别标记为 $D$ 中样本数量最多的类；&lt;strong>return&lt;/strong>&lt;/p>
+&lt;p>13: &lt;strong>else&lt;/strong>&lt;/p>
+&lt;p>14: 以 $\text{TreeGenerate}(D_v, A - a_*)$ 为分支结点&lt;/p>
+&lt;p>15: &lt;strong>end if&lt;/strong>&lt;/p>
+&lt;p>16: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>输出&lt;/strong>： 以 $\text{node}$ 为根结点的一棵决策树&lt;/p>
+&lt;hr>
+&lt;p>显然，决策树的生成时一个递归过程，在&lt;code>决策树基本算法&lt;/code>中，有三种情形会导致递归返回：&lt;/p>
+&lt;ol>
+&lt;li>当前结点包含的样本全部属于同一类别 （无需进一步划分）&lt;/li>
+&lt;li>当前属性集为空，或是所有样本在所有属性上取值相同 （无法进一步划分）&lt;/li>
+&lt;li>当前结点包含的样本集合为空 （不能进一步划分）&lt;/li>
+&lt;/ol>
+&lt;p>在第2种情形下，我们把当前结点标记为叶结点，并将其类别设定为该结点中样本数量最多的类别；在第3种情形下，同样把当前结点标记为叶结点，但将其类别设定为其父结点所含样本最多的类别，注意这两种情形处理实质不同：情形2中是利用当前结点的后验分布，而情形3中则是把父结点的样本分布作为当前结点的先验分布。&lt;/p>
+&lt;blockquote>
+&lt;p>《The hundred-Page Machine Learning》&lt;/p>
+&lt;p>&lt;img alt="build tree the 1st split" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\looPagesML_dtree_build.png">&lt;/p>
+&lt;p>The ID3 learning algorithm works as follows. Let $\cal{S}$ denotes a set of labeled examples. In the begining, the decision tree only has a start noed (root node) that contains all examples: $\mathcal{S} = {(\mathbb{x}&lt;em>i, y_i) }^N_i$. Start with a constant model $f&lt;/em>{ID3}$ :
+$$
+\tag{6}
+f_{ID3} = {1 \over |\mathcal{S}|} \sum_{(\mathbb{x},y) \in \mathcal{S}} y .
+$$
+The prediction given by the above model, $f_{ID3}(\mathbb{x})$, would be the same for any input $\mathbb{x}$. The corresponding decision tree is shown in fig4(a).&lt;/p>
+&lt;p>The we search through all features $j = 1, \ldots, D$ and all thresholds $t$, and split the set $\cal{S}$ into two subsets:&lt;/p>
+&lt;ul>
+&lt;li>$\mathcal{S}_{_} = {(\mathbb{x},y) | (\mathbb{x},y) \in \mathcal{S}, x^{(j)} &amp;lt; t }$ and&lt;/li>
+&lt;li>$\mathcal{S}_{+} = {(\mathbb{x},y) | (\mathbb{x},y) \in \mathcal{S}, x^{(j)} \ge t }$ .&lt;/li>
+&lt;/ul>
+&lt;p>The new two subsets would go to two new leaf nodes (or inter nodes), and we evaluate, for all possible pairs $(j, t)$ how good the split with pieces $\mathcal{S}&lt;em>{_}$ and $\mathcal{S}&lt;/em>{+}$ is (see the followed section &lt;a href="https://fgg100y.github.io/posts/ml101/treebasedmodels/treemodels/###划分选择">划分选择&lt;/a>). Finally, we pick the best such values $(j, t)$ for splitting $\cal{S}$ into $\mathcal{S}&lt;em>{_}$ and $\mathcal{S}&lt;/em>{+}$ , from two new leaf nodes, and continue recursively on $\mathcal{S}&lt;em>{_}$ and $\mathcal{S}&lt;/em>{+}$ (or quit if reach some criterion). A decision tree after one split is illustrated in fig4(b).&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="划分选择" >
+&lt;div>
+&lt;a href="#%e5%88%92%e5%88%86%e9%80%89%e6%8b%a9">
+##
+&lt;/a>
+划分选择
+&lt;/div>
+&lt;/h3>
+&lt;p>决策树学习的关键是如何选择最优划分属性（&lt;code>决策树基本算法&lt;/code> 第8行）。一般而言，随着划分过程不断进行，我们希望决策树的分支结点所包含的样本尽可能属于同一类别，即结点的“纯度”（purity）越来越高。&lt;/p>
+&lt;h4 id="信息增益" >
+&lt;div>
+&lt;a href="#%e4%bf%a1%e6%81%af%e5%a2%9e%e7%9b%8a">
+###
+&lt;/a>
+信息增益
+&lt;/div>
+&lt;/h4>
+&lt;p>“信息熵”（information entropy）是度量样本集合纯度最常用的一种指标。假定当前样本集合 $D$ 中第 $k$ 类样本所占的比例为 $p_k \ (k=1, \ldots, |\mathcal{Y}|)$，则 $D$ 信息熵定义为
+$$
+\tag{4.1}
+\text{Ent}{(D)} = - \sum^{|\mathcal{Y}|}_{k=1} p_k \text{log}_2 p_k.
+$$
+$\text{Ent}(D)$ 的值越小，则 $D$ 的纯度越高。&lt;/p>
+&lt;p>假定离散属性 $a$ 有 $V$ 个可能的取值 ${a^1, \ldots, a^V }$，若使用 $a$ 来对样本集 $D$ 进行划分，则会产生 $V$ 个分支结点，其中第 $v$ 个分支结点包含了 $D$ 中所有在属性 $a$ 上取值为 $a^v$ 的样本，记为 $D^v$。我们根据式(4.1)计算出 $D^v$ 的信息熵，再考虑到不同的分支结点所包含的样本数不同，给分支结点赋予权重 ${|D^v| \over |D|}$，即样本数越多的分支结点的影响越大，于是可以计算出用属性 $a$ 对样本集 $D$ 进行划分所获得的“信息增益(information gain)”
+$$
+\tag{4.2}
+\text{Gain}(D, a) = \text{Ent}(D) - \sum^V_{v=1} {|D^v| \over |D|} \text{Ent}(D^v).
+$$
+一般而言，信息增益越大，则意味着使用属性 $a$ 来进行划分所获得的“纯度提升”越大。因此，我们可以用信息增益来进行决策树的划分属性选择，即选择属性 $a_* = argmax_{(a \in A)} \text{Gain}(D, a)$。&lt;/p>
+&lt;p>$\color{Green}{\bold{例子}}$&lt;/p>
+&lt;p>&lt;img alt="xgs d2.0" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\xgs_tree_dataset1.png">&lt;/p>
+&lt;p>以表4.1中的西瓜数据集2.0为例。该数据集包含17个训练样例，用以学习一棵能预测没有尝过的是不是好瓜的决策树。显然，分类的类别共两类（是好瓜，不是好瓜），$|\mathcal{Y}| = 2$。在决策树开始学习时，根结点包含 $D$ 中所有的样例，其中正例占 $p_1 = 8 / 17$ ，反例占 $p_1 = 9 / 17$。于是，根据式(4.1)可计算出根结点的信息熵为
+$$
+\text{Ent}(D) = - \sum^2_{k=1} p_k \text{log}_2 p_k = - \bigg({8 \over 17}\text{log}_2 {8 \over 17} + {9 \over 17}\text{log}_2 {9 \over 17} \bigg) \approx 0.998 .
+$$
+然后，我们要计算出当前属性集合｛色泽，根蒂，敲声，纹理，脐部，触感｝中每个属性的信息增益。以属性 “色泽” 为例，它有3个可能的取值：｛青绿，乌黑，浅白｝。若使用该属性对 $D$ 进行划分，则可得到3个子集，分别记为：$D^1 (色泽=青绿)，D^2 (色泽=乌黑)，D^3 (色泽=浅白）$。&lt;/p>
+&lt;p>由表4.1可得，子集 $D^1$ 包含编号为｛1，4，6，10，13，17｝的6个样例，其中正例占 $p_1 = 3 / 6$ ，反例占 $p_2 = 3 / 6$；子集 $D^2$ 包含编号为｛2，3，7，8，9，15｝的6个样例，其中正例占 $p_1 = 4 / 6$ ，反例占 $p_2 = 2 / 6$；子集 $D^3$ 包含编号为｛5，11，12，14，16｝的5个样例，其中正例占 $p_1 = 1 / 5$ ，反例占 $p_2 = 4 / 5$。根据式(4.1)可计算出用 “色泽” 划分之后所得到的3个分支结点的信息熵为
+$$
+\begin{eqnarray}
+\text{Ent}(D^1) &amp;amp;=&amp;amp; - \bigg({3 \over 6}\text{log}_2 {3 \over 6} + {3 \over 6}\text{log}_2 {3 \over 6} \bigg) = 1.000, \
+\text{Ent}(D^2) &amp;amp;=&amp;amp; - \bigg({4 \over 6}\text{log}_2 {4 \over 6} + {2 \over 6}\text{log}_2 {2 \over 6} \bigg) = 0.918, \
+\text{Ent}(D^3) &amp;amp;=&amp;amp; - \bigg({1 \over 5}\text{log}_2 {1 \over 5} + {4 \over 5}\text{log}&lt;em>2 {4 \over 5} \bigg) = 0.772, \
+\end{eqnarray}
+$$
+于是，根据式(4.2)可计算出属性 “色泽” 的信息增益为
+$$
+\begin{eqnarray}
+\text{Gain}(D, 色泽)
+&amp;amp;=&amp;amp; \text{Ent}(D) - \sum^3&lt;/em>{v=1} {|D^v| \over |D|} \text{Ent}(D^v) \
+&amp;amp;=&amp;amp; 0.998 - \bigg({6 \over 17} \times 1.000 + {6 \over 17} \times 0.918 + {5 \over 17} \times 0.772 \bigg) \
+&amp;amp;=&amp;amp; 0.109 .
+\end{eqnarray}
+$$
+类似的，我们可以计算出其他属性的信息增益：
+$$
+\text{Gain}(D, 根蒂) = 0.143;\text{Gain}(D, 敲声) = 0.141 \
+\text{Gain}(D, 纹理) = 0.381;\text{Gain}(D, 脐部) = 0.289 \
+\text{Gain}(D, 触感) = 0.006.\qquad \qquad \qquad \qquad \quad \ &lt;br>
+$$
+显然，属性 “纹理” 的信息增益最大，于是它被选为划分属性。图4.3给出了基于 “纹理” 对根结点进行划分的结果，各分支结点所包含的样例子集显示在结点中。&lt;/p>
+&lt;p>&lt;img alt="tree first split" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\xgs_tree1.png">&lt;/p>
+&lt;p>然后，决策树学习算法将对每个分支结点做进一步划分。以图4.3中第一个分支结点（“纹理=清晰”）为例，该结点包含的样例集合 $D^1$ 中有编号为 ｛1，2，3，4，5，6，8，10，15｝的9个样例，可用属性集合为 ｛色泽，根蒂，敲声，脐部，触感｝&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>。基于 $D^1$ 计算出各个属性的信息增益：
+$$
+\text{Gain}(D, 根蒂) = 0.458;\text{Gain}(D, 敲声) = 0.331 \
+\text{Gain}(D, 色泽) = 0.043;\text{Gain}(D, 脐部) = 0.458 \
+\text{Gain}(D, 触感) = 0.458.\qquad \qquad \qquad \qquad \quad \ &lt;br>
+$$
+“根蒂”、“脐部”、“触感” 3个属性均取得最大的信息增益，可任选其中之一作为划分属性。类似的，对每个分支结点进行上述操作，最终得到的决策树如图4.4所示。&lt;/p>
+&lt;p>&lt;img alt="tree first split" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\xgs_tree2.png">&lt;/p>
+&lt;h4 id="增益率" >
+&lt;div>
+&lt;a href="#%e5%a2%9e%e7%9b%8a%e7%8e%87">
+###
+&lt;/a>
+增益率
+&lt;/div>
+&lt;/h4>
+&lt;p>在上面的例子中，我们有意忽略了表4.1中的 “编号” 这一列。如果把 “编号” 也作为一个候选划分属性，则根据式(4.2)可计算出它的信息增益为$0.998$，远大于其他候选划分属性。这很容易理解：“编号” 将产生17个分支，每个分支结点仅包含一个样本，这些分支结点的纯度已达到最大。然而，这样的决策树显然不具有泛化能力，无法对新样本进行有效预测。&lt;/p>
+&lt;p>实际上，信息增益准则对可取值数目较多的属性有所偏好。为减少这种偏好可能带来的不利影响，C4.5决策树算法使用 “增益率(gain ratio)” 来选择最优划分属性。采用与式4.2相同的符号表示，增益率定义为
+$$
+\tag{4.3}
+\text{Gain_ratio}(D, a) = \frac{\text{Gain}(D, a)}{\text{IV}(a)},
+$$
+其中
+$$
+\tag{4.4}
+\text{IV}(a) = - \sum^V_{v=1} {|D^v| \over |D|} \text{log}_2 {|D^v| \over |D|}
+$$
+称为属性 $a$ 的 “固有值(intrinsic value)”。属性 $a$ 的可能取值数目越多（即 $V$ 越大），则 ${\text{IV}(a)}$ 的值也越大。&lt;/p>
+&lt;p>注：增益率准则对可取值数目较少的属性有所偏好，因此，C4.5算法并不是直接选择增益率最大的候选划分属性，而是使用一个&lt;strong>启发式&lt;/strong>：先从候选划分属性中找出 &lt;em>信息增益&lt;/em> 高于平均水平的属性，再从中选择 &lt;em>增益率&lt;/em> 最大的。&lt;/p>
+&lt;h4 id="基尼指数" >
+&lt;div>
+&lt;a href="#%e5%9f%ba%e5%b0%bc%e6%8c%87%e6%95%b0">
+###
+&lt;/a>
+基尼指数
+&lt;/div>
+&lt;/h4>
+&lt;p>CART(Classification and Regression Tree) 决策树使用基尼指数（Gini index）来选择划分属性。数据集D的纯度可用基尼指数来度量：
+$$
+\begin{eqnarray}
+Gini(D)
+&amp;amp;=&amp;amp; \sum^{|\mathcal{Y}|}&lt;em>{k=1} \sum&lt;/em>{k&amp;rsquo; \ne k} p_k p_{k&amp;rsquo;} \
+&amp;amp;=&amp;amp; 1 - \sum^{|\mathcal{Y}|}&lt;em>{k=1} {p&lt;/em>{k}}^2.
+\end{eqnarray}
+$$
+直观来说，$Gini(D)$反映了从数据集$D$中随机抽取两个样本，其类别标记不一致的概率。因此$Gini(D)$越小，则数据集$D$的纯度越高。&lt;/p>
+&lt;p>属性 $a$ 的基尼指数定义为
+$$
+\text{Gini_index}(D, a) = \sum^{V}&lt;em>{v=1} \frac{|D^v|}{|D|}Gini(D^v)
+$$
+于是，我们候选属性集合$A$中，选择那个使得划分后基尼指数最小的属性作为最优划分属性，即$a^* = argmin&lt;/em>{(a \in A)} \text{Gini_index}(D, a)$.&lt;/p>
+&lt;blockquote>
+&lt;p>《hands-on Machine Learning with sklearn, Keras and tensorflow》&lt;/p>
+&lt;p>The CART Training Algorithm&lt;/p>
+&lt;p>&lt;strong>1. Classification Task&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Sklearn&lt;/strong> uses the CART algorithm to train Decision Tree (i.e., &amp;ldquo;growing&amp;rdquo; tree). The algorithm works by first splitting the training set into two subsets using a single feature $k$ and a threshold $t_k$ (e.g., &amp;ldquo;petal length $\le$ 2.45 cm&amp;rdquo; which is a feature in iris data). How does it choose $k$ and $t_k$ ? It searches for the pair ($k$, $t_k$) that produces the purest subsets (weighted by their size).
+$$
+\tag{6.2}
+J(k, t_k) = {m_{left} \over m} G_{left} + {m_{right} \over m} G_{right}
+$$
+where&lt;/p>
+&lt;ul>
+&lt;li>$m_{left/right}$ is the number of instances in the left/right subset,&lt;/li>
+&lt;li>$G_{left/right}$ measures the impurity of the left/right subset.&lt;/li>
+&lt;/ul>
+&lt;p>Equation 6.2 gives the cost function for classification task that the algorithm tries to minimize.&lt;/p>
+&lt;p>Once the CART algorithm has successfully split the training set in two, it splits the subsets using the same logic, then the sub-subsets, and so on, recursively. It stops recursing once it reaches the maximum depth (&lt;code>max_depth&lt;/code>), or if it cannot find a split that will reduce impurity. There are other additional stopping conditions hyperparameters such as &lt;code>min_samples_split&lt;/code>, &lt;code>min_samples_leaf&lt;/code>, &lt;code>min_weight_fraction_leaf&lt;/code>, and &lt;code>max_leaf_nodes&lt;/code>. Increasing &lt;code>min_*&lt;/code> hyperparameters or reducing &lt;code>max_*&lt;/code> hyperparameters will regularize the model.&lt;/p>
+&lt;p>&lt;strong>2. Regresssion Task&lt;/strong>&lt;/p>
+&lt;p>The CART algorithm works mostly the same as earlier, except that instead of trying to split the training set in a way that minimizes impurity, it now tries to split the training set in a way that minimizes the MSE.
+$$
+\tag{6.2}
+J(k, t_k) = {m_{left} \over m} \text{MSE}&lt;em>{left} + {m&lt;/em>{right} \over m} \text{MSE}_{right}
+$$
+where&lt;/p>
+&lt;ul>
+&lt;li>$MSE_{node} = \sum_{i \in node} (\hat{y}_{node} - y^{(i)})$ ,&lt;/li>
+&lt;li>$\hat{y}&lt;em>{node} = {1 \over m&lt;/em>{node}} \sum_{i \in node} y^{(i)}$&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>3. Instability&lt;/strong>&lt;/p>
+&lt;p>Decision Trees produce orthogonal decision boundaries (all splits are perpendicular to an axis), which makes them sensitive to trianing set rotation (The model on the right of figure 6-7 will not generalize well). Ony way to limit this problem is to use Principal Component Analysis (PCA), which often results in a better orientation of the training data.&lt;/p>
+&lt;p>&lt;img alt="dtree instability" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\hands-onML_dtree_instability.png">&lt;/p>
+&lt;p>More generally, the main issue with Decision Trees is that they are very sensitive to small variations in the training data&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>. Actually, since the training algorithm used by Sklearn is stochastic (means it randomly selects the set of features to evaluate at each node), it may produces very different models even on the same training data (unless you set the &lt;code>random_state&lt;/code> hyperparameter).&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="剪枝处理" >
+&lt;div>
+&lt;a href="#%e5%89%aa%e6%9e%9d%e5%a4%84%e7%90%86">
+##
+&lt;/a>
+剪枝处理
+&lt;/div>
+&lt;/h3>
+&lt;p>剪枝 (pruning)是决策树学习算法对付 “过拟合” 的主要手段。在决策树学习过程中，为了尽可能正确分类训练样本，结点划分过程将不断重复，有时会造成决策树分支过多，以致于把训练集自身的一些特点当作所有数据都具有的一般性质从而导致过拟合。因此，通过主动去掉一些分支来降低过拟合的风险。&lt;/p>
+&lt;p>决策树剪枝的基本策略有 &lt;strong>预剪枝(prepruning)&lt;/strong> 和 &lt;strong>后剪枝(post-pruning)&lt;/strong> 。&lt;/p>
+&lt;p>预剪枝是指在决策树生成过程中，对每个结点在划分前先进行估计，若当前结点的划分不能带来决策树泛化性能的提升，则停止划分，并将当前结点标记为叶结点。&lt;/p>
+&lt;p>后剪枝则是先从训练集生成一棵完整的决策树，然后自底向上地对非叶结点进行考察，若将该结点对应的子树替换为叶结点能带来决策树泛化性能的提升，则将该子树替换为叶结点。&lt;/p>
+&lt;p>&lt;strong>如何判断决策树泛化性能是否提升呢？&lt;/strong> 这可以使用常用的性能评估方法进行，如 “留出法”、“交叉验证法” 以及 “自助法” 等方法。&lt;/p>
+&lt;p>预剪枝会使得决策树的很多分支没有 “展开”，这不仅能降低过拟合的风险，还会显著减少训练和测试的时间开销。但另一方面，有些分支的当前划分虽不能提升泛化性能（甚至可能导致泛化性能暂时下降），但在其基础上进行的后续划分却有可能使得泛化性能显著提高；预剪枝基于 “贪心” 本质禁止这些分支展开，这给预剪枝决策树带来欠拟合的风险。&lt;/p>
+&lt;p>后剪枝决策树通常会比预剪枝决策树保留更多的分支。一般情形下，后剪枝决策树欠拟合风险很小，泛化性能往往优于预剪枝决策树。但后剪枝决策树的训练时间开销则大得多。&lt;/p>
+&lt;h3 id="连续值属性和缺失值" >
+&lt;div>
+&lt;a href="#%e8%bf%9e%e7%bb%ad%e5%80%bc%e5%b1%9e%e6%80%a7%e5%92%8c%e7%bc%ba%e5%a4%b1%e5%80%bc">
+##
+&lt;/a>
+连续值属性和缺失值
+&lt;/div>
+&lt;/h3>
+&lt;p>&lt;strong>连续值处理&lt;/strong>&lt;/p>
+&lt;p>由于连续属性的可取值数目不再有限，因此，不能直接根据连续属性的可取值来对结点进行划分。此时，&lt;strong>连续属性离散化&lt;/strong>技术可派上用场。最简单的策略是采用二分法(bi-partition)对连续属性进行处理，这正是C4.5决策树算法中采用的机制。&lt;/p>
+&lt;p>给定样本集 $D$ 和连续属性 $a$，假定 $a$ 在 $D$ 上出现了 $n$ 个不同的取值，将这些取值从小到大进行排序，记为 {$a^1, \ldots, a^n$}。基于划分点 $t$ 可将 $D$ 分为子集 $D^-_t$ 和 $D^+&lt;em>t$ ，其中 $D^-&lt;em>t$ 包含哪些在属性 $a$ 上取值不大于 $t$ 的样本，而 $D^+&lt;em>t$ 则包含那些大于 $t$ 的样本。显然，对相邻的属性取值 $a^i$ 与 $a^{i+1}$ 来说，$t$ 在区间 [$a^i, a^{i+1}$) 中取任意值所产生的划分结果相同。因此，对连续属性 $a$，我们可考察包含 $n - 1$ 个元素的候选划分点集合
+$$
+\tag{4.7}
+T_a = \bigg{{a^i + a^{i+1} \over 2} | 1 \le i \le n-1 \bigg},
+$$
+即把区间 [$a^i, a^{i+1}$) 的中位点作为候选划分点&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>。然后我们就可以像离散属性值一样来考虑这些划分点，选取最优的划分点进行样本集合的划分。例如，可对式4.2稍加改造：
+$$
+\begin{eqnarray}
+\text{Gain}(D, a)
+&amp;amp;=&amp;amp; \text{max}&lt;/em>{(t \in T_a)} \text{Gain}(D, a, t) \
+\tag{4.8}
+&amp;amp;=&amp;amp; \text{max}&lt;/em>{(t \in T_a)} \text{Ent}(D) - \sum&lt;/em>{\lambda \in {-, + }} {|D^{\lambda}_t| \over |D|} \text{Ent}(D^{\lambda}_t),
+\end{eqnarray}
+$$
+其中，$\text{Gain}(D, a, t)$ 是样本集 $D$ 基于划分点 $t$ 二分后的信息增益。于是，我们就可选择使 $\text{Gain}(D, a, t)$ 最大化的划分点。&lt;/p>
+&lt;p>&lt;strong>缺失值处理&lt;/strong>&lt;/p>
+&lt;p>现实任务中常会遇到不完整样本，即样本的某些属性值缺失。在属性数目较多的情形下，往往会有大量样本出现缺失值。如果简单地放弃不完整样本，仅使用无缺失值的样本进行学习，显然是对数据信息的极大浪费。&lt;/p>
+&lt;p>我们需要解决两个问题：&lt;/p>
+&lt;ol>
+&lt;li>如何在属性值缺失的情况下进行划分属性的选择？&lt;/li>
+&lt;li>给定划分属性，如果样本在该属性上的值缺失，如何对样本进行划分？&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>The real handling approaches to missing data does not use data point with missing values in the evaluation of a split. However, when child nodes are created and trained, those instances are distributed somehow.&lt;/p>
+&lt;p>I know about the following approaches to distribute the missing value instances to child nodes:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>simply ignoring the missing values (like ID3 and other old algorithms does) or treating the missing values as another category (in case of a nominal feature). Those approachs were used in the early stages of decision tree development.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>all goes to the node which already has the biggest number of instances (CART, but not its primary rule)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>distribute to all children, but with diminished weights, proportional with the number of instances from each child node (C4.5 and others)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>distribute randomly to only one single child node, eventually according with a categorical distribution (various implementations of C4.5 and CART for faster funing time)&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>build, sort and use surrogates to distribute instances to a child node, where surrogates are input features which resembles best how the test feature send data instances to left or right child node (CART, if that fails, the majority rule is used)&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>This answer was copied from &lt;a href="https://stats.stackexchange.com/questions/96025/how-do-decision-tree-learning-algorithms-deal-with-missing-values-under-the-hoo">here&lt;/a>.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="多变量决策树" >
+&lt;div>
+&lt;a href="#%e5%a4%9a%e5%8f%98%e9%87%8f%e5%86%b3%e7%ad%96%e6%a0%91">
+##
+&lt;/a>
+多变量决策树
+&lt;/div>
+&lt;/h3>
+&lt;p>如果我们把每个属性视为坐标空间中的一个坐标轴，则 $d$ 个属性描述的样本就对应了 $d$ 维空间中的一个数据点，对样本分类意味着在这个坐标空间中寻找不同样本之间的分类边界。&lt;/p>
+&lt;p>决策树所形成的分类边界有一个明显的特点：轴平行(axis-parallel)，即它的分类边界由若干个与坐标轴平行的分段组成。&lt;/p>
+&lt;p>&lt;img alt="data3a" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\xgs_tree_dataset3a.png">&lt;/p>
+&lt;p>以表4.5中的西瓜数据$3.0 \alpha$为例，将它作为训练集学习得图4.10所示的决策树，其分类边界如图4.11所示。&lt;/p>
+&lt;p>&lt;img alt="tree3a" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\xgs_tree3a2.png">&lt;/p>
+&lt;p>显然，分类边界的每一段都是与坐标轴平行的。这样的分类边界使得学习结果有较好的可解释性，因为每一段划分都直接对应了某个属性取值。但在学习任务的真实分类边界比较复杂时，必须使用很多段划分才能获得较好的近似，如图4.12所示；此时的决策树会相当复杂，由于需要进行大量属性测试，预测时间开销会很大。&lt;/p>
+&lt;p>&lt;img alt="tree3a3" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\xgs_tree3a3.png">&lt;/p>
+&lt;p>如果能够使用斜的划分边界，如图4.12中的红色线段所示，则决策树模型将大为简化。&lt;/p>
+&lt;p>&lt;strong>“多变量决策树”(multivariate decision tree)&lt;/strong> 就是能实现这样的 “斜划分” 甚至更复杂划分的决策树。以实现斜划分的多变量决策树为例，在此类决策树中，非叶结点不再是仅对某个属性，而是对属性的线性组合进行测试；换言之，每个非叶结点是一个形如 $\sum^d_{i=1} w_i a_i = t$ 的线性分类器，其中 $w_i$ 是属性 $a_i$ 的权重， $w_i$ 和 $t$ 可以在该结点所含的样本集和属性集上学得&lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>。于是，与传统的 “单变量决策树(univariate decision tree)” 不同，在多变量决策树的学习过程中，不是为每个非叶结点寻找一个最优划分属性，而是试图建立一个合适的线性分类器。&lt;/p>
+&lt;p>例如对西瓜数据$3.0 \alpha$，我们可以学得图4.13这样的多变量决策树，其分类边界如图4.14所示。&lt;/p>
+&lt;p>&lt;img alt="tree3a4" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\xgs_tree3a4.png">&lt;/p>
+&lt;h3 id="阅读材料" >
+&lt;div>
+&lt;a href="#%e9%98%85%e8%af%bb%e6%9d%90%e6%96%99">
+##
+&lt;/a>
+阅读材料
+&lt;/div>
+&lt;/h3>
+&lt;p>在&lt;strong>信息增益、增益率、基尼指数&lt;/strong>之外，人们还设计了许多其他的准则用于决策树划分选择，然而有实验研究表明&lt;sup id="fnref:6">&lt;a href="#fn:6" class="footnote-ref" role="doc-noteref">6&lt;/a>&lt;/sup>，这些准则虽然对决策树的尺寸有较大影响，但对泛化性能的影响很有限；对信息增益和基尼指数进行的理论分析&lt;sup id="fnref:7">&lt;a href="#fn:7" class="footnote-ref" role="doc-noteref">7&lt;/a>&lt;/sup>也显示出，它们仅在 $2%$ 的情况下会有所不同。而剪枝方法和剪枝程度对决策树的泛化性能影响显著，有实验研究&lt;sup id="fnref:8">&lt;a href="#fn:8" class="footnote-ref" role="doc-noteref">8&lt;/a>&lt;/sup>表明，在数据带有噪声时，通过剪枝甚至可将决策树的泛化性能提高 $25%$。&lt;/p>
+&lt;p>多变量决策树算法主要有 $OC1$&lt;sup id="fnref:9">&lt;a href="#fn:9" class="footnote-ref" role="doc-noteref">9&lt;/a>&lt;/sup>，$OC1$ 算法先贪心地寻找每个属性的最优权值，在局部优化的基础上再对分类边界进行随机扰动以试图找到更好的边界；Brodley and Utgoff&lt;sup id="fnref:10">&lt;a href="#fn:10" class="footnote-ref" role="doc-noteref">10&lt;/a>&lt;/sup> 则直接引入了线性分类器学习的最小二乘法。还有一些算法试图在决策树的叶结点上嵌入神经网络，以结合这两种学习机制的优势，例如 “感知机树(Perceptron tree)”&lt;sup id="fnref:11">&lt;a href="#fn:11" class="footnote-ref" role="doc-noteref">11&lt;/a>&lt;/sup> 在每个叶结点上训练一个感知机，也有直接在叶结点上嵌入多层神经网络的模型&lt;sup id="fnref:12">&lt;a href="#fn:12" class="footnote-ref" role="doc-noteref">12&lt;/a>&lt;/sup>。&lt;/p>
+&lt;p>有一些决策树学习算法可进行 “增量学习(incremental learning)”，即在接收到新样本后可对已学得的模型进行调整，而不用完全重新学习。主要机制是通过调整分支路径上的划分属性次序来对树进行部分重构，代表性算法有ID4&lt;sup id="fnref:13">&lt;a href="#fn:13" class="footnote-ref" role="doc-noteref">13&lt;/a>&lt;/sup>、ID5R&lt;sup id="fnref:14">&lt;a href="#fn:14" class="footnote-ref" role="doc-noteref">14&lt;/a>&lt;/sup>、ITI&lt;sup id="fnref:15">&lt;a href="#fn:15" class="footnote-ref" role="doc-noteref">15&lt;/a>&lt;/sup>等。增量学习可有效降低每次接收到新样本后的训练时间开销，但多步增量学习后的模型会与基于全部数据训练而得的模型有较大差别。&lt;/p>
+&lt;h2 id="集成学习ensemble" >
+&lt;div>
+&lt;a href="#%e9%9b%86%e6%88%90%e5%ad%a6%e4%b9%a0ensemble">
+#
+&lt;/a>
+集成学习(Ensemble)
+&lt;/div>
+&lt;/h2>
+&lt;p>根据个体学习器的生成方式，目前集成学习&lt;sup id="fnref:16">&lt;a href="#fn:16" class="footnote-ref" role="doc-noteref">16&lt;/a>&lt;/sup>方法大致可分为两大类，&lt;/p>
+&lt;ul>
+&lt;li>个体学习器之间存在强依赖关系、必须串行生成的序列化方法，代表算法Boosting&lt;sup id="fnref:17">&lt;a href="#fn:17" class="footnote-ref" role="doc-noteref">17&lt;/a>&lt;/sup>;&lt;/li>
+&lt;li>个体学习器之间不存在强依赖关系、可同时生成的并行化方法，代表算法Bagging和 “随机森林”.&lt;/li>
+&lt;/ul>
+&lt;p>想要得到泛化性能强的集成，集成中的个体学习器应尽可能相互独立；虽然 “独立” 在现实任务中无法做到，但可以设法使基学习器尽可能具有较大的差异。&lt;/p>
+&lt;p>给定一个训练数据集，一种可能的做法是对训练样本进行采样，产生出若干个不同的子集，再从每个数据子集中训练出一个基学习器。这样，由于训练数据不同，我们获得的基学习器可望具有比较大的差异。然而，为获得好的集成，我们同时还希望个体学习器不能太差。如果采样出的每个子集都完全不同，则意味着每个基学习器只用到了一小部分训练数据，甚至可能不足以进行有效学习，这就无法保证产出比较好的基学习器。为解决这个问题，我们可考虑使用互相有交叠的采样子集。&lt;/p>
+&lt;p>&lt;img alt="hard voting classifier" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\hands-onML_ensemble_majority_vote.png">&lt;/p>
+&lt;p>&lt;em>Figure 7-2. Hard voting classifier predictions. Copy from the book《hands-on Machine Learning with sklearn, Keras and tensorflow》&lt;/em>&lt;/p>
+&lt;h3 id="bagging" >
+&lt;div>
+&lt;a href="#bagging">
+##
+&lt;/a>
+BAGGING
+&lt;/div>
+&lt;/h3>
+&lt;p>Bagging (Bootstrap AGGregatING) 是并行式集成学习方法最著名的代表。从名字即可看出，它直接基于自助采样法&lt;sup id="fnref:18">&lt;a href="#fn:18" class="footnote-ref" role="doc-noteref">18&lt;/a>&lt;/sup>。因此，我们知道初始训练集中约有 $63.2%$ 的样本出现在采样集中。我们可以采样出 $T$ 个含 $m$ 个训练样本的采样集，然后基于每个采样集训练出一个基学习器，再将这些基学习器进行结合。这就是Bagging的基本流程。&lt;/p>
+&lt;p>在对预测输出进行结合时，Bagging通常对分类任务使用简单投票法，对回归任务采用简单平均法。&lt;/p>
+&lt;hr>
+&lt;p>Bagging 算法&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>输入&lt;/strong>: 训练集 $D = {(x_1, y_1), \ldots, (x_m, y_m) }$;&lt;/p>
+&lt;p>​ 基学习算法 $\mathcal{L}$;&lt;/p>
+&lt;p>​ 训练轮数 $T$.&lt;/p>
+&lt;p>&lt;strong>过程&lt;/strong>：&lt;/p>
+&lt;p>1: &lt;strong>for&lt;/strong> $t = 1, \ldots, T$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>2: $h_t = \mathcal{L} (D, D_{bs})$&lt;/p>
+&lt;p>3: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>输出&lt;/strong>: $H(x) = \text{argmax}&lt;em>{(y \in \mathcal{Y})} \sum^T&lt;/em>{t=1} \mathbf{I}(h_t(x) = y)$&lt;/p>
+&lt;hr>
+&lt;p>其中，$D_{bs}$ 是自助采样产生的样本分布。&lt;/p>
+&lt;p>从偏差-方差分解的角度看，Bagging主要关注降低方差，因此因此它在不剪枝决策树、神经网络等易受到样本扰动的学习器上效用更为明显。&lt;/p>
+&lt;blockquote>
+&lt;p>《hands-on Machine Learning with sklearn, Keras and tensorflow》&lt;/p>
+&lt;p>&lt;strong>Bagging and Pasting&lt;/strong>&lt;/p>
+&lt;p>One way to get a diverse set of classifiers is to use very different training algorithms (such as SVMs, LR, DTs etc). Another approach is to use the same training algorithm for every predictor and train them on different random subsets of the training set. When sampling is performed &lt;strong>with replacement&lt;/strong>, this method is called &lt;strong>bagging&lt;/strong>, when sampling is preformed &lt;strong>without replacement&lt;/strong>, it is called &lt;strong>pasting&lt;/strong>.&lt;/p>
+&lt;p>In other words, both bagging and pasting allow training instances to be sampled several times across multiple predictiors, but only bagging allows training instances to be sampled several times for the same predictor. This sampling and training process is represented in Figure 7-4.&lt;/p>
+&lt;p>&lt;img alt="bagging pasting" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\hands-onML_ensemble_bagging_pasting.png">&lt;/p>
+&lt;p>Once all predictors are trained, the ensemble can make a prediction for a new instance by simply aggregating the predictions all predictors. The aggregation function is typically&lt;/p>
+&lt;ul>
+&lt;li>the &lt;em>statistical mode&lt;/em>&lt;sup id="fnref:19">&lt;a href="#fn:19" class="footnote-ref" role="doc-noteref">19&lt;/a>&lt;/sup> for classification, or&lt;/li>
+&lt;li>the &lt;em>statistical average&lt;/em> for regression.&lt;/li>
+&lt;/ul>
+&lt;p>Generally, the net result is that the ensemble has a similar bias but a lower variance than single predictor trained on the original train set.&lt;/p>
+&lt;/blockquote>
+&lt;h4 id="随机森林-rf" >
+&lt;div>
+&lt;a href="#%e9%9a%8f%e6%9c%ba%e6%a3%ae%e6%9e%97-rf">
+###
+&lt;/a>
+随机森林 RF
+&lt;/div>
+&lt;/h4>
+&lt;p>随机森林是Bagging的一个扩展变体。RF在以决策树为基学习器构建Bagging集成的基础上，进一步在决策树的训练过程中引入了随机属性选择。具体来说，传统决策树在选择划分属性时是在当前结点的属性集（假定有 $d$ 个属性）中选择一个最优属性；而在 RF 中，对基决策树的每个结点，先从该结点的属性集中随机选择一个包含 $k$ 个属性的子集，然后再从这个子集中选择一个最优属性用于划分。这里的参数 $k$ 控制了随机性的引入程度：&lt;/p>
+&lt;ul>
+&lt;li>$k = d$, 则基决策树的构建与传统决策树相同；&lt;/li>
+&lt;li>$k = 1$, 则是随机选择一个属性用于划分；一般推荐 $k = \text{log}_2 d$.&lt;/li>
+&lt;/ul>
+&lt;p>可以看出，随机森林对Bagging只做了小改动，但是与Bagging中基学习器的 “多样性” 仅通过样本扰动而来不同，随机森林中基学习器的多样性不仅来自样本扰动，还来自属性扰动，这就使得最终集成的泛化性能可通过个体学习器之间差异程度的增加而进一步提升。&lt;/p>
+&lt;p>值得一提的是，随机森林的训练效率通常优于Bagging，因为在个体决策树的构建过程中，Bagging 使用的是 “确定型” 决策树，在选择划分属性时要对结点的所有属性进行考察，而随机森林使用的 “随机型” 决策树则只需考察一个属性子集。&lt;/p>
+&lt;blockquote>
+&lt;p>《hands-on Machine Learning with sklearn, Keras and tensorflow》&lt;/p>
+&lt;p>&lt;strong>1. Random Forest&lt;/strong>&lt;/p>
+&lt;p>A Random Forest is an ensemble of Decision Trees, generally trained via the bagging method (or sometimes pasting), typically with &lt;code>max_samples&lt;/code> set to the size of the training set. Instead of building a &lt;code>BaggingClassifier&lt;/code> and passing it a &lt;code>DecisionTreeClassifier&lt;/code>, you can instead use the &lt;code>RandomForestClassifier&lt;/code> class, which is more convenients and optimized for Decision Trees&lt;sup id="fnref:20">&lt;a href="#fn:20" class="footnote-ref" role="doc-noteref">20&lt;/a>&lt;/sup> (similarly, there is a &lt;code>RandomForestRegressor&lt;/code> class for regression tasks).&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> sklearn.ensemble &lt;span style="color:#ff6ac1">import&lt;/span> RandomForestClassifier
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rf_clf &lt;span style="color:#ff6ac1">=&lt;/span> RandomForestClassifier(n_estimators&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">500&lt;/span>, max_leaf_nodes&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">16&lt;/span>, n_jobs&lt;span style="color:#ff6ac1">=-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rf_clf&lt;span style="color:#ff6ac1">.&lt;/span>fit(X_train, y_train)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_pred &lt;span style="color:#ff6ac1">=&lt;/span> rf_clf&lt;span style="color:#ff6ac1">.&lt;/span>predict(X_test)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With a few exceptions, a &lt;code>RandomForestClassifier&lt;/code> has all the hypeparameters of a &lt;code>DecisionTreeClassifier&lt;/code> (to control how trees are grown), plus all the hypeparameters of a &lt;code>BaggingClassifier&lt;/code> to control the ensemble itself.&lt;/p>
+&lt;p>&lt;strong>2. Extra-Trees&lt;/strong>&lt;/p>
+&lt;p>When you are growing a tree in a Random Forest, at each node only a random subset of the features (the $k$ set) is considered for splitting. It is possible to make trees even more random by also using random thresholds (the $t_k$ value) for each feature rather than searching for the best possible thresholds (like regular Decision Trees do).&lt;/p>
+&lt;p>A forest with such extremely random trees is called an &lt;em>Extremely Randomized Trees&lt;/em> ensemble (or &lt;em>Extra-Trees&lt;/em> for short). Once again, this technique trades more bias for a lower variance. It also makes &lt;em>Extra-Trees&lt;/em> much faster to train than regular Random Forests&lt;sup id="fnref:21">&lt;a href="#fn:21" class="footnote-ref" role="doc-noteref">21&lt;/a>&lt;/sup>.&lt;/p>
+&lt;p>It is hard to tell in advance whether a &lt;code>RandomForestClassifier&lt;/code> will preform better or worse than an &lt;code>ExtraTreesClassifier&lt;/code> . Generally, the only way to know is to try both and compare them using cross-validation (tuning the hyperparameters uisng grid search).&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="boosting" >
+&lt;div>
+&lt;a href="#boosting">
+##
+&lt;/a>
+BOOSTING
+&lt;/div>
+&lt;/h3>
+&lt;blockquote>
+&lt;p>from 《A Gentle Introduction to Gradient Boosting》, &lt;a href="mailto:chengli@ccs.neu.edu">chengli@ccs.neu.edu&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;strong>What is Gradient Boosting&lt;/strong>&lt;/p>
+&lt;p style="text-align: center;color=green;font-size=20">
+Gradient Boosting = Gradient Descent + Boosting
+&lt;/p>
+&lt;h4 id="adaboost" >
+&lt;div>
+&lt;a href="#adaboost">
+###
+&lt;/a>
+AdaBoost
+&lt;/div>
+&lt;/h4>
+&lt;p>&lt;img alt="adaboost" src="./images/adaboost.png">&lt;/p>
+&lt;p>AdaBoost training:&lt;/p>
+&lt;ul>
+&lt;li>Fit an additive model (ensemble) $\sum_t \rho_t h_t(x)$ in a forward stage-wise manner.&lt;/li>
+&lt;li>In each stage, introduce a weak learner to compensate the &lt;em>shortcomings&lt;/em> of existing weak learners.&lt;/li>
+&lt;li>In AdaBoost, &lt;em>shortcomings&lt;/em> are identified by high-weight data points.&lt;/li>
+&lt;/ul>
+&lt;p>$$
+H(x) = \sum_t \rho_t h_t(x)
+$$
+&lt;img alt="adaboost" src="./images/adaboost2.png">&lt;/p>
+&lt;p style="text-align: center">
+Figure: AdaBoost. Source: Figure 1.2 of [Schapire and Freund, 2012]
+&lt;/p>
+&lt;h4 id="gradient-boosting" >
+&lt;div>
+&lt;a href="#gradient-boosting">
+###
+&lt;/a>
+Gradient Boosting
+&lt;/div>
+&lt;/h4>
+&lt;ul>
+&lt;li>Fit an additive model (ensemble) $\sum_t \rho_t h_t(x)$ in a forward stage-wise manner.&lt;/li>
+&lt;li>In each stage, introduce a weak learner to compensate the &lt;em>shortcomings&lt;/em> of existing weak learners.&lt;/li>
+&lt;li>In Gradient Boosting, &lt;em>shortcomings&lt;/em> are identified by &lt;strong>gradients&lt;/strong>. (Recall that&lt;strong>hight-weight&lt;/strong> data points for adaboost)&lt;/li>
+&lt;li>Both high-weight data points and gradients tell us how to improve our model.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>AdaBoost &amp;amp;&amp;amp; Gradient Boosting&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Invent Adaboost, the rst successful boosting algorithm
+[Freund et al., 1996, Freund and Schapire, 1997]&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Formulate Adaboost as gradient descent with a special loss
+function[Breiman et al., 1998, Breiman, 1999]&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Generalize Adaboost to Gradient Boosting in order to handle
+a variety of loss functions
+[Friedman et al., 2000, Friedman, 2001]&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="gradient-boosting-for-regression" >
+&lt;div>
+&lt;a href="#gradient-boosting-for-regression">
+###
+&lt;/a>
+Gradient Boosting for Regression
+&lt;/div>
+&lt;/h4>
+&lt;p>Given $D = {(x_1,y_1), (x_2,y_2), \ldots, (x_n,y_n)}$, and the task is to fit a model $F(x)$ to minimize square loss.&lt;/p>
+&lt;p>Suppose your friend wants to help you and gives you a model $F$. You check his model and find that the model is good but not perfect. There are some mistakes: $F(x_1)=0.8$, while $y_1=0.9$, $F(x_2)=1.8$, while $y_2=1.9$, and so on. How can you improve this model? With following rules:&lt;/p>
+&lt;ul>
+&lt;li>You are not allowed to remove anything from $F$ or change any parameter in $F$.&lt;/li>
+&lt;li>You can add an additional model (regression tree) $h$ to $F$, so the new prediction will be $F(x) + h(x)$.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Simple solution:&lt;/strong>&lt;/p>
+&lt;p>You wish to improve the model such that
+$$
+\begin{eqnarray}
+F(x_1) + h(x_1) &amp;amp;=&amp;amp; y_1 \
+F(x_2) + h(x_2) &amp;amp;=&amp;amp; y_2 \
+\cdots \
+F(x_n) + h(x_n) &amp;amp;=&amp;amp; y_n \
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>Or equivalently, you wish
+$$
+\begin{eqnarray}
+h(x_1) &amp;amp;=&amp;amp; y_1 - F(x_1) \
+h(x_2) &amp;amp;=&amp;amp; y_2 - F(x_2) \
+\cdots \
+h(x_n) &amp;amp;=&amp;amp; y_n - F(x_n) \
+\end{eqnarray}
+$$
+Can any regression tree $h$ achieve this goal prefectly? Maybe not.&lt;/p>
+&lt;p>But some regression tree might be able to do this approximately. But how?&lt;/p>
+&lt;p>Just fit a regression tree $h$ to the &lt;strong>residuals&lt;/strong>&lt;sup id="fnref:22">&lt;a href="#fn:22" class="footnote-ref" role="doc-noteref">22&lt;/a>&lt;/sup> data :&lt;/p>
+&lt;p>$(x_1,y_1 - F(x_1)), (x_2,y_2 - F(x_2)), \ldots, (x_n,y_n - F(x_n)),$&lt;/p>
+&lt;p>which are the parts that existing model $F$ connot do well.&lt;/p>
+&lt;p>The role of $h$ is to compensate the shortcoming of existing model $F$.&lt;/p>
+&lt;p>If the the new model $F+h$ is still not satisfactory, we can add another regression tree $g$ to fit data:&lt;/p>
+&lt;p>$(x_1,y_1 - F(x_1) - h(x_1)), (x_2,y_2 - F(x_2) - h(x_2)), \ldots, (x_n,y_n - F(x_n) - h(x_n)),$&lt;/p>
+&lt;p>which are the parts that existing model $F+h$ connot do well.&lt;/p>
+&lt;p>Repeat this process utill we are satisfied.&lt;/p>
+&lt;p>Q: We are improving the predictions of training data, is the procedure also useful for test data?&lt;/p>
+&lt;p>A: Yes! Because we are building a model, and the model can be applied to test data as well.&lt;/p>
+&lt;p>Q: &lt;strong>How is this related to gradient descent?&lt;/strong>&lt;/p>
+&lt;h4 id="relationship-to-the-gradient-descent" >
+&lt;div>
+&lt;a href="#relationship-to-the-gradient-descent">
+###
+&lt;/a>
+Relationship to the Gradient Descent
+&lt;/div>
+&lt;/h4>
+&lt;p>Minimize a function by moving in the opposite direction of the gradient.
+$$
+\theta_i := \theta_i - \rho{\partial{J} \over \partial{\theta_i}}
+$$
+&lt;img alt="gd" src="./images/gradient_descent.png">&lt;/p>
+&lt;p>Figure: Gradient Descent. Source: &lt;a href="http://en.wikipedia.org/wiki/Gradient_descent">http://en.wikipedia.org/wiki/Gradient_descent&lt;/a>&lt;/p>
+&lt;p>Recall that the task is to minimize the square loss, the loss function
+$$
+L(y, F(x)) = {1 \over 2} (y - F(x))^2
+$$
+And we want to minimize
+$$
+J = \sum_i L(y_i, F(x_i))
+$$
+by adjusting $F(x_i), F(x_2), \ldots, F(x_n)$.&lt;/p>
+&lt;p>Notice that $F(x_i), F(x_2), \ldots, F(x_n)$ are just some numbers. We can treat $F(x_i)$ as parameters and take derivatives
+$$
+\frac{\partial{J}}{\partial{F(x_i)}}
+= \frac{\partial{\sum_i L(y_i, F(x_i))}}{\partial{F(x_i)}}
+= \frac{\partial{L(y_i, F(x_i))}}{\partial{F(x_i)}}
+= F(x_i) - y_i
+$$
+So we can interpret residuals as negative gradients:
+$$
+y_i - F(x_i) = - \frac{\partial{J}}{\partial{F(x_i)}}.
+$$
+And we get:
+$$
+\begin{eqnarray}
+F(x_i) &amp;amp;:=&amp;amp; F(x_i) + h(x_i) \
+F(x_i) &amp;amp;:=&amp;amp; F(x_i) + y_i - F(x_i) \
+F(x_i) &amp;amp;:=&amp;amp; F(x_i) - 1 \frac{\partial{J}}{\partial{F(x_i)}} \
+\end{eqnarray}
+$$
+This is exactly how the gradients update iteratively when $\rho=1$:
+$$
+\theta_i := \theta_i - \rho{\partial{J} \over \partial{\theta_i}}
+$$
+For regression with &lt;strong>square loss&lt;/strong>,
+$$
+\begin{eqnarray}
+\text{residual} &amp;amp;\Leftrightarrow&amp;amp; \text{negative gradient} \
+\text{fit h to residual} &amp;amp;\Leftrightarrow&amp;amp; \text{fit h to negative gradient} \
+\text{update F based on residual} &amp;amp;\Leftrightarrow&amp;amp; \text{update F based on negative gradient} \
+\end{eqnarray}
+$$
+So we are actually updating our model using &lt;strong>gradient descent&lt;/strong>!&lt;/p>
+&lt;h4 id="loss-functions-for-regression-problem" >
+&lt;div>
+&lt;a href="#loss-functions-for-regression-problem">
+###
+&lt;/a>
+Loss Functions for Regression Problem
+&lt;/div>
+&lt;/h4>
+&lt;p>Square loss is:&lt;/p>
+&lt;ol>
+&lt;li>Easy to deal with mathematically, while&lt;/li>
+&lt;li>Not robust to outliers.&lt;/li>
+&lt;/ol>
+&lt;p>The consequence is that it pay too much attention to outliers, and try hard to incorporate outliers into the model, leads to degrade the overall performance.&lt;/p>
+&lt;p>Other commomly use loss functions are:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Absolute loss (more robust to outliers):
+$$
+L(y, F) = |y - F|
+$$
+Negative gradient:
+$$&lt;/p>
+&lt;ul>
+&lt;li>g(x_i)
+= - \frac{\partial{L(y_i, F(x_i))}}{\partial{F(x_i)}}
+= \text{sign}(y_i - F(x_i))
+$$&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>Huber loss (more robust to outliers):
+$$
+L(y, F) = \left{
+\begin{array}{ll}
+{1 \over 2}(y - F)^2, &amp;amp;|y - F| \le \delta;&amp;amp; \
+\delta(|y - F| - {\delta \over 2}), &amp;amp;|y - F| &amp;gt; \delta;&amp;amp; \
+\end{array} \right.
+$$
+Negative gradient:
+$$
+\begin{eqnarray}&lt;/p>
+&lt;ul>
+&lt;li>g(x_i)
+&amp;amp;=&amp;amp; - \frac{\partial{L(y_i, F(x_i))}}{\partial{F(x_i)}} \
+\
+&amp;amp;=&amp;amp; \left{
+\begin{array}{ll}
+y_i - F(x_i), &amp;amp;|y_i - F(x_i)| \le \delta;&amp;amp; \
+\delta\ \text{sign}(y_i - F(x_i)), &amp;amp;|y_i - F(x_i)| &amp;gt; \delta;&amp;amp; \
+\end{array} \right.
+\end{eqnarray}
+$$&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>example:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: center">$y_i$&lt;/th>
+&lt;th style="text-align: center">0.5&lt;/th>
+&lt;th style="text-align: center">1.2&lt;/th>
+&lt;th style="text-align: center">2&lt;/th>
+&lt;th style="text-align: center">$5^*$&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: center">$F(x_i)$&lt;/td>
+&lt;td style="text-align: center">0.6&lt;/td>
+&lt;td style="text-align: center">1.4&lt;/td>
+&lt;td style="text-align: center">1.5&lt;/td>
+&lt;td style="text-align: center">1.7&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">Square loss&lt;/td>
+&lt;td style="text-align: center">0.005&lt;/td>
+&lt;td style="text-align: center">0.02&lt;/td>
+&lt;td style="text-align: center">0.125&lt;/td>
+&lt;td style="text-align: center">5.445&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">Absolute loss&lt;/td>
+&lt;td style="text-align: center">0.1&lt;/td>
+&lt;td style="text-align: center">0.2&lt;/td>
+&lt;td style="text-align: center">0.5&lt;/td>
+&lt;td style="text-align: center">3.3&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: center">Huber loss ($\delta=0.5$)&lt;/td>
+&lt;td style="text-align: center">0.005&lt;/td>
+&lt;td style="text-align: center">0.02&lt;/td>
+&lt;td style="text-align: center">0.125&lt;/td>
+&lt;td style="text-align: center">1.525&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h4 id="regression-with-loss-function-l-general-procedure" >
+&lt;div>
+&lt;a href="#regression-with-loss-function-l-general-procedure">
+###
+&lt;/a>
+Regression with loss function $L$: general procedure
+&lt;/div>
+&lt;/h4>
+&lt;hr>
+&lt;p>Give any differentiable loss function $L$,&lt;/p>
+&lt;p>start with an initial model, say $F(x) = \frac{\sum^n_{i=1} y_i}{n}$,&lt;/p>
+&lt;p>iterate until converge:&lt;/p>
+&lt;p>​ calculate negative gradients $- g(x_i) = - \frac{\partial{L(y_i, F(x_i))}}{\partial{F(x_i)}}$,&lt;/p>
+&lt;p>​ fit a regression tree $h$ to negative gradients $-g(x_i)$,&lt;/p>
+&lt;p>​ $F := F + \rho h$&lt;/p>
+&lt;hr>
+&lt;p>In general, &lt;em>negative gradients&lt;/em> not equal to &lt;em>residuals&lt;/em>, and we should follow negative gradients rather than residuals because &lt;em>negative gradient&lt;/em> pays less attention to outliers.&lt;/p>
+&lt;h4 id="summary-of-the-section" >
+&lt;div>
+&lt;a href="#summary-of-the-section">
+###
+&lt;/a>
+Summary of the Section
+&lt;/div>
+&lt;/h4>
+&lt;ul>
+&lt;li>Fit an additive model $F=\sum_t {\rho_t h_t}$ in a forward stage-wise manner.&lt;/li>
+&lt;li>In each stage, introduce a new regression tree $h$ to compensate the shortcomings of existing model.&lt;/li>
+&lt;li>The &lt;em>shortcomings&lt;/em> are identified by negative gradients.&lt;/li>
+&lt;li>For any loss function, we can derive a gradient boosting algorithm.&lt;/li>
+&lt;li>Absolute loss and Huber loss are more robust to outliers than square loss.&lt;/li>
+&lt;/ul>
+&lt;p>NOTE that the things not covered:&lt;/p>
+&lt;p>How to choose a proper learning rate for each gradient boosting algorithm. See [Friedman, 2001]&lt;/p>
+&lt;hr>
+&lt;h4 id="gradient-boosting-for-classification" >
+&lt;div>
+&lt;a href="#gradient-boosting-for-classification">
+###
+&lt;/a>
+Gradient Boosting for Classification
+&lt;/div>
+&lt;/h4>
+&lt;p>&lt;strong>Problem:&lt;/strong>&lt;/p>
+&lt;p>Recognize the given hand written capital letter. &lt;a href="http://archive.ics.uci.edu/ml/datasets/Letter+Recognition">dataset size: 20000 x 16&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Multi-class classification&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>26 classes. A, B, &amp;hellip;, Z&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>features:&lt;/p>
+&lt;p>1 horizontal position of box;
+2 vertical position of box;
+3 width of box;
+4 height of box;
+5 total number on pixels;
+6 mean x of on pixels in box;
+7 mean y of on pixels in box;
+8 mean x variance;&lt;/p>
+&lt;p>9 mean y variance；&lt;/p>
+&lt;p>10 mean x y correlation;&lt;/p>
+&lt;p>11 mean of x * x * y;&lt;/p>
+&lt;p>12 mean of x * y * y;&lt;/p>
+&lt;p>13 mean edge count left to right;&lt;/p>
+&lt;p>14 correlation of x-ege with y;&lt;/p>
+&lt;p>15 mean edge count bottom to top;&lt;/p>
+&lt;p>16 correlation of y-ege with x.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Feature Vector= (2; 1; 3; 1; 1; 8; 6; 6; 6; 6; 5; 9; 1; 7; 5; 10)
+Label = G&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Model:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>26 score functions (our models): $F_A, F_B, \ldots, F_Z$.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>$F_A(x)$ assigns a score for class A.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>scores are used to calculate probabilities:
+$$
+\begin{eqnarray}
+P_A(x) &amp;amp;=&amp;amp; \frac{\exp(F_A(x))}{\sum^Z_{c=A}\exp(F_c(x))} \
+\
+P_B(x) &amp;amp;=&amp;amp; \frac{\exp(F_B(x))}{\sum^Z_{c=A}\exp(F_c(x))} \
+\
+\cdots \
+\
+P_Z(x) &amp;amp;=&amp;amp; \frac{\exp(F_Z(x))}{\sum^Z_{c=A}\exp(F_c(x))} \
+\end{eqnarray}
+$$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>predicted label = class that has the highest probability.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Loss function for each data point:&lt;/strong> step by step&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>turn the label $y_i$ into a (true) probability distribution $Y_c(x_i)$,&lt;/p>
+&lt;p>For example: $y_5=\text{G}$,&lt;/p>
+&lt;p>$Y_A(x_5)=0, Y_B(x_5)=0, \ldots, Y_G(x_5)=1, \ldots, Y_Z(x_5)=0$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>calculate the predicted probability distribution $P_c(x_i)$ based on the current model $F_A, F_B, \ldots, F_Z$.&lt;/p>
+&lt;p>$P_A(x_5)=0.03, P_B(x_5)=0.05, \ldots, P_G(x_5)=0.3, \ldots, P_Z(x_5)=0.05$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>calculate the difference between the true probability distribution and the predicted distribution. One of the ways is to use KL-divergence to measure the difference.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;strong>The Goal:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>minimize the total loss (KL-divergence)&lt;/li>
+&lt;li>for each data point, we wish the predicted probability distribution to match the true probability distribution as closely as possible.&lt;/li>
+&lt;li>we achieve this goal by adjusting our models $F_A, F_B, \ldots, F_Z$.&lt;/li>
+&lt;/ul>
+&lt;h4 id="gradient-boosting-for-classification-general-procedure" >
+&lt;div>
+&lt;a href="#gradient-boosting-for-classification-general-procedure">
+###
+&lt;/a>
+Gradient Boosting for classification: general procedure
+&lt;/div>
+&lt;/h4>
+&lt;hr>
+&lt;p>start with initial models $F_A, F_B, \ldots, F_Z$.&lt;/p>
+&lt;p>iterate until converge:&lt;/p>
+&lt;p>​ calculate negative gradients for class A: $-g_A(x_i)= - \frac{\partial{L}}{\partial{F_A(x_i)}}$&lt;/p>
+&lt;p>​ &amp;hellip;&lt;/p>
+&lt;p>​ calculate negative gradients for class Z: $-g_Z(x_i)= - \frac{\partial{L}}{\partial{F_Z(x_i)}}$&lt;/p>
+&lt;p>​ fit a regression tree $h_A$ to negative gradients $-g_A(x_i)$&lt;/p>
+&lt;p>​ &amp;hellip;&lt;/p>
+&lt;p>​ fit a regression tree $h_Z$ to negative gradients $-g_Z(x_i)$&lt;/p>
+&lt;p>​ $F_A := F_A + \rho_A h_A$&lt;/p>
+&lt;p>​ &amp;hellip;&lt;/p>
+&lt;p>​ $F_Z := F_Z + \rho_Z h_Z$&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Classification VS Regression&lt;/strong>: The Differences&lt;/p>
+&lt;ul>
+&lt;li>$F_A, F_B, \ldots, F_Z$ &lt;strong>vs&lt;/strong> $F$&lt;/li>
+&lt;li>a matrix of parameters to optimize &lt;strong>vs&lt;/strong> a column of parameters to optimize&lt;/li>
+&lt;li>a matrix of gradients &lt;strong>vs&lt;/strong> a column of gradients&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;/blockquote>
+&lt;h2 id="part-ii-engineering-views" >
+&lt;div>
+&lt;a href="#part-ii-engineering-views">
+#
+&lt;/a>
+Part-II: Engineering views
+&lt;/div>
+&lt;/h2>
+&lt;h2 id="sklearn-random-forest-model" >
+&lt;div>
+&lt;a href="#sklearn-random-forest-model">
+#
+&lt;/a>
+Sklearn Random-forest model
+&lt;/div>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>sklearn&lt;span style="color:#ff6ac1">.&lt;/span>ensemble&lt;span style="color:#ff6ac1">.&lt;/span>RandomForestClassifier(n_estimators&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">100&lt;/span>, &lt;span style="color:#ff6ac1">*&lt;/span>, criterion&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#39;gini&amp;#39;&lt;/span>, max_depth&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>, min_samples_split&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span>, min_samples_leaf&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>, min_weight_fraction_leaf&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">0.0&lt;/span>, max_features&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#39;auto&amp;#39;&lt;/span>, max_leaf_nodes&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>, min_impurity_decrease&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">0.0&lt;/span>, min_impurity_split&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>, bootstrap&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">True&lt;/span>, oob_score&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">False&lt;/span>, n_jobs&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>, random_state&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>, verbose&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">0&lt;/span>, warm_start&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">False&lt;/span>, class_weight&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>, ccp_alpha&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">0.0&lt;/span>, max_samples&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>A random forest classifier.&lt;/p>
+&lt;p>A random forest is a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the predictive accuracy and control over-fitting. The sub-sample size is controlled with the &lt;code>max_samples&lt;/code> parameter if &lt;code>bootstrap=True&lt;/code> (default), otherwise the whole dataset is used to build each tree.&lt;/p>
+&lt;h3 id="feature_importances_" >
+&lt;div>
+&lt;a href="#feature_importances_">
+##
+&lt;/a>
+feature_importances_
+&lt;/div>
+&lt;/h3>
+&lt;p>Sklearn measures a feature&amp;rsquo;s importance by looking at how much the tree nodes that use that feature reduce impurity on average (across all trees in the forest). More precisely, it is a weighted average, where each node&amp;rsquo;s weight is equal to the number of training samples that are associated with it.&lt;/p>
+&lt;p>&lt;code>feature_importances_&lt;/code> is a impurity-based feature importances.&lt;/p>
+&lt;p>The higher, the more importance the feature. The importance of a feature is computed as the (normalized) total reduction of the criterion brought by that feature. It is also known as the Gini importance.&lt;/p>
+&lt;p>Warning: impurity-based feature importance can be misleading for high cardinality features (many unique values). see [permutation_importance](###permutation importance) as an alternative.&lt;/p>
+&lt;p>Tree-based models measure the feature importances based on the &lt;a href="https://fgg100y.github.io/posts/ml101/treebasedmodels/treemodels/#MDI">mean decrease in impurity&lt;/a>. Impurity is quantified by the splitting criterion of the decision trees (Gini, Entropy(i.e., imformation gain) or Mean Square Error). However, this method can give high importance to features that may not be predictive on unseen data when the model is overfitting. Permutation-based feature importance, on the other hand, avoids this issue, since it can be computed on unseen data (hold-out set, validation set, etc).&lt;/p>
+&lt;p>Furthermore, impurity-based feature importance for trees are &lt;strong>strongly biased&lt;/strong> and &lt;strong>favor high cardinality features&lt;/strong> (typically numerical features) over low cardinality features such as binary features or categorical variables with a small number of possible categories. &lt;a href="https://fgg100y.github.io/posts/ml101/treebasedmodels/treemodels/####增益率">(see this explanation)&lt;/a>.&lt;/p>
+&lt;p>The following example highlights the limitations of impurity-based feature importance in contrast to permutation-based feature importance:&lt;/p>
+&lt;p>&lt;a href="https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-py">Permutation importance vs Random Forest Feature Importance (MDI)&lt;/a>&lt;/p>
+&lt;h3 id="permutation-importance" >
+&lt;div>
+&lt;a href="#permutation-importance">
+##
+&lt;/a>
+permutation importance
+&lt;/div>
+&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>sklearn&lt;span style="color:#ff6ac1">.&lt;/span>inspection&lt;span style="color:#ff6ac1">.&lt;/span>permutation_importance(estimator, X, y, &lt;span style="color:#ff6ac1">*&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> scoring&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n_repeats&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">5&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n_jobs&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> random_state&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Permutation importance for feature evaluation.&lt;/p>
+&lt;p>The &lt;code>estimator&lt;/code> is required to be a fitted estimator. &lt;code>X&lt;/code> can be the data set used to train the estimator or a hold-out set. The permutation importance of a feature is calculated as follows.&lt;/p>
+&lt;p>First, a baseline metric, defined by [scoring](#Scoring Parameter), is evaluated on a (potentially different) dataset defined by &lt;code>X&lt;/code>. Next, a feature column from the validation set is permuted(&lt;a href="https://fgg100y.github.io/posts/ml101/treebasedmodels/treemodels/####How-it-work">How&lt;/a>) and the metric is evaluated again.&lt;/p>
+&lt;p>The permutation importance is defined to be difference between the baseline metric and metric from permutating the feature column.&lt;/p>
+&lt;hr>
+&lt;p>Algorithm 1. Permutation importance&lt;/p>
+&lt;hr>
+&lt;p>Inputs: fitted predictive model $m$, tabular dataset (training or validation) $D$.&lt;/p>
+&lt;p>Compute the reference score $s$ of the model $m$ on data $D$ (for instance the accuracy for a classifier or the $R^2$ for a regressor).&lt;/p>
+&lt;p>&lt;strong>For&lt;/strong> each feature $j$ (column of $D$):&lt;/p>
+&lt;p>​ &lt;strong>For&lt;/strong> each repetition $k$ in $1, \ldots, K$:&lt;/p>
+&lt;p>​ Randomly shuffle column $j$ of dataset $D$ to generate a corrupted version of the data named $\tilde{D}_{k,j}$.&lt;/p>
+&lt;p>​ Compute the score $s_{k,j}$ of model $m$ on corrupted data $\tilde{D}_{k,j}$.&lt;/p>
+&lt;p>​ Compute importance $i_j$ for feature $f_j$ defined as:
+$$
+i_j = s - {1 \over K} \sum^K_{k=1}s_{k,j}.
+$$&lt;/p>
+&lt;hr>
+&lt;h4 id="how-it-work" >
+&lt;div>
+&lt;a href="#how-it-work">
+###
+&lt;/a>
+How it work
+&lt;/div>
+&lt;/h4>
+&lt;p>Consider this: We want to predict a person&amp;rsquo;s height when they become 20 years old, using data that is available at age 10. Our data includes useful features (height at age 10), features with little predictive power (socks owned), as well as some other features we won&amp;rsquo;t focus on this explanation.&lt;/p>
+&lt;p>&lt;strong>Permutation importance is calculated after a model has been fitted.&lt;/strong> so we won&amp;rsquo;t change the model or change what predictions we&amp;rsquo;d get for a given value of height, sock-count, etc.&lt;/p>
+&lt;p>Instead we will ask the following question:&lt;/p>
+&lt;p style="text-align:left;color:blue;">
+"if I randomly shuffle a single column of the validation set data, leaving the target (or lable) and all other columns in place, how would that affect the accuracy of predictions in that now-shuffled data?"
+&lt;/p>
+&lt;p>Randomly re-ordering a single column should cause less accuracy predictions, since the resulting data no longer corresponds to anything observed in the real world. Model accuracy especially suffers if we shuffle a column that the model relied on heavily for predictions. In this case, shuffling &lt;code>height at age 10&lt;/code> would cause terrible predictions while shuffling &lt;code>socks-owned&lt;/code> wouldn&amp;rsquo;t sufffer nearly as much.&lt;/p>
+&lt;h3 id="misleading-values-on-strongly-correlated-features" >
+&lt;div>
+&lt;a href="#misleading-values-on-strongly-correlated-features">
+##
+&lt;/a>
+Misleading values on strongly correlated features
+&lt;/div>
+&lt;/h3>
+&lt;p>When two features are correlated and one of the feature is permuted, the model will still have access to the feature through its correlated feature. This will result in a lower importance value for both features, where they might actually be important.&lt;/p>
+&lt;p>One way to handle this is to cluster features that are correlated and only keep one feature from each cluster. This strategy is explored in the following example:&lt;/p>
+&lt;p>&lt;a href="https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-multicollinear-py">Permutation Importance with Multicollinear or Correlated Features&lt;/a>.&lt;/p>
+&lt;h3 id="does-modeling-with-random-forests-require-cross-validation" >
+&lt;div>
+&lt;a href="#does-modeling-with-random-forests-require-cross-validation">
+##
+&lt;/a>
+Does modeling with Random Forests require cross-validation?
+&lt;/div>
+&lt;/h3>
+&lt;p style="text-align:center;color:blue;">
+"Random forests provide free cross-validation."
+&lt;/p>
+&lt;p>The &lt;code>RandomForestClassifier&lt;/code> is trained using &lt;em>bootstrap aggregation&lt;/em>, where each new tree is fit from a bootstrap sample of the training observations $z_i = (x_i, y_i)$. The out-of-bag (OOB) error is the average error for each $z_i$ calculated using predictions from the tress that do not contain $z_i$ in their respective bootstrap sample. This allows the &lt;code>RandomForestClassifier&lt;/code> to be fit and validated whilst being trained.&lt;/p>
+&lt;blockquote>
+&lt;p>By principle since it randomizes the variable selection during each tree split, it&amp;rsquo;s not prone to overfit unlike other models. However if you want to use CV using nfolds in sklearn you can still use the concept of hold-out set such as &lt;code>oob_score=True&lt;/code> which shows model performance with or without using CV.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="sklearn-boosting" >
+&lt;div>
+&lt;a href="#sklearn-boosting">
+##
+&lt;/a>
+Sklearn Boosting
+&lt;/div>
+&lt;/h3>
+&lt;blockquote>
+&lt;p>from book 《Hands-onML》.&lt;/p>
+&lt;p>Boosting (original called &lt;em>hypothesis boosting&lt;/em>) refers to any Ensemble method that can combine several weak learners into a strong learner. The general idea most boosting methods is to train predictors sequentially, each trying to correct its predecessor. The most popular boosting methods by far are&lt;/p>
+&lt;ul>
+&lt;li>AdaBoost (short for Adaptive Boosting) and&lt;/li>
+&lt;li>Gradient Boosting.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>1. AdaBoost&lt;/strong>&lt;/p>
+&lt;p>One way for a new predictor to correct its predecessor is to pay a bit more attention to the training instances that the predecessor underfitted. This results in new predictors focusing more and more on the hard case. This technique used by AdaBoost.&lt;/p>
+&lt;p>For example, when training an AdaBoost classifier, the algorithm first train a base classifier (such as a Decision Tree) and uses it to make predictions on the train set. The algorithm then increase the relative weight of misclassified training instances. Then it trains a second classifier, using the updated weights, and again makes predictions on the training set, updates the instance weights, and so on (see Figure 7-7).&lt;/p>
+&lt;p>&lt;img alt="adaboost" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\hands-onML_ensemble_adaboost.png">&lt;/p>
+&lt;p>Once all predictors are trained, the ensemble makes predictions very much like bagging or pasting, except that predictors have different weights depending on their overall accuracy on their corresponding weighted training set.&lt;/p>
+&lt;p>There is one important drawback to this sequential learning technique: it cannot be parallelized (or only partially), since each predictor can only be trained after the previous predictor has ben trained and evaluated. As a result, it does not scale as well as bagging or pasting.&lt;/p>
+&lt;p>&lt;strong>2. Gradient Boosting&lt;/strong>&lt;/p>
+&lt;p>Just like AdaBoost, Gradient Boosting works by sequentially adding predictors to an ensemble, each one correcting its predecessor. However, instead of tweaking the instance weights at every iteration like AdaBoost does, this method tries to fit the new predictor to the &lt;em>residual errors&lt;/em> made by the previous predictor.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Gradient Tree Boosting for regression task,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># a.k.a., Gradient Boosted Regression Trees (GBRT)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> sklearn.tree &lt;span style="color:#ff6ac1">import&lt;/span> DecisionTreeRegressor
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dtree_reg1 &lt;span style="color:#ff6ac1">=&lt;/span> DecisionTreeRegressor(max_depth&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dtree_reg1&lt;span style="color:#ff6ac1">.&lt;/span>fit(X, y)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># train a second regressor on the residual errors made by the previous predictor&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y2 &lt;span style="color:#ff6ac1">=&lt;/span> y &lt;span style="color:#ff6ac1">-&lt;/span> dtree_reg1&lt;span style="color:#ff6ac1">.&lt;/span>predict(X)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dtree_reg2 &lt;span style="color:#ff6ac1">=&lt;/span> DecisionTreeRegressor(max_depth&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dtree_reg2&lt;span style="color:#ff6ac1">.&lt;/span>fit(X, y2)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># train a third regressor on the residual errors made by the previous predictor&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y3 &lt;span style="color:#ff6ac1">=&lt;/span> y2 &lt;span style="color:#ff6ac1">-&lt;/span> dtree_reg2&lt;span style="color:#ff6ac1">.&lt;/span>predict(X)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dtree_reg3 &lt;span style="color:#ff6ac1">=&lt;/span> DecisionTreeRegressor(max_depth&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>dtree_reg3&lt;span style="color:#ff6ac1">.&lt;/span>fit(X, y3)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># ensemble contains three trees which makes predictions on a new instance simply by adding up the predictions of all the trees&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>y_pred &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">sum&lt;/span>(tree&lt;span style="color:#ff6ac1">.&lt;/span>predict(X_new) &lt;span style="color:#ff6ac1">for&lt;/span> tree &lt;span style="color:#ff6ac1">in&lt;/span> (dtree_reg1, dtree_reg2, dtree_reg3))
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>A simpler way to train GBRT ensembles is to use sklearn &lt;code>GradientBoostingRegressor&lt;/code> class. Much like the &lt;code>RandomForestRegressor&lt;/code> class, it has hyperparameters to control the growth of Decision Trees.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> sklearn.ensemble &lt;span style="color:#ff6ac1">import&lt;/span> GradientBoostingRegressor
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>gbrt &lt;span style="color:#ff6ac1">=&lt;/span> GradientBoostingRegressor(max_depth&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n_estimators&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">3&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> learning_rate&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1.0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>gbrt&lt;span style="color:#ff6ac1">.&lt;/span>fit(X, y)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img alt="gbrt model fitting" src="d:\\JupyterNotebook\\fmhPlayground\\NotesDS\\treeBasedModels\\images\\hands-onML_ensemble_gradient_boosting.png">&lt;/p>
+&lt;p>The &lt;code>learning_rate&lt;/code> hyperparameter scales the contribution of each tree.&lt;/p>
+&lt;p>If you set it to a low value, such as 0.1, you will need more trees in the ensemble to fit the training set, but the predictions will usually better. This is a regularization technique called &lt;strong>shrinkage&lt;/strong>. In order to find the optimal number of trees, you can use early stopping which can simply implemented by setting&lt;code>warm_start=True&lt;/code> :&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> numpy &lt;span style="color:#ff6ac1">as&lt;/span> np
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> sklearn.model_selection &lt;span style="color:#ff6ac1">import&lt;/span> train_test_split
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> sklearn.metrics &lt;span style="color:#ff6ac1">import&lt;/span> mean_square_error
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>X_train, y_train, X_test, y_test &lt;span style="color:#ff6ac1">=&lt;/span> train_test_split(X, y)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>gbrt &lt;span style="color:#ff6ac1">=&lt;/span> GradientBoostingRegressor(max_depth&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> warm_start&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">True&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">early_stop_gbrt&lt;/span>(model, n_estimators&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">200&lt;/span>, n_rounds&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">5&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> train_data&lt;span style="color:#ff6ac1">=&lt;/span>(X_train, y_train),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> val_data&lt;span style="color:#ff6ac1">=&lt;/span>(X_test, y_test),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> min_val_error &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">float&lt;/span>(&lt;span style="color:#5af78e">&amp;#34;inf&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> error_going_up &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">for&lt;/span> n &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(&lt;span style="color:#ff9f43">1&lt;/span>, n_estimators):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> model&lt;span style="color:#ff6ac1">.&lt;/span>n_estimators &lt;span style="color:#ff6ac1">=&lt;/span> n
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> model&lt;span style="color:#ff6ac1">.&lt;/span>fit(train_data)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> y_pred &lt;span style="color:#ff6ac1">=&lt;/span> model&lt;span style="color:#ff6ac1">.&lt;/span>predict(val_data[&lt;span style="color:#ff9f43">0&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> val_error &lt;span style="color:#ff6ac1">=&lt;/span> mean_square_error(val_data[&lt;span style="color:#ff9f43">1&lt;/span>], y_pred)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> val_error &lt;span style="color:#ff6ac1">&amp;lt;&lt;/span> min_val_error:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> min_val_error &lt;span style="color:#ff6ac1">=&lt;/span> val_error
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> error_going_up &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">else&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> error_going_up &lt;span style="color:#ff6ac1">+=&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> error_going_up &lt;span style="color:#ff6ac1">==&lt;/span> n_round:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">break&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> model
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>gbrt &lt;span style="color:#ff6ac1">=&lt;/span> early_stop_gbrt(gbrt)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Note that there is an optimized implementation of Gradient Boosting out there called &amp;ldquo;XGBoost&amp;rdquo; which stands for Extreme Gradient Boosting, it is a popular Python library aimed to be extremely fast, scalable, and portable.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="plot-the-decision-tree" >
+&lt;div>
+&lt;a href="#plot-the-decision-tree">
+##
+&lt;/a>
+Plot the decision tree
+&lt;/div>
+&lt;/h3>
+&lt;p>To be continue &amp;hellip;&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>由 $d$ 个属性张成的 $d$ 维空间中，每个示例都可以在这个空间中找到自己的坐标位置，每个空间中的点对应一个坐标向量，因此：一个示例就是一个“特征向量”（feature vector）。&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>上一步的划分属性“纹理”，不再作为候选划分属性。&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>Which is mainly due to the nature of how decision tree growed using greedy algorithm and easily overfiting.&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4">
+&lt;p>可将划分点设为该属性在训练集中出现的不大于中位点的最大值。由此，决策树使用的划分点都出现在训练集中。&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:5">
+&lt;p>待补充。&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:6">
+&lt;p>[Mingers, 1989b]&amp;#160;&lt;a href="#fnref:6" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:7">
+&lt;p>[Raileanu and Stoffel, 2004]&amp;#160;&lt;a href="#fnref:7" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:8">
+&lt;p>[Mingers, 1989a]&amp;#160;&lt;a href="#fnref:8" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:9">
+&lt;p>[Mruthy et al., 1994]&amp;#160;&lt;a href="#fnref:9" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:10">
+&lt;p>[Brodley and Utgoff, 1995]&amp;#160;&lt;a href="#fnref:10" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:11">
+&lt;p>[Utgoff, 1989b]&amp;#160;&lt;a href="#fnref:11" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:12">
+&lt;p>[Guo and Gelfand, 1992]&amp;#160;&lt;a href="#fnref:12" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:13">
+&lt;p>[Schlimmer and Fisher, 1986]&amp;#160;&lt;a href="#fnref:13" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:14">
+&lt;p>[Utgoff, 1989a]&amp;#160;&lt;a href="#fnref:14" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:15">
+&lt;p>[Utgoff et al., 1997]&amp;#160;&lt;a href="#fnref:15" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:16">
+&lt;p>集成学习(ensemble learning，a.k.a, multi-classifier system, committee-based learning)通过构建并结合多个学习器来完成学习任务。集成学习一般结构是，先产生一组 “个体学习器(individual learner)”，再用某种策略将它们结合起来。个体学习器通常由一个现有学习算法从训练数据产生，例如 C4.5决策树算法或BP神经网络算法等，此时，如果集成中只包含同种类型的个体学习器，如 “决策树集成”、“神经网络集成”等，则这样的集成是 “同质” 的(homogeneous)集成，同质集成中的个体学习器也称为 “基学习器(base learner)”，相应的学习算法称为 “基学习算法(base learning algorithm)”；反之，则是 “异质” 的(heterogenous)集成，这时个体学习器常称为 &amp;ldquo;组件学习器(component learner)&amp;rdquo; 或直接称为个体学习器。&amp;#160;&lt;a href="#fnref:16" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:17">
+&lt;p>Boosting 是一族可将弱学习器提升为强学习器的算法。这族算法的工作机制类似：先从初始训练集训练出一个机学习器，再根据基学习器的表现对训练样本分布进行调整，使得先前基学习器做错的训练样本在后续受到更多关注，然后基于调整后的样本分布来训练下一个基学习器；如此重复进行，直至学习器数目达到事先指定的值$T$，最终将这$T$个基学习器进行加权结合。&amp;#160;&lt;a href="#fnref:17" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:18">
+&lt;p>bootstrapping 采样是有放回的随机重复采样，样本在$m$次采样中始终不被采到的概率是$(1 - {1 \over m})^m$，取极限得到$lim_{(m \rightarrow \infin)} (1 - {1 \over m})^m \rightarrow {1 \over e} \approx 0.368$，即通过自助采样，初始数据集中约有36.8%的样本未出现在自助采样集中。自助法能从初始数据集中产生多个不同训练集，这对集成学习有很大好处。然而，自助法产生的数据集改变了初始数据集的分布而引入估计偏差，因此，在初始数据量足够时，留出法和交叉验证法更常用一些。&amp;#160;&lt;a href="#fnref:18" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:19">
+&lt;p>statistical mode: 众数。也就是频率最高的预测类别，与 hard voting classfifer 类似。&amp;#160;&lt;a href="#fnref:19" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:20">
+&lt;p>The &lt;code>BaggingClassifier&lt;/code> class remains useful if you want a bag of something other than Decision Trees.&amp;#160;&lt;a href="#fnref:20" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:21">
+&lt;p>Finding the best possible threshold for each feature at every node is one of the most time-consuming tasks of growing a tree.&amp;#160;&lt;a href="#fnref:21" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:22">
+&lt;p>residual is the difference between the predicted and the ground true.&amp;#160;&lt;a href="#fnref:22" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item></channel></rss>

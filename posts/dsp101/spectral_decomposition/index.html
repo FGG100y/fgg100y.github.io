@@ -1,0 +1,196 @@
+<!doctype html><html lang=zh data-theme><head><meta charset=utf-8><meta name=HandheldFriendly content="True"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=referrer content="no-referrer-when-downgrade"><title>spectral_decomposition - fgg blog</title>
+<meta name=description content="Signal? What&rsquo;s in a signal? Let&rsquo;s decompose it to spectrum."><link rel=icon type=image/x-icon href=https://fgg100y.github.io/favicon.ico><link rel=apple-touch-icon-precomposed href=https://fgg100y.github.io/favicon.png><style>body{visibility:hidden;opacity:0}</style><noscript><style>body{visibility:visible;opacity:1}</style></noscript><link rel=stylesheet href=/css/style.min.184a655c5ad8596648622468e6696abf0cf0a2cf8266df17b4f7a36fe9c97551.css integrity="sha256-GEplXFrYWWZIYiRo5mlqvwzwos+CZt8XtPejb+nJdVE="><link rel=stylesheet href=/css/style.min.c4c04b3ef88e3d619ad4c7ee5e03048422bc55c4fefdc1f07657c1133670aa22.css integrity="sha256-xMBLPviOPWGa1MfuXgMEhCK8VcT+/cHwdlfBEzZwqiI="><link rel=stylesheet href=/css/style.min.21c5d8fe0a79d623b0adc1ce4bd4f6dd2c05cd939c9aaaa966ba7186b1464f4d.css integrity="sha256-IcXY/gp51iOwrcHOS9T23SwFzZOcmqqpZrpxhrFGT00="><link rel=stylesheet href=/css/style.min.863b4356f5ce53525ab2482f84c47476c4618984b9726e576c244225ebda1bcc.css integrity="sha256-hjtDVvXOU1JaskgvhMR0dsRhiYS5cm5XbCRCJevaG8w=" crossorigin=anonymous><script src=/js/script.min.08f04d96386c73c9bf4d160333f8f448c05a6e01c06770542ee0e013954ce930.js type=text/javascript integrity="sha256-CPBNljhsc8m/TRYDM/j0SMBabgHAZ3BULuDgE5VM6TA="></script><link rel=stylesheet href=/css/custom.css></head><body><a class=skip-main href=#main></a><div class=container><header class=common-header><div class=header-top><div class=header-top-left><h1 class="site-title noselect"><a href=/>fgg blog</a></h1><div class=theme-switcher><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-sun-high"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.828 14.828A4 4 0 109.172 9.172a4 4 0 005.656 5.656z"/><path d="M6.343 17.657l-1.414 1.414"/><path d="M6.343 6.343 4.929 4.929"/><path d="M17.657 6.343l1.414-1.414"/><path d="M17.657 17.657l1.414 1.414"/><path d="M4 12H2"/><path d="M12 4V2"/><path d="M20 12h2"/><path d="M12 20v2"/></svg></span></div><script>const STORAGE_KEY="user-color-scheme",defaultTheme="auto";let currentTheme,switchButton,autoDefinedScheme=window.matchMedia("(prefers-color-scheme: dark)");function switchTheme(){currentTheme=currentTheme==="dark"?"light":"dark",localStorage&&localStorage.setItem(STORAGE_KEY,currentTheme),document.documentElement.setAttribute("data-theme",currentTheme),changeGiscusTheme(currentTheme),document.body.dispatchEvent(new CustomEvent(currentTheme+"-theme-set"))}const autoChangeScheme=e=>{currentTheme=e.matches?"dark":"light",document.documentElement.setAttribute("data-theme",currentTheme),changeGiscusTheme(currentTheme),document.body.dispatchEvent(new CustomEvent(currentTheme+"-theme-set"))};document.addEventListener("DOMContentLoaded",function(){switchButton=document.querySelector(".theme-switcher"),currentTheme=detectCurrentScheme(),currentTheme==="auto"?(autoChangeScheme(autoDefinedScheme),autoDefinedScheme.addListener(autoChangeScheme)):document.documentElement.setAttribute("data-theme",currentTheme),switchButton&&switchButton.addEventListener("click",switchTheme,!1),showContent()});function detectCurrentScheme(){return localStorage!==null&&localStorage.getItem(STORAGE_KEY)?localStorage.getItem(STORAGE_KEY):defaultTheme?defaultTheme:window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}function showContent(){document.body.style.visibility="visible",document.body.style.opacity=1}function changeGiscusTheme(e){function t(e){const t=document.querySelector("iframe.giscus-frame");if(!t)return;t.contentWindow.postMessage({giscus:e},"https://giscus.app")}t({setConfig:{theme:e}})}</script><ul class="social-icons noselect"><li><a href=https://github.com/FGG100y title=Github rel=me><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-github"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></span></a></li><li><a href=/index.xml title=RSS rel=me><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-rss"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 19m-1 0a1 1 0 102 0 1 1 0 10-2 0"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></span></a></li></ul></div><div class=header-top-right></div></div><nav class=noselect><a href=https://fgg100y.github.io/ title>首页</a>
+<a href=https://fgg100y.github.io/posts/ title>归档</a>
+<a href=https://fgg100y.github.io/tags/ title>标签</a>
+<a href=https://fgg100y.github.io/about/ title>关于</a></nav><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"]}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></header><main id=main tabindex=-1><article class="post h-entry"><div class=post-header><header><h1 class="p-name post-title">spectral_decomposition</h1></header><div class="post-info noselect"><div class="post-date dt-published"><time datetime=2024-05-03>2024-05-03</time></div><a class="post-hidden-url u-url" href=/posts/dsp101/spectral_decomposition/>/posts/dsp101/spectral_decomposition/</a>
+<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>map[email:1522009317@qq.com name:fmh]</a><div class=post-taxonomies><ul class=post-tags><li><a href=/tags/wave/>#Wave</a></li><li><a href=/tags/signal/>#Signal</a></li><li><a href=/tags/dft/>#DFT</a></li><li><a href=/tags/fft/>#FFT</a></li></ul></div></div></div><details class="toc noselect"><summary>Table of Contents</summary><div class=inner><nav id=TableOfContents><ul><li><a href=#what-is-a-signal>What is a signal?</a></li><li><a href=#discrete-fourier-transform-dft>Discrete Fourier transform (DFT)</a></li></ul></nav></div></details><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><hr><p>NOTE: For more content see <a href=https://github.com/AllenDowney/ThinkDSP>ThinkDSP</a></p><hr><blockquote><p>DFT is a mathematical idea, and FFT is an algorithm for computing DFT.</p></blockquote><p>Spectral decomposition: The idea that any signal can be expressed as the sum of
+sinusoids with different frequencies.</p><h2 id=what-is-a-signal><div><a href=#what-is-a-signal>#
+</a>What is a signal?</div></h2><p>A <strong>signal</strong> represents a quantity that varies in time. (pretty abstract,eh?)
+A concrete example: sound. A sound signal represents variations in air pressure over
+time.</p><p>Periodic signals: The signals that repeat themselves after some period ot time.</p><p>A <strong>sinusoid</strong> which means it has the same shape as the trigonmetric sine function.
+And a sinusoid contains only one frequency component, so its spectrum has only one
+peak.</p><p><strong>cycles</strong>: the full repetitions in a periodic signal.
+<strong>period</strong>: the duration of each cycle.
+<strong>frequency</strong>: the number of cycles per second, which is the inverse of period.
+- the units of frequency are cycles per second, or Hertz (Hz).
+- strictly speaking, the number of cycles is a dimensionless number, so a Hertz
+is really a &ldquo;per second&rdquo;.</p><p>A microphone is a device that measures these variations and generates an electrical
+signal that represents sound.
+A speaker is a device that takes an electrical signal and produce sound.
+They are called <strong>transducers</strong> because they transduce, or convert, signals from one
+form to another.</p><h2 id=discrete-fourier-transform-dft><div><a href=#discrete-fourier-transform-dft>#
+</a>Discrete Fourier transform (DFT)</div></h2><p>DFT is a mathematical idea which takes a signal and produces its spectrum.
+The spectrum is the set of sinusoids that add up to produce the signal.</p><p>And the FFT (Fast Fourier transform) is an algorithm which is an efficient way to
+compute the DFT.</p><p><img alt=IMG_signal src=/posts/dsp101/spectral_decomposition/images/a_wave_segment.png></p><p><img alt=IMG_spectrum_of_signal src=/posts/dsp101/spectral_decomposition/images/a_wave_segment_its_spectrum.png></p><p>The lowest frequency component is called the <strong>fundamental frequency</strong>. If the
+fundamental frequency has the largest amplitude, it is also the <strong>dominant frequency</strong>.
+Normally the perceived pitch of a sound is determinded by the fundamental frequency,
+even if it is not dominant.</p><p>The <strong>fundamental frequency</strong> of this signal is near 440 Hz, the other spikes in the
+spectrum are at frequencies 880, 1320, 1760, and 2200, which are integer multiples
+of the fundamental. These components are called <strong>harmonics</strong> because they are
+musically harmonious with the fundamental:</p><ul><li>440 is the frequency of A4, the fundamental frequency.</li><li>880 is the frequency of A5, one <strong>octave</strong> higher than the fundamental. An octave
+is a doubling in frequency.</li><li>1320 is approximately E6, which is a <strong>perfect fifth</strong> above A5.</li><li>1760 is A6, two octave above the fundamental.</li><li>2200 is approximately C#7, which is a major third above A6.</li></ul><p>NOTE: Given the harmonics and their amplitudes, you can reconstruct the signal by
+adding up sinusoids.</p><p>Some code about <code>signal/wave</code> :</p><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># More codes here are ignored ...</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff6ac1>class</span> <span style=color:#f3f99d>Signal</span>:
+</span></span><span style=display:flex><span>    <span style=color:#5af78e>&#34;&#34;&#34;Represents a time-varying signal.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> __add__(self, other):
+</span></span><span style=display:flex><span>        <span style=color:#5af78e>&#34;&#34;&#34;Adds two signals.
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        other: Signal
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        returns: Signal
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>if</span> other <span style=color:#ff6ac1>==</span> <span style=color:#ff9f43>0</span>:
+</span></span><span style=display:flex><span>            <span style=color:#ff6ac1>return</span> self
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> SumSignal(self, other)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    __radd__ <span style=color:#ff6ac1>=</span> __add__
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff9f43>@property</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>period</span>(self):
+</span></span><span style=display:flex><span>        <span style=color:#5af78e>&#34;&#34;&#34;Period of the signal in seconds (property).
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        Since this is used primarily for purposes of plotting,
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        the default behavior is to return a value, 0.1 seconds,
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        that is reasonable for many signals.
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        returns: float seconds
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> <span style=color:#ff9f43>0.1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>plot</span>(self, framerate<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>11025</span>):
+</span></span><span style=display:flex><span>        <span style=color:#5af78e>&#34;&#34;&#34;Plots the signal.
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        The default behavior is to plot three periods.
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        framerate: samples per second
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        duration <span style=color:#ff6ac1>=</span> self<span style=color:#ff6ac1>.</span>period <span style=color:#ff6ac1>*</span> <span style=color:#ff9f43>3</span>
+</span></span><span style=display:flex><span>        wave <span style=color:#ff6ac1>=</span> self<span style=color:#ff6ac1>.</span>make_wave(duration, start<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>0</span>, framerate<span style=color:#ff6ac1>=</span>framerate)
+</span></span><span style=display:flex><span>        wave<span style=color:#ff6ac1>.</span>plot()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>make_wave</span>(self, duration<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>1</span>, start<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>0</span>, framerate<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>11025</span>):
+</span></span><span style=display:flex><span>        <span style=color:#5af78e>&#34;&#34;&#34;Makes a Wave object.
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        duration: float seconds
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        start: float seconds
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        framerate: int frames per second
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        returns: Wave
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        n <span style=color:#ff6ac1>=</span> <span style=color:#ff5c57>round</span>(duration <span style=color:#ff6ac1>*</span> framerate)
+</span></span><span style=display:flex><span>        ts <span style=color:#ff6ac1>=</span> start <span style=color:#ff6ac1>+</span> np<span style=color:#ff6ac1>.</span>arange(n) <span style=color:#ff6ac1>/</span> framerate
+</span></span><span style=display:flex><span>        ys <span style=color:#ff6ac1>=</span> self<span style=color:#ff6ac1>.</span>evaluate(ts)
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> Wave(ys, ts, framerate<span style=color:#ff6ac1>=</span>framerate)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff6ac1>class</span> <span style=color:#f3f99d>Sinusoid</span>(Signal)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#78787e># More codes here are ignored ...</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>evaluate</span>(self, ts):
+</span></span><span style=display:flex><span>        <span style=color:#78787e># (self.freq * ts) is the number of cycles since start time</span>
+</span></span><span style=display:flex><span>        <span style=color:#78787e># Multiplying 2*np.pi converts from cycles to phases</span>
+</span></span><span style=display:flex><span>        <span style=color:#78787e># and phases can be view as &#34;cycles since start time expressed in radians&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#78787e># the func is cos or sin, returns value between -1 and 1</span>
+</span></span><span style=display:flex><span>        phases <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>2</span><span style=color:#ff6ac1>*</span>np<span style=color:#ff6ac1>.</span>pi <span style=color:#ff6ac1>*</span> (self<span style=color:#ff6ac1>.</span>freq <span style=color:#ff6ac1>*</span> ts) <span style=color:#ff6ac1>+</span> self<span style=color:#ff6ac1>.</span>offset
+</span></span><span style=display:flex><span>        ys <span style=color:#ff6ac1>=</span> self<span style=color:#ff6ac1>.</span>amp <span style=color:#ff6ac1>*</span> self<span style=color:#ff6ac1>.</span>func(phases)
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> ys
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff6ac1>class</span> <span style=color:#f3f99d>Wave</span>:
+</span></span><span style=display:flex><span>    <span style=color:#5af78e>&#34;&#34;&#34;Represents a discrete-time waveform.&#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> __init__(self, ys, ts<span style=color:#ff6ac1>=</span><span style=color:#ff6ac1>None</span>, framerate<span style=color:#ff6ac1>=</span><span style=color:#ff6ac1>None</span>):
+</span></span><span style=display:flex><span>        <span style=color:#5af78e>&#34;&#34;&#34;Initializes the wave.
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        ys: wave array
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        ts: array of times
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        framerate: samples per second
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        self<span style=color:#ff6ac1>.</span>ys <span style=color:#ff6ac1>=</span> np<span style=color:#ff6ac1>.</span>asanyarray(ys)
+</span></span><span style=display:flex><span>        self<span style=color:#ff6ac1>.</span>framerate <span style=color:#ff6ac1>=</span> framerate <span style=color:#ff6ac1>if</span> framerate <span style=color:#ff6ac1>is</span> <span style=color:#ff6ac1>not</span> <span style=color:#ff6ac1>None</span> <span style=color:#ff6ac1>else</span> <span style=color:#ff9f43>11025</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>if</span> ts <span style=color:#ff6ac1>is</span> <span style=color:#ff6ac1>None</span>:
+</span></span><span style=display:flex><span>            self<span style=color:#ff6ac1>.</span>ts <span style=color:#ff6ac1>=</span> np<span style=color:#ff6ac1>.</span>arange(<span style=color:#ff5c57>len</span>(ys)) <span style=color:#ff6ac1>/</span> self<span style=color:#ff6ac1>.</span>framerate
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>else</span>:
+</span></span><span style=display:flex><span>            self<span style=color:#ff6ac1>.</span>ts <span style=color:#ff6ac1>=</span> np<span style=color:#ff6ac1>.</span>asanyarray(ts)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>copy</span>(self):
+</span></span><span style=display:flex><span>        <span style=color:#5af78e>&#34;&#34;&#34;Makes a copy.
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        Returns: new Wave
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> copy<span style=color:#ff6ac1>.</span>deepcopy(self)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> __len__(self):
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> <span style=color:#ff5c57>len</span>(self<span style=color:#ff6ac1>.</span>ys)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff9f43>@property</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>start</span>(self):
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> self<span style=color:#ff6ac1>.</span>ts[<span style=color:#ff9f43>0</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff9f43>@property</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>end</span>(self):
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> self<span style=color:#ff6ac1>.</span>ts[<span style=color:#ff6ac1>-</span><span style=color:#ff9f43>1</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff9f43>@property</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>duration</span>(self):
+</span></span><span style=display:flex><span>        <span style=color:#5af78e>&#34;&#34;&#34;Duration (property).
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        returns: float duration in seconds
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> <span style=color:#ff5c57>len</span>(self<span style=color:#ff6ac1>.</span>ys) <span style=color:#ff6ac1>/</span> self<span style=color:#ff6ac1>.</span>framerate
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> __add__(self, other):
+</span></span><span style=display:flex><span>        <span style=color:#5af78e>&#34;&#34;&#34;Adds two waves elementwise.
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        other: Wave
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        returns: new Wave
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>        &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>if</span> other <span style=color:#ff6ac1>==</span> <span style=color:#ff9f43>0</span>:
+</span></span><span style=display:flex><span>            <span style=color:#ff6ac1>return</span> self
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>assert</span> self<span style=color:#ff6ac1>.</span>framerate <span style=color:#ff6ac1>==</span> other<span style=color:#ff6ac1>.</span>framerate
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#78787e># make an array of times that covers both waves</span>
+</span></span><span style=display:flex><span>        start <span style=color:#ff6ac1>=</span> <span style=color:#ff5c57>min</span>(self<span style=color:#ff6ac1>.</span>start, other<span style=color:#ff6ac1>.</span>start)
+</span></span><span style=display:flex><span>        end <span style=color:#ff6ac1>=</span> <span style=color:#ff5c57>max</span>(self<span style=color:#ff6ac1>.</span>end, other<span style=color:#ff6ac1>.</span>end)
+</span></span><span style=display:flex><span>        n <span style=color:#ff6ac1>=</span> <span style=color:#ff5c57>int</span>(<span style=color:#ff5c57>round</span>((end <span style=color:#ff6ac1>-</span> start) <span style=color:#ff6ac1>*</span> self<span style=color:#ff6ac1>.</span>framerate)) <span style=color:#ff6ac1>+</span> <span style=color:#ff9f43>1</span>
+</span></span><span style=display:flex><span>        ys <span style=color:#ff6ac1>=</span> np<span style=color:#ff6ac1>.</span>zeros(n)
+</span></span><span style=display:flex><span>        ts <span style=color:#ff6ac1>=</span> start <span style=color:#ff6ac1>+</span> np<span style=color:#ff6ac1>.</span>arange(n) <span style=color:#ff6ac1>/</span> self<span style=color:#ff6ac1>.</span>framerate
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>add_ys</span>(wave):
+</span></span><span style=display:flex><span>            i <span style=color:#ff6ac1>=</span> find_index(wave<span style=color:#ff6ac1>.</span>start, ts)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#78787e># make sure the arrays line up reasonably well</span>
+</span></span><span style=display:flex><span>            diff <span style=color:#ff6ac1>=</span> ts[i] <span style=color:#ff6ac1>-</span> wave<span style=color:#ff6ac1>.</span>start
+</span></span><span style=display:flex><span>            dt <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>1</span> <span style=color:#ff6ac1>/</span> wave<span style=color:#ff6ac1>.</span>framerate
+</span></span><span style=display:flex><span>            <span style=color:#ff6ac1>if</span> (diff <span style=color:#ff6ac1>/</span> dt) <span style=color:#ff6ac1>&gt;</span> <span style=color:#ff9f43>0.1</span>:
+</span></span><span style=display:flex><span>                warnings<span style=color:#ff6ac1>.</span>warn(
+</span></span><span style=display:flex><span>                    <span style=color:#5af78e>&#34;Can&#39;t add these waveforms; their &#34;</span> <span style=color:#5af78e>&#34;time arrays don&#39;t line up.&#34;</span>
+</span></span><span style=display:flex><span>                )
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            j <span style=color:#ff6ac1>=</span> i <span style=color:#ff6ac1>+</span> <span style=color:#ff5c57>len</span>(wave)
+</span></span><span style=display:flex><span>            ys[i:j] <span style=color:#ff6ac1>+=</span> wave<span style=color:#ff6ac1>.</span>ys
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        add_ys(self)
+</span></span><span style=display:flex><span>        add_ys(other)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> Wave(ys, ts, self<span style=color:#ff6ac1>.</span>framerate)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    __radd__ <span style=color:#ff6ac1>=</span> __add__
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># Write a function called stretch that takes a Wave and a stretch factor and speeds up</span>
+</span></span><span style=display:flex><span><span style=color:#78787e># or slows down the wave by modifying ts and framerate.</span>
+</span></span><span style=display:flex><span><span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>stretch</span>(wave, factor):
+</span></span><span style=display:flex><span>    <span style=color:#5af78e>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>    if 0 &lt; factor &lt; 1, speed up, else slow down
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>    &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    wave<span style=color:#ff6ac1>.</span>ts <span style=color:#ff6ac1>*=</span> factor
+</span></span><span style=display:flex><span>    wave<span style=color:#ff6ac1>.</span>framerate <span style=color:#ff6ac1>/=</span> factor
+</span></span></code></pre></div></div></article><div class="pagination post-pagination"><div class="left pagination-item"><a href=/posts/dsp101/sampling_aliasing/>sampling and aliasing</a></div><div class="right pagination-item"><a href=/posts/neuralnetworks/variationalautoencoder/>变分自编码器（VAE）</a></div></div></main><footer class="common-footer noselect"><ul class=language-select><li>Chinese</li><li><a href=/en/>English</a></li></ul><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div style=display:flex;align-items:center></div><div><a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>map[email:1522009317@qq.com name:fmh]</a></p></footer></div></body></html>

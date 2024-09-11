@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GD/SGD on fgg blog</title><link>/tags/gd/sgd/</link><description>fgg blog (GD/SGD)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Fri, 30 Aug 2024 10:17:41 +0800</lastBuildDate><atom:link href="/tags/gd/sgd/index.xml" rel="self" type="application/rss+xml"/><item><title>maximum_likelihood_estimate</title><link>/posts/optimazationmethods/mle/maximum_likelihood_estimate/</link><pubDate>Fri, 30 Aug 2024 10:17:41 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/optimazationmethods/mle/maximum_likelihood_estimate/</guid><description>&lt;p>最大似然估计（Maximum Likelihood Estimation, MLE）是一种常用参数估计方法，在统计学和机
+器学习中被广泛使用。它的基本思想是找到一组参数值，使得观察到的数据出现的概率最大。&lt;/p>
+&lt;h3 id="概念" >
+&lt;div>
+&lt;a href="#%e6%a6%82%e5%bf%b5">
+##
+&lt;/a>
+概念
+&lt;/div>
+&lt;/h3>
+&lt;p>假设我们有一组&lt;ruby>“独立同分布”&lt;rt>（independent identity distribution, i.i.d.）&lt;/rt>&lt;/ruby>
+的观测数据 $X_1, X_2, \ldots, X_n$，这些数据来自某个概率分布族，其概率密度函数或概率质量
+函数为 $f(x|\theta)$，其中$\theta$ 是未知参数。直观上看，最大似然估计的目标就是试图在
+$\theta$ 所有可能的取值中，找到一个能使这一组观测数据出现的“可能性”最大的值。&lt;/p>
+&lt;p>形式化地讲，给定观测数据 $x_1, x_2, \ldots, x_n$，最大似然估计 $\hat{\theta}$ 定义为：
+$$
+\hat{\theta} = \arg\max_\theta L(\theta|x_1, x_2, \ldots, x_n)
+$$
+其中 $L(\theta|x_1, x_2, \ldots, x_n)$ 称为似然函数，定义为：
+$$
+L(\theta|x_1, x_2, \ldots, x_n) = f(x_1, x_2, \ldots, x_n|\theta) = \prod_{i=1}^n f(x_i|\theta)
+$$&lt;/p>
+&lt;p>啰唆多两句：所谓“似然”，和“概率”到底有什么区别呢？用抛硬币举例，区别在于：&lt;/p>
+&lt;ul>
+&lt;li>当我们谈论“概率”时，实际就是在问：已知模型（p=0.6，抛出正面的概率），则抛硬币10次中有7
+次为正面的概率是多大？($P^{7}*(1-p)^{10-7}$)&lt;/li>
+&lt;li>而谈论“似然”时，其实是反过来问：已经观察到抛10次硬币出现了7次正面，则硬币抛出正面的概
+率是某个值的可能有多大？最大似然估计就是找到这样一个参数，此参数使得出现这样的数据（7
+正面3反面）的可能最高。&lt;/li>
+&lt;/ul>
+&lt;h3 id="求解方法----直接求导法" >
+&lt;div>
+&lt;a href="#%e6%b1%82%e8%a7%a3%e6%96%b9%e6%b3%95----%e7%9b%b4%e6%8e%a5%e6%b1%82%e5%af%bc%e6%b3%95">
+##
+&lt;/a>
+求解方法 &amp;ndash; &lt;strong>直接求导法&lt;/strong>：
+&lt;/div>
+&lt;/h3>
+&lt;ul>
+&lt;li>写出似然函数 $L(\theta|x_1, x_2, \ldots, x_n)$。&lt;/li>
+&lt;li>对似然函数取对数得到对数似然函数 $l(\theta|x_1, x_2, \ldots, x_n) = \log L(\theta|x_1, x_2, \ldots, x_n)$。&lt;/li>
+&lt;li>对对数似然函数求导，通常情况下求一阶导数，并令其等于零来找到极值点。&lt;/li>
+&lt;li>检查二阶导数或者直接通过直观判断是否为极大值点。&lt;/li>
+&lt;/ul>
+&lt;h4 id="示例有解析解" >
+&lt;div>
+&lt;a href="#%e7%a4%ba%e4%be%8b%e6%9c%89%e8%a7%a3%e6%9e%90%e8%a7%a3">
+###
+&lt;/a>
+示例（有解析解）
+&lt;/div>
+&lt;/h4>
+&lt;p>以正态分布为例，假设 $X_1, X_2, \ldots, X_n$ 服从均值为 $\mu$、方差为 $\sigma^2$ 的正态分布，那么似然函数为：
+$$
+L(\mu, \sigma^2|x_1, x_2, \ldots, x_n) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x_i-\mu)^2}{2\sigma^2}\right)
+$$&lt;/p>
+&lt;p>对数似然函数为：
+$$
+l(\mu, \sigma^2|x_1, x_2, \ldots, x_n) = -\frac{n}{2}\log(2\pi) - n\log(\sigma) - \frac{1}{2\sigma^2}\sum_{i=1}^n (x_i-\mu)^2
+$$&lt;/p>
+&lt;p>通过求导并设置为零可以得到最大似然估计值 $\hat{\mu}$ 和 $\hat{\sigma}^2$：
+$$
+\hat{\mu} = \frac{1}{n}\sum_{i=1}^n x_i
+$$
+$$
+\hat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^n (x_i - \hat{\mu})^2
+$$&lt;/p>
+&lt;h3 id="求解方法----数值优化方法" >
+&lt;div>
+&lt;a href="#%e6%b1%82%e8%a7%a3%e6%96%b9%e6%b3%95----%e6%95%b0%e5%80%bc%e4%bc%98%e5%8c%96%e6%96%b9%e6%b3%95">
+##
+&lt;/a>
+求解方法 &amp;ndash; &lt;strong>数值优化方法&lt;/strong>：
+&lt;/div>
+&lt;/h3>
+&lt;p>当直接求导法难以应用时（例如非线性问题、多维问题等），可以采用数值优化方法来寻找似然函数
+的最大值。常见数值优化算法有：一阶导数：梯度下降法；二阶导数：牛顿-拉复生法、拟牛顿法等。&lt;/p>
+&lt;h4 id="梯度下降法" >
+&lt;div>
+&lt;a href="#%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d%e6%b3%95">
+###
+&lt;/a>
+梯度下降法
+&lt;/div>
+&lt;/h4>
+&lt;p>梯度下降法是一种迭代优化算法，它基于函数在某一点处的梯度方向，沿着梯度的反方向更新参数，直到达到一个局部最小值点。&lt;/p>
+&lt;p>一般步骤：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>设置目标函数（aka, 损失函数）：在MLE中目标函数就是最大化对数似然（log-likelihood），
+然而梯度下降法通常是求函数最小值，所以通常在MLE中最小化负数对数似然（negative
+log-likelihood），这个只是出于数值计算方便的考虑，并且其等价于最大化对数似然。&lt;/p>
+&lt;ul>
+&lt;li>设 $\mathcal{l}(\theta)$ 为“对数似然”，则&lt;/li>
+&lt;li>目标函数为 $-\mathcal{l}(\theta)$ 。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>计算梯度：计算负数对数似然的梯度（单维度时成为“导数”，多个维度时就叫“梯度”，实质都是
+指变化率），也就是：梯度指示了对数似然函数中坡度最陡的方向,
+$$
+\nabla_{\theta}(\mathcal{l}(\theta)) = - \frac{\partial \mathcal{l}(\theta)}{\partial \theta}
+$$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>迭代更新参数：梯度下降就是在坡度最陡峭的方向上，每次只前进一小步。如果将第t次迭代的参
+数设为$\theta^{(t)}$，则参数更新的规则为：
+$$
+\theta{t+1} = \theta{(t)} - \eta \cdot \nabla_{\theta}(\mathcal{l}(\theta^{(t)}))
+$$
+其中，$\eta$ 是学习率，用于控制每次迭代前进的一小步到底有多小（通常设为 0.001等）。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>收敛：这个迭代过程一直持续到参数的变化变得非常小（通常意味着梯度值接近0），也就是目标
+函数值收敛于此最小值。（梯度下降过程一定是收敛的吗？不。远的不说，单把学习率的值调高，
+就有可能导致发散。）&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h4 id="梯度下降法有许多变种包括但不限于" >
+&lt;div>
+&lt;a href="#%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d%e6%b3%95%e6%9c%89%e8%ae%b8%e5%a4%9a%e5%8f%98%e7%a7%8d%e5%8c%85%e6%8b%ac%e4%bd%86%e4%b8%8d%e9%99%90%e4%ba%8e">
+###
+&lt;/a>
+梯度下降法有许多变种，包括但不限于：
+&lt;/div>
+&lt;/h4>
+&lt;ul>
+&lt;li>批量梯度下降（Batch Gradient Descent）：每次迭代时使用所有训练样本计算梯度。&lt;/li>
+&lt;li>随机梯度下降（Stochastic Gradient Descent, SGD）：每次迭代仅使用一个训练样本计算梯度。&lt;/li>
+&lt;li>小批量梯度下降（Mini-batch Gradient Descent）：每次迭代使用一小部分训练样本计算梯度。&lt;/li>
+&lt;/ul></description></item></channel></rss>

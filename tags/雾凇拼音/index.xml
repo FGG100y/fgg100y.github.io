@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>雾凇拼音 on fgg blog</title><link>/tags/%E9%9B%BE%E5%87%87%E6%8B%BC%E9%9F%B3/</link><description>fgg blog (雾凇拼音)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 06 Jul 2024 15:34:59 +0800</lastBuildDate><atom:link href="/tags/%E9%9B%BE%E5%87%87%E6%8B%BC%E9%9F%B3/index.xml" rel="self" type="application/rss+xml"/><item><title>rime_trime</title><link>/posts/personals/momentsoflife/rime_trime/</link><pubDate>Sat, 06 Jul 2024 15:34:59 +0800</pubDate><guid>/posts/personals/momentsoflife/rime_trime/</guid><description>&lt;p>&lt;a href="https://github.com/iDvel/rime-ice">rime-ice&lt;/a> 雾凇拼音 + &lt;a href="https://github.com/osfans/trime">trime&lt;/a> 同文输入法&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>雾凇拼音 on fgg blog</title><link>/tags/%E9%9B%BE%E5%87%87%E6%8B%BC%E9%9F%B3/</link><description>fgg blog (雾凇拼音)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Sat, 06 Jul 2024 15:34:59 +0800</lastBuildDate><atom:link href="/tags/%E9%9B%BE%E5%87%87%E6%8B%BC%E9%9F%B3/index.xml" rel="self" type="application/rss+xml"/><item><title>rime_trime</title><link>/posts/personals/momentsoflife/rime_trime/</link><pubDate>Sat, 06 Jul 2024 15:34:59 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/personals/momentsoflife/rime_trime/</guid><description>&lt;p>&lt;a href="https://github.com/iDvel/rime-ice">rime-ice&lt;/a> 雾凇拼音 + &lt;a href="https://github.com/osfans/trime">trime&lt;/a> 同文输入法&lt;/p>
 &lt;p>&lt;img alt="IMG_trime_a_grimpse" src="https://fgg100y.github.io/posts/personals/momentsoflife/rime_trime/images/trime_theme_4in1.png">&lt;/p>
 &lt;p>怎么在手机上使用这个输入法？比较无脑省力那种&amp;hellip;
 等等先，除开什么“愤世嫉俗”这种冠冕堂皇，或者“拒绝雷同”这种笑掉大牙，以及“听说它很难搞我非要搞定它”这种偏执狂的理由外，为什么用这个？
@@ -26,7 +27,14 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e">#局部更新：&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>bash rime-install iDvel/rime-ice:others/recipes/all_dicts
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>5 多端同步：电脑端更新，复制到手机等其他终端。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>注：github.com 不给力时&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>，&lt;code>plum&lt;/code> 就会巧妇难为无米之炊，因此如果可以直接从网页端下载到
+仓库源码压缩包或者从其他地方获取(如&lt;code>rime-ice-master.zip&lt;/code>)，那么手动安装其实也很简单：&lt;/p>
+&lt;p>将压缩包解压并将数据复制&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>到以下目录（根据安装方式不同来选择）：&lt;/p>
+&lt;ul>
+&lt;li>iBus 为 &lt;code>$HOME/.config/ibus/rime/&lt;/code>&lt;/li>
+&lt;li>Fcitx5 为 &lt;code>$HOME/.local/share/fcitx5/rime/&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>5 多端同步：电脑端更新，复制到手机等其他终端。&lt;/p>
 &lt;hr>
 &lt;div class="footnotes" role="doc-endnotes">
 &lt;hr>
@@ -36,6 +44,12 @@
 &lt;/li>
 &lt;li id="fn:2">
 &lt;p>Rime 配置：雾凇拼音 &lt;a href="https://dvel.me/posts/rime-ice/">https://dvel.me/posts/rime-ice/&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>由于网络原因 github.com 访问不到实属特色，不应惊讶&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4">
+&lt;p>在目标目录下，比复制更省事的做法是：&lt;code>ln -s path/to/rime-ice rime&lt;/code>&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/div></description></item></channel></rss>

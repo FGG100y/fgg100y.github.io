@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Personal Wiki on fgg blog</title><link>/tags/personal-wiki/</link><description>fgg blog (Personal Wiki)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 21 Jul 2022 23:37:31 +0800</lastBuildDate><atom:link href="/tags/personal-wiki/index.xml" rel="self" type="application/rss+xml"/><item><title>利器2: Vimwiki 之 如何用 vimwiki 记笔记</title><link>/posts/thecli/thevim/2022-07-15-vimwiki/</link><pubDate>Thu, 21 Jul 2022 23:37:31 +0800</pubDate><guid>/posts/thecli/thevim/2022-07-15-vimwiki/</guid><description>&lt;h2 id="个人维基-personal-wiki" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Personal Wiki on fgg blog</title><link>/tags/personal-wiki/</link><description>fgg blog (Personal Wiki)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Thu, 21 Jul 2022 23:37:31 +0800</lastBuildDate><atom:link href="/tags/personal-wiki/index.xml" rel="self" type="application/rss+xml"/><item><title>利器2: Vimwiki 之 如何用 vimwiki 记笔记</title><link>/posts/thecli/thevim/2022-07-15-vimwiki/</link><pubDate>Thu, 21 Jul 2022 23:37:31 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/thecli/thevim/2022-07-15-vimwiki/</guid><description>&lt;h2 id="个人维基-personal-wiki" >
 &lt;div>
 &lt;a href="#%e4%b8%aa%e4%ba%ba%e7%bb%b4%e5%9f%ba-personal-wiki">
 #
@@ -108,12 +109,12 @@
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align:center">&lt;img alt="learning_curves" src="https://fgg100y.github.io/img/posts/vimwiki_intro/editors_learning_curves.jpg">&lt;/th>
+&lt;th style="text-align: center">&lt;img alt="learning_curves" src="https://fgg100y.github.io/img/posts/vimwiki_intro/editors_learning_curves.jpg">&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align:center">&lt;em>some text editors&amp;rsquo; learning curve&lt;/em>&lt;/td>
+&lt;td style="text-align: center">&lt;em>some text editors&amp;rsquo; learning curve&lt;/em>&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>

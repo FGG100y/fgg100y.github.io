@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Modules on fgg blog</title><link>/tags/modules/</link><description>fgg blog (Modules)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 10 Jul 2024 16:19:58 +0800</lastBuildDate><atom:link href="/tags/modules/index.xml" rel="self" type="application/rss+xml"/><item><title>python_module</title><link>/posts/cs101/python_module/</link><pubDate>Wed, 10 Jul 2024 16:19:58 +0800</pubDate><guid>/posts/cs101/python_module/</guid><description>&lt;h2 id="layout-of-python-installations" >
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Modules on fgg blog</title><link>/tags/modules/</link><description>fgg blog (Modules)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Wed, 10 Jul 2024 16:19:58 +0800</lastBuildDate><atom:link href="/tags/modules/index.xml" rel="self" type="application/rss+xml"/><item><title>python_module</title><link>/posts/py101/python_module/</link><pubDate>Wed, 10 Jul 2024 16:19:58 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/py101/python_module/</guid><description>&lt;h2 id="layout-of-python-installations" >
 &lt;div>
 &lt;a href="#layout-of-python-installations">
 #
@@ -10,36 +11,36 @@ Layout of Python installations
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>Files&lt;/th>
-&lt;th>Windows&lt;/th>
-&lt;th>Linux and macOS&lt;/th>
-&lt;th>Notes&lt;/th>
+&lt;th style="text-align: left">Files&lt;/th>
+&lt;th style="text-align: left">Windows&lt;/th>
+&lt;th style="text-align: left">Linux and macOS&lt;/th>
+&lt;th style="text-align: left">Notes&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>Interpreter&lt;/td>
-&lt;td>python.exe&lt;/td>
-&lt;td>bin/python3.x&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">Interpreter&lt;/td>
+&lt;td style="text-align: left">python.exe&lt;/td>
+&lt;td style="text-align: left">bin/python3.x&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Standard library&lt;/td>
-&lt;td>Lib and DLLs&lt;/td>
-&lt;td>lib/python3.x&lt;/td>
-&lt;td>Extension modules are located under DLLs on Windows. Fedora places the standard library under lib64 instead of lib.&lt;/td>
+&lt;td style="text-align: left">Standard library&lt;/td>
+&lt;td style="text-align: left">Lib and DLLs&lt;/td>
+&lt;td style="text-align: left">lib/python3.x&lt;/td>
+&lt;td style="text-align: left">Extension modules are located under DLLs on Windows. Fedora places the standard library under lib64 instead of lib.&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Third-party packages&lt;/td>
-&lt;td>Lib\site-packages&lt;/td>
-&lt;td>lib/python3.x/site-packages&lt;/td>
-&lt;td>Debian and Ubuntu put packages in dist-packages. Fedora places extension modules under lib64 instead of lib.&lt;/td>
+&lt;td style="text-align: left">Third-party packages&lt;/td>
+&lt;td style="text-align: left">Lib\site-packages&lt;/td>
+&lt;td style="text-align: left">lib/python3.x/site-packages&lt;/td>
+&lt;td style="text-align: left">Debian and Ubuntu put packages in dist-packages. Fedora places extension modules under lib64 instead of lib.&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Entry-point scriptsa&lt;/td>
-&lt;td>Scripts&lt;/td>
-&lt;td>bin&lt;/td>
-&lt;td>&lt;/td>
+&lt;td style="text-align: left">Entry-point scriptsa&lt;/td>
+&lt;td style="text-align: left">Scripts&lt;/td>
+&lt;td style="text-align: left">bin&lt;/td>
+&lt;td style="text-align: left">&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -120,7 +121,7 @@ Python virtual environment
 &lt;/h2>
 &lt;p>Python environments consist of an interpreter and modules. Virtual environments share
 the interpreter and the standard library with their parent environment.&lt;/p>
-&lt;p>&lt;img alt="py-venv" src="https://fgg100y.github.io/posts/cs101/python_module/images/py_python_and_venv.png">&lt;/p>
+&lt;p>&lt;img alt="py-venv" src="https://fgg100y.github.io/posts/py101/python_module/images/py_python_and_venv.png">&lt;/p>
 &lt;p>A Python environment can contain only a single version of each third-party package &amp;ndash;
 if two projects require different versions of the same package, they can’t be
 installed side by side. That’s why it’s considered good practice to install every Python

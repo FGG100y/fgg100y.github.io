@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>考试 on fgg blog</title><link>/tags/%E8%80%83%E8%AF%95/</link><description>fgg blog (考试)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Wed, 11 Sep 2024 18:28:25 +0800</lastBuildDate><atom:link href="/tags/%E8%80%83%E8%AF%95/index.xml" rel="self" type="application/rss+xml"/><item><title>牛客刷题之火车进出站--栈.md</title><link>/posts/personals/momentsoflife/2024-09-11-%E7%89%9B%E5%AE%A2%E5%88%B7%E9%A2%98%E4%B9%8B%E7%81%AB%E8%BD%A6%E8%BF%9B%E5%87%BA%E7%AB%99%E6%A0%88/</link><pubDate>Wed, 11 Sep 2024 18:28:25 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/personals/momentsoflife/2024-09-11-%E7%89%9B%E5%AE%A2%E5%88%B7%E9%A2%98%E4%B9%8B%E7%81%AB%E8%BD%A6%E8%BF%9B%E5%87%BA%E7%AB%99%E6%A0%88/</guid><description>&lt;p>题目：&lt;/p>
+&lt;p>描述&lt;/p>
+&lt;p>给定一个正整数N代表火车数量，0&amp;lt;N&amp;lt;10，接下来输入火车入站的序列，一共N辆火车，每辆火车以
+数字1-9编号，火车站只有一个方向进出，同时停靠在火车站的列车中，只有后进站的出站了，先进
+站的才能出站。&lt;/p>
+&lt;p>要求输出所有火车出站的方案，以字典序排序输出。&lt;/p>
+&lt;p>数据范围：1≤n≤10&lt;/p>
+&lt;p>进阶：时间复杂度：O(n!) ，空间复杂度：O(n)&lt;/p>
+&lt;p>输入描述：
+第一行输入一个正整数N（0 &amp;lt; N &amp;lt;= 10），第二行包括N个正整数，范围为1到10。&lt;/p>
+&lt;p>输出描述：
+输出以字典序从小到大排序的火车出站序列号，每个编号以空格隔开，每个输出序列换行，具体见sample。&lt;/p>
+&lt;p>输入：&lt;br>
+3&lt;br>
+1 2 3&lt;/p>
+&lt;p>输出：&lt;br>
+1 2 3&lt;br>
+1 3 2&lt;br>
+2 1 3&lt;br>
+2 3 1&lt;br>
+3 2 1&lt;/p>
+&lt;p>说明：
+第一种方案：1进、1出、2进、2出、3进、3出&lt;br>
+第二种方案：1进、1出、2进、3进、3出、2出&lt;br>
+第三种方案：1进、2进、2出、1出、3进、3出&lt;br>
+第四种方案：1进、2进、2出、3进、3出、1出&lt;br>
+第五种方案：1进、2进、3进、3出、2出、1出&lt;br>
+请注意，[3,1,2]这个序列是不可能实现的。&lt;/p>
+&lt;hr>
+&lt;p>刚看题目就不能明白为什么输入&amp;quot;1 2 3&amp;quot;不就是&amp;quot;3 2 1&amp;quot;一个答案吗？（题目中这一句：“接下来输入火车入站的序列，”直接要了俺的命了），
+输入&amp;quot;1 2 3&amp;quot;, 也就是编号1、2、3这三辆火车进站了（但人家可没有说是一次来了三辆），所以呢，得猜，猜出题者到底说了什么意思。
+“说明”所举例的内容就是一种提示：我（出题者）就是这么规定题目意思的。您要是没看明白，是您自己的水平问题。&lt;/p>
+&lt;blockquote>
+&lt;p>据说，金圣叹记载的史上最短科举试题“二”，这个题目只有一个字，要求考生围绕这个数字展开论述，其荒诞性不言而喻。&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>据载，金圣叹在应试时遇到的题目“吾四十而不动心”，他在试卷上写了三十九个“动心”&amp;hellip;&lt;/p>
+&lt;/blockquote>
+&lt;p>哥们那39个“动心”倒是有点理工直男的黑色幽默，不管怎么说，我总觉得他多少是在戏弄考官。哈哈。还是这位金性怪老头玩得起。&lt;/p>
+&lt;p>题目总归是没有错的（搞不好是打着“圣上”旗号出题的，谁敢说它错了？）而且出题范围内，题目只
+有那么多，每年都要考，所以要么将其变曲折复杂，要么变含糊其辞，要么说点悄悄话&amp;hellip;总而言之，如果揣摩不透“上意”，肯定是自己水平问题。&lt;/p>
+&lt;p>其实也就意味着，您不在出题者混的圈子里，而又非要去应试，是您最大的错。&lt;/p>
+&lt;p>&lt;img alt="IMG_你给领导二选一领导回答对" src="images/%E4%BD%A0%E7%BB%99%E9%A2%86%E5%AF%BC%E4%BA%8C%E9%80%89%E4%B8%80%E9%A2%86%E5%AF%BC%E5%9B%9E%E7%AD%94%E5%AF%B9.png">&lt;/p>
+&lt;hr>
+&lt;p>啰唆多两句：&lt;br>
+回到这道题，我仿佛看到了科举考试的鬼影在跳舞。想不到那些弯弯绕当然是自己笨&amp;hellip;吗？&lt;/p>
+&lt;p>才刚&lt;code>git push&lt;/code>这篇博客，就刷到“道路办何主任”的刚刚发布的&lt;a href="https://mp.weixin.qq.com/s/tiUXtTPaTHYCARzQ5f_xTQ">为什么有人喜欢脱裤子放屁&lt;/a>，很喜欢这哥们的文章。&lt;/p>
+&lt;p>代码（不给代码就是瞎哔哔个屁，但是这个年头，用最喜爱的&lt;ruby>“卡帕西”&lt;rt>Andrej Karpathy&lt;/rt>&lt;/ruby>老师的话来讲就是：编写代码即将就是tab tab tab）：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> sys
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">train_out_sequences&lt;/span>(n, trains):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">dfs&lt;/span>(in_index, stack, out_sequence):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 如果所有火车都出站，记录当前方案&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(out_sequence) &lt;span style="color:#ff6ac1">==&lt;/span> n:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> result&lt;span style="color:#ff6ac1">.&lt;/span>append(out_sequence[:])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 选择入站操作&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> in_index &lt;span style="color:#ff6ac1">&amp;lt;&lt;/span> n:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> stack&lt;span style="color:#ff6ac1">.&lt;/span>append(trains[in_index]) &lt;span style="color:#78787e"># 火车入站&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfs(in_index &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, stack, out_sequence) &lt;span style="color:#78787e"># 递归处理下一辆车&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> stack&lt;span style="color:#ff6ac1">.&lt;/span>pop() &lt;span style="color:#78787e"># 回溯，撤销入站操作&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 选择出站操作&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> stack:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> out_sequence&lt;span style="color:#ff6ac1">.&lt;/span>append(stack&lt;span style="color:#ff6ac1">.&lt;/span>pop()) &lt;span style="color:#78787e"># 栈顶火车出站&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfs(in_index, stack, out_sequence) &lt;span style="color:#78787e"># 递归处理&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> stack&lt;span style="color:#ff6ac1">.&lt;/span>append(out_sequence&lt;span style="color:#ff6ac1">.&lt;/span>pop()) &lt;span style="color:#78787e"># 回溯，撤销出站操作&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> result &lt;span style="color:#ff6ac1">=&lt;/span> []
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dfs(&lt;span style="color:#ff9f43">0&lt;/span>, [], [])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 对所有出站方案按字典序排序&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> result&lt;span style="color:#ff6ac1">.&lt;/span>sort()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> result
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ins &lt;span style="color:#ff6ac1">=&lt;/span> []
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> line &lt;span style="color:#ff6ac1">in&lt;/span> sys&lt;span style="color:#ff6ac1">.&lt;/span>stdin:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> a &lt;span style="color:#ff6ac1">=&lt;/span> line&lt;span style="color:#ff6ac1">.&lt;/span>strip()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ins&lt;span style="color:#ff6ac1">.&lt;/span>append(a)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>n, trains &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">int&lt;/span>(ins[&lt;span style="color:#ff9f43">0&lt;/span>]), &lt;span style="color:#ff5c57">list&lt;/span>(&lt;span style="color:#ff5c57">map&lt;/span>(&lt;span style="color:#ff5c57">int&lt;/span>, ins[&lt;span style="color:#ff9f43">1&lt;/span>]&lt;span style="color:#ff6ac1">.&lt;/span>split()))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 获取所有合法的出站方案&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sequences &lt;span style="color:#ff6ac1">=&lt;/span> train_out_sequences(n, trains)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 打印每个出站方案&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> seq &lt;span style="color:#ff6ac1">in&lt;/span> sequences:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(&lt;span style="color:#5af78e">&amp;#34; &amp;#34;&lt;/span>&lt;span style="color:#ff6ac1">.&lt;/span>join(&lt;span style="color:#ff5c57">map&lt;/span>(&lt;span style="color:#ff5c57">str&lt;/span>, seq)))
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

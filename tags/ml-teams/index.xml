@@ -1,32 +1,33 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ML Teams on fgg blog</title><link>/tags/ml-teams/</link><description>fgg blog (ML Teams)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 03 Jun 2024 17:12:37 +0800</lastBuildDate><atom:link href="/tags/ml-teams/index.xml" rel="self" type="application/rss+xml"/><item><title>EffectiveML 01: Delivering successful ML projects</title><link>/posts/mlteam101/feedback_loops_and_times_to_feedback/</link><pubDate>Mon, 03 Jun 2024 17:12:37 +0800</pubDate><guid>/posts/mlteam101/feedback_loops_and_times_to_feedback/</guid><description>&lt;p>Table: Comparison of feedback mechanisms and time-to-feedback in high- and low-effectiveness environments&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ML Teams on fgg blog</title><link>/tags/ml-teams/</link><description>fgg blog (ML Teams)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Mon, 03 Jun 2024 17:12:37 +0800</lastBuildDate><atom:link href="/tags/ml-teams/index.xml" rel="self" type="application/rss+xml"/><item><title>EffectiveML 01: Delivering successful ML projects</title><link>/posts/ml101/mlteam101/feedback_loops_and_times_to_feedback/</link><pubDate>Mon, 03 Jun 2024 17:12:37 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/ml101/mlteam101/feedback_loops_and_times_to_feedback/</guid><description>&lt;p>Table: Comparison of feedback mechanisms and time-to-feedback in high- and low-effectiveness environments&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>Task&lt;/th>
-&lt;th>High-effectiveness environment&lt;/th>
-&lt;th>Low-effectiveness environment&lt;/th>
+&lt;th style="text-align: left">Task&lt;/th>
+&lt;th style="text-align: left">High-effectiveness environment&lt;/th>
+&lt;th style="text-align: left">Low-effectiveness environment&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>Testing if code changes worked as expected&lt;/td>
-&lt;td>Automated testing (~ seconds to minutes)&lt;/td>
-&lt;td>Manual testing (~ minutes to hours)&lt;/td>
+&lt;td style="text-align: left">Testing if code changes worked as expected&lt;/td>
+&lt;td style="text-align: left">Automated testing (~ seconds to minutes)&lt;/td>
+&lt;td style="text-align: left">Manual testing (~ minutes to hours)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Testing if training pipeline works end to end&lt;/td>
-&lt;td>Training smoke test (~ 1 minute)&lt;/td>
-&lt;td>Full model training (~ minutes to hours, depending on model architecture)&lt;/td>
+&lt;td style="text-align: left">Testing if training pipeline works end to end&lt;/td>
+&lt;td style="text-align: left">Training smoke test (~ 1 minute)&lt;/td>
+&lt;td style="text-align: left">Full model training (~ minutes to hours, depending on model architecture)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Getting feedback on code changes&lt;/td>
-&lt;td>Pair programming (~ seconds to minutes)&lt;/td>
-&lt;td>Pull request reivews (~ hours to days)&lt;/td>
+&lt;td style="text-align: left">Getting feedback on code changes&lt;/td>
+&lt;td style="text-align: left">Pair programming (~ seconds to minutes)&lt;/td>
+&lt;td style="text-align: left">Pull request reivews (~ hours to days)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>Understanding if application is working as expected in production&lt;/td>
-&lt;td>Monitoring in production (~ seconds - as it happens)&lt;/td>
-&lt;td>Customer complaints (~ days, or longer if not directly reported)&lt;/td>
+&lt;td style="text-align: left">Understanding if application is working as expected in production&lt;/td>
+&lt;td style="text-align: left">Monitoring in production (~ seconds - as it happens)&lt;/td>
+&lt;td style="text-align: left">Customer complaints (~ days, or longer if not directly reported)&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Resnet on fgg blog</title><link>/tags/resnet/</link><description>fgg blog (Resnet)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 29 Jun 2024 09:17:15 +0800</lastBuildDate><atom:link href="/tags/resnet/index.xml" rel="self" type="application/rss+xml"/><item><title>ResNet</title><link>/posts/resnet/</link><pubDate>Sat, 29 Jun 2024 09:17:15 +0800</pubDate><guid>/posts/resnet/</guid><description>&lt;p>思维实验：
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Resnet on fgg blog</title><link>/tags/resnet/</link><description>fgg blog (Resnet)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Sat, 29 Jun 2024 09:17:15 +0800</lastBuildDate><atom:link href="/tags/resnet/index.xml" rel="self" type="application/rss+xml"/><item><title>ResNet</title><link>/posts/neuralnetworks/resnet/</link><pubDate>Sat, 29 Jun 2024 09:17:15 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/resnet/</guid><description>&lt;p>思维实验：
 在浅层网络结构的基础上（比如20层），往后面直接添加更多的同映射隐层（identity layers），
 得到的深层网络（比如50层）理论上效果应该不会变差。但实验结果说明，它真会变差。意味着：
 SGD算法无法找到使得更深层网络性能不变差的参数。&lt;/p>
@@ -46,8 +47,8 @@ $$&lt;/p>
 &lt;/ul>
 &lt;p>两种情况下，当残差连接的是不同尺寸的特征图（feature map）时，使用步幅为2的卷积操作。
 （通道数翻倍，则高宽减半，因此使用步幅=2（stride=2）的卷积来保证维数对齐）&lt;/p>
-&lt;p>&lt;img alt="bottlenet-block" src="https://fgg100y.github.io/posts/resnet/images/resnet_bottlenet_building_block.png">&lt;/p>
-&lt;p>&lt;img alt="resnet-arch" src="https://fgg100y.github.io/posts/resnet/images/resnet_arch_for_imagenet.png">&lt;/p>
+&lt;p>&lt;img alt="bottlenet-block" src="https://fgg100y.github.io/posts/neuralnetworks/resnet/images/resnet_bottlenet_building_block.png">&lt;/p>
+&lt;p>&lt;img alt="resnet-arch" src="https://fgg100y.github.io/posts/neuralnetworks/resnet/images/resnet_arch_for_imagenet.png">&lt;/p>
 &lt;h2 id="残差连接为什么有用" >
 &lt;div>
 &lt;a href="#%e6%ae%8b%e5%b7%ae%e8%bf%9e%e6%8e%a5%e4%b8%ba%e4%bb%80%e4%b9%88%e6%9c%89%e7%94%a8">

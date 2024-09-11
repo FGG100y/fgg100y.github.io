@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Signal on fgg blog</title><link>/tags/signal/</link><description>fgg blog (Signal)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Fri, 03 May 2024 10:26:17 +0800</lastBuildDate><atom:link href="/tags/signal/index.xml" rel="self" type="application/rss+xml"/><item><title>spectral_decomposition</title><link>/posts/dsp101/spectral_decomposition/</link><pubDate>Fri, 03 May 2024 10:26:17 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/dsp101/spectral_decomposition/</guid><description>&lt;hr>
+&lt;p>NOTE: For more content see &lt;a href="https://github.com/AllenDowney/ThinkDSP">ThinkDSP&lt;/a>&lt;/p>
+&lt;hr>
+&lt;blockquote>
+&lt;p>DFT is a mathematical idea, and FFT is an algorithm for computing DFT.&lt;/p>
+&lt;/blockquote>
+&lt;p>Spectral decomposition: The idea that any signal can be expressed as the sum of
+sinusoids with different frequencies.&lt;/p>
+&lt;h2 id="what-is-a-signal" >
+&lt;div>
+&lt;a href="#what-is-a-signal">
+#
+&lt;/a>
+What is a signal?
+&lt;/div>
+&lt;/h2>
+&lt;p>A &lt;strong>signal&lt;/strong> represents a quantity that varies in time. (pretty abstract,eh?)
+A concrete example: sound. A sound signal represents variations in air pressure over
+time.&lt;/p>
+&lt;p>Periodic signals: The signals that repeat themselves after some period ot time.&lt;/p>
+&lt;p>A &lt;strong>sinusoid&lt;/strong> which means it has the same shape as the trigonmetric sine function.
+And a sinusoid contains only one frequency component, so its spectrum has only one
+peak.&lt;/p>
+&lt;p>&lt;strong>cycles&lt;/strong>: the full repetitions in a periodic signal.
+&lt;strong>period&lt;/strong>: the duration of each cycle.
+&lt;strong>frequency&lt;/strong>: the number of cycles per second, which is the inverse of period.
+- the units of frequency are cycles per second, or Hertz (Hz).
+- strictly speaking, the number of cycles is a dimensionless number, so a Hertz
+is really a &amp;ldquo;per second&amp;rdquo;.&lt;/p>
+&lt;p>A microphone is a device that measures these variations and generates an electrical
+signal that represents sound.
+A speaker is a device that takes an electrical signal and produce sound.
+They are called &lt;strong>transducers&lt;/strong> because they transduce, or convert, signals from one
+form to another.&lt;/p>
+&lt;h2 id="discrete-fourier-transform-dft" >
+&lt;div>
+&lt;a href="#discrete-fourier-transform-dft">
+#
+&lt;/a>
+Discrete Fourier transform (DFT)
+&lt;/div>
+&lt;/h2>
+&lt;p>DFT is a mathematical idea which takes a signal and produces its spectrum.
+The spectrum is the set of sinusoids that add up to produce the signal.&lt;/p>
+&lt;p>And the FFT (Fast Fourier transform) is an algorithm which is an efficient way to
+compute the DFT.&lt;/p>
+&lt;p>&lt;img alt="IMG_signal" src="https://fgg100y.github.io/posts/dsp101/spectral_decomposition/images/a_wave_segment.png">&lt;/p>
+&lt;p>&lt;img alt="IMG_spectrum_of_signal" src="https://fgg100y.github.io/posts/dsp101/spectral_decomposition/images/a_wave_segment_its_spectrum.png">&lt;/p>
+&lt;p>The lowest frequency component is called the &lt;strong>fundamental frequency&lt;/strong>. If the
+fundamental frequency has the largest amplitude, it is also the &lt;strong>dominant frequency&lt;/strong>.
+Normally the perceived pitch of a sound is determinded by the fundamental frequency,
+even if it is not dominant.&lt;/p>
+&lt;p>The &lt;strong>fundamental frequency&lt;/strong> of this signal is near 440 Hz, the other spikes in the
+spectrum are at frequencies 880, 1320, 1760, and 2200, which are integer multiples
+of the fundamental. These components are called &lt;strong>harmonics&lt;/strong> because they are
+musically harmonious with the fundamental:&lt;/p>
+&lt;ul>
+&lt;li>440 is the frequency of A4, the fundamental frequency.&lt;/li>
+&lt;li>880 is the frequency of A5, one &lt;strong>octave&lt;/strong> higher than the fundamental. An octave
+is a doubling in frequency.&lt;/li>
+&lt;li>1320 is approximately E6, which is a &lt;strong>perfect fifth&lt;/strong> above A5.&lt;/li>
+&lt;li>1760 is A6, two octave above the fundamental.&lt;/li>
+&lt;li>2200 is approximately C#7, which is a major third above A6.&lt;/li>
+&lt;/ul>
+&lt;p>NOTE: Given the harmonics and their amplitudes, you can reconstruct the signal by
+adding up sinusoids.&lt;/p>
+&lt;p>Some code about &lt;code>signal/wave&lt;/code> :&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># More codes here are ignored ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">class&lt;/span> &lt;span style="color:#f3f99d">Signal&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Represents a time-varying signal.&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> __add__(self, other):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Adds two signals.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> other: Signal
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> returns: Signal
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> other &lt;span style="color:#ff6ac1">==&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> self
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> SumSignal(self, other)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> __radd__ &lt;span style="color:#ff6ac1">=&lt;/span> __add__
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff9f43">@property&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">period&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Period of the signal in seconds (property).
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> Since this is used primarily for purposes of plotting,
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> the default behavior is to return a value, 0.1 seconds,
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> that is reasonable for many signals.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> returns: float seconds
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> &lt;span style="color:#ff9f43">0.1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">plot&lt;/span>(self, framerate&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">11025&lt;/span>):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Plots the signal.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> The default behavior is to plot three periods.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> framerate: samples per second
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> duration &lt;span style="color:#ff6ac1">=&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>period &lt;span style="color:#ff6ac1">*&lt;/span> &lt;span style="color:#ff9f43">3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wave &lt;span style="color:#ff6ac1">=&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>make_wave(duration, start&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">0&lt;/span>, framerate&lt;span style="color:#ff6ac1">=&lt;/span>framerate)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wave&lt;span style="color:#ff6ac1">.&lt;/span>plot()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">make_wave&lt;/span>(self, duration&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>, start&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">0&lt;/span>, framerate&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">11025&lt;/span>):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Makes a Wave object.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> duration: float seconds
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> start: float seconds
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> framerate: int frames per second
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> returns: Wave
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">round&lt;/span>(duration &lt;span style="color:#ff6ac1">*&lt;/span> framerate)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ts &lt;span style="color:#ff6ac1">=&lt;/span> start &lt;span style="color:#ff6ac1">+&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>arange(n) &lt;span style="color:#ff6ac1">/&lt;/span> framerate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ys &lt;span style="color:#ff6ac1">=&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>evaluate(ts)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> Wave(ys, ts, framerate&lt;span style="color:#ff6ac1">=&lt;/span>framerate)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">class&lt;/span> &lt;span style="color:#f3f99d">Sinusoid&lt;/span>(Signal)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># More codes here are ignored ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">evaluate&lt;/span>(self, ts):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># (self.freq * ts) is the number of cycles since start time&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># Multiplying 2*np.pi converts from cycles to phases&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># and phases can be view as &amp;#34;cycles since start time expressed in radians&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># the func is cos or sin, returns value between -1 and 1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> phases &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">2&lt;/span>&lt;span style="color:#ff6ac1">*&lt;/span>np&lt;span style="color:#ff6ac1">.&lt;/span>pi &lt;span style="color:#ff6ac1">*&lt;/span> (self&lt;span style="color:#ff6ac1">.&lt;/span>freq &lt;span style="color:#ff6ac1">*&lt;/span> ts) &lt;span style="color:#ff6ac1">+&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>offset
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ys &lt;span style="color:#ff6ac1">=&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>amp &lt;span style="color:#ff6ac1">*&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>func(phases)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> ys
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">class&lt;/span> &lt;span style="color:#f3f99d">Wave&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Represents a discrete-time waveform.&amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> __init__(self, ys, ts&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>, framerate&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Initializes the wave.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> ys: wave array
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> ts: array of times
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> framerate: samples per second
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> self&lt;span style="color:#ff6ac1">.&lt;/span>ys &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>asanyarray(ys)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> self&lt;span style="color:#ff6ac1">.&lt;/span>framerate &lt;span style="color:#ff6ac1">=&lt;/span> framerate &lt;span style="color:#ff6ac1">if&lt;/span> framerate &lt;span style="color:#ff6ac1">is&lt;/span> &lt;span style="color:#ff6ac1">not&lt;/span> &lt;span style="color:#ff6ac1">None&lt;/span> &lt;span style="color:#ff6ac1">else&lt;/span> &lt;span style="color:#ff9f43">11025&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> ts &lt;span style="color:#ff6ac1">is&lt;/span> &lt;span style="color:#ff6ac1">None&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> self&lt;span style="color:#ff6ac1">.&lt;/span>ts &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>arange(&lt;span style="color:#ff5c57">len&lt;/span>(ys)) &lt;span style="color:#ff6ac1">/&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>framerate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">else&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> self&lt;span style="color:#ff6ac1">.&lt;/span>ts &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>asanyarray(ts)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">copy&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Makes a copy.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> Returns: new Wave
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> copy&lt;span style="color:#ff6ac1">.&lt;/span>deepcopy(self)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> __len__(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(self&lt;span style="color:#ff6ac1">.&lt;/span>ys)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff9f43">@property&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">start&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>ts[&lt;span style="color:#ff9f43">0&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff9f43">@property&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">end&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>ts[&lt;span style="color:#ff6ac1">-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff9f43">@property&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">duration&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Duration (property).
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> returns: float duration in seconds
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(self&lt;span style="color:#ff6ac1">.&lt;/span>ys) &lt;span style="color:#ff6ac1">/&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>framerate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> __add__(self, other):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Adds two waves elementwise.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> other: Wave
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> returns: new Wave
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> other &lt;span style="color:#ff6ac1">==&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> self
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">assert&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>framerate &lt;span style="color:#ff6ac1">==&lt;/span> other&lt;span style="color:#ff6ac1">.&lt;/span>framerate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># make an array of times that covers both waves&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> start &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">min&lt;/span>(self&lt;span style="color:#ff6ac1">.&lt;/span>start, other&lt;span style="color:#ff6ac1">.&lt;/span>start)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> end &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">max&lt;/span>(self&lt;span style="color:#ff6ac1">.&lt;/span>end, other&lt;span style="color:#ff6ac1">.&lt;/span>end)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">int&lt;/span>(&lt;span style="color:#ff5c57">round&lt;/span>((end &lt;span style="color:#ff6ac1">-&lt;/span> start) &lt;span style="color:#ff6ac1">*&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>framerate)) &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ys &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>zeros(n)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ts &lt;span style="color:#ff6ac1">=&lt;/span> start &lt;span style="color:#ff6ac1">+&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>arange(n) &lt;span style="color:#ff6ac1">/&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>framerate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">add_ys&lt;/span>(wave):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> i &lt;span style="color:#ff6ac1">=&lt;/span> find_index(wave&lt;span style="color:#ff6ac1">.&lt;/span>start, ts)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># make sure the arrays line up reasonably well&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> diff &lt;span style="color:#ff6ac1">=&lt;/span> ts[i] &lt;span style="color:#ff6ac1">-&lt;/span> wave&lt;span style="color:#ff6ac1">.&lt;/span>start
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dt &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">/&lt;/span> wave&lt;span style="color:#ff6ac1">.&lt;/span>framerate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> (diff &lt;span style="color:#ff6ac1">/&lt;/span> dt) &lt;span style="color:#ff6ac1">&amp;gt;&lt;/span> &lt;span style="color:#ff9f43">0.1&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> warnings&lt;span style="color:#ff6ac1">.&lt;/span>warn(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;Can&amp;#39;t add these waveforms; their &amp;#34;&lt;/span> &lt;span style="color:#5af78e">&amp;#34;time arrays don&amp;#39;t line up.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> j &lt;span style="color:#ff6ac1">=&lt;/span> i &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(wave)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ys[i:j] &lt;span style="color:#ff6ac1">+=&lt;/span> wave&lt;span style="color:#ff6ac1">.&lt;/span>ys
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> add_ys(self)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> add_ys(other)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> Wave(ys, ts, self&lt;span style="color:#ff6ac1">.&lt;/span>framerate)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> __radd__ &lt;span style="color:#ff6ac1">=&lt;/span> __add__
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># Write a function called stretch that takes a Wave and a stretch factor and speeds up&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># or slows down the wave by modifying ts and framerate.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">stretch&lt;/span>(wave, factor):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> if 0 &amp;lt; factor &amp;lt; 1, speed up, else slow down
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wave&lt;span style="color:#ff6ac1">.&lt;/span>ts &lt;span style="color:#ff6ac1">*=&lt;/span> factor
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> wave&lt;span style="color:#ff6ac1">.&lt;/span>framerate &lt;span style="color:#ff6ac1">/=&lt;/span> factor
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

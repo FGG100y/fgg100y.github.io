@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Semi-Clutering on fgg blog</title><link>/tags/semi-clutering/</link><description>fgg blog (Semi-Clutering)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Mon, 13 Jul 2020 12:11:47 +0800</lastBuildDate><atom:link href="/tags/semi-clutering/index.xml" rel="self" type="application/rss+xml"/><item><title>Book Notes: semi-supervised clustering methods</title><link>/posts/ml101/clusteringmethods/semi-supervised_clustering/</link><pubDate>Mon, 13 Jul 2020 12:11:47 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/ml101/clusteringmethods/semi-supervised_clustering/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>注明：
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>原理部分的内容均来自周志华的西瓜书，真正的大师之作。
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>其他内容来自开源包文档、开源电子书、ipynb文档等。
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="半监督聚类-semi-supervised-clustering" >
+&lt;div>
+&lt;a href="#%e5%8d%8a%e7%9b%91%e7%9d%a3%e8%81%9a%e7%b1%bb-semi-supervised-clustering">
+#
+&lt;/a>
+半监督聚类 （semi-supervised clustering）
+&lt;/div>
+&lt;/h2>
+&lt;p>聚类是一种典型的无监督学习任务，然而在现实聚类任务中我们往往能获得一些额外的监督信息，于是可以通过半监督聚类来利用额外监督信息以获得更好的聚类效果。&lt;/p>
+&lt;p>聚类任务中获得额外监督信息大致有两种类型：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>样本约束：&lt;/p>
+&lt;p>必连 (must-link): 指的是样本必属于同一个簇&lt;/p>
+&lt;p>勿连 (cannot-link): 样本必不属于同一个簇&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>样本标签：&lt;/p>
+&lt;p>监督信息来自少量带有标签的样本&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h3 id="约束k均值算法-pseudo-code" >
+&lt;div>
+&lt;a href="#%e7%ba%a6%e6%9d%9fk%e5%9d%87%e5%80%bc%e7%ae%97%e6%b3%95-pseudo-code">
+##
+&lt;/a>
+约束$k$均值算法 (pseudo-code)
+&lt;/div>
+&lt;/h3>
+&lt;p>约束$k$均值算法 (Constrained k-means) 是利用第一类监督信息的代表。给定样本集 $D={x_1, x_2, \ldots, x_m}$ 以及 “必连” 关系集合 $\cal{M}$ 和 “勿连” 关系集合 $\cal{C}$ ，$(x_i, x_j) \in \cal{M}$ 表示 $x_i, x_j$ 必属于同簇，$(x_i, x_j) \in \cal{C}$ 表示 $x_i, x_j$ 必不属于同簇。该算法是 $k$-means 算法的扩展，它在聚类过程中要确保样本的约束得到满足，否则返回错误提示，算法如下：&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>输入&lt;/strong>： 样本集 $D = {x_1, x_2, \ldots, x_m}$;&lt;/p>
+&lt;p>​ 必连约束集合 $\cal{M}$ ;&lt;/p>
+&lt;p>​ 勿连约束集合 $\cal{C}$ ;&lt;/p>
+&lt;p>​ 聚类簇数 $k$.&lt;/p>
+&lt;p>过程：&lt;/p>
+&lt;p>01: 从 $D$ 中随机选取 $k$ 个样本作为初始均值向量 ${\mu_1, \mu_2, \ldots, \mu_k}$;&lt;/p>
+&lt;p>02: &lt;strong>repeat&lt;/strong>&lt;/p>
+&lt;p>03: $C_j = \phi (1 \le j \le k)$;&lt;/p>
+&lt;p>04: &lt;strong>for&lt;/strong> $i = 1, 2, \ldots, m$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>05: 计算样本 $x_i$ 与各个均值向量 $\mu_j (1 \le j \le k)$ 的距离： $d_{ij} = ||x_i - \mu_j||_2$;&lt;/p>
+&lt;p>06: $\cal{K} = {1, 2, \ldots, k}$;&lt;/p>
+&lt;p>07: $\text{is_merged} = false$;&lt;/p>
+&lt;p>08: &lt;strong>while&lt;/strong> $\neg\ \text{is_merged}$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>09: 基于 $\cal{K}$ 找出与样本 $x_i$ 距离最近的簇： $r = argmin_{j \in \cal{K}}\ d_{ij}$;&lt;/p>
+&lt;p>10: 检测将 $x_i$ 划入聚类簇 $C_r$ 是否会违背 $\cal{K}$ 与 $\cal{C}$ 中的约束；&lt;/p>
+&lt;p>11： &lt;strong>if&lt;/strong> $\neg\ \text{is_voilated}$ &lt;strong>then&lt;/strong>&lt;/p>
+&lt;p>12: $C_r = C_r \cup {x_i}$;&lt;/p>
+&lt;p>13: $\text{is_merged} = true$&lt;/p>
+&lt;p>14: &lt;strong>else&lt;/strong>&lt;/p>
+&lt;p>15: $\cal{K} = K \setminus {r}$;&lt;/p>
+&lt;p>16: &lt;strong>if&lt;/strong> $\cal{K} = \phi$ &lt;strong>then&lt;/strong>&lt;/p>
+&lt;p>17: &lt;strong>break&lt;/strong> 并返回错误提示&lt;/p>
+&lt;p>18: &lt;strong>end if&lt;/strong>&lt;/p>
+&lt;p>19: &lt;strong>end if&lt;/strong>&lt;/p>
+&lt;p>20: &lt;strong>end while&lt;/strong>&lt;/p>
+&lt;p>21: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>22: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, k$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>23: $\mu_j = {1 \over |C_j|} \sum_{x \in C_j} x$;&lt;/p>
+&lt;p>24: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>25: &lt;strong>until&lt;/strong> 均值向量均为更新&lt;/p>
+&lt;p>&lt;strong>输出&lt;/strong>：簇划分 ${C_1, C_2, \ldots, C_k}$&lt;/p>
+&lt;hr>
+&lt;hr>
+&lt;h3 id="约束种子-k-均值算法-pseudo-code" >
+&lt;div>
+&lt;a href="#%e7%ba%a6%e6%9d%9f%e7%a7%8d%e5%ad%90-k-%e5%9d%87%e5%80%bc%e7%ae%97%e6%b3%95-pseudo-code">
+##
+&lt;/a>
+约束种子 $k$ 均值算法 (pseudo-code)
+&lt;/div>
+&lt;/h3>
+&lt;p>约束种子 $k$ 均值算法 (Constrained Seed k-means) 利用第二种监督信息，即少量有标记样本（此处样本标记指的是簇标记‘cluster label’，而不是类别标记‘class label’）。给定样本集 $D = {x_1, x_2, \ldots, x_m}$，假定少量的有标记样本为 $S = \cup^k_{j=1} S_j \subset D$，其中，$S_j \ne \phi$ 为隶属于第 $j$ 个聚类簇的样本。这样的监督信息利用起来很容易：直接将他们作为‘种子’，用他们初始化 $k$ 均值算法的 $k$ 个聚类中心，并且在聚类簇迭代更新过程中不改变种子样本的簇隶属关系。其算法描述如下：&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>输入&lt;/strong>: 样本集 $D = {x_1, x_2, \ldots, x_m}$;&lt;/p>
+&lt;p>​ 少量有标记样本 $S = \cup^k_{j=1} S_j$;&lt;/p>
+&lt;p>​ 聚类簇数 $k$.&lt;/p>
+&lt;p>过程:&lt;/p>
+&lt;p>01: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, k$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>02: $\mu_j = {1 \over |S_j|} \sum_{x \in S} x$&lt;/p>
+&lt;p>03: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>04: &lt;strong>repeat&lt;/strong>&lt;/p>
+&lt;p>05: $C_j = \phi (1 \le j \le k)$;&lt;/p>
+&lt;p>06: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, k$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>07: &lt;strong>for all&lt;/strong> $x \in S_j$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>08: $C_j = C_j \cup {x}$&lt;/p>
+&lt;p>09: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>10: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>11: &lt;strong>for all&lt;/strong> $x_i \in D \setminus S$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>12: 计算样本 $x_i$ 与各个均值向量 $\mu_j (1 \le j \le k)$ 的距离： $d_{ij} = ||x_i -\mu_j||_2$;&lt;/p>
+&lt;p>13: 找出与样本 $x_i$ 距离最近的簇： $r = argmin_{j \in {1, 2, \ldots, k}} d_{ij}$;&lt;/p>
+&lt;p>14: 将样本 $x_i$ 划入相应的簇： $C_r = C_r \cup {x_i}$&lt;/p>
+&lt;p>15: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>16: &lt;strong>for&lt;/strong> $j = 1, 2, \ldots, k$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>17: $\mu_j = {1 \over |C_j|} \sum_{x \in C_j} x$;&lt;/p>
+&lt;p>18: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>19: &lt;strong>until&lt;/strong> 均值向量均未更新&lt;/p>
+&lt;p>&lt;strong>输出&lt;/strong>: 簇划分 ${C_1, C_2, \ldots, C_k}$&lt;/p>
+&lt;hr></description></item></channel></rss>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Digital on fgg blog</title><link>/tags/digital/</link><description>fgg blog (Digital)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Sat, 04 May 2024 12:13:31 +0800</lastBuildDate><atom:link href="/tags/digital/index.xml" rel="self" type="application/rss+xml"/><item><title>sampling and aliasing</title><link>/posts/dsp101/sampling_aliasing/</link><pubDate>Sat, 04 May 2024 12:13:31 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/dsp101/sampling_aliasing/</guid><description>&lt;p>模拟信号（analog signal）和数字信号（digital signal）是两种不同类型的信号，在电子通讯和
+信号处理领域中有重要作用。&lt;/p>
+&lt;p>模拟信号是连续变化的信号，它的取值是在一定范围可以无限细分的（连续型变量）。例如声音波形。&lt;/p>
+&lt;p>数字信号是离散的信号，是对模拟信号进行离散化（采样和量化）得到的。进行这种离散化操作的叫
+做模数转换器（ADC），转成数字信号后方便存储和传输，但利用这些数字信号时通常需要再将它们转
+换为模拟信号（通过数模转换器，DAC），因为人类不像计算机，不能直接处理0/1信号，只能接收模
+拟信号。（人的耳朵解析的是模拟信号，恐怕还没人练就听一串01组成的数字就能听出那是贝多芬的
+第九交响曲的本领。）&lt;/p>
+&lt;h2 id="混叠现象aliasing" >
+&lt;div>
+&lt;a href="#%e6%b7%b7%e5%8f%a0%e7%8e%b0%e8%b1%a1aliasing">
+#
+&lt;/a>
+混叠现象（Aliasing）
+&lt;/div>
+&lt;/h2>
+&lt;p>混叠（Alias）现象的产生是由于采样定理（也称为奈奎斯特定理）未被满足。奈奎斯特定理指出，
+为了避免混叠，采样频率必须至少是信号中最高频信号频率的两倍。如果信号频率高于采样频率的一
+半，就会出现混叠现象。也就是：它发生在信号的采样频率不足以表示原始信号中的所有频率成分时:&lt;/p>
+&lt;ul>
+&lt;li>当信号中某些组分的信号频率高于采样频率的一半（也称为：折叠频率）时，高频部分会被错误的
+解析成低频信号，这就导致频谱中出现虚假的频率成分（本是高频的，被折叠为低频的）。&lt;/li>
+&lt;/ul>
+&lt;ul>
+&lt;li>由于折叠频率的存在，信号频谱中部分频率被重叠，导致信息丢失和失真。&lt;/li>
+&lt;/ul>
+&lt;h3 id="采样采样越采越像" >
+&lt;div>
+&lt;a href="#%e9%87%87%e6%a0%b7%e9%87%87%e6%a0%b7%e8%b6%8a%e9%87%87%e8%b6%8a%e5%83%8f">
+##
+&lt;/a>
+采样采样，越采越像
+&lt;/div>
+&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>framerate &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">10000&lt;/span> &lt;span style="color:#78787e"># 采样频率&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 构建原始信号，频率：4500&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>signal &lt;span style="color:#ff6ac1">=&lt;/span> thinkdsp&lt;span style="color:#ff6ac1">.&lt;/span>CosSignal(&lt;span style="color:#ff9f43">4500&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>duration &lt;span style="color:#ff6ac1">=&lt;/span> signal&lt;span style="color:#ff6ac1">.&lt;/span>period&lt;span style="color:#ff6ac1">*&lt;/span>&lt;span style="color:#ff9f43">5&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 对原始信号进行采样&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>segment &lt;span style="color:#ff6ac1">=&lt;/span> signal&lt;span style="color:#ff6ac1">.&lt;/span>make_wave(duration, framerate&lt;span style="color:#ff6ac1">=&lt;/span>framerate)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>segment&lt;span style="color:#ff6ac1">.&lt;/span>plot(label&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;freq=4500&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 构建原始信号，频率：5500&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>signal &lt;span style="color:#ff6ac1">=&lt;/span> thinkdsp&lt;span style="color:#ff6ac1">.&lt;/span>CosSignal(&lt;span style="color:#ff9f43">5500&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 对原始信号进行采样&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>segment &lt;span style="color:#ff6ac1">=&lt;/span> signal&lt;span style="color:#ff6ac1">.&lt;/span>make_wave(duration, framerate&lt;span style="color:#ff6ac1">=&lt;/span>framerate)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>segment&lt;span style="color:#ff6ac1">.&lt;/span>plot(linestyle&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;-.&amp;#34;&lt;/span>, label&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;freq=5500&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>plt&lt;span style="color:#ff6ac1">.&lt;/span>legend()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img alt="IMG_sampling" src="https://fgg100y.github.io/posts/dsp101/sampling_aliasing/images/signal_after_sampling.png">&lt;/p>
+&lt;h3 id="混叠的频率" >
+&lt;div>
+&lt;a href="#%e6%b7%b7%e5%8f%a0%e7%9a%84%e9%a2%91%e7%8e%87">
+##
+&lt;/a>
+混叠的频率
+&lt;/div>
+&lt;/h3>
+&lt;p>下面是一个三角形信号（频率为1100）的频谱图，注意其谐波（harmonics）应该是基频
+（fundamental frequency）的奇数倍（如 3300，5500，7700，9900，12100等等），但是，并非完
+全如此，第三个谐波出现在4500，而第四个则在2300，认真看右边的y轴放大图，第五个出现在100的
+位置，而第六个呢（在2100的位置）。啥情况？！&lt;/p>
+&lt;p>这就是混叠现象。采样频率为10k，折叠频率=$\frac{1000}{2}=5000$，当信号中频率高于5000的，
+会被“折叠”（折回来，回到小于折叠频率的范围内）。所以，频率为5500的谐波被折叠到4500的位置，
+同理，频率为7700的谐波被折叠到2300的位置，以此类推（镜像中心就是5000的位置）。&lt;/p>
+&lt;p>就这样，原本的三角波形模拟信号经过这个采样得到的数字信号，再重新转换为模拟信号时，已失真。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>fig, axs &lt;span style="color:#ff6ac1">=&lt;/span> plt&lt;span style="color:#ff6ac1">.&lt;/span>subplots(&lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">2&lt;/span>, figsize&lt;span style="color:#ff6ac1">=&lt;/span>(&lt;span style="color:#ff9f43">15&lt;/span>, &lt;span style="color:#ff9f43">8&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>signal &lt;span style="color:#ff6ac1">=&lt;/span> TriangleSignal(&lt;span style="color:#ff9f43">1100&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>segment &lt;span style="color:#ff6ac1">=&lt;/span> signal&lt;span style="color:#ff6ac1">.&lt;/span>make_wave(duration&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">0.5&lt;/span>, framerate&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">10000&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>spectrum &lt;span style="color:#ff6ac1">=&lt;/span> segment&lt;span style="color:#ff6ac1">.&lt;/span>make_spectrum()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>axs[&lt;span style="color:#ff9f43">0&lt;/span>]&lt;span style="color:#ff6ac1">.&lt;/span>plot(spectrum&lt;span style="color:#ff6ac1">.&lt;/span>fs, spectrum&lt;span style="color:#ff6ac1">.&lt;/span>hs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>axs[&lt;span style="color:#ff9f43">0&lt;/span>]&lt;span style="color:#ff6ac1">.&lt;/span>set_ylim(&lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">2200&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>axs[&lt;span style="color:#ff9f43">0&lt;/span>]&lt;span style="color:#ff6ac1">.&lt;/span>set_xlabel(&lt;span style="color:#5af78e">&amp;#39;Frequency (Hz)&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>axs[&lt;span style="color:#ff9f43">0&lt;/span>]&lt;span style="color:#ff6ac1">.&lt;/span>set_title(&lt;span style="color:#5af78e">&amp;#39;Original y-axis&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>signal &lt;span style="color:#ff6ac1">=&lt;/span> TriangleSignal(&lt;span style="color:#ff9f43">1100&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>segment &lt;span style="color:#ff6ac1">=&lt;/span> signal&lt;span style="color:#ff6ac1">.&lt;/span>make_wave(duration&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">0.5&lt;/span>, framerate&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">10000&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>spectrum &lt;span style="color:#ff6ac1">=&lt;/span> segment&lt;span style="color:#ff6ac1">.&lt;/span>make_spectrum()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>axs[&lt;span style="color:#ff9f43">1&lt;/span>]&lt;span style="color:#ff6ac1">.&lt;/span>plot(spectrum&lt;span style="color:#ff6ac1">.&lt;/span>fs, spectrum&lt;span style="color:#ff6ac1">.&lt;/span>hs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>axs[&lt;span style="color:#ff9f43">1&lt;/span>]&lt;span style="color:#ff6ac1">.&lt;/span>set_ylim(&lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">500&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>decorate(xlabel&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#39;Frequency (Hz)&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>decorate(title&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#39;Scaled the y-axis (to show the harmonics)&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>plt&lt;span style="color:#ff6ac1">.&lt;/span>suptitle(&lt;span style="color:#5af78e">&amp;#39;Sampling and Aliasing&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>plt&lt;span style="color:#ff6ac1">.&lt;/span>tight_layout()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img alt="IMG_aliasing" src="https://fgg100y.github.io/posts/dsp101/sampling_aliasing/images/signal_sampling_and_aliasing.png">&lt;/p>
+&lt;h2 id="频谱是怎么计算得到的" >
+&lt;div>
+&lt;a href="#%e9%a2%91%e8%b0%b1%e6%98%af%e6%80%8e%e4%b9%88%e8%ae%a1%e7%ae%97%e5%be%97%e5%88%b0%e7%9a%84">
+#
+&lt;/a>
+频谱是怎么计算得到的
+&lt;/div>
+&lt;/h2>
+&lt;p>频谱图实际上就是以频率（frequency）为横轴，幅度（amplitude）为纵轴的图。&lt;/p>
+&lt;p>那么，信号中的频率及其幅度又是怎么算出来的？快速傅里叶转换（FFT）。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">plot&lt;/span>(self, high&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>, &lt;span style="color:#ff6ac1">**&lt;/span>options):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Plots amplitude vs frequency.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> Note: if this is a full spectrum, it ignores low and high
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> high: frequency to cut off at
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>full:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fs, amps &lt;span style="color:#ff6ac1">=&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>render_full(high)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> plt&lt;span style="color:#ff6ac1">.&lt;/span>plot(fs, amps, &lt;span style="color:#ff6ac1">**&lt;/span>options)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">else&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> i &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff6ac1">None&lt;/span> &lt;span style="color:#ff6ac1">if&lt;/span> high &lt;span style="color:#ff6ac1">is&lt;/span> &lt;span style="color:#ff6ac1">None&lt;/span> &lt;span style="color:#ff6ac1">else&lt;/span> find_index(high, self&lt;span style="color:#ff6ac1">.&lt;/span>fs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> plt&lt;span style="color:#ff6ac1">.&lt;/span>plot(self&lt;span style="color:#ff6ac1">.&lt;/span>fs[:i], self&lt;span style="color:#ff6ac1">.&lt;/span>amps[:i], &lt;span style="color:#ff6ac1">**&lt;/span>options)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">render_full&lt;/span>(self, high&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">None&lt;/span>):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;Extracts amps and fs from a full spectrum.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> high: cutoff frequency
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> returns: fs, amps
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> hs &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>fft&lt;span style="color:#ff6ac1">.&lt;/span>fftshift(self&lt;span style="color:#ff6ac1">.&lt;/span>hs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> amps &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>abs(hs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fs &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>fft&lt;span style="color:#ff6ac1">.&lt;/span>fftshift(self&lt;span style="color:#ff6ac1">.&lt;/span>fs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> i &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span> &lt;span style="color:#ff6ac1">if&lt;/span> high &lt;span style="color:#ff6ac1">is&lt;/span> &lt;span style="color:#ff6ac1">None&lt;/span> &lt;span style="color:#ff6ac1">else&lt;/span> find_index(&lt;span style="color:#ff6ac1">-&lt;/span>high, fs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> j &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff6ac1">None&lt;/span> &lt;span style="color:#ff6ac1">if&lt;/span> high &lt;span style="color:#ff6ac1">is&lt;/span> &lt;span style="color:#ff6ac1">None&lt;/span> &lt;span style="color:#ff6ac1">else&lt;/span> find_index(high, fs) &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> fs[i:j], amps[i:j]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="dft--fft" >
+&lt;div>
+&lt;a href="#dft--fft">
+##
+&lt;/a>
+DFT &amp;amp; FFT
+&lt;/div>
+&lt;/h3>
+&lt;p>快速回顾：
+离散傅里叶转换（DFT）是一种数学思想（所有波可以由若干正余弦波叠加而成），
+而快速傅里叶转换（FFT）是一种高效算法，用于实现离散傅里叶转换。&lt;/p>
+&lt;p>快速回顾2：
+傅里叶级数是一种将周期函数（periodic function）分解为一系列正弦和余弦函数的无穷和的方法。
+假设我们有一个周期为 $ T $ 的函数 $ f(t) $，它可以表示为如下的傅里叶级数：&lt;/p>
+&lt;p>$$
+f(t) = \frac{a_0}{2} + \sum_{n=1}^{\infty} \left( a_n \cos\left(\frac{2\pi nt}{T}\right) + b_n \sin\left(\frac{2\pi nt}{T}\right) \right)
+$$&lt;/p>
+&lt;p>其中 $ a_0, a_n, b_n $ 是系数，它们可以通过函数 $ f(t) $ 的周期性质计算得到。&lt;/p>
+&lt;p>系数的计算公式为：&lt;/p>
+&lt;p>$$
+\begin{align*}% align* 的 * 号用于阻止自动编号生成; hugo中要用 \\ 换行，第一个\为转义字符
+a_0 &amp;amp;= \frac{1}{T} \int_{0}^{T} f(t) dt \\
+a_n &amp;amp;= \frac{2}{T} \int_{0}^{T} f(t) \cos\left(\frac{2\pi nt}{T}\right) dt \\
+b_n &amp;amp;= \frac{2}{T} \int_{0}^{T} f(t) \sin\left(\frac{2\pi nt}{T}\right) dt
+\end{align*}
+$$&lt;/p>
+&lt;p>这些系数描述了正弦和余弦函数的振幅和相位，它们决定了如何将原始函数 $ f(t) $ 分解成频率
+为 $ \frac{n}{T} $ 的正弦和余弦函数的和。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> np.fft &lt;span style="color:#ff6ac1">import&lt;/span> rfft, rfftfreq
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">class&lt;/span> &lt;span style="color:#f3f99d">Wave&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># lots of other attrs, methods&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">make_spectrum&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5af78e">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> self: Wave object
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#5af78e"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># n : number of samples in the wave&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># d : inverse of framerate, means the time between samples&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># hs : a NumPy array of complex numbers that represents the amplitude and&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># phase offset of each frequency component in the wave&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># fs : an array that contains frequencies corresponding to the `hs`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> n &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(self&lt;span style="color:#ff6ac1">.&lt;/span>hs)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> d &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">/&lt;/span> self&lt;span style="color:#ff6ac1">.&lt;/span>framerate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> hs &lt;span style="color:#ff6ac1">=&lt;/span> rfft(self&lt;span style="color:#ff6ac1">.&lt;/span>ys)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fs &lt;span style="color:#ff6ac1">=&lt;/span> rfftfreq(n, d)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> Spectrum(hs, fs, self&lt;span style="color:#ff6ac1">.&lt;/span>framerate)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

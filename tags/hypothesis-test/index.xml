@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hypothesis Test on fgg blog</title><link>/tags/hypothesis-test/</link><description>fgg blog (Hypothesis Test)</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 25 Aug 2021 13:49:40 +0800</lastBuildDate><atom:link href="/tags/hypothesis-test/index.xml" rel="self" type="application/rss+xml"/><item><title>Linear Regression: frequentist and bayesian</title><link>/posts/regressionmodels/linear_regression/</link><pubDate>Wed, 25 Aug 2021 13:49:40 +0800</pubDate><guid>/posts/regressionmodels/linear_regression/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>**Important Note**:
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hypothesis Test on fgg blog</title><link>/tags/hypothesis-test/</link><description>fgg blog (Hypothesis Test)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Wed, 25 Aug 2021 13:49:40 +0800</lastBuildDate><atom:link href="/tags/hypothesis-test/index.xml" rel="self" type="application/rss+xml"/><item><title>Linear Regression: frequentist and bayesian</title><link>/posts/regressionmodels/linear_regression/</link><pubDate>Wed, 25 Aug 2021 13:49:40 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/regressionmodels/linear_regression/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>**Important Note**:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Almost all the contents (text, images) are came from these great books and
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>online resources:
@@ -99,48 +100,48 @@ where $|a|$ is the number of data points, $a_i$ is the $i$-th data point in the 
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align:center">x&lt;/th>
-&lt;th style="text-align:center">y&lt;/th>
-&lt;th style="text-align:center">x in standard units&lt;/th>
-&lt;th style="text-align:center">y in standard units&lt;/th>
-&lt;th style="text-align:center">Product&lt;/th>
+&lt;th style="text-align: center">x&lt;/th>
+&lt;th style="text-align: center">y&lt;/th>
+&lt;th style="text-align: center">x in standard units&lt;/th>
+&lt;th style="text-align: center">y in standard units&lt;/th>
+&lt;th style="text-align: center">Product&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align:center">1&lt;/td>
-&lt;td style="text-align:center">5&lt;/td>
-&lt;td style="text-align:center">-1.5&lt;/td>
-&lt;td style="text-align:center">-0.5&lt;/td>
-&lt;td style="text-align:center">0.75&lt;/td>
+&lt;td style="text-align: center">1&lt;/td>
+&lt;td style="text-align: center">5&lt;/td>
+&lt;td style="text-align: center">-1.5&lt;/td>
+&lt;td style="text-align: center">-0.5&lt;/td>
+&lt;td style="text-align: center">0.75&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">3&lt;/td>
-&lt;td style="text-align:center">9&lt;/td>
-&lt;td style="text-align:center">-0.5&lt;/td>
-&lt;td style="text-align:center">0.5&lt;/td>
-&lt;td style="text-align:center">-0.25&lt;/td>
+&lt;td style="text-align: center">3&lt;/td>
+&lt;td style="text-align: center">9&lt;/td>
+&lt;td style="text-align: center">-0.5&lt;/td>
+&lt;td style="text-align: center">0.5&lt;/td>
+&lt;td style="text-align: center">-0.25&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">4&lt;/td>
-&lt;td style="text-align:center">7&lt;/td>
-&lt;td style="text-align:center">0.0&lt;/td>
-&lt;td style="text-align:center">0.0&lt;/td>
-&lt;td style="text-align:center">0.00&lt;/td>
+&lt;td style="text-align: center">4&lt;/td>
+&lt;td style="text-align: center">7&lt;/td>
+&lt;td style="text-align: center">0.0&lt;/td>
+&lt;td style="text-align: center">0.0&lt;/td>
+&lt;td style="text-align: center">0.00&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">5&lt;/td>
-&lt;td style="text-align:center">1&lt;/td>
-&lt;td style="text-align:center">0.5&lt;/td>
-&lt;td style="text-align:center">-1.5&lt;/td>
-&lt;td style="text-align:center">-0.75&lt;/td>
+&lt;td style="text-align: center">5&lt;/td>
+&lt;td style="text-align: center">1&lt;/td>
+&lt;td style="text-align: center">0.5&lt;/td>
+&lt;td style="text-align: center">-1.5&lt;/td>
+&lt;td style="text-align: center">-0.75&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">7&lt;/td>
-&lt;td style="text-align:center">13&lt;/td>
-&lt;td style="text-align:center">1.5&lt;/td>
-&lt;td style="text-align:center">1.5&lt;/td>
-&lt;td style="text-align:center">2.25&lt;/td>
+&lt;td style="text-align: center">7&lt;/td>
+&lt;td style="text-align: center">13&lt;/td>
+&lt;td style="text-align: center">1.5&lt;/td>
+&lt;td style="text-align: center">1.5&lt;/td>
+&lt;td style="text-align: center">2.25&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
@@ -256,34 +257,34 @@ Table 1. Data on Hooke's law.
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th>Weight (kg)&lt;/th>
-&lt;th>Length (cm)&lt;/th>
+&lt;th style="text-align: left">Weight (kg)&lt;/th>
+&lt;th style="text-align: left">Length (cm)&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td>0&lt;/td>
-&lt;td>439.00&lt;/td>
+&lt;td style="text-align: left">0&lt;/td>
+&lt;td style="text-align: left">439.00&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>2&lt;/td>
-&lt;td>439.12&lt;/td>
+&lt;td style="text-align: left">2&lt;/td>
+&lt;td style="text-align: left">439.12&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>4&lt;/td>
-&lt;td>439.21&lt;/td>
+&lt;td style="text-align: left">4&lt;/td>
+&lt;td style="text-align: left">439.21&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>6&lt;/td>
-&lt;td>439.31&lt;/td>
+&lt;td style="text-align: left">6&lt;/td>
+&lt;td style="text-align: left">439.31&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>8&lt;/td>
-&lt;td>439.40&lt;/td>
+&lt;td style="text-align: left">8&lt;/td>
+&lt;td style="text-align: left">439.40&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td>10&lt;/td>
-&lt;td>439.50&lt;/td>
+&lt;td style="text-align: left">10&lt;/td>
+&lt;td style="text-align: left">439.50&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>EM on fgg blog</title><link>/tags/em/</link><description>fgg blog (EM)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Fri, 30 Aug 2024 13:58:13 +0800</lastBuildDate><atom:link href="/tags/em/index.xml" rel="self" type="application/rss+xml"/><item><title>expectation_maximization</title><link>/posts/optimazationmethods/em/expectation_maximization/</link><pubDate>Fri, 30 Aug 2024 13:58:13 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/optimazationmethods/em/expectation_maximization/</guid><description>&lt;p>概率模型有时既有 &lt;ruby>“观测变量”&lt;rt>（observable variable）&lt;/rt>&lt;/ruby> ，又含有
+&lt;ruby>“隐变量或潜在变量”&lt;rt>（latent variable）&lt;/rt>&lt;/ruby> 。当存在后者时，不能直接使用
+MLE这样的方法进行参数估计，需要引入EM进行参数估计。
+EM算法就是含有隐变量的概率模型参数的最大似然估计法（或最大后验概率估计法）。&lt;/p>
+&lt;h2 id="例子----三硬币模型" >
+&lt;div>
+&lt;a href="#%e4%be%8b%e5%ad%90----%e4%b8%89%e7%a1%ac%e5%b8%81%e6%a8%a1%e5%9e%8b">
+#
+&lt;/a>
+例子 &amp;ndash; 三硬币模型
+&lt;/div>
+&lt;/h2>
+&lt;p>假设有3枚硬币，分别记作 A, B, C。其抛出正面的概率分别是 $\pi$, $p$ 和 $q$ 。进行如下抛硬
+币试验：先抛硬币A，根据其结果选择硬币B或者硬币C（正面选硬币B，反面选硬币A）；然后抛选出
+的硬币，其抛硬币的结果，出现正面记作1，出现反面记作0；独立重复 $n$ 次试验。观测结果如下
+（$n=10$）：&lt;/p>
+&lt;pre>&lt;code>1,1,0,1,0,0,1,0,1,1
+&lt;/code>&lt;/pre>
+&lt;p>假设只能观察到抛硬币的结果，不能观测抛硬币过程。问：如何估计三枚硬币正面出现的概率，即三
+硬币模型的参数。&lt;/p>
+&lt;h3 id="建模" >
+&lt;div>
+&lt;a href="#%e5%bb%ba%e6%a8%a1">
+##
+&lt;/a>
+建模
+&lt;/div>
+&lt;/h3>
+&lt;p>三硬币模型可以表示为：&lt;/p>
+&lt;p>$$
+\begin{eqnarray}
+P(y|\theta)
+&amp;amp;=&amp;amp; \sum_{z} P(y, z | \theta) = \sum_{z} P(z|\theta)P(y|z,\theta) \\
+&amp;amp;=&amp;amp; \pi p^{y}(1-p)^{1-y} + (1 - \pi) q^{y}(1-q)^{1-y}
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>其中，随机变量 $y$ 是观测变量，表示一次试验观测的结果是1或0；随机变量 $z$ 是隐变量，表示
+未观测到的抛硬币A的结果；$\theta=(\pi, p, q)$ 是模型参数。这一模型是前述$n$次试验数据的
+生成模型。&lt;/p>
+&lt;p>将观测数据表示为 $Y = (Y_1, Y_2, \dots, Y_n)$，将未观测数据表示为 $Z = (Z_1, Z_2, \dots,
+Z_n)$，则观测数据的&lt;strong>似然函数&lt;/strong>为&lt;/p>
+&lt;p>$$
+\begin{eqnarray}
+P(Y|\theta)
+&amp;amp;=&amp;amp; \sum_{z} P(Z|\theta)P(Y|Z,\theta) \\
+&amp;amp;=&amp;amp; \prod^{n}_{j=1}[\pi p^{y_j}(1-p)^{1-y_j} + (1 - \pi) q^{y_j}(1-q)^{1-y_j}
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>求模型参数 $\theta=(\pi, p, q)$ 的极大似然估计，即&lt;/p>
+&lt;p>$$
+\hat{\theta} = \arg\max_{\theta} \log P(Y|\theta)
+$$&lt;/p>
+&lt;p>这个问题没有解析解，需要通过EM算法进行迭代求解。&lt;/p>
+&lt;h3 id="em算法迭代步骤" >
+&lt;div>
+&lt;a href="#em%e7%ae%97%e6%b3%95%e8%bf%ad%e4%bb%a3%e6%ad%a5%e9%aa%a4">
+##
+&lt;/a>
+EM算法迭代步骤
+&lt;/div>
+&lt;/h3>
+&lt;p>EM算法通过迭代求 $L(\theta) = \log P(Y|\theta)$ 的最大似然估计。每次迭代包含两步：E步，求期望；M步，求最大化。&lt;/p>
+&lt;hr>
+&lt;p>EM算法步骤清单&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>输入&lt;/strong>：观测变量数据 $Y$，隐变量数据 $Z$，联合分布 $P(Y,Z|\theta)$，条件分布 $P(Z|Y, \theta)$；&lt;/p>
+&lt;p>&lt;strong>输出&lt;/strong>：模型参数 $\theta$ 。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>选择参数初始值 $\theta^{(0)}$ ，开始迭代；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>E步：记 $\theta^{(i)}$ 为第$i$次迭代参数 $\theta$ 的估计值，在第$i+1$次迭代的E步，计算
+$$
+\begin{eqnarray}
+Q(\theta, \theta^{(i)})
+&amp;amp;=&amp;amp; E_{z} [\log P(Y,Z|\theta) | Y, \theta^{(i)}] \\
+&amp;amp;=&amp;amp; \sum_{z} \log P(Y,Z|\theta) P(Z|Y, \theta^{(i)})
+\end{eqnarray}
+$$
+这里，$P(Z|Y, \theta^{(i)}$ 是在给定观测数据 $Y$ 和当前的参数估计 $\theta^{(i)}$ 下隐变量数据 $Z$ 的条件概率分布；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>M步：求使得 $Q(\theta, \theta^{(i)})$ 最大化的 $\theta$ ，确定第 $i+1$ 次迭代的参数的估计值 $\theta^{(i)}$
+$$
+\theta^{(i)} = \arg\max_{\theta} Q(\theta, \theta^{(i)})
+$$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>重复第2步和第3步，直到收敛。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;hr></description></item></channel></rss>
