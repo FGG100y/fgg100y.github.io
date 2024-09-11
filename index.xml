@@ -2780,7 +2780,7 @@ $$&lt;/p>
 &lt;p>其中，β 是一个超参数，用于平衡重构损失和 KL 散度之间的重要性。通过调整 β 的值，可以控制
 模型对潜在表示的约束程度。当 β=1 时，与标准的VAE相等，而当 β 小于1 时，模型更加关注于重
 构损失，从而更加注重数据的重建；当 β 大于1 时，模型更加关注于 KL 散度，从而更加注重潜在
-表示的独立性和结构性。&lt;/p></description></item><item><title>About Me: 大道如青天，我独不得出</title><link>/about/</link><pubDate>Sat, 27 Apr 2024 19:58:25 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/about/</guid><description>&lt;p>大道如青天，我独不得出。&lt;/p>
+表示的独立性和结构性。&lt;/p></description></item><item><title>大道如青天，我独不得出</title><link>/about/</link><pubDate>Sat, 27 Apr 2024 19:58:25 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/about/</guid><description>&lt;p>大道如青天，我独不得出。&lt;/p>
 &lt;p>羞逐长安社中儿，赤鸡白雉赌梨栗。&lt;/p>
 &lt;p>弹剑作歌奏苦声，曳裾王门不称情。&lt;/p>
 &lt;p>淮阴市井笑韩信，汉朝公卿忌贾生。&lt;/p>
