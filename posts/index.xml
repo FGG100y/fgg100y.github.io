@@ -114,7 +114,7 @@
 &lt;p>我对贵公司这个岗位的工作感兴趣，我期待能够加入贵公司，并与团队一起解决更多有趣的技术挑战。
 我相信，我的专业技能和丰富经验，能够为贵公司带来直接的价值。&lt;/p>
 &lt;p>最后是感谢您给我这次面试的机会，我期待在接下来的讨论中分享更多我的经验和想法。谢谢！&lt;/p>
-&lt;hr></description></item><item><title>variational_inference</title><link>/posts/neuralnetworks/2024-09-01-variational_inference/</link><pubDate>Sun, 01 Sep 2024 10:12:39 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/2024-09-01-variational_inference/</guid><description>&lt;h2 id="变分推理1" >
+&lt;hr></description></item><item><title>variational_inference</title><link>/posts/neuralnetworks/variationalinference/</link><pubDate>Sun, 01 Sep 2024 10:12:39 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/variationalinference/</guid><description>&lt;h2 id="变分推理1" >
 &lt;div>
 &lt;a href="#%e5%8f%98%e5%88%86%e6%8e%a8%e7%90%861">
 #
@@ -134,7 +134,7 @@ $D(q(z)||p(z|x))$ 计算两者的相似度，$q(z)$ 被称为“变分分布（v
 &lt;p>$$
 p(z|x) \approx q^{*}(z)
 $$&lt;/p>
-&lt;p>&lt;img alt="IMG_VI" src="images/variational_inference.png">&lt;/p>
+&lt;p>&lt;img alt="IMG_VI" src="https://fgg100y.github.io/posts/neuralnetworks/variationalinference/images/variational_inference.png">&lt;/p>
 &lt;h3 id="关于-kl散度和证据下界" >
 &lt;div>
 &lt;a href="#%e5%85%b3%e4%ba%8e-kl%e6%95%a3%e5%ba%a6%e5%92%8c%e8%af%81%e6%8d%ae%e4%b8%8b%e7%95%8c">
@@ -2828,7 +2828,7 @@ adding up sinusoids.&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>VI（变分推断）就是通过优化一个参数化的近似分布来近似真实的后验分布，试图将推断问题转变
-成最优化问题。更多关于VI的内容请移步&lt;a href="https://fgg100y.github.io/posts/neuralnetworks/2024-09-01-variational_inference/">这里&lt;/a>。&lt;/p>
+成最优化问题。更多关于VI的内容请移步&lt;a href="https://fgg100y.github.io/posts/neuralnetworks/variationalinference/">这里&lt;/a>。&lt;/p>
 &lt;/li>
 &lt;/ul>
 &lt;p>VAE的工作流程如下：&lt;/p>

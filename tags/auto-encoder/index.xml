@@ -49,7 +49,7 @@
 &lt;/li>
 &lt;li>
 &lt;p>VI（变分推断）就是通过优化一个参数化的近似分布来近似真实的后验分布，试图将推断问题转变
-成最优化问题。更多关于VI的内容请移步&lt;a href="https://fgg100y.github.io/posts/neuralnetworks/2024-09-01-variational_inference/">这里&lt;/a>。&lt;/p>
+成最优化问题。更多关于VI的内容请移步&lt;a href="https://fgg100y.github.io/posts/neuralnetworks/variationalinference/">这里&lt;/a>。&lt;/p>
 &lt;/li>
 &lt;/ul>
 &lt;p>VAE的工作流程如下：&lt;/p>
