@@ -88,7 +88,122 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 打印每个出站方案&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> seq &lt;span style="color:#ff6ac1">in&lt;/span> sequences:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff5c57">print&lt;/span>(&lt;span style="color:#5af78e">&amp;#34; &amp;#34;&lt;/span>&lt;span style="color:#ff6ac1">.&lt;/span>join(&lt;span style="color:#ff5c57">map&lt;/span>(&lt;span style="color:#ff5c57">str&lt;/span>, seq)))
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>expectation_maximization</title><link>/posts/optimazationmethods/em/expectation_maximization/</link><pubDate>Fri, 30 Aug 2024 13:58:13 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/optimazationmethods/em/expectation_maximization/</guid><description>&lt;p>概率模型有时既有 &lt;ruby>“观测变量”&lt;rt>（observable variable）&lt;/rt>&lt;/ruby> ，又含有
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>tech interview prepare (for my resume)</title><link>/posts/notes4resume/self_intro/</link><pubDate>Tue, 03 Sep 2024 09:30:56 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/notes4resume/self_intro/</guid><description>&lt;h1 id="自我介绍" >
+&lt;div>
+&lt;a href="#%e8%87%aa%e6%88%91%e4%bb%8b%e7%bb%8d">
+##
+&lt;/a>
+自我介绍
+&lt;/div>
+&lt;/h1>
+&lt;blockquote>
+&lt;p>在自我介绍时，确保你提到的项目和技能与你申请的职位紧密相关，这样可以更好地展示你的专业
+能力和对职位的适应性。同时，保持自信和热情，让面试官感受到你对工作和团队的承诺。&lt;/p>
+&lt;/blockquote>
+&lt;hr>
+&lt;p>尊敬的面试官，您好！&lt;/p>
+&lt;p>我叫范明华，是一名AI技术工程师。我于2017年硕士毕业于中山大学，专业是生态学，研究生期间完
+成了一些植被动态和演替方面的研究工作，这为我在实验设计、统计分析以及数据建模方面打下了扎
+实的基础。参加工作后的这6年多时间里，我一直致力于应用数据来解决实际问题，也取得了一些的
+成果。&lt;/p>
+&lt;p>我目前处于离职状态。在上家公司担任研发中心副主任的职务，主导技术预研和项目的管理、开发和交付。
+我认为我比较擅长结合数据现状来制定以落地交付为导向的技术解决方案，这主要得益于熟悉整个机
+器学习项目的开发流程，从项目调研、数据预处理、特征工程到模型训练和部署，我都有深入的理解
+和实践。在这些项目的实战中，不仅提升了个人的技术深度和带队能力，同时也取得了一些成果：如
+发明专利、创新科技成果登记、国家部门奖项等。除了技术专长，同事们对我的评价是：1）务实负责，2）容易沟通。&lt;/p>
+&lt;p>我对贵公司这个岗位的工作感兴趣，我期待能够加入贵公司，并与团队一起解决更多有趣的技术挑战。
+我相信，我的专业技能和丰富经验，能够为贵公司带来直接的价值。&lt;/p>
+&lt;p>最后是感谢您给我这次面试的机会，我期待在接下来的讨论中分享更多我的经验和想法。谢谢！&lt;/p>
+&lt;hr></description></item><item><title>variational_inference</title><link>/posts/neuralnetworks/2024-09-01-variational_inference/</link><pubDate>Sun, 01 Sep 2024 10:12:39 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/2024-09-01-variational_inference/</guid><description>&lt;h2 id="变分推理1" >
+&lt;div>
+&lt;a href="#%e5%8f%98%e5%88%86%e6%8e%a8%e7%90%861">
+#
+&lt;/a>
+变分推理&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>
+&lt;/div>
+&lt;/h2>
+&lt;p>变分推理是贝叶斯学习中常用的、含有隐变量模型的学习和推理方法。变分推理和MCMC&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>属于不同
+的技巧。MCMC通过随机抽样的方法近似地计算模型的后验概率，变分推断则通过解析的方法计算模型
+的后验概率的近似值。&lt;/p>
+&lt;p>变分推理基本思想：
+假设模型是联合概率分布 $p(x,z)$ ，其中 $x$ 是观测变量（i.e., 数据），$z$ 是隐变量，包括
+参数。目标是学习模型的后验概率分布 $p(z|x)$ 和用模型进行概率推理。但这是一个复杂的分布，
+直接估计分布的参数很困难。所以考虑用概率分布 $q(z)$ 近似条件概率分布 $p(z|x)$ ，用KL散度
+$D(q(z)||p(z|x))$ 计算两者的相似度，$q(z)$ 被称为“变分分布（variational distribution）”。
+如果能找到与 $p(z|x)$ 在KL散度意义下最近的分布 $q^{*}(z)$ ，则可以用这个分布近似$p(z|x)$。&lt;/p>
+&lt;p>$$
+p(z|x) \approx q^{*}(z)
+$$&lt;/p>
+&lt;p>&lt;img alt="IMG_VI" src="images/variational_inference.png">&lt;/p>
+&lt;h3 id="关于-kl散度和证据下界" >
+&lt;div>
+&lt;a href="#%e5%85%b3%e4%ba%8e-kl%e6%95%a3%e5%ba%a6%e5%92%8c%e8%af%81%e6%8d%ae%e4%b8%8b%e7%95%8c">
+##
+&lt;/a>
+关于 KL散度和证据下界
+&lt;/div>
+&lt;/h3>
+&lt;p>KL散度&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>可以写成以下形式&lt;/p>
+&lt;p>$$
+\begin{eqnarray}
+D(q(z)||p(z|x))
+&amp;amp;=&amp;amp; E_{q} [\log q(z)] - E_{q} [\log p(z|x)] \\
+&amp;amp;=&amp;amp; E_{q} [\log q(z)] - E_{q} [\log p(z,x)] + \log p(x) \\
+&amp;amp;=&amp;amp; \log p(x) - \{ E_{q} [\log p(z,x)] - E_{q} [\log q(z)] \}
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>由KL散度性质可知上式中：&lt;/p>
+&lt;p>$$
+\begin{eqnarray}
+\log p(x) \ge E_{q} [\log p(z,x)] - E_{q} [\log q(z)]
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>不等式右端是左端的下界，左端称为“证据（evidence）”，右端称为“证据下界（evidence lower
+bound, ELBO）”，证据下界记作：&lt;/p>
+&lt;p>$$
+\begin{eqnarray}
+L(q) = E_{q} [\log p(z,x)] - E_{q} [\log q(z)]
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>KL散度的最小化可以通过证据下界的最大化实现，因为目标是求 $q(z)$ 使KL散度最小化。因此，变分推理变成求解证据下界最大化问题。
+通过迭代的方法最大化证据下界，这时可以使用“变分EM算法”。&lt;/p>
+&lt;!-- 这时可以使用[变分EM算法](../optimazationMethods/EM/variational_EM.md). -->
+&lt;h3 id="关于-qz" >
+&lt;div>
+&lt;a href="#%e5%85%b3%e4%ba%8e-qz">
+##
+&lt;/a>
+关于 $q(z)$
+&lt;/div>
+&lt;/h3>
+&lt;p>对变分分布 $q(z)$ 的要求是具有容易处理的形式，通常假设 $q(z)$ 对 $z$ 的所有分量都是互相
+独立的（实际是条件独立于参数），即满足&lt;/p>
+&lt;p>$$
+q(z) = q(z_1) q(z_2) \cdots q(z_n)
+$$&lt;/p>
+&lt;p>此时的变分分布也叫作“平均场（mean field）”。KL散度的最小化或证据下界最大化实际是在平均场
+的集合，即满足独立假设的分布集合 $Q = {q(z)|q(z)=\prod^{n}_{i=1}q(z_i)}$ 之中进行的。&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>原书内容及更多，见：李航的《统计学习方法》（第二版）&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>马尔科夫链蒙特卡罗（Markov Chain Monte Carlo, MCMC）：给定时间线上有一串事件顺序发
+生，假设每个事件的发生概率只取决于前一个事件，那么这串事件构成的因果链被称为“马尔科夫
+链”。蒙特卡罗模拟就是指使用随机数（或更常见的伪随机数）来解决很多计算问题的方法。两者
+合起来就是指：In statistics, Markov chain Monte Carlo is a class of algorithms used to
+draw samples from a probability distribution. Given a probability distribution, one
+can construct a Markov chain whose elements&amp;rsquo; distribution approximates it – that is,
+the Markov chain&amp;rsquo;s equilibrium distribution matches the target distribution.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>KL散度的定义：$D(Q||P)=\sum_{i}Q(i)\log\frac{Q(i)}{P(i)}$，性质：$D(Q||P) \ge 0$ ，
+当且仅当 $Q=P$ 时，$D(Q||P)=0$ 。KL散度是非对称的、也不满足三角不等式，不是严格意义上的距离度量。&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>expectation_maximization</title><link>/posts/optimazationmethods/em/expectation_maximization/</link><pubDate>Fri, 30 Aug 2024 13:58:13 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/optimazationmethods/em/expectation_maximization/</guid><description>&lt;p>概率模型有时既有 &lt;ruby>“观测变量”&lt;rt>（observable variable）&lt;/rt>&lt;/ruby> ，又含有
 &lt;ruby>“隐变量或潜在变量”&lt;rt>（latent variable）&lt;/rt>&lt;/ruby> 。当存在后者时，不能直接使用
 MLE这样的方法进行参数估计，需要引入EM进行参数估计。
 EM算法就是含有隐变量的概率模型参数的最大似然估计法（或最大后验概率估计法）。&lt;/p>
@@ -2713,7 +2828,7 @@ adding up sinusoids.&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>VI（变分推断）就是通过优化一个参数化的近似分布来近似真实的后验分布，试图将推断问题转变
-成最优化问题。更多关于VI的内容请移步&lt;a href="../2024-09-01-variational_inference.md">这里&lt;/a>。&lt;/p>
+成最优化问题。更多关于VI的内容请移步&lt;a href="https://fgg100y.github.io/posts/neuralnetworks/2024-09-01-variational_inference/">这里&lt;/a>。&lt;/p>
 &lt;/li>
 &lt;/ul>
 &lt;p>VAE的工作流程如下：&lt;/p>

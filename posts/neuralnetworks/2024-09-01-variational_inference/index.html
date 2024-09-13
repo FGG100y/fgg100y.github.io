@@ -1,0 +1,66 @@
+<!doctype html><html lang=zh data-theme><head><meta charset=utf-8><meta name=HandheldFriendly content="True"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=referrer content="no-referrer-when-downgrade"><title>variational_inference - fgg blog</title>
+<meta name=description content="
+
+    
+        #
+    
+    变分推理1
+
+
+变分推理是贝叶斯学习中常用的、含有隐变量模型的学习和推理方法。变分推理和MCMC2属于不同
+的技巧。MCMC通过随机抽样的方法近似地计算模型的后验概率，变分推断则通过解析的方法计算模型
+的后验概率的近似值。
+变分推理基本思想：
+假设模型是联合概率分布 $p(x,z)$ ，其中 $x$ 是观测变量（i.e., 数据），$z$ 是隐变量，包括
+参数。目标是学习模型的后验概率分布 $p(z|x)$ 和用模型进行概率推理。但这是一个复杂的分布，
+直接估计分布的参数很困难。所以考虑用概率分布 $q(z)$ 近似条件概率分布 $p(z|x)$ ，用KL散度
+$D(q(z)||p(z|x))$ 计算两者的相似度，$q(z)$ 被称为“变分分布（variational distribution）”。
+如果能找到与 $p(z|x)$ 在KL散度意义下最近的分布 $q^{*}(z)$ ，则可以用这个分布近似$p(z|x)$。
+$$
+p(z|x) \approx q^{*}(z)
+$$
+"><link rel=icon type=image/x-icon href=https://fgg100y.github.io/favicon.ico><link rel=apple-touch-icon-precomposed href=https://fgg100y.github.io/favicon.png><style>body{visibility:hidden;opacity:0}</style><noscript><style>body{visibility:visible;opacity:1}</style></noscript><link rel=stylesheet href=/css/style.min.184a655c5ad8596648622468e6696abf0cf0a2cf8266df17b4f7a36fe9c97551.css integrity="sha256-GEplXFrYWWZIYiRo5mlqvwzwos+CZt8XtPejb+nJdVE="><link rel=stylesheet href=/css/style.min.c4c04b3ef88e3d619ad4c7ee5e03048422bc55c4fefdc1f07657c1133670aa22.css integrity="sha256-xMBLPviOPWGa1MfuXgMEhCK8VcT+/cHwdlfBEzZwqiI="><link rel=stylesheet href=/css/style.min.21c5d8fe0a79d623b0adc1ce4bd4f6dd2c05cd939c9aaaa966ba7186b1464f4d.css integrity="sha256-IcXY/gp51iOwrcHOS9T23SwFzZOcmqqpZrpxhrFGT00="><link rel=stylesheet href=/css/style.min.863b4356f5ce53525ab2482f84c47476c4618984b9726e576c244225ebda1bcc.css integrity="sha256-hjtDVvXOU1JaskgvhMR0dsRhiYS5cm5XbCRCJevaG8w=" crossorigin=anonymous><script src=/js/script.min.08f04d96386c73c9bf4d160333f8f448c05a6e01c06770542ee0e013954ce930.js type=text/javascript integrity="sha256-CPBNljhsc8m/TRYDM/j0SMBabgHAZ3BULuDgE5VM6TA="></script><link rel=stylesheet href=/css/custom.css></head><body><a class=skip-main href=#main></a><div class=container><header class=common-header><div class=header-top><div class=header-top-left><h1 class="site-title noselect"><a href=/>fgg blog</a></h1><div class=theme-switcher><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-sun-high"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.828 14.828A4 4 0 109.172 9.172a4 4 0 005.656 5.656z"/><path d="M6.343 17.657l-1.414 1.414"/><path d="M6.343 6.343 4.929 4.929"/><path d="M17.657 6.343l1.414-1.414"/><path d="M17.657 17.657l1.414 1.414"/><path d="M4 12H2"/><path d="M12 4V2"/><path d="M20 12h2"/><path d="M12 20v2"/></svg></span></div><script>const STORAGE_KEY="user-color-scheme",defaultTheme="auto";let currentTheme,switchButton,autoDefinedScheme=window.matchMedia("(prefers-color-scheme: dark)");function switchTheme(){currentTheme=currentTheme==="dark"?"light":"dark",localStorage&&localStorage.setItem(STORAGE_KEY,currentTheme),document.documentElement.setAttribute("data-theme",currentTheme),changeGiscusTheme(currentTheme),document.body.dispatchEvent(new CustomEvent(currentTheme+"-theme-set"))}const autoChangeScheme=e=>{currentTheme=e.matches?"dark":"light",document.documentElement.setAttribute("data-theme",currentTheme),changeGiscusTheme(currentTheme),document.body.dispatchEvent(new CustomEvent(currentTheme+"-theme-set"))};document.addEventListener("DOMContentLoaded",function(){switchButton=document.querySelector(".theme-switcher"),currentTheme=detectCurrentScheme(),currentTheme==="auto"?(autoChangeScheme(autoDefinedScheme),autoDefinedScheme.addListener(autoChangeScheme)):document.documentElement.setAttribute("data-theme",currentTheme),switchButton&&switchButton.addEventListener("click",switchTheme,!1),showContent()});function detectCurrentScheme(){return localStorage!==null&&localStorage.getItem(STORAGE_KEY)?localStorage.getItem(STORAGE_KEY):defaultTheme?defaultTheme:window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}function showContent(){document.body.style.visibility="visible",document.body.style.opacity=1}function changeGiscusTheme(e){function t(e){const t=document.querySelector("iframe.giscus-frame");if(!t)return;t.contentWindow.postMessage({giscus:e},"https://giscus.app")}t({setConfig:{theme:e}})}</script><ul class="social-icons noselect"><li><a href=https://github.com/FGG100y title=Github rel=me><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-github"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></span></a></li><li><a href=/index.xml title=RSS rel=me><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-rss"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 19m-1 0a1 1 0 102 0 1 1 0 10-2 0"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></span></a></li></ul></div><div class=header-top-right></div></div><nav class=noselect><a href=https://fgg100y.github.io/ title>首页</a>
+<a href=https://fgg100y.github.io/posts/ title>归档</a>
+<a href=https://fgg100y.github.io/tags/ title>标签</a>
+<a href=https://fgg100y.github.io/about/ title>关于</a></nav><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"]}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></header><main id=main tabindex=-1><article class="post h-entry"><div class=post-header><header><h1 class="p-name post-title">variational_inference</h1></header><div class="post-info noselect"><div class="post-date dt-published"><time datetime=2024-09-01>2024-09-01</time></div><a class="post-hidden-url u-url" href=/posts/neuralnetworks/2024-09-01-variational_inference/>/posts/neuralnetworks/2024-09-01-variational_inference/</a>
+<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>map[email:1522009317@qq.com name:fmh]</a><div class=post-taxonomies><ul class=post-tags><li><a href=/tags/variational-inference/>#Variational Inference</a></li></ul></div></div></div><details class="toc noselect"><summary>Table of Contents</summary><div class=inner><nav id=TableOfContents><ul><li><a href=#变分推理1>变分推理</a><ul><li><a href=#关于-kl散度和证据下界>关于 KL散度和证据下界</a></li><li><a href=#关于-qz>关于 $q(z)$</a></li></ul></li></ul></nav></div></details><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><h2 id=变分推理1><div><a href=#%e5%8f%98%e5%88%86%e6%8e%a8%e7%90%861>#
+</a>变分推理<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></div></h2><p>变分推理是贝叶斯学习中常用的、含有隐变量模型的学习和推理方法。变分推理和MCMC<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>属于不同
+的技巧。MCMC通过随机抽样的方法近似地计算模型的后验概率，变分推断则通过解析的方法计算模型
+的后验概率的近似值。</p><p>变分推理基本思想：
+假设模型是联合概率分布 $p(x,z)$ ，其中 $x$ 是观测变量（i.e., 数据），$z$ 是隐变量，包括
+参数。目标是学习模型的后验概率分布 $p(z|x)$ 和用模型进行概率推理。但这是一个复杂的分布，
+直接估计分布的参数很困难。所以考虑用概率分布 $q(z)$ 近似条件概率分布 $p(z|x)$ ，用KL散度
+$D(q(z)||p(z|x))$ 计算两者的相似度，$q(z)$ 被称为“变分分布（variational distribution）”。
+如果能找到与 $p(z|x)$ 在KL散度意义下最近的分布 $q^{*}(z)$ ，则可以用这个分布近似$p(z|x)$。</p><p>$$
+p(z|x) \approx q^{*}(z)
+$$</p><p><img alt=IMG_VI src=images/variational_inference.png></p><h3 id=关于-kl散度和证据下界><div><a href=#%e5%85%b3%e4%ba%8e-kl%e6%95%a3%e5%ba%a6%e5%92%8c%e8%af%81%e6%8d%ae%e4%b8%8b%e7%95%8c>##
+</a>关于 KL散度和证据下界</div></h3><p>KL散度<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>可以写成以下形式</p><p>$$
+\begin{eqnarray}
+D(q(z)||p(z|x))
+&=& E_{q} [\log q(z)] - E_{q} [\log p(z|x)] \\
+&=& E_{q} [\log q(z)] - E_{q} [\log p(z,x)] + \log p(x) \\
+&=& \log p(x) - \{ E_{q} [\log p(z,x)] - E_{q} [\log q(z)] \}
+\end{eqnarray}
+$$</p><p>由KL散度性质可知上式中：</p><p>$$
+\begin{eqnarray}
+\log p(x) \ge E_{q} [\log p(z,x)] - E_{q} [\log q(z)]
+\end{eqnarray}
+$$</p><p>不等式右端是左端的下界，左端称为“证据（evidence）”，右端称为“证据下界（evidence lower
+bound, ELBO）”，证据下界记作：</p><p>$$
+\begin{eqnarray}
+L(q) = E_{q} [\log p(z,x)] - E_{q} [\log q(z)]
+\end{eqnarray}
+$$</p><p>KL散度的最小化可以通过证据下界的最大化实现，因为目标是求 $q(z)$ 使KL散度最小化。因此，变分推理变成求解证据下界最大化问题。
+通过迭代的方法最大化证据下界，这时可以使用“变分EM算法”。</p><h3 id=关于-qz><div><a href=#%e5%85%b3%e4%ba%8e-qz>##
+</a>关于 $q(z)$</div></h3><p>对变分分布 $q(z)$ 的要求是具有容易处理的形式，通常假设 $q(z)$ 对 $z$ 的所有分量都是互相
+独立的（实际是条件独立于参数），即满足</p><p>$$
+q(z) = q(z_1) q(z_2) \cdots q(z_n)
+$$</p><p>此时的变分分布也叫作“平均场（mean field）”。KL散度的最小化或证据下界最大化实际是在平均场
+的集合，即满足独立假设的分布集合 $Q = {q(z)|q(z)=\prod^{n}_{i=1}q(z_i)}$ 之中进行的。</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p>原书内容及更多，见：李航的《统计学习方法》（第二版）&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2><p>马尔科夫链蒙特卡罗（Markov Chain Monte Carlo, MCMC）：给定时间线上有一串事件顺序发
+生，假设每个事件的发生概率只取决于前一个事件，那么这串事件构成的因果链被称为“马尔科夫
+链”。蒙特卡罗模拟就是指使用随机数（或更常见的伪随机数）来解决很多计算问题的方法。两者
+合起来就是指：In statistics, Markov chain Monte Carlo is a class of algorithms used to
+draw samples from a probability distribution. Given a probability distribution, one
+can construct a Markov chain whose elements&rsquo; distribution approximates it – that is,
+the Markov chain&rsquo;s equilibrium distribution matches the target distribution.&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3><p>KL散度的定义：$D(Q||P)=\sum_{i}Q(i)\log\frac{Q(i)}{P(i)}$，性质：$D(Q||P) \ge 0$ ，
+当且仅当 $Q=P$ 时，$D(Q||P)=0$ 。KL散度是非对称的、也不满足三角不等式，不是严格意义上的距离度量。&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div></article><div class="pagination post-pagination"><div class="left pagination-item"><a href=/posts/notes4resume/self_intro/>tech interview prepare (for my resume)</a></div><div class="right pagination-item"><a href=/posts/optimazationmethods/em/expectation_maximization/>expectation_maximization</a></div></div></main><footer class="common-footer noselect"><ul class=language-select><li>Chinese</li><li><a href=/en/>English</a></li></ul><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div style=display:flex;align-items:center></div><div><a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>map[email:1522009317@qq.com name:fmh]</a></p></footer></div></body></html>

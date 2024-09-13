@@ -1,5 +1,94 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Variational Inference on fgg blog</title><link>/tags/variational-inference/</link><description>fgg blog (Variational Inference)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
-(fmh)</managingEditor><lastBuildDate>Wed, 01 May 2024 21:01:57 +0800</lastBuildDate><atom:link href="/tags/variational-inference/index.xml" rel="self" type="application/rss+xml"/><item><title>变分自编码器（VAE）</title><link>/posts/neuralnetworks/variationalautoencoder/</link><pubDate>Wed, 01 May 2024 21:01:57 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/variationalautoencoder/</guid><description>&lt;h1 id="变分自编码器veriational-autoencoder-vae" >
+(fmh)</managingEditor><lastBuildDate>Sun, 01 Sep 2024 10:12:39 +0800</lastBuildDate><atom:link href="/tags/variational-inference/index.xml" rel="self" type="application/rss+xml"/><item><title>variational_inference</title><link>/posts/neuralnetworks/2024-09-01-variational_inference/</link><pubDate>Sun, 01 Sep 2024 10:12:39 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/2024-09-01-variational_inference/</guid><description>&lt;h2 id="变分推理1" >
+&lt;div>
+&lt;a href="#%e5%8f%98%e5%88%86%e6%8e%a8%e7%90%861">
+#
+&lt;/a>
+变分推理&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>
+&lt;/div>
+&lt;/h2>
+&lt;p>变分推理是贝叶斯学习中常用的、含有隐变量模型的学习和推理方法。变分推理和MCMC&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>属于不同
+的技巧。MCMC通过随机抽样的方法近似地计算模型的后验概率，变分推断则通过解析的方法计算模型
+的后验概率的近似值。&lt;/p>
+&lt;p>变分推理基本思想：
+假设模型是联合概率分布 $p(x,z)$ ，其中 $x$ 是观测变量（i.e., 数据），$z$ 是隐变量，包括
+参数。目标是学习模型的后验概率分布 $p(z|x)$ 和用模型进行概率推理。但这是一个复杂的分布，
+直接估计分布的参数很困难。所以考虑用概率分布 $q(z)$ 近似条件概率分布 $p(z|x)$ ，用KL散度
+$D(q(z)||p(z|x))$ 计算两者的相似度，$q(z)$ 被称为“变分分布（variational distribution）”。
+如果能找到与 $p(z|x)$ 在KL散度意义下最近的分布 $q^{*}(z)$ ，则可以用这个分布近似$p(z|x)$。&lt;/p>
+&lt;p>$$
+p(z|x) \approx q^{*}(z)
+$$&lt;/p>
+&lt;p>&lt;img alt="IMG_VI" src="images/variational_inference.png">&lt;/p>
+&lt;h3 id="关于-kl散度和证据下界" >
+&lt;div>
+&lt;a href="#%e5%85%b3%e4%ba%8e-kl%e6%95%a3%e5%ba%a6%e5%92%8c%e8%af%81%e6%8d%ae%e4%b8%8b%e7%95%8c">
+##
+&lt;/a>
+关于 KL散度和证据下界
+&lt;/div>
+&lt;/h3>
+&lt;p>KL散度&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>可以写成以下形式&lt;/p>
+&lt;p>$$
+\begin{eqnarray}
+D(q(z)||p(z|x))
+&amp;amp;=&amp;amp; E_{q} [\log q(z)] - E_{q} [\log p(z|x)] \\
+&amp;amp;=&amp;amp; E_{q} [\log q(z)] - E_{q} [\log p(z,x)] + \log p(x) \\
+&amp;amp;=&amp;amp; \log p(x) - \{ E_{q} [\log p(z,x)] - E_{q} [\log q(z)] \}
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>由KL散度性质可知上式中：&lt;/p>
+&lt;p>$$
+\begin{eqnarray}
+\log p(x) \ge E_{q} [\log p(z,x)] - E_{q} [\log q(z)]
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>不等式右端是左端的下界，左端称为“证据（evidence）”，右端称为“证据下界（evidence lower
+bound, ELBO）”，证据下界记作：&lt;/p>
+&lt;p>$$
+\begin{eqnarray}
+L(q) = E_{q} [\log p(z,x)] - E_{q} [\log q(z)]
+\end{eqnarray}
+$$&lt;/p>
+&lt;p>KL散度的最小化可以通过证据下界的最大化实现，因为目标是求 $q(z)$ 使KL散度最小化。因此，变分推理变成求解证据下界最大化问题。
+通过迭代的方法最大化证据下界，这时可以使用“变分EM算法”。&lt;/p>
+&lt;!-- 这时可以使用[变分EM算法](../optimazationMethods/EM/variational_EM.md). -->
+&lt;h3 id="关于-qz" >
+&lt;div>
+&lt;a href="#%e5%85%b3%e4%ba%8e-qz">
+##
+&lt;/a>
+关于 $q(z)$
+&lt;/div>
+&lt;/h3>
+&lt;p>对变分分布 $q(z)$ 的要求是具有容易处理的形式，通常假设 $q(z)$ 对 $z$ 的所有分量都是互相
+独立的（实际是条件独立于参数），即满足&lt;/p>
+&lt;p>$$
+q(z) = q(z_1) q(z_2) \cdots q(z_n)
+$$&lt;/p>
+&lt;p>此时的变分分布也叫作“平均场（mean field）”。KL散度的最小化或证据下界最大化实际是在平均场
+的集合，即满足独立假设的分布集合 $Q = {q(z)|q(z)=\prod^{n}_{i=1}q(z_i)}$ 之中进行的。&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>原书内容及更多，见：李航的《统计学习方法》（第二版）&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>马尔科夫链蒙特卡罗（Markov Chain Monte Carlo, MCMC）：给定时间线上有一串事件顺序发
+生，假设每个事件的发生概率只取决于前一个事件，那么这串事件构成的因果链被称为“马尔科夫
+链”。蒙特卡罗模拟就是指使用随机数（或更常见的伪随机数）来解决很多计算问题的方法。两者
+合起来就是指：In statistics, Markov chain Monte Carlo is a class of algorithms used to
+draw samples from a probability distribution. Given a probability distribution, one
+can construct a Markov chain whose elements&amp;rsquo; distribution approximates it – that is,
+the Markov chain&amp;rsquo;s equilibrium distribution matches the target distribution.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>KL散度的定义：$D(Q||P)=\sum_{i}Q(i)\log\frac{Q(i)}{P(i)}$，性质：$D(Q||P) \ge 0$ ，
+当且仅当 $Q=P$ 时，$D(Q||P)=0$ 。KL散度是非对称的、也不满足三角不等式，不是严格意义上的距离度量。&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>变分自编码器（VAE）</title><link>/posts/neuralnetworks/variationalautoencoder/</link><pubDate>Wed, 01 May 2024 21:01:57 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/variationalautoencoder/</guid><description>&lt;h1 id="变分自编码器veriational-autoencoder-vae" >
 &lt;div>
 &lt;a href="#%e5%8f%98%e5%88%86%e8%87%aa%e7%bc%96%e7%a0%81%e5%99%a8veriational-autoencoder-vae">
 ##
@@ -49,7 +138,7 @@
 &lt;/li>
 &lt;li>
 &lt;p>VI（变分推断）就是通过优化一个参数化的近似分布来近似真实的后验分布，试图将推断问题转变
-成最优化问题。更多关于VI的内容请移步&lt;a href="../2024-09-01-variational_inference.md">这里&lt;/a>。&lt;/p>
+成最优化问题。更多关于VI的内容请移步&lt;a href="https://fgg100y.github.io/posts/neuralnetworks/2024-09-01-variational_inference/">这里&lt;/a>。&lt;/p>
 &lt;/li>
 &lt;/ul>
 &lt;p>VAE的工作流程如下：&lt;/p>
