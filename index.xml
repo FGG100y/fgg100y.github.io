@@ -1,5 +1,79 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
-(fmh)</managingEditor><lastBuildDate>Wed, 11 Sep 2024 18:28:25 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>牛客刷题之火车进出站--栈.md</title><link>/posts/personals/momentsoflife/2024-09-11-%E7%89%9B%E5%AE%A2%E5%88%B7%E9%A2%98%E4%B9%8B%E7%81%AB%E8%BD%A6%E8%BF%9B%E5%87%BA%E7%AB%99%E6%A0%88/</link><pubDate>Wed, 11 Sep 2024 18:28:25 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/personals/momentsoflife/2024-09-11-%E7%89%9B%E5%AE%A2%E5%88%B7%E9%A2%98%E4%B9%8B%E7%81%AB%E8%BD%A6%E8%BF%9B%E5%87%BA%E7%AB%99%E6%A0%88/</guid><description>&lt;p>题目：&lt;/p>
+(fmh)</managingEditor><lastBuildDate>Sat, 28 Sep 2024 10:11:25 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>外行人禁止入内</title><link>/posts/historicalsnippet/2024-09-28-%E5%A4%96%E8%A1%8C%E4%BA%BA%E7%A6%81%E6%AD%A2%E5%85%A5%E5%86%85/</link><pubDate>Sat, 28 Sep 2024 10:11:25 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/historicalsnippet/2024-09-28-%E5%A4%96%E8%A1%8C%E4%BA%BA%E7%A6%81%E6%AD%A2%E5%85%A5%E5%86%85/</guid><description>&lt;ol>
+&lt;li>讲给自己人听&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>给出数字K，请输出所有结果小于K的整数组合到一起的最少交换次数。组合一起是指满足条件的数字相邻，不要求相邻后在数组中的位置。&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>Q:这个题目到底在表达什么意思？太抽象，完全看不懂。&lt;br>
+A:&lt;br>
+社区靓仔1: 滑动窗口，简单题&lt;br>
+社区靓仔2: 固定窗口&lt;br>
+社区靓仔3: &amp;hellip;（与）&lt;br>
+社区靓仔4: &amp;hellip;（主）&lt;br>
+社区靓仔5: &amp;hellip;（题）&lt;br>
+社区靓仔.: &amp;hellip;（相）&lt;br>
+社区靓仔.: &amp;hellip;（关）&lt;br>
+社区靓仔.: &amp;hellip;（度）&lt;br>
+社区靓仔.: &amp;hellip;（降）&lt;br>
+社区靓仔.: &amp;hellip;（到）&lt;br>
+社区靓仔.: &amp;hellip;（零）&lt;/p>
+&lt;/blockquote>
+&lt;ol start="2">
+&lt;li>到底考查什么&lt;/li>
+&lt;/ol>
+&lt;p>完整的题目大约是这样：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-plaintext" data-lang="plaintext">&lt;span style="display:flex;">&lt;span>给出数字K,请输出所有结果小于K的整数组合到一起的最少交换次数。组合一起是指满足条件的数字相邻，不要求相邻后在数组中的位置。
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>数据范围:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>-100&amp;lt;=K&amp;lt;=100
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>-100&amp;lt;=数组中数值&amp;lt;=100
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>输入描述
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>第一行输入数组：1 3 1 4 0
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>第二行输入K数值: 2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>输出描述
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>第一行输出最少交换次数:1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>说明：小于2的表达式是 1 1 0，共三种可能将所有符合要求数字组合一起，最少交换一次。
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>但对普通靓仔来说总感觉还不够清晰，而想要知道具体要表达什么（进一步消除歧义），可能需要先知道这个题目：&lt;/p>
+&lt;p>&lt;a href="https://leetcode.cn/problems/minimum-swaps-to-group-all-1s-together/description/">力扣1151:最少交换次数来组合所有的1&lt;/a>&lt;/p>
+&lt;p>我点开链接的结果是：该题目是 Plus 会员专享题\n感谢使用力扣！您需要升级为 Plus 会员来解锁该题目&lt;/p>
+&lt;p>实在抱歉，没法把题目贴到这里。因为我不打算成为Plus会员，至少目前不打算。而其他来源的，不敢保证它们与原题一致。&lt;/p>
+&lt;p>拉斯科尔尼科夫&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>那个干翻译后来干出版的大学好友早就有言在先：多少翻译最终干成了篡改。&lt;/p>
+&lt;p>如果你和我一样是“闻道有先后”中的“后”而愤愤不平，忠告就是：少废话，多刷题。&lt;/p>
+&lt;p>说实话，我已经分不清是我逼自己刷题，还是被逼刷题。你看，我是糊涂的。所以对于我的“忠告”，你该保持怀疑态度。&lt;/p>
+&lt;ol start="3">
+&lt;li>从来都是如此&lt;/li>
+&lt;/ol>
+&lt;p>如果你是外行（意思大约是你待在你未来想要进入的圈子的时间不够长），而给你准备的时间相对有
+限，更没有专门为你铺设的小道&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>，那么，最有可能做成的方法就是埋头苦干了。&lt;/p>
+&lt;p>君不见我们的教材资料可谓汗牛充栋，但写得清楚明白的可能是九牛一毛。写得清楚明白，还只要你
+花点电费就能访问到的就约等于零。有好的资源和好心肠，并且无私奉献出来了，也还是有可能惹麻烦&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>。&lt;/p>
+&lt;p>翻译翻译+篡改篡改，不要199，也不要99，只要9.9，速来，快活呀。这才是常态。&lt;/p>
+&lt;p>“从来如此的，便是对的么？”这是迅哥儿的经典一问。他是旧社会教育中成长的人，旧社会里最喜欢
+拿24孝来唬小孩，据他说那时他祖母正病重，就挺担心他父亲是个汉代郭巨&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>那样的孝子。在这互
+联网时代，“资源共享”终究也逃不过成为口号的命运。去中心化互联网？我听到你说。一听就知道是穷鬼在彷徨和呐喊。
+但还是希望如此吧。陈胜吴广妥妥的也是穷鬼来着，如果教材没错的话。&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>陀思妥耶夫斯基的《罪与罚》的主人公。&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>欧几里得说几何学里没有专门为国王铺设的大道，他是对的。前提是他不是在咱大天朝朝廷干活。当然如果你觉得我在暗示走后门，我觉得你觉得的也有道理。&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>有个哥们的开源软件就被搞闭源的另一个哥们呛：你这样子搞，我怎么赚钱啊？断人财路犹如杀人父母，中外皆然。巨硬某佬就曾大放厥词说Linux式开源就像癌症。&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4">
+&lt;p>汉代郭巨埋儿的故事，24孝故事之一。btw，更好玩的是&lt;a href="https://blog.sciencenet.cn/blog-2984-14573.html">兄弟李的这个解释版本&lt;/a>。&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>牛客刷题之火车进出站--栈.md</title><link>/posts/personals/momentsoflife/2024-09-11-%E7%89%9B%E5%AE%A2%E5%88%B7%E9%A2%98%E4%B9%8B%E7%81%AB%E8%BD%A6%E8%BF%9B%E5%87%BA%E7%AB%99%E6%A0%88/</link><pubDate>Wed, 11 Sep 2024 18:28:25 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/personals/momentsoflife/2024-09-11-%E7%89%9B%E5%AE%A2%E5%88%B7%E9%A2%98%E4%B9%8B%E7%81%AB%E8%BD%A6%E8%BF%9B%E5%87%BA%E7%AB%99%E6%A0%88/</guid><description>&lt;p>题目：&lt;/p>
 &lt;p>描述&lt;/p>
 &lt;p>给定一个正整数N代表火车数量，0&amp;lt;N&amp;lt;10，接下来输入火车入站的序列，一共N辆火车，每辆火车以
 数字1-9编号，火车站只有一个方向进出，同时停靠在火车站的列车中，只有后进站的出站了，先进
