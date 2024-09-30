@@ -58,7 +58,16 @@ A确实想要“平均分配”苹果，但是是按照“异或”这种计算�
 &lt;p>转不过弯来的人，怎么气急败坏也没用，还要被嘲笑无能狂怒。门禁卡钥匙稳稳地攥在别人手里呐。&lt;/p>
 &lt;p>据说在六七十年代，想要整人的人都很擅长各种急转弯&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>。一朝权在手，便把令来行。敢不听令？&lt;/p>
 &lt;p>年代更久远些的一位我们的老朋友阿贵（Mr. Q），在他革命胜利的畅想中可不就是：奶奶的，从今以后，我爱谁就是谁！&lt;/p>
-&lt;div class="footnotes" role="doc-endnotes">
+&lt;p>代码还是附上（度狗子之腹：把它定位是简单题有错吗？这就几行代码搞定，香不香？）&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">main&lt;/span>(arr):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> xor_sum &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">for&lt;/span> a &lt;span style="color:#ff6ac1">in&lt;/span> arr:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> xor_sum &lt;span style="color:#ff6ac1">^=&lt;/span> a
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> &lt;span style="color:#ff6ac1">not&lt;/span> xor_sum:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> &lt;span style="color:#ff5c57">sum&lt;/span>(arr) &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff5c57">min&lt;/span>(arr)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">else&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
 &lt;li id="fn:1">
