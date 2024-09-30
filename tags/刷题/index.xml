@@ -1,5 +1,76 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>刷题 on fgg blog</title><link>/tags/%E5%88%B7%E9%A2%98/</link><description>fgg blog (刷题)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
-(fmh)</managingEditor><lastBuildDate>Sat, 28 Sep 2024 10:11:25 +0800</lastBuildDate><atom:link href="/tags/%E5%88%B7%E9%A2%98/index.xml" rel="self" type="application/rss+xml"/><item><title>外行人禁止入内</title><link>/posts/historicalsnippet/2024-09-28-%E5%A4%96%E8%A1%8C%E4%BA%BA%E7%A6%81%E6%AD%A2%E5%85%A5%E5%86%85/</link><pubDate>Sat, 28 Sep 2024 10:11:25 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/historicalsnippet/2024-09-28-%E5%A4%96%E8%A1%8C%E4%BA%BA%E7%A6%81%E6%AD%A2%E5%85%A5%E5%86%85/</guid><description>&lt;ol>
+(fmh)</managingEditor><lastBuildDate>Mon, 30 Sep 2024 10:36:43 +0800</lastBuildDate><atom:link href="/tags/%E5%88%B7%E9%A2%98/index.xml" rel="self" type="application/rss+xml"/><item><title>脑筋急转弯</title><link>/posts/historicalsnippet/2024-09-30-%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/</link><pubDate>Mon, 30 Sep 2024 10:36:43 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/historicalsnippet/2024-09-30-%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/</guid><description>&lt;hr>
+&lt;p>题目描述&lt;br>
+A 和 B 两个人要分苹果。A 希望按照他的计算规则得到平均分配的苹果，而 B 希望在满足 A 的条
+件下获得尽可能多的苹果量。&lt;/p>
+&lt;p>A 的计算规则是按照二进制加法进行，并不计算进位。例如，12 + 5 = 9 （1100 + 0101 = 1001）。&lt;/p>
+&lt;p>B 的计算规则是正常的十进制加法，包括进位。&lt;/p>
+&lt;p>给定苹果的数量和每个苹果的重量，计算并满足 A 的要求的情况下，B 能获得的最大苹果总重量。
+如果无法满足 A 的要求，则输出 -1。&lt;/p>
+&lt;p>输入描述&lt;br>
+第一行包含一个整数 n，表示苹果的数量。&lt;/p>
+&lt;p>第二行包含 n 个整数，表示每个苹果的重量 w1, w2, &amp;hellip;, wn。&lt;/p>
+&lt;p>输出描述&lt;br>
+输出一个整数，表示 B 能获得的最大苹果总重量。如果无法满足 A 的要求，则输出 -1。&lt;/p>
+&lt;p>示例1&lt;br>
+输入：&lt;br>
+3&lt;br>
+3 5 6&lt;/p>
+&lt;p>输出：&lt;br>
+11&lt;/p>
+&lt;p>说明：&lt;br>
+通过二进制无进位加法，A 要求的总重量是 3 XOR 5 XOR 6 = 0，B 能获得所有的苹果，总重量为 11。&lt;/p>
+&lt;p>示例2&lt;br>
+输入：&lt;br>
+8&lt;br>
+7258 6579 2602 6716 3050 3564 5396 1773&lt;/p>
+&lt;p>输出：&lt;br>
+35165&lt;/p>
+&lt;p>说明：&lt;br>
+同样按照 A 的二进制无进位规则，B 获得最大的苹果重量为 35165。&lt;/p>
+&lt;hr>
+&lt;blockquote>
+&lt;p>A 要求的总重量是 3 XOR 5 XOR 6 = 0，B 能获得所有的苹果，总重量为 11。&lt;/p>
+&lt;/blockquote>
+&lt;p>我：狗屎一样的描述，根本表述不清，甚至示例还有矛盾：A要求重量为0，B能获得所有苹果（难道
+不是3个？三个苹果总重量为11吗？这又是哪门子的A的平均分配？傻A吗还是傻B？）。狗屎。2024-09-27 Fri&lt;/p>
+&lt;p>我：XOR&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>为0，则将最小值分配给A，剩下都是B的；否则输出-1。（不清楚这个狗屎做法为什么对题）。&lt;/p>
+&lt;p>2024-09-30 Mon:臭狗屎余臭绕鼻，三日不绝，忍无可忍还是要一探究竟是什么样的狗在胡闹，一番
+搜索：&lt;/p>
+&lt;blockquote>
+&lt;p>社区靓女：意思就是 平分苹果 比如例子中(三个苹果，重量分别为：3, 5, 6) 对a的算法来说:b
+拿到的是5+6=3个， 剩下个3，所以 a和b 是平分的。但是对b来说 他拿到的是总重量为11的两个
+苹果。所以b能拿到的，并且满足a同学要求之后的最大重量是11.&lt;/p>
+&lt;/blockquote>
+&lt;p>社区某靓女的解释是合题意的（此人不简单呐）。至少这个解释可以驱散多日狗屎臭味了。&lt;/p>
+&lt;p>进一步解析：示例告诉应试者，就去整异或运算，至于为什么，至于文字描述什么意思，至于文意互
+相矛盾，那都不是事儿，想不明白可以后面去想（不要想着打一顿出题者，而是想出题者何意，去猜
+猜猜）。所以，社区某靓女的解释显得极其合理（以小人心态，我简直要怀疑这人是出题者或之一），
+A确实想要“平均分配”苹果，但是是按照“异或”这种计算方式去“平均”，这第一步就严重挑战正常人
+朴素认知里对“平均”的含义的理解。&lt;/p>
+&lt;p>可是“平均”在出题者的定义里，关你普通人的朴素感情什么屁事？&lt;/p>
+&lt;p>或许可以这样去想，作为“肉食者”一员，就要设计出这样的一种“平均分配”：&lt;code>5 xor 6 = 3&lt;/code>，这样
+你大A拿重量为3的苹果，我小B拿重量也为“3”的两个苹果，是够平均分配的了吧？换句话说，不管你A
+拿哪个重量的苹果，最后都是平均分配。比如，我大A就是贪心，心想你个傻B，我怎么会拿3，就拿6。
+小B说那没关系的哈，你看，那剩下的是重量为3和5，&lt;code>3 xor 5 = 6&lt;/code>，仍然一样的哈。咱讲究的就是
+一个平均分配。&lt;/p>
+&lt;p>有个社区靓仔说这属于是脑筋急转弯。我觉得或许这样去理解，更有幽默感吧。&lt;/p>
+&lt;p>转不过弯来的人，怎么气急败坏也没用，还要被嘲笑无能狂怒。门禁卡钥匙稳稳地攥在别人手里呐。&lt;/p>
+&lt;p>据说在六七十年代，想要整人的人都很擅长各种急转弯&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>。一朝权在手，便把令来行。敢不听令？&lt;/p>
+&lt;p>年代更久远些的一位我们的老朋友阿贵（Mr. Q），在他革命胜利的畅想中可不就是：奶奶的，从今以后，我爱谁就是谁！&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>&lt;code>xor&lt;/code>是一种按位进行的运算（位运算，符号&lt;code>^&lt;/code>），位运算就是基于整数的二进制表示进行的
+运算。具体操作就是：只有两个对应位不同时才为1。
+例子解释，$5=(101)_2, 6=(110)_2, 5^6=(011)_2$，$(011)_2$ 正是3的二进制表示。&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>年代久远，已不可考，也未必可信。不过王小波的《黄金时代》大约能告诉你怎么对待被人整蛊。&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>外行人禁止入内</title><link>/posts/historicalsnippet/2024-09-28-%E5%A4%96%E8%A1%8C%E4%BA%BA%E7%A6%81%E6%AD%A2%E5%85%A5%E5%86%85/</link><pubDate>Sat, 28 Sep 2024 10:11:25 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/historicalsnippet/2024-09-28-%E5%A4%96%E8%A1%8C%E4%BA%BA%E7%A6%81%E6%AD%A2%E5%85%A5%E5%86%85/</guid><description>&lt;ol>
 &lt;li>讲给自己人听&lt;/li>
 &lt;/ol>
 &lt;blockquote>
