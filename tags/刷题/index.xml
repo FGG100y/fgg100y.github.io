@@ -58,7 +58,7 @@ A确实想要“平均分配”苹果，但是是按照“异或”这种计算�
 &lt;p>转不过弯来的人，怎么气急败坏也没用，还要被嘲笑无能狂怒。门禁卡钥匙稳稳地攥在别人手里呐。&lt;/p>
 &lt;p>据说在六七十年代，想要整人的人都很擅长各种急转弯&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>。一朝权在手，便把令来行。敢不听令？&lt;/p>
 &lt;p>年代更久远些的一位我们的老朋友阿贵（Mr. Q），在他革命胜利的畅想中可不就是：奶奶的，从今以后，我爱谁就是谁！&lt;/p>
-&lt;p>代码还是附上（度狗子之腹：把它定位是简单题有错吗？这就几行代码搞定，香不香？）&lt;/p>
+&lt;p>代码还是附上（度狗子之腹：把它定位是简单题有错吗？&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>这就几行代码搞定，香不香？）&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">main&lt;/span>(arr):
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> xor_sum &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">for&lt;/span> a &lt;span style="color:#ff6ac1">in&lt;/span> arr:
@@ -77,6 +77,10 @@ A确实想要“平均分配”苹果，但是是按照“异或”这种计算�
 &lt;/li>
 &lt;li id="fn:2">
 &lt;p>年代久远，已不可考，也未必可信。不过王小波的《黄金时代》大约能告诉你怎么对待被人整蛊。&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>如果你恰看过LeetCode中有一道找数组中“唯一出现一次的数”的题。你甚至要觉得要是此君不
+去出出高考题实为屈才。&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/div></description></item><item><title>外行人禁止入内</title><link>/posts/historicalsnippet/2024-09-28-%E5%A4%96%E8%A1%8C%E4%BA%BA%E7%A6%81%E6%AD%A2%E5%85%A5%E5%86%85/</link><pubDate>Sat, 28 Sep 2024 10:11:25 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/historicalsnippet/2024-09-28-%E5%A4%96%E8%A1%8C%E4%BA%BA%E7%A6%81%E6%AD%A2%E5%85%A5%E5%86%85/</guid><description>&lt;ol>
