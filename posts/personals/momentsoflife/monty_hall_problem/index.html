@@ -1,0 +1,95 @@
+<!doctype html><html lang=zh data-theme><head><meta charset=utf-8><meta name=HandheldFriendly content="True"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=referrer content="no-referrer-when-downgrade"><title>三门抽奖游戏问题 - fgg blog</title>
+<meta name=description content="
+Suppose you&rsquo;re on a game show, and you&rsquo;re given the choice of three doors: Behind one
+door is a car; behind the others, goats. You pick a door, say No. 1, and the host, who
+knows what&rsquo;s behind the doors, opens another door, say No. 3, which has a goat. He then
+says to you, &ldquo;Do you want to pick door No. 2?&rdquo; Is it to your advantage to switch your
+choice?1
+
+
+
+    
+        #
+    
+    如果说你更喜欢羊
+
+
+这是个经典的游戏：游戏参与者面对三扇门，其中两扇门后面是山羊，一扇门后面是跑车。参与者只
+要随便选一扇门，门后面的东西就归他（跑车的价值当然更大）。但是主持人决定帮一下参与者：在
+他选择之后，先不急着打开这扇门，而是由主持人打开剩下两扇门中的一扇，展示其中的山羊（主持
+人知道每扇门后面是什么），然后给参与者一次换门的机会，此时参与者应该换门还是不换门呢？
+为了防止第一次看到这个问题的读者迷惑，再具体描述一下这个问题：
+你是游戏参与者，现在有门 1,2,3，假设你随机选择了门 1，然后主持人打开了门 3 告诉你那后面
+是山羊。现在，你是坚持你最初的选择门 1，还是选择换成门 2 呢？
+这个问题被称为“蒙提霍尔问题”（Monty Hall Problem），是一道经典的概率题。直觉上，很多人会
+认为换门与否的获得跑车机会是对半的，但实际上，换门可以显著提高获得跑车的概率。"><link rel=icon type=image/x-icon href=https://fgg100y.github.io/favicon.ico><link rel=apple-touch-icon-precomposed href=https://fgg100y.github.io/favicon.png><style>body{visibility:hidden;opacity:0}</style><noscript><style>body{visibility:visible;opacity:1}</style></noscript><link rel=stylesheet href=/css/style.min.184a655c5ad8596648622468e6696abf0cf0a2cf8266df17b4f7a36fe9c97551.css integrity="sha256-GEplXFrYWWZIYiRo5mlqvwzwos+CZt8XtPejb+nJdVE="><link rel=stylesheet href=/css/style.min.c4c04b3ef88e3d619ad4c7ee5e03048422bc55c4fefdc1f07657c1133670aa22.css integrity="sha256-xMBLPviOPWGa1MfuXgMEhCK8VcT+/cHwdlfBEzZwqiI="><link rel=stylesheet href=/css/style.min.21c5d8fe0a79d623b0adc1ce4bd4f6dd2c05cd939c9aaaa966ba7186b1464f4d.css integrity="sha256-IcXY/gp51iOwrcHOS9T23SwFzZOcmqqpZrpxhrFGT00="><link rel=stylesheet href=/css/style.min.863b4356f5ce53525ab2482f84c47476c4618984b9726e576c244225ebda1bcc.css integrity="sha256-hjtDVvXOU1JaskgvhMR0dsRhiYS5cm5XbCRCJevaG8w=" crossorigin=anonymous><script src=/js/script.min.08f04d96386c73c9bf4d160333f8f448c05a6e01c06770542ee0e013954ce930.js type=text/javascript integrity="sha256-CPBNljhsc8m/TRYDM/j0SMBabgHAZ3BULuDgE5VM6TA="></script><link rel=stylesheet href=/css/custom.css></head><body><a class=skip-main href=#main></a><div class=container><header class=common-header><div class=header-top><div class=header-top-left><h1 class="site-title noselect"><a href=/>fgg blog</a></h1><div class=theme-switcher><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-sun-high"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.828 14.828A4 4 0 109.172 9.172a4 4 0 005.656 5.656z"/><path d="M6.343 17.657l-1.414 1.414"/><path d="M6.343 6.343 4.929 4.929"/><path d="M17.657 6.343l1.414-1.414"/><path d="M17.657 17.657l1.414 1.414"/><path d="M4 12H2"/><path d="M12 4V2"/><path d="M20 12h2"/><path d="M12 20v2"/></svg></span></div><script>const STORAGE_KEY="user-color-scheme",defaultTheme="auto";let currentTheme,switchButton,autoDefinedScheme=window.matchMedia("(prefers-color-scheme: dark)");function switchTheme(){currentTheme=currentTheme==="dark"?"light":"dark",localStorage&&localStorage.setItem(STORAGE_KEY,currentTheme),document.documentElement.setAttribute("data-theme",currentTheme),changeGiscusTheme(currentTheme),document.body.dispatchEvent(new CustomEvent(currentTheme+"-theme-set"))}const autoChangeScheme=e=>{currentTheme=e.matches?"dark":"light",document.documentElement.setAttribute("data-theme",currentTheme),changeGiscusTheme(currentTheme),document.body.dispatchEvent(new CustomEvent(currentTheme+"-theme-set"))};document.addEventListener("DOMContentLoaded",function(){switchButton=document.querySelector(".theme-switcher"),currentTheme=detectCurrentScheme(),currentTheme==="auto"?(autoChangeScheme(autoDefinedScheme),autoDefinedScheme.addListener(autoChangeScheme)):document.documentElement.setAttribute("data-theme",currentTheme),switchButton&&switchButton.addEventListener("click",switchTheme,!1),showContent()});function detectCurrentScheme(){return localStorage!==null&&localStorage.getItem(STORAGE_KEY)?localStorage.getItem(STORAGE_KEY):defaultTheme?defaultTheme:window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}function showContent(){document.body.style.visibility="visible",document.body.style.opacity=1}function changeGiscusTheme(e){function t(e){const t=document.querySelector("iframe.giscus-frame");if(!t)return;t.contentWindow.postMessage({giscus:e},"https://giscus.app")}t({setConfig:{theme:e}})}</script><ul class="social-icons noselect"><li><a href=https://github.com/FGG100y title=Github rel=me><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-github"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></span></a></li><li><a href=/index.xml title=RSS rel=me><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-rss"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 19m-1 0a1 1 0 102 0 1 1 0 10-2 0"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></span></a></li></ul></div><div class=header-top-right></div></div><nav class=noselect><a href=https://fgg100y.github.io/ title>首页</a>
+<a href=https://fgg100y.github.io/posts/ title>归档</a>
+<a href=https://fgg100y.github.io/tags/ title>标签</a>
+<a href=https://fgg100y.github.io/about/ title>关于</a></nav><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"]}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></header><main id=main tabindex=-1><article class="post h-entry"><div class=post-header><header><h1 class="p-name post-title">三门抽奖游戏问题</h1></header><div class="post-info noselect"><div class="post-date dt-published"><time datetime=2024-10-08>2024-10-08</time></div><a class="post-hidden-url u-url" href=/posts/personals/momentsoflife/monty_hall_problem/>/posts/personals/momentsoflife/monty_hall_problem/</a>
+<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>map[email:1522009317@qq.com name:fmh]</a><div class=post-taxonomies><ul class=post-tags><li><a href>#经典概率问题，贝叶斯法则</a></li></ul></div></div></div><details class="toc noselect"><summary>Table of Contents</summary><div class=inner><nav id=TableOfContents><ul><li><a href=#如果说你更喜欢羊>如果说你更喜欢羊</a></li><li><a href=#那么请你不要换门>那么请你不要换门</a></li><li><a href=#习惯性附上代码>习惯性附上代码</a></li><li><a href=#模拟的不算数有请贝叶斯法则>模拟的不算数？有请贝叶斯法则</a><ul><li><a href=#问题回顾和贝叶斯建模求解>问题回顾和贝叶斯建模求解</a></li></ul></li><li><a href=#变体问题>变体问题</a></li></ul></nav></div></details><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><blockquote><p>Suppose you&rsquo;re on a game show, and you&rsquo;re given the choice of three doors: Behind one
+door is a car; behind the others, goats. You pick a door, say No. 1, and the host, who
+knows what&rsquo;s behind the doors, opens another door, say No. 3, which has a goat. He then
+says to you, &ldquo;Do you want to pick door No. 2?&rdquo; Is it to your advantage to switch your
+choice?<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></p></blockquote><h2 id=如果说你更喜欢羊><div><a href=#%e5%a6%82%e6%9e%9c%e8%af%b4%e4%bd%a0%e6%9b%b4%e5%96%9c%e6%ac%a2%e7%be%8a>#
+</a>如果说你更喜欢羊</div></h2><p>这是个经典的游戏：游戏参与者面对三扇门，其中两扇门后面是山羊，一扇门后面是跑车。参与者只
+要随便选一扇门，门后面的东西就归他（跑车的价值当然更大）。但是主持人决定帮一下参与者：在
+他选择之后，先不急着打开这扇门，而是由主持人打开剩下两扇门中的一扇，展示其中的山羊（主持
+人知道每扇门后面是什么），然后给参与者一次换门的机会，此时参与者应该换门还是不换门呢？</p><p>为了防止第一次看到这个问题的读者迷惑，再具体描述一下这个问题：</p><p>你是游戏参与者，现在有门 1,2,3，假设你随机选择了门 1，然后主持人打开了门 3 告诉你那后面
+是山羊。现在，你是坚持你最初的选择门 1，还是选择换成门 2 呢？</p><p>这个问题被称为“蒙提霍尔问题”（Monty Hall Problem），是一道经典的概率题。直觉上，很多人会
+认为换门与否的获得跑车机会是对半的，但实际上，换门可以显著提高获得跑车的概率。</p><h2 id=那么请你不要换门><div><a href=#%e9%82%a3%e4%b9%88%e8%af%b7%e4%bd%a0%e4%b8%8d%e8%a6%81%e6%8d%a2%e9%97%a8>#
+</a>那么请你不要换门</div></h2><p>根据游戏规则：你第一次选中的门有跑车的概率是 1/3，选到山羊的概率是 2/3。主持人会打开一扇
+剩下的门，并且那扇门一定是一只山羊。因此，如果你最初选中的是一只山羊（概率为 2/3），换门
+后一定会选中跑车。如果你最初选中的是跑车（概率为 1/3），换门后会选中山羊。</p><p>通过换门，获得跑车的概率从 1/3 提升到了 2/3。</p><p><img alt=IMG_monty-hall-tree src=/posts/personals/momentsoflife/monty_hall_problem/images/Monty_hall_problem_tree_door1.svg>
+上图是假设参赛者初始选择一号门的所有情况，样本空间共包括4种可能的结果。</p><h2 id=习惯性附上代码><div><a href=#%e4%b9%a0%e6%83%af%e6%80%a7%e9%99%84%e4%b8%8a%e4%bb%a3%e7%a0%81>#
+</a>习惯性附上代码</div></h2><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff6ac1>import</span> random
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>monty_hall_simulation</span>(num_trials<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>10000</span>):
+</span></span><span style=display:flex><span>    switch_wins <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>0</span>
+</span></span><span style=display:flex><span>    stay_wins <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>for</span> _ <span style=color:#ff6ac1>in</span> <span style=color:#ff5c57>range</span>(num_trials):
+</span></span><span style=display:flex><span>        <span style=color:#78787e># 随机选择哪扇门后面有跑车</span>
+</span></span><span style=display:flex><span>        doors <span style=color:#ff6ac1>=</span> [<span style=color:#ff9f43>0</span>, <span style=color:#ff9f43>0</span>, <span style=color:#ff9f43>1</span>]  <span style=color:#78787e># 0 表示山羊，1 表示跑车</span>
+</span></span><span style=display:flex><span>        random<span style=color:#ff6ac1>.</span>shuffle(doors)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#78787e># 参与者随机选择一扇门</span>
+</span></span><span style=display:flex><span>        initial_choice <span style=color:#ff6ac1>=</span> random<span style=color:#ff6ac1>.</span>randint(<span style=color:#ff9f43>0</span>, <span style=color:#ff9f43>2</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#78787e># 主持人打开一扇山羊的门</span>
+</span></span><span style=display:flex><span>        available_doors <span style=color:#ff6ac1>=</span> [i <span style=color:#ff6ac1>for</span> i <span style=color:#ff6ac1>in</span> <span style=color:#ff5c57>range</span>(<span style=color:#ff9f43>3</span>) <span style=color:#ff6ac1>if</span> i <span style=color:#ff6ac1>!=</span> initial_choice <span style=color:#ff6ac1>and</span> doors[i] <span style=color:#ff6ac1>==</span> <span style=color:#ff9f43>0</span>]
+</span></span><span style=display:flex><span>        host_opens <span style=color:#ff6ac1>=</span> random<span style=color:#ff6ac1>.</span>choice(available_doors)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#78787e># 模拟换门</span>
+</span></span><span style=display:flex><span>        switch_choice <span style=color:#ff6ac1>=</span> [i <span style=color:#ff6ac1>for</span> i <span style=color:#ff6ac1>in</span> <span style=color:#ff5c57>range</span>(<span style=color:#ff9f43>3</span>) <span style=color:#ff6ac1>if</span> i <span style=color:#ff6ac1>!=</span> initial_choice <span style=color:#ff6ac1>and</span> i <span style=color:#ff6ac1>!=</span> host_opens][<span style=color:#ff9f43>0</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#78787e># 如果换门后是跑车，增加换门获胜次数</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>if</span> doors[switch_choice] <span style=color:#ff6ac1>==</span> <span style=color:#ff9f43>1</span>:
+</span></span><span style=display:flex><span>            switch_wins <span style=color:#ff6ac1>+=</span> <span style=color:#ff9f43>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#78787e># 如果不换门，直接判断原选择是否跑车</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>if</span> doors[initial_choice] <span style=color:#ff6ac1>==</span> <span style=color:#ff9f43>1</span>:
+</span></span><span style=display:flex><span>            stay_wins <span style=color:#ff6ac1>+=</span> <span style=color:#ff9f43>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#78787e># 输出结果</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff5c57>print</span>(<span style=color:#5af78e>&#34;模拟结果：&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#ff5c57>print</span>(<span style=color:#5af78e>f</span><span style=color:#5af78e>&#34;换门获胜的概率: </span><span style=color:#5af78e>{</span>switch_wins<span style=color:#5af78e>=}</span><span style=color:#5af78e> / </span><span style=color:#5af78e>{</span>num_trials<span style=color:#5af78e>=}</span><span style=color:#5af78e> ≈ </span><span style=color:#5af78e>{</span>switch_wins <span style=color:#ff6ac1>/</span> num_trials<span style=color:#5af78e>:</span><span style=color:#5af78e>.2f</span><span style=color:#5af78e>}</span><span style=color:#5af78e>&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#ff5c57>print</span>(<span style=color:#5af78e>f</span><span style=color:#5af78e>&#34;不换门获胜的概率: </span><span style=color:#5af78e>{</span>stay_wins<span style=color:#5af78e>=}</span><span style=color:#5af78e> / </span><span style=color:#5af78e>{</span>num_trials<span style=color:#5af78e>=}</span><span style=color:#5af78e> ≈ </span><span style=color:#5af78e>{</span>stay_wins <span style=color:#ff6ac1>/</span> num_trials<span style=color:#5af78e>:</span><span style=color:#5af78e>.2f</span><span style=color:#5af78e>}</span><span style=color:#5af78e>&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e>#运行模拟</span>
+</span></span><span style=display:flex><span>monty_hall_simulation()
+</span></span></code></pre></div><h2 id=模拟的不算数有请贝叶斯法则><div><a href=#%e6%a8%a1%e6%8b%9f%e7%9a%84%e4%b8%8d%e7%ae%97%e6%95%b0%e6%9c%89%e8%af%b7%e8%b4%9d%e5%8f%b6%e6%96%af%e6%b3%95%e5%88%99>#
+</a>模拟的不算数？有请贝叶斯法则</div></h2><blockquote><p>When the facts change, I change my mind. What do you do, sir?<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup></p></blockquote><h3 id=问题回顾和贝叶斯建模求解><div><a href=#%e9%97%ae%e9%a2%98%e5%9b%9e%e9%a1%be%e5%92%8c%e8%b4%9d%e5%8f%b6%e6%96%af%e5%bb%ba%e6%a8%a1%e6%b1%82%e8%a7%a3>##
+</a>问题回顾和贝叶斯建模求解</div></h3><ul><li>有 3 扇门，其中 1 扇门后面是跑车，另外 2 扇门后面是山羊。</li><li>你选择了一号门后，主持人会打开另外两扇门中有山羊的一扇门。</li><li>在这种情况下，你有一次换门的机会以获得更高价值的奖品，问题是是否应该换门。</li></ul><p>贝叶斯法则（或贝叶斯定理）是一个公式，用来描述在给定证据（E）的情况下，如何更新假设（H）
+是正确的的概率。</p><p>在这个例子中，它描述的是在主持人打开了一扇门，显示是山羊后，更新我们最初选择的门后面有车
+的概率（也就是坚持最初选择是正确的概率）。假设 H 是“1号门后面有车”的假设，E 是主持人展示
+了一扇门后面是山羊的证据。那么，这个问题可以重新表述为计算 P(H∣E)，即在给定 E 的情况下，
+H 成立的条件概率。</p><p>$$
+P(H|E) = \frac{P(E|H) \cdot P(H)}{P(E)} = \frac{P(E|H) \cdot P(H)}{P(E|H) \cdot P(H) + P(E|notH) \cdot P(notH)}
+$$</p><p>其中，</p><ul><li>$P(H)$ 是“1号门后面有车”的先验概率，也就是开始时的三选一情况，这个概率等于$1/3$。</li><li>$P(notH)$ 是“1号门后面有车”的互斥事件，也就是说这个概率等于$1 - 1/3 = 2/3$。</li><li>$P(E|H)$ 是给定1号门后面有车的情况下，主持人打开一扇后面有羊的门的概率。然而主持人一定
+打开后面有羊的门，所以这个概率是$1$。</li><li>$P(E|notH)$ 是给定1号门后面是羊的情况下，主持人打开一扇后面有羊的门的概率。然而主持人
+一定打开后面有羊的门，所以这个概率是$1$。</li></ul><p>综上所述，有：</p><p>$$
+P(H|E) = \frac{1 \times 1/3}{1 \times 1/3 + 1 \times 2/3} = 1/3
+$$</p><p>也就是说，“1号门后面有车”的概率，完全不受到主持人开门事件的影响。但是，鉴于跑车要么在你
+选择的门后面，要么在尚未打开的另一扇门，则后者的概率变成了 $2/3$。所以，如果选择换门则得
+到跑车的概率翻倍。</p><h2 id=变体问题><div><a href=#%e5%8f%98%e4%bd%93%e9%97%ae%e9%a2%98>#
+</a>变体问题</div></h2><p>如果主持人是随机打开一扇门呢？<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>（也就是说：如果随机打开的门后是跑车，游戏结束；否则游戏继续）</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p><a href=https://en.wikipedia.org/wiki/Monty_Hall_problem>https://en.wikipedia.org/wiki/Monty_Hall_problem</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2><p>这句格言出自英国经济学家约翰·梅纳德·凯恩斯（John Maynard Keynes）&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3><p>答案是$1/2$，具体分析看这里：https://brilliant.org/wiki/monty-hall-problem/&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div></article><div class="pagination post-pagination"><div class="left pagination-item disabled"></div><div class="right pagination-item"><a href=/posts/historicalsnippet/2024-09-30-%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/>脑筋急转弯</a></div></div></main><footer class="common-footer noselect"><ul class=language-select><li>Chinese</li><li><a href=/en/>English</a></li></ul><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div style=display:flex;align-items:center></div><div><a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>map[email:1522009317@qq.com name:fmh]</a></p></footer></div></body></html>
