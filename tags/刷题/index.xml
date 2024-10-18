@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>刷题 on fgg blog</title><link>/tags/%E5%88%B7%E9%A2%98/</link><description>fgg blog (刷题)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
-(fmh)</managingEditor><lastBuildDate>Mon, 30 Sep 2024 10:36:43 +0800</lastBuildDate><atom:link href="/tags/%E5%88%B7%E9%A2%98/index.xml" rel="self" type="application/rss+xml"/><item><title>脑筋急转弯</title><link>/posts/historicalsnippet/2024-09-30-%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/</link><pubDate>Mon, 30 Sep 2024 10:36:43 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/historicalsnippet/2024-09-30-%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/</guid><description>&lt;hr>
+(fmh)</managingEditor><lastBuildDate>Fri, 18 Oct 2024 20:10:39 +0800</lastBuildDate><atom:link href="/tags/%E5%88%B7%E9%A2%98/index.xml" rel="self" type="application/rss+xml"/><item><title>刷题之走火入魔解法</title><link>/posts/personals/momentsoflife/2024-10-18-%E5%88%B7%E9%A2%98%E4%B9%8B%E8%B5%B0%E7%81%AB%E5%85%A5%E9%AD%94%E8%A7%A3%E6%B3%95/</link><pubDate>Fri, 18 Oct 2024 20:10:39 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/personals/momentsoflife/2024-10-18-%E5%88%B7%E9%A2%98%E4%B9%8B%E8%B5%B0%E7%81%AB%E5%85%A5%E9%AD%94%E8%A7%A3%E6%B3%95/</guid><description>&lt;p>问题描述：给定一个包含 n + 1 个整数的数组，数字范围在 1 到 n 之间，其中有一个重复的数。
+找出这个重复的数。&lt;/p>
+&lt;p>解法1: 平平无奇的思考结果，我想大部分人都会想到这个解法。&lt;/p>
+&lt;p>相似题目，参考：力扣 645. 错误的集合&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">findDuplicate2&lt;/span>(nums):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> nums_sum &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">sum&lt;/span>(nums)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sets_sum &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff5c57">sum&lt;/span>(&lt;span style="color:#ff5c57">set&lt;/span>(nums))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> nums_sum &lt;span style="color:#ff6ac1">-&lt;/span> sets_sum
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>解法2: 这个解法如果没有个十年脑血栓，恐怕很难会想到把数组元素当成索引来变成链表耍，然后
+还能想到环状链表的环起点是重复的那个元素。&lt;/p>
+&lt;p>相似题目，参考：力扣 LCR 022. 环形链表 II （单链表找环的入口节点）&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">findDuplicate&lt;/span>(nums):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 初始化慢指针和快指针&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> slow &lt;span style="color:#ff6ac1">=&lt;/span> nums[&lt;span style="color:#ff9f43">0&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fast &lt;span style="color:#ff6ac1">=&lt;/span> nums[&lt;span style="color:#ff9f43">0&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 快慢指针移动直到相遇&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">while&lt;/span> &lt;span style="color:#ff6ac1">True&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> slow &lt;span style="color:#ff6ac1">=&lt;/span> nums[slow] &lt;span style="color:#78787e"># 慢指针每次走一步&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fast &lt;span style="color:#ff6ac1">=&lt;/span> nums[nums[fast]] &lt;span style="color:#78787e"># 快指针每次走两步&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> slow &lt;span style="color:#ff6ac1">==&lt;/span> fast:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">break&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 重置一个指针到起点，寻找环的入口&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> slow &lt;span style="color:#ff6ac1">=&lt;/span> nums[&lt;span style="color:#ff9f43">0&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">while&lt;/span> slow &lt;span style="color:#ff6ac1">!=&lt;/span> fast:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> slow &lt;span style="color:#ff6ac1">=&lt;/span> nums[slow]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> fast &lt;span style="color:#ff6ac1">=&lt;/span> nums[fast]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 返回重复的数字&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> slow
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>脑筋急转弯</title><link>/posts/historicalsnippet/2024-09-30-%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/</link><pubDate>Mon, 30 Sep 2024 10:36:43 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/historicalsnippet/2024-09-30-%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/</guid><description>&lt;hr>
 &lt;p>题目描述&lt;br>
 A 和 B 两个人要分苹果。A 希望按照他的计算规则得到平均分配的苹果，而 B 希望在满足 A 的条
 件下获得尽可能多的苹果量。&lt;/p>
