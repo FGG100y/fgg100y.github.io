@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Finetuning on fgg blog</title><link>/tags/finetuning/</link><description>fgg blog (Finetuning)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Sun, 13 Oct 2024 08:16:44 +0800</lastBuildDate><atom:link href="/tags/finetuning/index.xml" rel="self" type="application/rss+xml"/><item><title>finetune_llm</title><link>/posts/resumeessentials/2024-10-13-finetune_llm/</link><pubDate>Sun, 13 Oct 2024 08:16:44 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/resumeessentials/2024-10-13-finetune_llm/</guid><description>&lt;p>简历中提到对模型进行私域数据微调（finetuning）的，要能够说出所以然来。&lt;/p>
+&lt;h2 id="bge-embedding-finetuning" >
+&lt;div>
+&lt;a href="#bge-embedding-finetuning">
+#
+&lt;/a>
+bge-embedding finetuning
+&lt;/div>
+&lt;/h2>
+&lt;ul>
+&lt;li>为什么要微调，要解决什么问题？ 适应和提高模型在下游任务的表现&lt;/li>
+&lt;li>微调和预训练分别指什么？主要区别是什么？ 预训练是“本科阶段学习”，微调是“研究生阶段专研”&lt;/li>
+&lt;li>SBERT是什么？哪些技术可以提高生成嵌入的质量？ SBERT是工具包，主要基于BERT等预训练模型来生成句子级别的嵌入向量&lt;/li>
+&lt;/ul>
+&lt;h3 id="基础知识" >
+&lt;div>
+&lt;a href="#%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86">
+##
+&lt;/a>
+基础知识
+&lt;/div>
+&lt;/h3>
+&lt;blockquote>
+&lt;p>注意BGE使用CLS的表征作为整个句子的表示，如果使用了错误的方式（如mean pooling)会导致效果很差。&lt;/p>
+&lt;/blockquote>
+&lt;h4 id="bge-embedding-模型的使用" >
+&lt;div>
+&lt;a href="#bge-embedding-%e6%a8%a1%e5%9e%8b%e7%9a%84%e4%bd%bf%e7%94%a8">
+###
+&lt;/a>
+BGE-Embedding 模型的使用
+&lt;/div>
+&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> sentence_transformers &lt;span style="color:#ff6ac1">import&lt;/span> SentenceTransformer
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentences_1 &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#5af78e">&amp;#34;样例数据-1&amp;#34;&lt;/span>, &lt;span style="color:#5af78e">&amp;#34;样例数据-2&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentences_2 &lt;span style="color:#ff6ac1">=&lt;/span> [&lt;span style="color:#5af78e">&amp;#34;样例数据-3&amp;#34;&lt;/span>, &lt;span style="color:#5af78e">&amp;#34;样例数据-4&amp;#34;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>model &lt;span style="color:#ff6ac1">=&lt;/span> SentenceTransformer(&lt;span style="color:#5af78e">&amp;#39;BAAI/bge-large-zh-v1.5&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>embeddings_1 &lt;span style="color:#ff6ac1">=&lt;/span> model&lt;span style="color:#ff6ac1">.&lt;/span>encode(sentences_1, normalize_embeddings&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>embeddings_2 &lt;span style="color:#ff6ac1">=&lt;/span> model&lt;span style="color:#ff6ac1">.&lt;/span>encode(sentences_2, normalize_embeddings&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff6ac1">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>similarity &lt;span style="color:#ff6ac1">=&lt;/span> embeddings_1 &lt;span style="color:#ff6ac1">@&lt;/span> embeddings_2&lt;span style="color:#ff6ac1">.&lt;/span>T
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff5c57">print&lt;/span>(similarity)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>原始BERT模型(&lt;a href="https://fgg100y.github.io/posts/resumeessentials/bert%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/">BERT论文精读笔记&lt;/a>)生成的是词级别&lt;/p>
+&lt;p>的嵌入，直接用于句子级别任务时，也只能使用[CLS] token的表征作为整个句子的嵌入向量，可能
+无法很好的捕捉句子的全局语义。（BERT生成带有上下文语义的词嵌入表征）&lt;/p>
+&lt;p>SBERT：专门设计用于句子表示。SBERT 将句子通过 BERT 编码后，通常将输出的所有词的嵌入进行平均池化
+（mean pooling）(也可以使用CLS pooling)，生成一个固定长度的句子级别向量表示。&lt;/p>
+&lt;p>&lt;a href="https://www.sbert.net/docs/sentence_transformer/usage/custom_models.html">Structure of Sentence Transformer Models&lt;/a>&lt;/p>
+&lt;p>A Sentence Transformer model consists of a collection of modules (docs) that are executed sequentially. The most common architecture is a combination of a Transformer module, a Pooling module, and optionally, a Dense module and/or a Normalize module.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Transformer: This module is responsible for processing the input text and generating
+contextualized embeddings.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Pooling: This module reduces the dimensionality of the output from the Transformer
+module by aggregating the embeddings. Common pooling strategies include &lt;strong>mean
+pooling&lt;/strong> and &lt;strong>CLS pooling&lt;/strong>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Dense: This module contains a linear layer that post-processes the embedding output
+from the Pooling module.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Normalize: This module normalizes the embedding from the previous layer.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="一般sbert-模型的使用" >
+&lt;div>
+&lt;a href="#%e4%b8%80%e8%88%acsbert-%e6%a8%a1%e5%9e%8b%e7%9a%84%e4%bd%bf%e7%94%a8">
+###
+&lt;/a>
+一般SBERT 模型的使用
+&lt;/div>
+&lt;/h4>
+&lt;p>For example, the popular all-MiniLM-L6-v2 model can also be loaded by initializing the 3 specific modules that make up that model:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> sentence_transformers &lt;span style="color:#ff6ac1">import&lt;/span> models, SentenceTransformer
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>transformer &lt;span style="color:#ff6ac1">=&lt;/span> models&lt;span style="color:#ff6ac1">.&lt;/span>Transformer(&lt;span style="color:#5af78e">&amp;#34;sentence-transformers/all-MiniLM-L6-v2&amp;#34;&lt;/span>, max_seq_length&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">256&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pooling &lt;span style="color:#ff6ac1">=&lt;/span> models&lt;span style="color:#ff6ac1">.&lt;/span>Pooling(transformer&lt;span style="color:#ff6ac1">.&lt;/span>get_word_embedding_dimension(), pooling_mode&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#34;mean&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>normalize &lt;span style="color:#ff6ac1">=&lt;/span> models&lt;span style="color:#ff6ac1">.&lt;/span>Normalize()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>model &lt;span style="color:#ff6ac1">=&lt;/span> SentenceTransformer(modules&lt;span style="color:#ff6ac1">=&lt;/span>[transformer, pooling, normalize])
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="数据格式" >
+&lt;div>
+&lt;a href="#%e6%95%b0%e6%8d%ae%e6%a0%bc%e5%bc%8f">
+##
+&lt;/a>
+数据格式
+&lt;/div>
+&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-json" data-lang="json">&lt;span style="display:flex;">&lt;span>{&lt;span style="color:#ff6ac1">&amp;#34;query&amp;#34;&lt;/span>: &lt;span style="color:#ff5c57">str&lt;/span>, &lt;span style="color:#ff6ac1">&amp;#34;pos&amp;#34;&lt;/span>: &lt;span style="color:#ff5c57">List&lt;/span>[&lt;span style="color:#ff5c57">str&lt;/span>], &lt;span style="color:#ff6ac1">&amp;#34;neg&amp;#34;&lt;/span>:&lt;span style="color:#ff5c57">List&lt;/span>[&lt;span style="color:#ff5c57">str&lt;/span>]}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>doc：如果没有负样本，可以从语料库随机抽取样本作为负样本。&lt;/p>
+&lt;/blockquote>
+&lt;p>用私域数据进行微调，是因为选用的开源模型是基础款，对任务领域的数据的表征能力不足（区分度
+不满足任务需求）。&lt;/p>
+&lt;p>构建正负样本的实际操作：
+预处理：对各个问题类别（上报时选的类别）进行样本分组（如：工业污染、排水设施问题、生活垃圾等等）。
+因为存在上报质量问题，因此对各个类别中不相符的样本进行手动过滤。&lt;/p>
+&lt;ul>
+&lt;li>正样本：某问题类别样本； （句子意义相近的句子）&lt;/li>
+&lt;li>负样本：其他问题类别样本。 （意义不相关的句子）&lt;/li>
+&lt;/ul>
+&lt;h3 id="hard-negatives-方法" >
+&lt;div>
+&lt;a href="#hard-negatives-%e6%96%b9%e6%b3%95">
+##
+&lt;/a>
+Hard Negatives 方法
+&lt;/div>
+&lt;/h3>
+&lt;p>Hard Negative 是指那些与输入句子在表面上非常相似但实际含义相差较大的句子。因为它们很难被
+模型区分，所以在训练中使用这些难区分的负样本可以促使模型学习到更细致的语义差异。&lt;/p>
+&lt;p>降低过拟合和增加泛化能力：通过Hard Negative样本的对抗，模型需要学会捕捉更细腻的语义信息，
+从而提高在实际应用中的表现，尤其是在对相似句子的区分能力上。&lt;/p>
+&lt;p>如何获取“困难负样本”？在FAISS检索结果中筛选。&lt;/p></description></item></channel></rss>

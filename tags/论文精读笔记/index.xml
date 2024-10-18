@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>论文精读笔记 on fgg blog</title><link>/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/</link><description>fgg blog (论文精读笔记)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Sun, 13 Oct 2024 10:16:01 +0800</lastBuildDate><atom:link href="/tags/%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>BERT模型论文精读笔记</title><link>/posts/resumeessentials/bert%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/</link><pubDate>Sun, 13 Oct 2024 10:16:01 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/resumeessentials/bert%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid><description>&lt;p>(李沐-BERT论文精读的个人整理笔记)&lt;/p>
+&lt;p>BERT论文标题:
+&lt;ruby>Pre-training&lt;rt>预训练&lt;/rt>&lt;/ruby> of
+&lt;ruby>Deep Bidirectional Transformers&lt;rt>深度双向Transformer&lt;/rt>&lt;/ruby> for
+&lt;ruby>Language Understanding&lt;rt>语言理解&lt;/rt>&lt;/ruby>&lt;/p>
+&lt;pre>&lt;code>预训练(pre-training)：先在一个大的数据集上训练一个模型(从零开始得到一组权重值W0)，这个模
+型的主要任务是被用在其他任务（或下游任务上）进行训练(training：以W0初始化模型然后训练)
+（以解决下游任务问题）。
+&lt;/code>&lt;/pre>
+&lt;p>BERT本身含义：Bidirectional Encoder Representations from Transformer，使用了 Transformers 模
+型(&lt;a href="./Transformer%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/index.md">Transformer论文精读&lt;/a>)的编码编码器组件，学习一个双向的嵌入表示。与 ELMo 和 Generative Pre-trained Transformer 不同：&lt;/p>
+&lt;ul>
+&lt;li>BERT 从无标注的文本中（jointly conditioning 联合左右的上下文信息）预训练词嵌入的双向表征。&lt;/li>
+&lt;li>pre-trained BERT 可以通过加一个输出层来 fine-tune，不需要对特定任务的做架构上的修改就
+可以在在很多任务（问答、推理）有很不错的、state-of-the-art 的效果&lt;/li>
+&lt;li>GPT unidirectional，使用左边的上下文信息预测未来；BERT bidirectional，使用左右侧的上下文信息&lt;/li>
+&lt;li>ELMo based on RNNs, down-stream 任务需要调整架构&lt;/li>
+&lt;li>GPT, based on Transformers decoder, down-stream 任务只需要改最上层&lt;/li>
+&lt;li>BERT based on Transformers encoder, down-stream 任务只需要调整最上层&lt;/li>
+&lt;/ul>
+&lt;p>NLP 任务主要分两类：&lt;/p>
+&lt;ul>
+&lt;li>sentence-level tasks 句子级别的任务——情绪识别、语句相似计算、语义检索等；&lt;/li>
+&lt;li>token-level tasks 词级别的人物——NER (人名、街道名) 需要 fine-grained output&lt;/li>
+&lt;/ul>
+&lt;p>标准语言模型是 unidirectional 单向的，基于神经网络的 ELMo 和 GPT 也都是单向的，就是从左
+到右的架构，只能将输入的一个句子从左看到右，然后是预测下一个单词/词元。然而一些语言理解
+任务，比如情感分类、QA，则从左看到右、从右看到左 都应该是合法的。如果能从两个方向看信息，
+能提升模型解决这类任务的性能。&lt;/p>
+&lt;p>BERT 通过 MLM(Masked language model) 带掩码的语言模型 作为预训练的目标，来减轻标准语言模
+型的单向约束：&lt;/p>
+&lt;p>MLM 带掩码的语言模型做什么呢？
+每次随机选输入的词源 tokens, 然后 mask 它们，目标函数是预测被 masked 的词；类似挖空
+填词、完形填空。&lt;/p>
+&lt;p>BERT 除了 MLM 还有什么？
+NSP: next sentence prediction
+判断两个句子是随机采样的 or 原文相邻，学习 sentence-level 的信息&lt;/p>
+&lt;p>总的来说：
+ELMo 用了 bidirectional 信息，但架构是 RNN 比较老（无法并行计算）；
+GPT 架构 Transformer 新（注意力机制大法好），但只用了 unidirectional 信息；
+BERT = ELMo 的 bidirectional 信息 + GPT 的新架构 transformer。
+毕竟语言任务很多并不是预测未来，而是完形填空。BERT结合这俩，并证明双向有用。&lt;/p>
+&lt;h2 id="bert-模型" >
+&lt;div>
+&lt;a href="#bert-%e6%a8%a1%e5%9e%8b">
+#
+&lt;/a>
+BERT 模型
+&lt;/div>
+&lt;/h2>
+&lt;p>BERT 有两个任务：预训练 + 微调&lt;/p>
+&lt;p>pre-training: 使用 unlabeled data 训练&lt;/p>
+&lt;p>fine-tuning: 采用 Bert 模型，但是权重都是预训练期间得到的&lt;/p>
+&lt;ul>
+&lt;li>所有权重在微调的时候都会参与训练，用的是有标记的数据、&lt;/li>
+&lt;li>每一个下游任务都会常见一个 新的 BERT 模型，（由预训练参数初始化），但每一个下游任务会
+根据自己任务的 labeled data 来微调自己的 BERT 模型&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img alt="IMG_BERT" src="https://fgg100y.github.io/posts/resumeessentials/bert%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/images/BERT_Pretrain_Finetune.png">&lt;/p>
+&lt;p>下游任务：创建同样的 BERT 的模型，权重的初始化值来自于 预训练好 的权重。&lt;/p>
+&lt;p>MNLI, NER, SQuAD 下游任务有 自己的 labeled data, 对 BERT 继续训练，得到各个下游任务自己
+的的 BERT 版本&lt;/p>
+&lt;h3 id="模型架构主要调了三个参数" >
+&lt;div>
+&lt;a href="#%e6%a8%a1%e5%9e%8b%e6%9e%b6%e6%9e%84%e4%b8%bb%e8%a6%81%e8%b0%83%e4%ba%86%e4%b8%89%e4%b8%aa%e5%8f%82%e6%95%b0">
+##
+&lt;/a>
+模型架构，主要调了三个参数：
+&lt;/div>
+&lt;/h3>
+&lt;ul>
+&lt;li>L: transform blocks 的个数&lt;/li>
+&lt;li>H: hidden size 隐藏层大小&lt;/li>
+&lt;li>A: 自注意力机制 multi-head 中 head 头的个数&lt;/li>
+&lt;/ul>
+&lt;p>主要两个 size：&lt;/p>
+&lt;ul>
+&lt;li>调了 BERT_BASE （学习 1 亿参数，L=12, H=768, A=12）&lt;/li>
+&lt;li>BERT_LARGE（3.4 亿参数, L=24, H=1024, A=16）&lt;/li>
+&lt;/ul>
+&lt;h3 id="模型输入输出" >
+&lt;div>
+&lt;a href="#%e6%a8%a1%e5%9e%8b%e8%be%93%e5%85%a5%e8%be%93%e5%87%ba">
+##
+&lt;/a>
+模型输入输出：
+&lt;/div>
+&lt;/h3>
+&lt;ul>
+&lt;li>WordPiece 分词（tokenization）&lt;/li>
+&lt;li>输入序列构成：
+&lt;ul>
+&lt;li>[CLS], [SEP]：特殊词元&lt;/li>
+&lt;li>序列开头永远是[CLS]，self-attn保证每个token都能联系到其他所有token&lt;/li>
+&lt;li>第一个句子后是[SEP]，用于区分两个句子&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img alt="IMG_BERT_IO" src="https://fgg100y.github.io/posts/resumeessentials/bert%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/images/BERT_pretrain_io.png">&lt;/p>
+&lt;p>预训练整体过程：&lt;/p>
+&lt;ol>
+&lt;li>每一个 token 进入 BERT 得到 这个 token 的 embedding 表示。&lt;/li>
+&lt;li>整体进 BERT 然后输出一个结果序列
+&lt;ul>
+&lt;li>最后一个 transformer 块的输出，表示 这个词元 token 的 BERT 的表示。在后面再添加额
+外的输出层，来得到特定任务想要的结果&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img alt="IMG_input_emb" src="https://fgg100y.github.io/posts/resumeessentials/bert%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/images/BERT_input_embedding.png">&lt;/p>
+&lt;p>在预训练第一步中得到token的embedding的过程：&lt;/p>
+&lt;ul>
+&lt;li>给定一个词元（token）&lt;/li>
+&lt;li>BERT input representation = token 本身的表示 + segment 句子的表示 + position embedding
+位置表示
+&lt;ul>
+&lt;li>token embedding：每一个 token 有对应的词向量&lt;/li>
+&lt;li>Segment：即到底是 A 句还是 B 句，通过学习得到&lt;/li>
+&lt;li>Position：是 token 在这个序列 sequence 中的位置信息。从 0 开始 1 2 3 4 -&amp;gt; N。其最
+终值也是通过学习得到的（transformer 是给定的）&lt;/li>
+&lt;li>加起来的话每个向量的信息就会组合在一起&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>从【一个词元的序列】得到【一个向量的序列】，最终可以进入 transformer 块&lt;/li>
+&lt;/ul>
+&lt;h3 id="动态掩码策略" >
+&lt;div>
+&lt;a href="#%e5%8a%a8%e6%80%81%e6%8e%a9%e7%a0%81%e7%ad%96%e7%95%a5">
+##
+&lt;/a>
+动态掩码策略：
+&lt;/div>
+&lt;/h3>
+&lt;p>BERT 模型中的 MLM（Masked Language Model） 任务确实引入了一个问题：在预训练阶段，输入序
+列中的 15% 的单词被替换为 [MASK]，而在微调阶段，模型接收的是完整的自然语言句子，不再有
+[MASK] 标记。因此，预训练和微调阶段模型看到的数据分布不一致，这可能会影响微调阶段模型的
+表现。&lt;/p>
+&lt;p>为了解决这个问题，BERT 设计中采取了一些措施：&lt;/p>
+&lt;p>BERT 的设计者意识到了这个问题，因此在预训练的过程中引入了一种动态掩码策略。虽然 15% 的单
+词被标记为需要预测的目标，但并不是所有这些单词都被替换为 [MASK]，具体的处理方式是：&lt;/p>
+&lt;pre>&lt;code>80% 的情况下：将目标单词替换为 [MASK]。
+10% 的情况下：将目标单词替换为一个随机的其他单词。
+10% 的情况下：保持目标单词不变。
+&lt;/code>&lt;/pre>
+&lt;p>这种设计的目的是让模型不仅仅习惯于看到 [MASK] 标记，还可以在预训练时学到更多关于真实单词
+的上下文信息。通过这种混合策略，BERT 能够学会在存在 [MASK] 标记时预测缺失单词，同时也能
+应对训练过程中未出现 [MASK] 的情况。&lt;/p>
+&lt;h2 id="损失函数" >
+&lt;div>
+&lt;a href="#%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0">
+#
+&lt;/a>
+损失函数
+&lt;/div>
+&lt;/h2>
+&lt;p>在 BERT 的预训练阶段，主要有两个任务，它们的损失函数与这两个任务紧密相关：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>MLM任务中，模型的目标是根据上下文预测被随机掩盖（15%）的单词。这个任务的损失函数是交叉
+熵损失函数（cross-entropy loss），它用来衡量模型预测的单词与真实单词之间的差距。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>NSP任务中，模型的目标是判断两个句子之间是否具有逻辑上的连续性，即模型要预测第二个句子
+是否是第一个句子的下一个句子。NSP 任务同样使用交叉熵损失函数，用于计算模型预测的二分类
+结果（连续/不连续）与真实标签之间的误差。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>因此，预训练阶段的总损失函数是 MLM 和 NSP 损失函数的加权和，模型通过这个损失函数学习到上
+下文的语言信息。&lt;/p>
+&lt;p>在微调阶段，BERT 不再使用 MLM 或 NSP 任务，而是根据具体的下游任务定义新的损失函数。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>文本分类任务（如情感分析）：
+微调阶段的文本分类任务通常基于 [CLS] token 的输出，使用这个向量来预测类别。此时的损
+失函数依然是交叉熵损失函数，用于计算模型预测的类别分布与真实类别之间的差异。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>序列标注任务（如命名实体识别 NER）：
+在序列标注任务中，BERT 的每个 token 会被映射到一个标签，这类任务的损失函数也是交叉熵
+损失，但它是针对每个 token 预测结果和实际标签之间的差异计算的。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>问答任务（如 SQuAD）：
+在问答任务中，BERT 会生成两个标量，一个表示答案的起始位置，另一个表示答案的结束位置。
+对于这些位置预测，同样使用交叉熵损失函数。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>因此，微调阶段的损失函数完全取决于具体任务的性质，通常会选择合适的损失函数来优化任务的最终目标，而不再使用 MLM 和 NSP 的损失。&lt;/p></description></item></channel></rss>
