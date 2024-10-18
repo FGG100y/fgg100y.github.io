@@ -8,34 +8,34 @@ $$&lt;/p>
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align: left">Symbol&lt;/th>
-&lt;th style="text-align: left">Description&lt;/th>
+&lt;th>Symbol&lt;/th>
+&lt;th>Description&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align: left">M&lt;/td>
-&lt;td style="text-align: left">GPU memory expressed in Gigabyte&lt;/td>
+&lt;td>M&lt;/td>
+&lt;td>GPU memory expressed in Gigabyte&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">P&lt;/td>
-&lt;td style="text-align: left">The amount of parameters in the model. E.g. a 7B model has 7 billion parameters.&lt;/td>
+&lt;td>P&lt;/td>
+&lt;td>The amount of parameters in the model. E.g. a 7B model has 7 billion parameters.&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">4B&lt;/td>
-&lt;td style="text-align: left">4 bytes, expressing the bytes used for each parameter&lt;/td>
+&lt;td>4B&lt;/td>
+&lt;td>4 bytes, expressing the bytes used for each parameter&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">32&lt;/td>
-&lt;td style="text-align: left">There are 32 bits in 4 bytes&lt;/td>
+&lt;td>32&lt;/td>
+&lt;td>There are 32 bits in 4 bytes&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">Q&lt;/td>
-&lt;td style="text-align: left">The amount of bits that should be used for loading the model. E.g. 16 bits, 8 bits or 4 bits.&lt;/td>
+&lt;td>Q&lt;/td>
+&lt;td>The amount of bits that should be used for loading the model. E.g. 16 bits, 8 bits or 4 bits.&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">1.2&lt;/td>
-&lt;td style="text-align: left">Represents a 20% overhead of loading additional things in GPU memory.&lt;/td>
+&lt;td>1.2&lt;/td>
+&lt;td>Represents a 20% overhead of loading additional things in GPU memory.&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>

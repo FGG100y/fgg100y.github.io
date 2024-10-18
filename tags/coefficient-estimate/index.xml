@@ -257,34 +257,34 @@ Table 1. Data on Hooke's law.
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align: left">Weight (kg)&lt;/th>
-&lt;th style="text-align: left">Length (cm)&lt;/th>
+&lt;th>Weight (kg)&lt;/th>
+&lt;th>Length (cm)&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align: left">0&lt;/td>
-&lt;td style="text-align: left">439.00&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>439.00&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">2&lt;/td>
-&lt;td style="text-align: left">439.12&lt;/td>
+&lt;td>2&lt;/td>
+&lt;td>439.12&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">4&lt;/td>
-&lt;td style="text-align: left">439.21&lt;/td>
+&lt;td>4&lt;/td>
+&lt;td>439.21&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">6&lt;/td>
-&lt;td style="text-align: left">439.31&lt;/td>
+&lt;td>6&lt;/td>
+&lt;td>439.31&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">8&lt;/td>
-&lt;td style="text-align: left">439.40&lt;/td>
+&lt;td>8&lt;/td>
+&lt;td>439.40&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">10&lt;/td>
-&lt;td style="text-align: left">439.50&lt;/td>
+&lt;td>10&lt;/td>
+&lt;td>439.50&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>

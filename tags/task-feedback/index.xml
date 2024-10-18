@@ -3,31 +3,31 @@
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align: left">Task&lt;/th>
-&lt;th style="text-align: left">High-effectiveness environment&lt;/th>
-&lt;th style="text-align: left">Low-effectiveness environment&lt;/th>
+&lt;th>Task&lt;/th>
+&lt;th>High-effectiveness environment&lt;/th>
+&lt;th>Low-effectiveness environment&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align: left">Testing if code changes worked as expected&lt;/td>
-&lt;td style="text-align: left">Automated testing (~ seconds to minutes)&lt;/td>
-&lt;td style="text-align: left">Manual testing (~ minutes to hours)&lt;/td>
+&lt;td>Testing if code changes worked as expected&lt;/td>
+&lt;td>Automated testing (~ seconds to minutes)&lt;/td>
+&lt;td>Manual testing (~ minutes to hours)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">Testing if training pipeline works end to end&lt;/td>
-&lt;td style="text-align: left">Training smoke test (~ 1 minute)&lt;/td>
-&lt;td style="text-align: left">Full model training (~ minutes to hours, depending on model architecture)&lt;/td>
+&lt;td>Testing if training pipeline works end to end&lt;/td>
+&lt;td>Training smoke test (~ 1 minute)&lt;/td>
+&lt;td>Full model training (~ minutes to hours, depending on model architecture)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">Getting feedback on code changes&lt;/td>
-&lt;td style="text-align: left">Pair programming (~ seconds to minutes)&lt;/td>
-&lt;td style="text-align: left">Pull request reivews (~ hours to days)&lt;/td>
+&lt;td>Getting feedback on code changes&lt;/td>
+&lt;td>Pair programming (~ seconds to minutes)&lt;/td>
+&lt;td>Pull request reivews (~ hours to days)&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">Understanding if application is working as expected in production&lt;/td>
-&lt;td style="text-align: left">Monitoring in production (~ seconds - as it happens)&lt;/td>
-&lt;td style="text-align: left">Customer complaints (~ days, or longer if not directly reported)&lt;/td>
+&lt;td>Understanding if application is working as expected in production&lt;/td>
+&lt;td>Monitoring in production (~ seconds - as it happens)&lt;/td>
+&lt;td>Customer complaints (~ days, or longer if not directly reported)&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>

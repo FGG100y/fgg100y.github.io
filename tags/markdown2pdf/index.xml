@@ -68,34 +68,34 @@ table rendering testing
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align: left">&lt;/th>
-&lt;th style="text-align: left">time&lt;/th>
-&lt;th style="text-align: left">describe&lt;/th>
-&lt;th style="text-align: left">s2c&lt;/th>
-&lt;th style="text-align: left">w2c&lt;/th>
+&lt;th>&lt;/th>
+&lt;th>time&lt;/th>
+&lt;th>describe&lt;/th>
+&lt;th>s2c&lt;/th>
+&lt;th>w2c&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align: left">80891&lt;/td>
-&lt;td style="text-align: left">2022-03-21&lt;/td>
-&lt;td style="text-align: left">xx区xxxxxxxxx南路南十三巷6号旁，一暗渠直排污水至雨水沟，水质浑浊，气味难闻，底部&amp;hellip;&lt;/td>
-&lt;td style="text-align: left">H&lt;/td>
-&lt;td style="text-align: left">L&lt;/td>
+&lt;td>80891&lt;/td>
+&lt;td>2022-03-21&lt;/td>
+&lt;td>xx区xxxxxxxxx南路南十三巷6号旁，一暗渠直排污水至雨水沟，水质浑浊，气味难闻，底部&amp;hellip;&lt;/td>
+&lt;td>H&lt;/td>
+&lt;td>L&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">9191&lt;/td>
-&lt;td style="text-align: left">2020-10-07&lt;/td>
-&lt;td style="text-align: left">河段康陂路5号往上游900米河床有漂浮物,排出污水&lt;/td>
-&lt;td style="text-align: left">H&lt;/td>
-&lt;td style="text-align: left">L&lt;/td>
+&lt;td>9191&lt;/td>
+&lt;td>2020-10-07&lt;/td>
+&lt;td>河段康陂路5号往上游900米河床有漂浮物,排出污水&lt;/td>
+&lt;td>H&lt;/td>
+&lt;td>L&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align: left">765&lt;/td>
-&lt;td style="text-align: left">2022-05-10&lt;/td>
-&lt;td style="text-align: left">蔗基水闸口有大量漂浮物和死鱼&lt;/td>
-&lt;td style="text-align: left">L&lt;/td>
-&lt;td style="text-align: left">H&lt;/td>
+&lt;td>765&lt;/td>
+&lt;td>2022-05-10&lt;/td>
+&lt;td>蔗基水闸口有大量漂浮物和死鱼&lt;/td>
+&lt;td>L&lt;/td>
+&lt;td>H&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
