@@ -40,12 +40,18 @@
 </span></span><span style=display:flex><span>    greater <span style=color:#ff6ac1>=</span> [x <span style=color:#ff6ac1>for</span> x <span style=color:#ff6ac1>in</span> arr[:<span style=color:#ff6ac1>-</span><span style=color:#ff9f43>1</span>] <span style=color:#ff6ac1>if</span> x <span style=color:#ff6ac1>&gt;</span> pivot]
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    <span style=color:#ff6ac1>return</span> quick_sort(less) <span style=color:#ff6ac1>+</span> [pivot] <span style=color:#ff6ac1>+</span> quick_sort(greater)
-</span></span></code></pre></div><p>Ier：您这个实现看起来挺简洁嘛，说说看这么做有什么不足的地方？最差情况是什么？
-Iee：嗯，您是指，啊，对了，嗯（笑容逐渐凝固.gif，磨磨叽叽假装思考&mldr;）
-Ier: 我是指您代码里使用了额外的存储空间，<code>less</code> 和 <code>greater</code>，可以不用它们吗？
+</span></span></code></pre></div><pre><code>Ier：您这个实现看起来挺简洁嘛，说说看这么做有什么不足的地方？最差情况是什么？
+
+Iee：嗯，您是指，啊，对了，嗯（笑容逐渐凝固.gif，磨磨叽叽假装思考...）
+
+Ier: 我是指您代码里使用了额外的存储空间，`less` 和 `greater`，可以不用它们吗？
+
 Iee：哦，您是指要对数组进行原地分区吗？（那些追求速度和基情的编程语言通常都是原地操作：应该是问这个吧？）
+
 Ier: 对。
-Iee：（心里嘀咕，就是怕那个 <code>partition()</code> 函数，怕啥来啥是吧:(，墨菲）</p><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>quick_sort</span>(arr):
+
+Iee：（心里嘀咕，就是怕那个 `partition()` 函数，怕啥来啥是吧:(，墨菲）
+</code></pre><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>quick_sort</span>(arr):
 </span></span><span style=display:flex><span>    <span style=color:#ff6ac1>if</span> <span style=color:#ff5c57>len</span>(arr) <span style=color:#ff6ac1>&lt;=</span> <span style=color:#ff9f43>1</span>:
 </span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> arr
 </span></span><span style=display:flex><span>    low, high <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>0</span>, <span style=color:#ff5c57>len</span>(arr)<span style=color:#ff6ac1>-</span><span style=color:#ff9f43>1</span>
@@ -66,12 +72,18 @@ Iee：（心里嘀咕，就是怕那个 <code>partition()</code> 函数，怕啥
 </span></span><span style=display:flex><span>            arr[i], arr[j] <span style=color:#ff6ac1>=</span> arr[j], arr[i]
 </span></span><span style=display:flex><span>    arr[i<span style=color:#ff6ac1>+</span><span style=color:#ff9f43>1</span>], arr[high] <span style=color:#ff6ac1>=</span> arr[high], arr[i <span style=color:#ff6ac1>+</span> <span style=color:#ff9f43>1</span>]
 </span></span><span style=display:flex><span>    <span style=color:#ff6ac1>return</span> i<span style=color:#ff6ac1>+</span><span style=color:#ff9f43>1</span>
-</span></span></code></pre></div><p>Ier: 嗯，好。您的pivot是怎么选择的啊？
+</span></span></code></pre></div><pre><code>Ier: 嗯，好。您的pivot是怎么选择的啊？
+
 Iee：我是选了数组的最后一个元素。
+
 Ier：嗯，那我有个问题请教一下，如果最后一个元素恰好是最大值或最小值的话，会怎么样？
+
 Iee：（是啊，我也不太理解为什么这么草率地用最后一个元素呢？）嗯，啊，这个，应该是会导致分区效果不好吧。
+
 Ier: 那还可以优化吗？
-Iee：随机选择一个元素作为pivot？</p></div><div class="post-info noselect"><div class="post-date dt-published"><time datetime=2024-10-18>2024-10-18</time></div><a class="post-hidden-url u-url" href=/posts/personals/momentsoflife/2024-10-18-%E8%B5%B7%E4%BA%8E%E5%BF%AB%E6%8E%92%E7%BB%88%E4%BA%8E%E5%85%A8%E5%B1%80%E8%A7%A3%E9%87%8A%E5%99%A8%E9%94%81/>/posts/personals/momentsoflife/2024-10-18-%E8%B5%B7%E4%BA%8E%E5%BF%AB%E6%8E%92%E7%BB%88%E4%BA%8E%E5%85%A8%E5%B1%80%E8%A7%A3%E9%87%8A%E5%99%A8%E9%94%81/</a>
+
+Iee：随机选择一个元素作为pivot？
+</code></pre><p>好，要的就是这个“随机选择“。（顺便结束面试拷打模拟：)</p></div><div class="post-info noselect"><div class="post-date dt-published"><time datetime=2024-10-18>2024-10-18</time></div><a class="post-hidden-url u-url" href=/posts/personals/momentsoflife/2024-10-18-%E8%B5%B7%E4%BA%8E%E5%BF%AB%E6%8E%92%E7%BB%88%E4%BA%8E%E5%85%A8%E5%B1%80%E8%A7%A3%E9%87%8A%E5%99%A8%E9%94%81/>/posts/personals/momentsoflife/2024-10-18-%E8%B5%B7%E4%BA%8E%E5%BF%AB%E6%8E%92%E7%BB%88%E4%BA%8E%E5%85%A8%E5%B1%80%E8%A7%A3%E9%87%8A%E5%99%A8%E9%94%81/</a>
 <a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>map[email:1522009317@qq.com name:fmh]</a><div class=post-taxonomies><ul class=post-tags><li><a href=/tags/quick-sort/>#Quick Sort</a></li><li><a href=/tags/pseudo-random-number/>#Pseudo-Random Number</a></li><li><a href=/tags/gil/>#GIL</a></li></ul></div></div></article><article class="post-list h-feed post-card"><div class=post-header><header><h1 class="p-name post-title"><a class=u-url href=/posts/historicalsnippet/2024-10-16-%E6%9E%84%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/>构建二叉树</a></h1></header></div><div class="content post-summary p-summary"><h2 id=刷题和刷题的副作用><div><a href=#%e5%88%b7%e9%a2%98%e5%92%8c%e5%88%b7%e9%a2%98%e7%9a%84%e5%89%af%e4%bd%9c%e7%94%a8>#
 </a>刷题和刷题的副作用</div></h2><p>我在刷题的时候，很搞笑，是先接触到对二叉树进行各种骚操作。意思是说，牛客或者力扣这些平台
 已经默认给你的就是一棵二叉树，你只需要完成诸如前中后序各种遍历二叉树节点的算法。如果你对

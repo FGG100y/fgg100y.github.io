@@ -50,12 +50,13 @@
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> greater &lt;span style="color:#ff6ac1">=&lt;/span> [x &lt;span style="color:#ff6ac1">for&lt;/span> x &lt;span style="color:#ff6ac1">in&lt;/span> arr[:&lt;span style="color:#ff6ac1">-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>] &lt;span style="color:#ff6ac1">if&lt;/span> x &lt;span style="color:#ff6ac1">&amp;gt;&lt;/span> pivot]
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> quick_sort(less) &lt;span style="color:#ff6ac1">+&lt;/span> [pivot] &lt;span style="color:#ff6ac1">+&lt;/span> quick_sort(greater)
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Ier：您这个实现看起来挺简洁嘛，说说看这么做有什么不足的地方？最差情况是什么？
-Iee：嗯，您是指，啊，对了，嗯（笑容逐渐凝固.gif，磨磨叽叽假装思考&amp;hellip;）
-Ier: 我是指您代码里使用了额外的存储空间，&lt;code>less&lt;/code> 和 &lt;code>greater&lt;/code>，可以不用它们吗？
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>&lt;code>Ier：您这个实现看起来挺简洁嘛，说说看这么做有什么不足的地方？最差情况是什么？
+Iee：嗯，您是指，啊，对了，嗯（笑容逐渐凝固.gif，磨磨叽叽假装思考...）
+Ier: 我是指您代码里使用了额外的存储空间，`less` 和 `greater`，可以不用它们吗？
 Iee：哦，您是指要对数组进行原地分区吗？（那些追求速度和基情的编程语言通常都是原地操作：应该是问这个吧？）
 Ier: 对。
-Iee：（心里嘀咕，就是怕那个 &lt;code>partition()&lt;/code> 函数，怕啥来啥是吧:(，墨菲）&lt;/p>
+Iee：（心里嘀咕，就是怕那个 `partition()` 函数，怕啥来啥是吧:(，墨菲）
+&lt;/code>&lt;/pre>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">quick_sort&lt;/span>(arr):
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(arr) &lt;span style="color:#ff6ac1">&amp;lt;=&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> arr
@@ -77,13 +78,14 @@ Iee：（心里嘀咕，就是怕那个 &lt;code>partition()&lt;/code> 函数，
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> arr[i], arr[j] &lt;span style="color:#ff6ac1">=&lt;/span> arr[j], arr[i]
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> arr[i&lt;span style="color:#ff6ac1">+&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>], arr[high] &lt;span style="color:#ff6ac1">=&lt;/span> arr[high], arr[i &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>]
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> i&lt;span style="color:#ff6ac1">+&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Ier: 嗯，好。您的pivot是怎么选择的啊？
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>&lt;code>Ier: 嗯，好。您的pivot是怎么选择的啊？
 Iee：我是选了数组的最后一个元素。
 Ier：嗯，那我有个问题请教一下，如果最后一个元素恰好是最大值或最小值的话，会怎么样？
 Iee：（是啊，我也不太理解为什么这么草率地用最后一个元素呢？）嗯，啊，这个，应该是会导致分区效果不好吧。
 Ier: 那还可以优化吗？
-Iee：随机选择一个元素作为pivot？&lt;/p>
-&lt;p>好，要的就是这个“随机选择“。（随便结束拷打模拟：)&lt;/p>
+Iee：随机选择一个元素作为pivot？
+&lt;/code>&lt;/pre>
+&lt;p>好，要的就是这个“随机选择“。（顺便结束面试拷打模拟：)&lt;/p>
 &lt;p>（其实我是在看洗牌算法的时候看到&lt;code>random.randint()&lt;/code>这个函数突然想起的快速排序算法里未完成的故事，不过这个无关紧要）&lt;/p>
 &lt;h2 id="伪随机数生成器-pseudo-random-number-generator-prnghttpsenwikipediaorgwikipseudorandom_number_generator" >
 &lt;div>
