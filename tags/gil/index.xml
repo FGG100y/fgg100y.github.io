@@ -55,7 +55,10 @@ Ier: 那还可以优化吗？
 Iee：随机选择一个元素作为pivot？
 &lt;/code>&lt;/pre>
 &lt;p>好，要的就是这个“随机选择“。（顺便结束面试拷打模拟：)&lt;/p>
-&lt;p>（其实我是在看洗牌算法的时候看到&lt;code>random.randint()&lt;/code>这个函数突然想起的快速排序算法里未完成的故事，不过这个无关紧要）&lt;/p>
+&lt;p>我想你可能已经知道在快排里怎么引入随机pivot（不用怀疑，就是调用&lt;code>random.choice()&lt;/code>）或选择
+实现更好的pivot策略，比如三数取中法&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>。&lt;/p>
+&lt;p>（其实我是在看洗牌算法的时候看到&lt;code>random.randint()&lt;/code>这个函数突然想起的快速排序算法里未完成
+的故事，不过这个无关紧要，接着看看random这个令人好奇的玩具：）&lt;/p>
 &lt;h2 id="伪随机数生成器-pseudo-random-number-generator-prnghttpsenwikipediaorgwikipseudorandom_number_generator" >
 &lt;div>
 &lt;a href="#%e4%bc%aa%e9%9a%8f%e6%9c%ba%e6%95%b0%e7%94%9f%e6%88%90%e5%99%a8-pseudo-random-number-generator-prnghttpsenwikipediaorgwikipseudorandom_number_generator">
@@ -94,7 +97,7 @@ Iee：随机选择一个元素作为pivot？
 一壶的了。&lt;/p>
 &lt;p>然后就被“threadsafe&amp;quot;击中，一来这个概念在我确实是一知半解，二来关于线程的问题确实被面试官
 问过，三来相比其他概念，这个可能更接近我能够实际接触的概念范围。所以，这时我已经无暇顾及
-random到底如何伪random起来了（内容太多时间太紧不能DFS&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>这些东西），而是想知道什么是线
+random到底如何伪random起来了（内容太多时间太紧不能DFS&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>这些东西），而是想知道什么是线
 程安全，它跟所谓的GIL有什么关系。&lt;/p>
 &lt;h2 id="线程安全thread-safty与全局解释器锁gil" >
 &lt;div>
@@ -242,11 +245,21 @@ GIL 确保引用计数在多线程环境下不会出错。&lt;/p>
 &lt;/li>
 &lt;/ul>
 &lt;p>好了，学海无涯，让我们荡起双桨:)&lt;/p>
-&lt;div class="footnotes" role="doc-endnotes">
+&lt;p>后记：补一个三数取中法的实现：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">median_of_three&lt;/span>(arr, low, high):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> mid &lt;span style="color:#ff6ac1">=&lt;/span> (low &lt;span style="color:#ff6ac1">+&lt;/span> high) &lt;span style="color:#ff6ac1">//&lt;/span> &lt;span style="color:#ff9f43">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pivot_candidates &lt;span style="color:#ff6ac1">=&lt;/span> [arr[low], arr[mid], arr[high]]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pivot_candidates&lt;span style="color:#ff6ac1">.&lt;/span>sort()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> pivot_candidates[&lt;span style="color:#ff9f43">1&lt;/span>]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
 &lt;li id="fn:1">
-&lt;p>Depth First Search, 深度优先搜索。&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>三数取中法（Median-of-Three）：选择第一个元素、最后一个元素和中间元素中的中位数作
+为枢轴，这样可以减少出现最坏情况的几率。&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>Depth First Search, 深度优先搜索。&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/div></description></item></channel></rss>
