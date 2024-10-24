@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>简笔画 on fgg blog</title><link>/tags/%E7%AE%80%E7%AC%94%E7%94%BB/</link><description>fgg blog (简笔画)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Mon, 26 Aug 2024 19:51:04 +0800</lastBuildDate><atom:link href="/tags/%E7%AE%80%E7%AC%94%E7%94%BB/index.xml" rel="self" type="application/rss+xml"/><item><title>clipasso</title><link>/posts/clipmodel/clipasso/</link><pubDate>Mon, 26 Aug 2024 19:51:04 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/clipmodel/clipasso/</guid><description>&lt;p>Last update: 2024-10-24 Thu&lt;/p>
+&lt;h2 id="bézier-curves-贝塞尔曲线" >
+&lt;div>
+&lt;a href="#b%c3%a9zier-curves-%e8%b4%9d%e5%a1%9e%e5%b0%94%e6%9b%b2%e7%ba%bf">
+#
+&lt;/a>
+Bézier curves: 贝塞尔曲线
+&lt;/div>
+&lt;/h2>
+&lt;p>在学习 &amp;ldquo;statistical rethinking&amp;rdquo; 这门课的时候&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>，对其中的 &lt;ruby>“样条函数”&lt;rt>Splines&lt;/rt>&lt;/ruby>
+相当感兴趣，然后进一步发现这个有意思的视频 &lt;a href="https://www.youtube.com/watch?v=jvPPXbo87ds">The Continuity of Splines&lt;/a>
+视频里就讲了 Bézier curves。那是我第一次接触到这个名词，印象里是个挺复杂的东西，应该是两
+三年前的事情了&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>。没想到今天在CLIP系列模型中又一次碰上这个，竟然产生莫名的亲切感。所以
+应该好好了解这个概念和相关技术。&lt;/p>
+&lt;h3 id="定义和常用曲线" >
+&lt;div>
+&lt;a href="#%e5%ae%9a%e4%b9%89%e5%92%8c%e5%b8%b8%e7%94%a8%e6%9b%b2%e7%ba%bf">
+##
+&lt;/a>
+定义和常用曲线
+&lt;/div>
+&lt;/h3>
+&lt;p>贝塞尔曲线是一种参数化曲线，通过控制点（control points）来定义曲线的形状。最早由法国工程
+师 Pierre Bézier 用于汽车设计。贝塞尔曲线有不同阶数，通常用来在计算机图形学中绘制光滑的
+曲线。&lt;/p>
+&lt;p>一条n阶贝塞尔曲线的方程为：&lt;/p>
+&lt;p>$$
+B(t) = \sum_{i=0}^{n} P_i b_{i,n}(t),\hspace{35pt} t \in [0, 1]
+$$&lt;/p>
+&lt;p>其中$P_i$是控制点，$b_{i,n}(t)$是Bernstein基函数&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>。&lt;/p>
+&lt;p>常用的Bezier曲线&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>二次Bezier曲线（Quadratic Bezier Curve）公式：
+$$
+B(t) = (1-t)^2 P_0 + 2t(1-t) P_1 + t^2 P_2, t \in [0, 1]
+$$&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>三次Bezier曲线（Cubic Bezier Curve）公式：
+$$
+B(t) = (1-t)^3 P_0 + 3t(1-t)^2 P_1 + 3t^2(1-t) P_2 + t^3 P_3, t \in [0, 1]
+$$&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>控制点的作用：控制点不一定在曲线上，但通过这些点的位置可以灵活调整曲线的形状。&lt;/p>
+&lt;p>控制方式：Bezier曲线由少数控制点决定曲线的整体形状，也就是说每个点都对整体形状产生影响，
+通常用于较简单或局部控制需求的场景。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> numpy &lt;span style="color:#ff6ac1">as&lt;/span> np
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">import&lt;/span> matplotlib.pyplot &lt;span style="color:#ff6ac1">as&lt;/span> plt
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 定义贝塞尔曲线的控制点&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>P0 &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array([&lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>P1 &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array([&lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">2&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>P2 &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array([&lt;span style="color:#ff9f43">2&lt;/span>, &lt;span style="color:#ff9f43">0&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 计算贝塞尔曲线的点&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">bezier_curve&lt;/span>(t, P0, P1, P2):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> t)&lt;span style="color:#ff6ac1">**&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span> &lt;span style="color:#ff6ac1">*&lt;/span> P0 &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">2&lt;/span> &lt;span style="color:#ff6ac1">*&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> t) &lt;span style="color:#ff6ac1">*&lt;/span> t &lt;span style="color:#ff6ac1">*&lt;/span> P1 &lt;span style="color:#ff6ac1">+&lt;/span> t&lt;span style="color:#ff6ac1">**&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span> &lt;span style="color:#ff6ac1">*&lt;/span> P2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 生成 t 的值&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>t_values &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>linspace(&lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff9f43">1&lt;/span>, &lt;span style="color:#ff9f43">100&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 计算曲线上的点&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curve_points &lt;span style="color:#ff6ac1">=&lt;/span> np&lt;span style="color:#ff6ac1">.&lt;/span>array([bezier_curve(t, P0, P1, P2) &lt;span style="color:#ff6ac1">for&lt;/span> t &lt;span style="color:#ff6ac1">in&lt;/span> t_values])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#78787e"># 绘制贝塞尔曲线&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>plt&lt;span style="color:#ff6ac1">.&lt;/span>plot(curve_points[:, &lt;span style="color:#ff9f43">0&lt;/span>], curve_points[:, &lt;span style="color:#ff9f43">1&lt;/span>], label&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#39;Bezier Curve&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>plt&lt;span style="color:#ff6ac1">.&lt;/span>scatter([P0[&lt;span style="color:#ff9f43">0&lt;/span>], P1[&lt;span style="color:#ff9f43">0&lt;/span>], P2[&lt;span style="color:#ff9f43">0&lt;/span>]], [P0[&lt;span style="color:#ff9f43">1&lt;/span>], P1[&lt;span style="color:#ff9f43">1&lt;/span>], P2[&lt;span style="color:#ff9f43">1&lt;/span>]], color&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#39;red&amp;#39;&lt;/span>, label&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#5af78e">&amp;#39;Control Points&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>plt&lt;span style="color:#ff6ac1">.&lt;/span>legend()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>plt&lt;span style="color:#ff6ac1">.&lt;/span>title(&lt;span style="color:#5af78e">&amp;#39;Quadratic Bezier Curve&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>plt&lt;span style="color:#ff6ac1">.&lt;/span>show()
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="样条函数splines" >
+&lt;div>
+&lt;a href="#%e6%a0%b7%e6%9d%a1%e5%87%bd%e6%95%b0splines">
+##
+&lt;/a>
+样条函数（Splines）
+&lt;/div>
+&lt;/h3>
+&lt;p>样条函数是一种通过多个多项式片段连接而成的曲线。每个片段定义在相邻两个控制点之间。样条曲
+线比Bezier曲线更灵活，适合处理大量的控制点。&lt;/p>
+&lt;p>定义：样条是由分段多项式函数组成的，每段多项式通常是三次多项式（即三次样条）。每段多项式
+不仅要在端点连续，而且要在其一阶、二阶导数上连续，保证曲线的平滑过渡。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>自然样条（Natural Splines）：端点处二阶导数为零，保证曲线在边界上也保持光滑。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>B样条（B-Splines）：一种基于控制点的参数化样条曲线，&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="b样条曲线的特点" >
+&lt;div>
+&lt;a href="#b%e6%a0%b7%e6%9d%a1%e6%9b%b2%e7%ba%bf%e7%9a%84%e7%89%b9%e7%82%b9">
+###
+&lt;/a>
+B样条曲线的特点
+&lt;/div>
+&lt;/h4>
+&lt;p>假设我们有一组控制点$P_0, P_1, \cdots, P_n$，B样条曲线的定义如下：
+$$
+C(t) = \sum_{i=0}^{n} N_{i,k}(t) P_i,\hspace{35pt} t \in [t_0, t_m]
+$$
+其中，&lt;/p>
+&lt;ul>
+&lt;li>$N_{i,k}(t)$是第i个控制点的基函数，k表示B样条的阶数（通常为3 ，阶数过高计算复杂度高）&lt;/li>
+&lt;li>$P_i$是控制点&lt;/li>
+&lt;li>节点向量（knot vector）$t_0, t_1, \cdots, t_m$是曲线的参数范围&lt;/li>
+&lt;/ul>
+&lt;p>B样条曲线的特点：&lt;/p>
+&lt;p>局部控制：B样条的一个显著优点是局部控制性。这意味着如果移动一个控制点，只有与该控制点相
+邻的曲线部分会受到影响，而不会改变整个曲线的形状。这在CAD设计和动画中非常重要，尤其是当
+你想要局部调整曲线时，不必重新计算整个曲线。&lt;/p>
+&lt;p>平滑性：B样条通过多个段的多项式拼接而成，可以确保曲线的光滑性。不同的B样条有不同的连续性
+等级，通常至少保证一阶导数的连续性。高阶B样条还可以确保二阶导数的连续性，使曲线更加平滑。&lt;/p>
+&lt;p>基函数：B样条是由一组基函数（basis functions）来定义的。基函数决定了曲线的形状和各控制点
+对曲线的影响。一个n阶B样条对应的基函数也是n阶的。这些基函数是分段定义的多项式，且在每一
+段范围内非零。&lt;/p>
+&lt;p>节点矢量（knot vector）：节点矢量决定了曲线的分段点。B样条中的节点（knots）是用于定义曲
+线段的参数值。曲线的每一段都由不同的控制点和基函数决定。节点矢量还决定了曲线的形状和每个
+控制点的影响区域。&lt;/p>
+&lt;ul>
+&lt;li>均匀节点矢量：如果节点等间隔分布，B样条称为均匀B样条。&lt;/li>
+&lt;li>非均匀节点矢量：节点可以不等间隔分布，这使得B样条可以有更多的灵活性来处理复杂的形状。&lt;/li>
+&lt;/ul>
+&lt;p>在 statistical rethinking 这本书中，splines被用于时序拟合，具体数据是日本的樱花盛开日期
+时序数据，我对小鬼子的这个数据&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>印象深刻，因为自古以来西洋人酷爱科学数据已然无可争议，
+但咱东方大国文化圈的历史向来只关心政治人事，何曾费心去积攒这种玩物丧志的雕虫小技？可现在
+人家却引用了他们的数据（用于本科/研究生上课讲义），然后还拿拟合的曲线图做了书本的封面，
+这就让人有点羡慕嫉妒恨了&lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>。&lt;/p>
+&lt;h3 id="bezier-曲线和-splines-的联系" >
+&lt;div>
+&lt;a href="#bezier-%e6%9b%b2%e7%ba%bf%e5%92%8c-splines-%e7%9a%84%e8%81%94%e7%b3%bb">
+##
+&lt;/a>
+Bezier 曲线和 Splines 的联系：
+&lt;/div>
+&lt;/h3>
+&lt;p>贝塞尔曲线和样条函数的相似点在于它们都用于生成光滑曲线。两者的主要区别在于控制曲线形状的
+方式。贝塞尔曲线是通过一组控制点来决定曲线的形状，每个点都对整体形状起作用；而样条函数则
+是通过多段低阶多项式来拟合数据点，每个控制点只对局部曲线起作用。在一些应用中，贝塞尔曲线
+可以用于生成复杂形状的部分，而样条函数可以用来连接多个贝塞尔曲线以创建更复杂的曲线。&lt;/p>
+&lt;h2 id="clipasso-从毕加索-公牛图-系列说起" >
+&lt;div>
+&lt;a href="#clipasso-%e4%bb%8e%e6%af%95%e5%8a%a0%e7%b4%a2-%e5%85%ac%e7%89%9b%e5%9b%be-%e7%b3%bb%e5%88%97%e8%af%b4%e8%b5%b7">
+#
+&lt;/a>
+CLIPasso: 从毕加索 “公牛图” 系列说起
+&lt;/div>
+&lt;/h2>
+&lt;p>&lt;img alt="bull" src="https://fgg100y.github.io/posts/clipmodel/clipasso/images/Picasso-bull.jpeg">&lt;/p>
+&lt;p>毕加索的公牛图，我想即便艺术水平没有三层楼那么高，或者再怎么声称自己没有多少艺术细菌的人，
+多少也能够感受到这组画作所表达的意思。&lt;/p>
+&lt;p>&lt;img alt="clipasso" src="https://fgg100y.github.io/posts/clipmodel/clipasso/images/clipasso.png">&lt;/p>
+&lt;p>这是clipasso生成的简笔画。这些当然是精心挑选的结果，但只要比我自己动手强，那就足以吸引我
+使用这个工具了。&lt;/p>
+&lt;p>CLIPasso 的实现结合了图像语义理解与几何曲线拟合，背后涉及多个关键技术，包括 CLIP 模型的
+使用、贝塞尔曲线的拟合、优化算法等。&lt;/p>
+&lt;h3 id="clip-模型" >
+&lt;div>
+&lt;a href="#clip-%e6%a8%a1%e5%9e%8b">
+##
+&lt;/a>
+CLIP 模型
+&lt;/div>
+&lt;/h3>
+&lt;p>CLIP（Contrastive Language-Image Pretraining）由 OpenAI 提出，目的是通过共同训练图像和文
+本，使得图像和相应描述能够在向量空间中彼此匹配。（更多可参考这里：&lt;a href="../resumeEssentials/CLIP%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/index.md">CLIP模型论文精读笔记&lt;/a>）。
+CLIPasso 使用 CLIP 模型来提取图像的高层次语义特征，这些特征用于指导图像抽象化。&lt;/p>
+&lt;p>特征提取：通过 CLIP 模型，输入图像被转换为一个特征向量，这个向量表示图像在高维语义空间中
+的位置。CLIPasso 利用这些特征来捕捉图像的全局视觉语义。&lt;/p>
+&lt;h3 id="贝塞尔曲线拟合" >
+&lt;div>
+&lt;a href="#%e8%b4%9d%e5%a1%9e%e5%b0%94%e6%9b%b2%e7%ba%bf%e6%8b%9f%e5%90%88">
+##
+&lt;/a>
+贝塞尔曲线拟合
+&lt;/div>
+&lt;/h3>
+&lt;p>贝塞尔曲线是一种用于表示平滑曲线的数学工具，常见于图形设计和计算机图形学。CLIPasso 使用
+贝塞尔曲线对图像的轮廓和主要形状进行拟合，从而生成简化后的抽象图像。&lt;/p>
+&lt;p>曲线层次：CLIPasso 可以使用不同数量的贝塞尔曲线来描述图像。随着贝塞尔曲线的数量减少，图
+像的抽象程度增加。最简单的图像可能只有几条曲线，复杂的图像则可能使用更多曲线以保留更多细
+节。&lt;/p>
+&lt;h3 id="优化算法" >
+&lt;div>
+&lt;a href="#%e4%bc%98%e5%8c%96%e7%ae%97%e6%b3%95">
+##
+&lt;/a>
+优化算法
+&lt;/div>
+&lt;/h3>
+&lt;p>为了确保贝塞尔曲线不仅在视觉上合理，而且在语义上与输入图像相符，CLIPasso 依赖于优化过程
+来找到最优的贝塞尔曲线组合。这个过程的目标是：&lt;/p>
+&lt;ul>
+&lt;li>在最少的曲线下保持图像的语义一致性。&lt;/li>
+&lt;li>确保拟合的贝塞尔曲线能够最大程度代表图像的重要特征。&lt;/li>
+&lt;/ul>
+&lt;p>优化步骤：&lt;/p>
+&lt;ul>
+&lt;li>初始拟合：使用传统的图像边缘检测算法（如 Canny 边缘检测）来提取图像的轮廓，给出初始的
+贝塞尔曲线拟合。&lt;/li>
+&lt;li>&lt;strong>误差计算&lt;/strong>：将初始贝塞尔曲线生成的图像与原始图像通过 CLIP 的向量表示进行对比，计算误差。&lt;/li>
+&lt;li>优化目标：通过最小化贝塞尔曲线生成图像的 CLIP 语义误差（即曲线图像与原图像的语义距离），
+找到更优的曲线配置。这个优化通常通过梯度下降或遗传算法等搜索算法来完成。&lt;/li>
+&lt;li>迭代更新：反复更新曲线的参数（控制点和曲线数量），直到生成的图像与原图像在视觉上接近并
+且语义上匹配。&lt;/li>
+&lt;/ul>
+&lt;p>CLIPasso 提供了从高细节到低细节的多层次抽象。用户可以选择简化的层次——通过减少贝塞尔曲线
+的数量，图像逐步变得更加抽象。在每一步，优化算法确保减少曲线的同时，保持图像的主要语义。&lt;/p>
+&lt;p>简而言之，CLIP在图像和文本之间建立了一个共享的语义空间，带来了多模态理解的新能力。通过结
+合CLIP和其他工具（比如这里的贝塞尔曲线），用户可以生成符合给定目标的图像（如简笔画等）。
+这种跨模态的生成能力使得人工智能在图像创作、艺术设计、自动化内容生成等领域带来更多有趣的
+应用。&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>个人觉得这本书写得相当精彩，只看标题你甚至可能觉得是小说，内容也是引人入胜，统计学
+的书少有以那样的方式讲解知识点的。网上有公开课，同时也是书名。这本书是偏贝叶斯统计的。&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>后面又从这姐们那学到 “geometric algebra”，对于只上过 linear algebra （Gilbert
+Strang版本的，裂墙推）网课的我简直就是“不懂，但大受震撼”，貌似这姐们是搞unity游戏研发
+的，具体视频就是这个&lt;a href="https://www.youtube.com/watch?v=hUlvxaQBW78">Freya Holmér - Why Can&amp;rsquo;t You Multiply Vectors?&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>详见：http://staff.ustc.edu.cn/~lgliu/Courses/GAMES102_2020/PPT/GAMES102-5_BezierCurve.pdf&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4">
+&lt;p>&lt;a href="https://rdrr.io/github/rmcelreath/rethinking/man/cherry_blossoms.html">https://rdrr.io/github/rmcelreath/rethinking/man/cherry_blossoms.html&lt;/a>&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:5">
+&lt;p>或许我们也有这样的数据，但能不能或者谁能访问到恐怕又是另外一回事了。&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item></channel></rss>
