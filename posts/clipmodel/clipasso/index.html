@@ -69,11 +69,13 @@ $$
 是通过多段低阶多项式来拟合数据点，每个控制点只对局部曲线起作用。在一些应用中，贝塞尔曲线
 可以用于生成复杂形状的部分，而样条函数可以用来连接多个贝塞尔曲线以创建更复杂的曲线。</p><h2 id=clipasso-从毕加索-公牛图-系列说起><div><a href=#clipasso-%e4%bb%8e%e6%af%95%e5%8a%a0%e7%b4%a2-%e5%85%ac%e7%89%9b%e5%9b%be-%e7%b3%bb%e5%88%97%e8%af%b4%e8%b5%b7>#
 </a>CLIPasso: 从毕加索 “公牛图” 系列说起</div></h2><p><img alt=bull src=/posts/clipmodel/clipasso/images/Picasso-bull.jpeg></p><p>毕加索的公牛图，我想即便艺术水平没有三层楼那么高，或者再怎么声称自己没有多少艺术细菌的人，
-多少也能够感受到这组画作所表达的意思。</p><p><img alt=clipasso src=/posts/clipmodel/clipasso/images/clipasso.png></p><p>这是clipasso生成的简笔画。这些当然是精心挑选的结果，但只要比我自己动手强，那就足以吸引我
+多少也能够感受到这组画作所表达的意思。如果你说这些牛的简笔画总能令人想起牛肉火锅店墙上那
+些介绍各个部位牛肉如何涮才好吃的指南，我更能感同身受，同时被嘲讽的泪水不争气地从口角流了
+出来！</p><p><img alt=clipasso src=/posts/clipmodel/clipasso/images/clipasso.png></p><p>这是clipasso生成的简笔画。这些当然是精心挑选的结果，但只要比我自己动手强，那就足以吸引我
 使用这个工具了。</p><p>CLIPasso 的实现结合了图像语义理解与几何曲线拟合，背后涉及多个关键技术，包括 CLIP 模型的
 使用、贝塞尔曲线的拟合、优化算法等。</p><h3 id=clip-模型><div><a href=#clip-%e6%a8%a1%e5%9e%8b>##
 </a>CLIP 模型</div></h3><p>CLIP（Contrastive Language-Image Pretraining）由 OpenAI 提出，目的是通过共同训练图像和文
-本，使得图像和相应描述能够在向量空间中彼此匹配。（更多可参考这里：<a href=../resumeEssentials/CLIP%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/index.md>CLIP模型论文精读笔记</a>）。
+本，使得图像和相应描述能够在向量空间中彼此匹配。（更多可参考这里：<a href=../../resumeEssentials/CLIP%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/index.md>CLIP模型论文精读笔记</a>）。
 CLIPasso 使用 CLIP 模型来提取图像的高层次语义特征，这些特征用于指导图像抽象化。</p><p>特征提取：通过 CLIP 模型，输入图像被转换为一个特征向量，这个向量表示图像在高维语义空间中
 的位置。CLIPasso 利用这些特征来捕捉图像的全局视觉语义。</p><h3 id=贝塞尔曲线拟合><div><a href=#%e8%b4%9d%e5%a1%9e%e5%b0%94%e6%9b%b2%e7%ba%bf%e6%8b%9f%e5%90%88>##
 </a>贝塞尔曲线拟合</div></h3><p>贝塞尔曲线是一种用于表示平滑曲线的数学工具，常见于图形设计和计算机图形学。CLIPasso 使用

@@ -152,7 +152,9 @@ CLIPasso: 从毕加索 “公牛图” 系列说起
 &lt;/h2>
 &lt;p>&lt;img alt="bull" src="https://fgg100y.github.io/posts/clipmodel/clipasso/images/Picasso-bull.jpeg">&lt;/p>
 &lt;p>毕加索的公牛图，我想即便艺术水平没有三层楼那么高，或者再怎么声称自己没有多少艺术细菌的人，
-多少也能够感受到这组画作所表达的意思。&lt;/p>
+多少也能够感受到这组画作所表达的意思。如果你说这些牛的简笔画总能令人想起牛肉火锅店墙上那
+些介绍各个部位牛肉如何涮才好吃的指南，我更能感同身受，同时被嘲讽的泪水不争气地从口角流了
+出来！&lt;/p>
 &lt;p>&lt;img alt="clipasso" src="https://fgg100y.github.io/posts/clipmodel/clipasso/images/clipasso.png">&lt;/p>
 &lt;p>这是clipasso生成的简笔画。这些当然是精心挑选的结果，但只要比我自己动手强，那就足以吸引我
 使用这个工具了。&lt;/p>
@@ -167,7 +169,7 @@ CLIP 模型
 &lt;/div>
 &lt;/h3>
 &lt;p>CLIP（Contrastive Language-Image Pretraining）由 OpenAI 提出，目的是通过共同训练图像和文
-本，使得图像和相应描述能够在向量空间中彼此匹配。（更多可参考这里：&lt;a href="../resumeEssentials/CLIP%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/index.md">CLIP模型论文精读笔记&lt;/a>）。
+本，使得图像和相应描述能够在向量空间中彼此匹配。（更多可参考这里：&lt;a href="../../resumeEssentials/CLIP%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/index.md">CLIP模型论文精读笔记&lt;/a>）。
 CLIPasso 使用 CLIP 模型来提取图像的高层次语义特征，这些特征用于指导图像抽象化。&lt;/p>
 &lt;p>特征提取：通过 CLIP 模型，输入图像被转换为一个特征向量，这个向量表示图像在高维语义空间中
 的位置。CLIPasso 利用这些特征来捕捉图像的全局视觉语义。&lt;/p>
