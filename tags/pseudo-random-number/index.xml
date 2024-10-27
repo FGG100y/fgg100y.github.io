@@ -57,6 +57,7 @@ Iee：随机选择一个元素作为pivot？
 &lt;p>好，要的就是这个“随机选择“。（顺便结束面试拷打模拟：)&lt;/p>
 &lt;p>我想你可能已经知道在快排里怎么引入随机pivot（不用怀疑，就是调用&lt;code>random.choice()&lt;/code>）或选择
 实现更好的pivot策略，比如三数取中法&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>。&lt;/p>
+&lt;p>（更新：有时偷懒也不代表坏事，比如实现&lt;a href="https://fgg100y.github.io/posts/personals/momentsoflife/2024-10-27-parallel_quicksort/">并行版本的快排&lt;/a>）&lt;/p>
 &lt;p>（其实我是在看洗牌算法的时候看到&lt;code>random.randint()&lt;/code>这个函数突然想起的快速排序算法里未完成
 的故事，不过这个无关紧要，接着看看random这个令人好奇的玩具：）&lt;/p>
 &lt;h2 id="伪随机数生成器-pseudo-random-number-generator-prnghttpsenwikipediaorgwikipseudorandom_number_generator" >

@@ -13,7 +13,8 @@
 师 Pierre Bézier 用于汽车设计。贝塞尔曲线有不同阶数，通常用来在计算机图形学中绘制光滑的
 曲线。</p><p>一条n阶贝塞尔曲线的方程为：</p><p>$$
 B(t) = \sum_{i=0}^{n} P_i b_{i,n}(t),\hspace{35pt} t \in [0, 1]
-$$</p><p>其中$P_i$是控制点，$b_{i,n}(t)$是Bernstein基函数<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>。</p><p>常用的Bezier曲线</p><ul><li><p>二次Bezier曲线（Quadratic Bezier Curve）公式：
+$$</p><p>其中$P_i$是控制点，$b_{i,n}(t)$是<a href=/posts/clipmodel/2024-10-25-bernstein%E5%9F%BA%E5%87%BD%E6%95%B0/>Bernstein基函数</a>，更详细
+内容参考脚注链接<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>。</p><p>常用的Bezier曲线</p><ul><li><p>二次Bezier曲线（Quadratic Bezier Curve）公式：
 $$
 B(t) = (1-t)^2 P_0 + 2t(1-t) P_1 + t^2 P_2, t \in [0, 1]
 $$</p></li><li><p>三次Bezier曲线（Cubic Bezier Curve）公式：
@@ -61,9 +62,10 @@ $$
 线段的参数值。曲线的每一段都由不同的控制点和基函数决定。节点矢量还决定了曲线的形状和每个
 控制点的影响区域。</p><ul><li>均匀节点矢量：如果节点等间隔分布，B样条称为均匀B样条。</li><li>非均匀节点矢量：节点可以不等间隔分布，这使得B样条可以有更多的灵活性来处理复杂的形状。</li></ul><p>在 statistical rethinking 这本书中，splines被用于时序拟合，具体数据是日本的樱花盛开日期
 时序数据，我对小鬼子的这个数据<sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup>印象深刻，因为自古以来西洋人酷爱科学数据已然无可争议，
-但咱东方大国文化圈的历史向来只关心政治人事，何曾费心去积攒这种玩物丧志的雕虫小技？可现在
-人家却引用了他们的数据（用于本科/研究生上课讲义），然后还拿拟合的曲线图做了书本的封面，
-这就让人有点羡慕嫉妒恨了<sup id=fnref:5><a href=#fn:5 class=footnote-ref role=doc-noteref>5</a></sup>。</p><h3 id=bezier-曲线和-splines-的联系><div><a href=#bezier-%e6%9b%b2%e7%ba%bf%e5%92%8c-splines-%e7%9a%84%e8%81%94%e7%b3%bb>##
+但咱东方大国文化圈的历史向来只关心政治人事道德<sup id=fnref:5><a href=#fn:5 class=footnote-ref role=doc-noteref>5</a></sup>，何曾费心去不务正业这种“玩物丧志”的？
+更不必说咱使用虚数（不是欧拉老哥的那种虚数）的传统了，正史上那些数据记录，虚虚实实&mldr;可
+现在人家却引用了他们的数据（用于本科/研究生上课讲义），然后还拿拟合的曲线图做了书本的封
+面，这就让人有点羡慕嫉妒恨了<sup id=fnref:6><a href=#fn:6 class=footnote-ref role=doc-noteref>6</a></sup>。</p><h3 id=bezier-曲线和-splines-的联系><div><a href=#bezier-%e6%9b%b2%e7%ba%bf%e5%92%8c-splines-%e7%9a%84%e8%81%94%e7%b3%bb>##
 </a>Bezier 曲线和 Splines 的联系：</div></h3><p>贝塞尔曲线和样条函数的相似点在于它们都用于生成光滑曲线。两者的主要区别在于控制曲线形状的
 方式。贝塞尔曲线是通过一组控制点来决定曲线的形状，每个点都对整体形状起作用；而样条函数则
 是通过多段低阶多项式来拟合数据点，每个控制点只对局部曲线起作用。在一些应用中，贝塞尔曲线
@@ -93,4 +95,8 @@ CLIPasso 使用 CLIP 模型来提取图像的高层次语义特征，这些特�
 应用。</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p>个人觉得这本书写得相当精彩，只看标题你甚至可能觉得是小说，内容也是引人入胜，统计学
 的书少有以那样的方式讲解知识点的。网上有公开课，同时也是书名。这本书是偏贝叶斯统计的。&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2><p>后面又从这姐们那学到 “geometric algebra”，对于只上过 linear algebra （Gilbert
 Strang版本的，裂墙推）网课的我简直就是“不懂，但大受震撼”，貌似这姐们是搞unity游戏研发
-的，具体视频就是这个<a href="https://www.youtube.com/watch?v=hUlvxaQBW78">Freya Holmér - Why Can&rsquo;t You Multiply Vectors?</a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3><p>详见：http://staff.ustc.edu.cn/~lgliu/Courses/GAMES102_2020/PPT/GAMES102-5_BezierCurve.pdf&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:4><p><a href=https://rdrr.io/github/rmcelreath/rethinking/man/cherry_blossoms.html>https://rdrr.io/github/rmcelreath/rethinking/man/cherry_blossoms.html</a>&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:5><p>或许我们也有这样的数据，但能不能或者谁能访问到恐怕又是另外一回事了。&#160;<a href=#fnref:5 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div></article><div class="pagination post-pagination"><div class="left pagination-item"><a href=/posts/optimazationmethods/mle/maximum_likelihood_estimate/>maximum_likelihood_estimate</a></div><div class="right pagination-item"><a href=/posts/thecli/gitops/2024-08-21-merge_exists_and_not_empty_directory/>merge_exists_and_not_empty_directory</a></div></div></main><footer class="common-footer noselect"><ul class=language-select><li>Chinese</li><li><a href=/en/>English</a></li></ul><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div style=display:flex;align-items:center></div><div><a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>map[email:1522009317@qq.com name:fmh]</a></p></footer></div></body></html>
+的，具体视频就是这个<a href="https://www.youtube.com/watch?v=hUlvxaQBW78">Freya Holmér - Why Can&rsquo;t You Multiply Vectors?</a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3><p>详见：http://staff.ustc.edu.cn/~lgliu/Courses/GAMES102_2020/PPT/GAMES102-5_BezierCurve.pdf&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:4><p><a href=https://rdrr.io/github/rmcelreath/rethinking/man/cherry_blossoms.html>https://rdrr.io/github/rmcelreath/rethinking/man/cherry_blossoms.html</a>&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:5><p>对这个观点不是那么有把握，不过基于日本优秀的文学作品（如伊豆的舞女、挪威的森林这一
+类）以及影视作品（秋刀鱼之味、宫崎骏动画之类），大约能这么说，至少我在武断地写下这句话
+时，根据的就是七武士里被山贼掳走的村妇被救出来，看到来救人的自家老公（农民利吉），一脸
+痛苦无奈，返身扑入火场自杀的情节。但要是论封建礼教中毒之深，这个比起儒林外传里那个鼓励
+自己死了丈夫的女儿殉节的老豆，就“弗如远甚”了。&#160;<a href=#fnref:5 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:6><p>或许我们也有这样的数据，但能不能或者谁能访问到恐怕又是另外一回事了。&#160;<a href=#fnref:6 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div></article><div class="pagination post-pagination"><div class="left pagination-item"><a href=/posts/optimazationmethods/mle/maximum_likelihood_estimate/>maximum_likelihood_estimate</a></div><div class="right pagination-item"><a href=/posts/thecli/gitops/2024-08-21-merge_exists_and_not_empty_directory/>merge_exists_and_not_empty_directory</a></div></div></main><footer class="common-footer noselect"><ul class=language-select><li>Chinese</li><li><a href=/en/>English</a></li></ul><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div style=display:flex;align-items:center></div><div><a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>map[email:1522009317@qq.com name:fmh]</a></p></footer></div></body></html>

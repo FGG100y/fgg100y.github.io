@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bernstein on fgg blog</title><link>/tags/bernstein/</link><description>fgg blog (Bernstein)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Fri, 25 Oct 2024 09:42:41 +0800</lastBuildDate><atom:link href="/tags/bernstein/index.xml" rel="self" type="application/rss+xml"/><item><title>Bernstein基函数</title><link>/posts/clipmodel/2024-10-25-bernstein%E5%9F%BA%E5%87%BD%E6%95%B0/</link><pubDate>Fri, 25 Oct 2024 09:42:41 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/clipmodel/2024-10-25-bernstein%E5%9F%BA%E5%87%BD%E6%95%B0/</guid><description>&lt;p>Bernstein 基函数是贝塞尔曲线（Bezier curve）的一个重要组成部分。它们定义了一组基函数，通
+常用于表示参数化曲线，尤其是 Bézier 曲线。对于 Bézier 曲线，Bernstein 基函数定义如下：&lt;/p>
+&lt;p>对于给定的阶数 $n$，第 $i$ 个 Bernstein 基函数 $B_{i,n}(t)$ 的表达式为：&lt;/p>
+&lt;p>$$
+B_{i,n}(t) = \binom{n}{i} t^i (1 - t)^{n-i}
+$$&lt;/p>
+&lt;p>其中：&lt;/p>
+&lt;ul>
+&lt;li>$n$ 是 Bézier 曲线的阶数（即控制点的数量减 1）。&lt;/li>
+&lt;li>$i$ 是当前的基函数索引，取值范围为 $0 \leq i \leq n$。&lt;/li>
+&lt;li>$t$ 是参数，取值范围通常为 $0 \leq t \leq 1$。&lt;/li>
+&lt;li>$\binom{n}{i}$ 是二项式系数，表示为 $\frac{n!}{i!(n-i)!}$。&lt;/li>
+&lt;/ul>
+&lt;h3 id="bernstein-基函数的特性" >
+&lt;div>
+&lt;a href="#bernstein-%e5%9f%ba%e5%87%bd%e6%95%b0%e7%9a%84%e7%89%b9%e6%80%a7">
+##
+&lt;/a>
+Bernstein 基函数的特性：
+&lt;/div>
+&lt;/h3>
+&lt;ol>
+&lt;li>&lt;strong>非负性&lt;/strong>：在 $0 \leq t \leq 1$ 的范围内，所有 Bernstein 基函数的值都是非负的。&lt;/li>
+&lt;li>&lt;strong>分片多项式性&lt;/strong>：Bernstein 基函数是 $t$ 的多项式函数。&lt;/li>
+&lt;li>&lt;strong>端点插值&lt;/strong>：当 $t = 0$ 或 $t = 1$ 时，只有一个基函数的值不为 0，而该函数的值为 1。
+这意味着 Bézier 曲线会精确地通过其起点和终点。&lt;/li>
+&lt;li>&lt;strong>分区一致性&lt;/strong>：所有基函数在任意 $t$ 下的和为 1，即
+$$
+\sum_{i=0}^{n} B_{i,n}(t) = 1
+$$
+这一特性确保了 Bézier 曲线的凸包性质，即曲线位于控制点构成的凸包内。&lt;/li>
+&lt;/ol>
+&lt;p>Bernstein 基函数在图形学、曲线和曲面的建模中应用广泛，特别是在 Bézier 曲线和 Bézier 曲面
+的表示中起到了基础作用。&lt;/p></description></item></channel></rss>

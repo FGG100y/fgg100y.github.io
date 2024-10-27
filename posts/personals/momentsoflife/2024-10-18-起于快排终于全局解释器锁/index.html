@@ -123,7 +123,7 @@ Ier: 那还可以优化吗？
 
 Iee：随机选择一个元素作为pivot？
 </code></pre><p>好，要的就是这个“随机选择“。（顺便结束面试拷打模拟：)</p><p>我想你可能已经知道在快排里怎么引入随机pivot（不用怀疑，就是调用<code>random.choice()</code>）或选择
-实现更好的pivot策略，比如三数取中法<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>。</p><p>（其实我是在看洗牌算法的时候看到<code>random.randint()</code>这个函数突然想起的快速排序算法里未完成
+实现更好的pivot策略，比如三数取中法<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>。</p><p>（更新：有时偷懒也不代表坏事，比如实现<a href=/posts/personals/momentsoflife/2024-10-27-parallel_quicksort/>并行版本的快排</a>）</p><p>（其实我是在看洗牌算法的时候看到<code>random.randint()</code>这个函数突然想起的快速排序算法里未完成
 的故事，不过这个无关紧要，接着看看random这个令人好奇的玩具：）</p><h2 id=伪随机数生成器-pseudo-random-number-generator-prnghttpsenwikipediaorgwikipseudorandom_number_generator><div><a href=#%e4%bc%aa%e9%9a%8f%e6%9c%ba%e6%95%b0%e7%94%9f%e6%88%90%e5%99%a8-pseudo-random-number-generator-prnghttpsenwikipediaorgwikipseudorandom_number_generator>#
 </a>伪随机数生成器 <a href=https://en.wikipedia.org/wiki/Pseudorandom_number_generator>pseudo random number generator， PRNG</a></div></h2><blockquote><p>1946年, 冯.诺依曼首次给出了使用计算机程序产生随机数的方法, 但事实证明这种方法产生的数也
 并非是随机的.一个普遍的观点是, 绝对随机的随机数只是一种理想的随机数, 计算机不会产生绝对

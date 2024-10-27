@@ -1,5 +1,124 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
-(fmh)</managingEditor><lastBuildDate>Fri, 18 Oct 2024 20:10:39 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>刷题之走火入魔解法</title><link>/posts/personals/momentsoflife/2024-10-18-%E5%88%B7%E9%A2%98%E4%B9%8B%E8%B5%B0%E7%81%AB%E5%85%A5%E9%AD%94%E8%A7%A3%E6%B3%95/</link><pubDate>Fri, 18 Oct 2024 20:10:39 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/personals/momentsoflife/2024-10-18-%E5%88%B7%E9%A2%98%E4%B9%8B%E8%B5%B0%E7%81%AB%E5%85%A5%E9%AD%94%E8%A7%A3%E6%B3%95/</guid><description>&lt;p>问题描述：给定一个包含 n + 1 个整数的数组，数字范围在 1 到 n 之间，其中有一个重复的数。
+(fmh)</managingEditor><lastBuildDate>Sun, 27 Oct 2024 23:43:12 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>parallel_quicksort</title><link>/posts/personals/momentsoflife/2024-10-27-parallel_quicksort/</link><pubDate>Sun, 27 Oct 2024 23:43:12 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/personals/momentsoflife/2024-10-27-parallel_quicksort/</guid><description>&lt;p>在并行运算中，使用原地分区不一定总是比使用额外空间更好。&lt;/p>
+&lt;ul>
+&lt;li>内存充足、数据量大：使用额外空间分区，便于并行化且编程简洁。&lt;/li>
+&lt;li>内存有限、数据量中等：使用原地分区，减少内存开销。&lt;/li>
+&lt;/ul>
+&lt;h2 id="使用额外空间的版本" >
+&lt;div>
+&lt;a href="#%e4%bd%bf%e7%94%a8%e9%a2%9d%e5%a4%96%e7%a9%ba%e9%97%b4%e7%9a%84%e7%89%88%e6%9c%ac">
+#
+&lt;/a>
+使用额外空间的版本
+&lt;/div>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> concurrent.futures &lt;span style="color:#ff6ac1">import&lt;/span> ProcessPoolExecutor
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">quick_sort&lt;/span>(arr):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(arr) &lt;span style="color:#ff6ac1">&amp;lt;=&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> arr
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pivot &lt;span style="color:#ff6ac1">=&lt;/span> arr[&lt;span style="color:#ff6ac1">-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 分区操作&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> left &lt;span style="color:#ff6ac1">=&lt;/span> [x &lt;span style="color:#ff6ac1">for&lt;/span> x &lt;span style="color:#ff6ac1">in&lt;/span> arr[:&lt;span style="color:#ff6ac1">-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>] &lt;span style="color:#ff6ac1">if&lt;/span> x &lt;span style="color:#ff6ac1">&amp;lt;=&lt;/span> pivot]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> right &lt;span style="color:#ff6ac1">=&lt;/span> [x &lt;span style="color:#ff6ac1">for&lt;/span> x &lt;span style="color:#ff6ac1">in&lt;/span> arr[:&lt;span style="color:#ff6ac1">-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>] &lt;span style="color:#ff6ac1">if&lt;/span> x &lt;span style="color:#ff6ac1">&amp;gt;&lt;/span> pivot]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 定义两个进程池，用于并行排序左右子数组&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># with multiprocessing.Pool(processes=2) as pool:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># with multiprocessing.get_context(&amp;#34;spawn&amp;#34;).Pool(processes=2) as pool:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># sorted_left, sorted_right = pool.map(quick_sort, [left, right])&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># AssertionError: daemonic processes are not allowed to have children&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">with&lt;/span> ProcessPoolExecutor(max_workers&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span>) &lt;span style="color:#ff6ac1">as&lt;/span> executor:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sorted_left, sorted_right &lt;span style="color:#ff6ac1">=&lt;/span> executor&lt;span style="color:#ff6ac1">.&lt;/span>map(quick_sort, [left, right])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> sorted_left &lt;span style="color:#ff6ac1">+&lt;/span> [pivot] &lt;span style="color:#ff6ac1">+&lt;/span> sorted_right
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="原地分区的版本" >
+&lt;div>
+&lt;a href="#%e5%8e%9f%e5%9c%b0%e5%88%86%e5%8c%ba%e7%9a%84%e7%89%88%e6%9c%ac">
+#
+&lt;/a>
+原地分区的版本
+&lt;/div>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> concurrent.futures &lt;span style="color:#ff6ac1">import&lt;/span> ThreadPoolExecutor
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> typing &lt;span style="color:#ff6ac1">import&lt;/span> List
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">partition&lt;/span>(arr: List[&lt;span style="color:#ff5c57">int&lt;/span>], low: &lt;span style="color:#ff5c57">int&lt;/span>, high: &lt;span style="color:#ff5c57">int&lt;/span>) &lt;span style="color:#ff6ac1">-&amp;gt;&lt;/span> &lt;span style="color:#ff5c57">int&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pivot &lt;span style="color:#ff6ac1">=&lt;/span> arr[high]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> i &lt;span style="color:#ff6ac1">=&lt;/span> low &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#78787e"># i是较小元素的索引&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">for&lt;/span> j &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(low, high):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> arr[j] &lt;span style="color:#ff6ac1">&amp;lt;=&lt;/span> pivot:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> i &lt;span style="color:#ff6ac1">+=&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> arr[i], arr[j] &lt;span style="color:#ff6ac1">=&lt;/span> arr[j], arr[i]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> arr[i &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>], arr[high] &lt;span style="color:#ff6ac1">=&lt;/span> arr[high], arr[i &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> i &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">quicksort&lt;/span>(arr: List[&lt;span style="color:#ff5c57">int&lt;/span>], low: &lt;span style="color:#ff5c57">int&lt;/span>, high: &lt;span style="color:#ff5c57">int&lt;/span>, executor, threshold&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1000&lt;/span>):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> low &lt;span style="color:#ff6ac1">&amp;lt;&lt;/span> high:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 执行分区操作&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pi &lt;span style="color:#ff6ac1">=&lt;/span> partition(arr, low, high)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 如果分区大小大于阈值则并行处理&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> (high &lt;span style="color:#ff6ac1">-&lt;/span> low) &lt;span style="color:#ff6ac1">&amp;gt;&lt;/span> threshold:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 提交左右两部分的并行任务&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> left_future &lt;span style="color:#ff6ac1">=&lt;/span> executor&lt;span style="color:#ff6ac1">.&lt;/span>submit(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> quicksort, arr, low, pi &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, executor, threshold
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> right_future &lt;span style="color:#ff6ac1">=&lt;/span> executor&lt;span style="color:#ff6ac1">.&lt;/span>submit(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> quicksort, arr, pi &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, high, executor, threshold
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 等待任务完成&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> left_future&lt;span style="color:#ff6ac1">.&lt;/span>result()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> right_future&lt;span style="color:#ff6ac1">.&lt;/span>result()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">else&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 小于阈值时直接递归处理&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> quicksort(arr, low, pi &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, executor, threshold)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> quicksort(arr, pi &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, high, executor, threshold)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">parallel_quicksort&lt;/span>(arr: List[&lt;span style="color:#ff5c57">int&lt;/span>]):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 使用ThreadPoolExecutor进行并行化&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">with&lt;/span> ThreadPoolExecutor() &lt;span style="color:#ff6ac1">as&lt;/span> executor:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> quicksort(arr, &lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff5c57">len&lt;/span>(arr) &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, executor)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Bernstein基函数</title><link>/posts/clipmodel/2024-10-25-bernstein%E5%9F%BA%E5%87%BD%E6%95%B0/</link><pubDate>Fri, 25 Oct 2024 09:42:41 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/clipmodel/2024-10-25-bernstein%E5%9F%BA%E5%87%BD%E6%95%B0/</guid><description>&lt;p>Bernstein 基函数是贝塞尔曲线（Bezier curve）的一个重要组成部分。它们定义了一组基函数，通
+常用于表示参数化曲线，尤其是 Bézier 曲线。对于 Bézier 曲线，Bernstein 基函数定义如下：&lt;/p>
+&lt;p>对于给定的阶数 $n$，第 $i$ 个 Bernstein 基函数 $B_{i,n}(t)$ 的表达式为：&lt;/p>
+&lt;p>$$
+B_{i,n}(t) = \binom{n}{i} t^i (1 - t)^{n-i}
+$$&lt;/p>
+&lt;p>其中：&lt;/p>
+&lt;ul>
+&lt;li>$n$ 是 Bézier 曲线的阶数（即控制点的数量减 1）。&lt;/li>
+&lt;li>$i$ 是当前的基函数索引，取值范围为 $0 \leq i \leq n$。&lt;/li>
+&lt;li>$t$ 是参数，取值范围通常为 $0 \leq t \leq 1$。&lt;/li>
+&lt;li>$\binom{n}{i}$ 是二项式系数，表示为 $\frac{n!}{i!(n-i)!}$。&lt;/li>
+&lt;/ul>
+&lt;h3 id="bernstein-基函数的特性" >
+&lt;div>
+&lt;a href="#bernstein-%e5%9f%ba%e5%87%bd%e6%95%b0%e7%9a%84%e7%89%b9%e6%80%a7">
+##
+&lt;/a>
+Bernstein 基函数的特性：
+&lt;/div>
+&lt;/h3>
+&lt;ol>
+&lt;li>&lt;strong>非负性&lt;/strong>：在 $0 \leq t \leq 1$ 的范围内，所有 Bernstein 基函数的值都是非负的。&lt;/li>
+&lt;li>&lt;strong>分片多项式性&lt;/strong>：Bernstein 基函数是 $t$ 的多项式函数。&lt;/li>
+&lt;li>&lt;strong>端点插值&lt;/strong>：当 $t = 0$ 或 $t = 1$ 时，只有一个基函数的值不为 0，而该函数的值为 1。
+这意味着 Bézier 曲线会精确地通过其起点和终点。&lt;/li>
+&lt;li>&lt;strong>分区一致性&lt;/strong>：所有基函数在任意 $t$ 下的和为 1，即
+$$
+\sum_{i=0}^{n} B_{i,n}(t) = 1
+$$
+这一特性确保了 Bézier 曲线的凸包性质，即曲线位于控制点构成的凸包内。&lt;/li>
+&lt;/ol>
+&lt;p>Bernstein 基函数在图形学、曲线和曲面的建模中应用广泛，特别是在 Bézier 曲线和 Bézier 曲面
+的表示中起到了基础作用。&lt;/p></description></item><item><title>刷题之走火入魔解法</title><link>/posts/personals/momentsoflife/2024-10-18-%E5%88%B7%E9%A2%98%E4%B9%8B%E8%B5%B0%E7%81%AB%E5%85%A5%E9%AD%94%E8%A7%A3%E6%B3%95/</link><pubDate>Fri, 18 Oct 2024 20:10:39 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/personals/momentsoflife/2024-10-18-%E5%88%B7%E9%A2%98%E4%B9%8B%E8%B5%B0%E7%81%AB%E5%85%A5%E9%AD%94%E8%A7%A3%E6%B3%95/</guid><description>&lt;p>问题描述：给定一个包含 n + 1 个整数的数组，数字范围在 1 到 n 之间，其中有一个重复的数。
 找出这个重复的数。&lt;/p>
 &lt;p>解法1: 平平无奇的思考结果，我想大部分人都会想到这个解法。&lt;/p>
 &lt;p>相似题目，参考：力扣 645. 错误的集合&lt;/p>
@@ -88,6 +207,7 @@ Iee：随机选择一个元素作为pivot？
 &lt;p>好，要的就是这个“随机选择“。（顺便结束面试拷打模拟：)&lt;/p>
 &lt;p>我想你可能已经知道在快排里怎么引入随机pivot（不用怀疑，就是调用&lt;code>random.choice()&lt;/code>）或选择
 实现更好的pivot策略，比如三数取中法&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>。&lt;/p>
+&lt;p>（更新：有时偷懒也不代表坏事，比如实现&lt;a href="https://fgg100y.github.io/posts/personals/momentsoflife/2024-10-27-parallel_quicksort/">并行版本的快排&lt;/a>）&lt;/p>
 &lt;p>（其实我是在看洗牌算法的时候看到&lt;code>random.randint()&lt;/code>这个函数突然想起的快速排序算法里未完成
 的故事，不过这个无关紧要，接着看看random这个令人好奇的玩具：）&lt;/p>
 &lt;h2 id="伪随机数生成器-pseudo-random-number-generator-prnghttpsenwikipediaorgwikipseudorandom_number_generator" >
@@ -1745,7 +1865,8 @@ Bézier curves: 贝塞尔曲线
 &lt;p>$$
 B(t) = \sum_{i=0}^{n} P_i b_{i,n}(t),\hspace{35pt} t \in [0, 1]
 $$&lt;/p>
-&lt;p>其中$P_i$是控制点，$b_{i,n}(t)$是Bernstein基函数&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>。&lt;/p>
+&lt;p>其中$P_i$是控制点，$b_{i,n}(t)$是&lt;a href="https://fgg100y.github.io/posts/clipmodel/2024-10-25-bernstein%E5%9F%BA%E5%87%BD%E6%95%B0/">Bernstein基函数&lt;/a>，更详细
+内容参考脚注链接&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup>。&lt;/p>
 &lt;p>常用的Bezier曲线&lt;/p>
 &lt;ul>
 &lt;li>
@@ -1844,9 +1965,10 @@ $$
 &lt;/ul>
 &lt;p>在 statistical rethinking 这本书中，splines被用于时序拟合，具体数据是日本的樱花盛开日期
 时序数据，我对小鬼子的这个数据&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup>印象深刻，因为自古以来西洋人酷爱科学数据已然无可争议，
-但咱东方大国文化圈的历史向来只关心政治人事，何曾费心去积攒这种玩物丧志的雕虫小技？可现在
-人家却引用了他们的数据（用于本科/研究生上课讲义），然后还拿拟合的曲线图做了书本的封面，
-这就让人有点羡慕嫉妒恨了&lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>。&lt;/p>
+但咱东方大国文化圈的历史向来只关心政治人事道德&lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup>，何曾费心去不务正业这种“玩物丧志”的？
+更不必说咱使用虚数（不是欧拉老哥的那种虚数）的传统了，正史上那些数据记录，虚虚实实&amp;hellip;可
+现在人家却引用了他们的数据（用于本科/研究生上课讲义），然后还拿拟合的曲线图做了书本的封
+面，这就让人有点羡慕嫉妒恨了&lt;sup id="fnref:6">&lt;a href="#fn:6" class="footnote-ref" role="doc-noteref">6&lt;/a>&lt;/sup>。&lt;/p>
 &lt;h3 id="bezier-曲线和-splines-的联系" >
 &lt;div>
 &lt;a href="#bezier-%e6%9b%b2%e7%ba%bf%e5%92%8c-splines-%e7%9a%84%e8%81%94%e7%b3%bb">
@@ -1952,7 +2074,14 @@ Strang版本的，裂墙推）网课的我简直就是“不懂，但大受震�
 &lt;p>&lt;a href="https://rdrr.io/github/rmcelreath/rethinking/man/cherry_blossoms.html">https://rdrr.io/github/rmcelreath/rethinking/man/cherry_blossoms.html&lt;/a>&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;li id="fn:5">
-&lt;p>或许我们也有这样的数据，但能不能或者谁能访问到恐怕又是另外一回事了。&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;p>对这个观点不是那么有把握，不过基于日本优秀的文学作品（如伊豆的舞女、挪威的森林这一
+类）以及影视作品（秋刀鱼之味、宫崎骏动画之类），大约能这么说，至少我在武断地写下这句话
+时，根据的就是七武士里被山贼掳走的村妇被救出来，看到来救人的自家老公（农民利吉），一脸
+痛苦无奈，返身扑入火场自杀的情节。但要是论封建礼教中毒之深，这个比起儒林外传里那个鼓励
+自己死了丈夫的女儿殉节的老豆，就“弗如远甚”了。&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:6">
+&lt;p>或许我们也有这样的数据，但能不能或者谁能访问到恐怕又是另外一回事了。&amp;#160;&lt;a href="#fnref:6" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;/div></description></item><item><title>merge_exists_and_not_empty_directory</title><link>/posts/thecli/gitops/2024-08-21-merge_exists_and_not_empty_directory/</link><pubDate>Wed, 21 Aug 2024 13:54:50 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/thecli/gitops/2024-08-21-merge_exists_and_not_empty_directory/</guid><description>&lt;h2 id="为什么" >

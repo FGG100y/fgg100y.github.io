@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Parallel on fgg blog</title><link>/tags/parallel/</link><description>fgg blog (Parallel)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Sun, 27 Oct 2024 23:43:12 +0800</lastBuildDate><atom:link href="/tags/parallel/index.xml" rel="self" type="application/rss+xml"/><item><title>parallel_quicksort</title><link>/posts/personals/momentsoflife/2024-10-27-parallel_quicksort/</link><pubDate>Sun, 27 Oct 2024 23:43:12 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/personals/momentsoflife/2024-10-27-parallel_quicksort/</guid><description>&lt;p>在并行运算中，使用原地分区不一定总是比使用额外空间更好。&lt;/p>
+&lt;ul>
+&lt;li>内存充足、数据量大：使用额外空间分区，便于并行化且编程简洁。&lt;/li>
+&lt;li>内存有限、数据量中等：使用原地分区，减少内存开销。&lt;/li>
+&lt;/ul>
+&lt;h2 id="使用额外空间的版本" >
+&lt;div>
+&lt;a href="#%e4%bd%bf%e7%94%a8%e9%a2%9d%e5%a4%96%e7%a9%ba%e9%97%b4%e7%9a%84%e7%89%88%e6%9c%ac">
+#
+&lt;/a>
+使用额外空间的版本
+&lt;/div>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> concurrent.futures &lt;span style="color:#ff6ac1">import&lt;/span> ProcessPoolExecutor
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">quick_sort&lt;/span>(arr):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> &lt;span style="color:#ff5c57">len&lt;/span>(arr) &lt;span style="color:#ff6ac1">&amp;lt;=&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> arr
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pivot &lt;span style="color:#ff6ac1">=&lt;/span> arr[&lt;span style="color:#ff6ac1">-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 分区操作&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> left &lt;span style="color:#ff6ac1">=&lt;/span> [x &lt;span style="color:#ff6ac1">for&lt;/span> x &lt;span style="color:#ff6ac1">in&lt;/span> arr[:&lt;span style="color:#ff6ac1">-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>] &lt;span style="color:#ff6ac1">if&lt;/span> x &lt;span style="color:#ff6ac1">&amp;lt;=&lt;/span> pivot]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> right &lt;span style="color:#ff6ac1">=&lt;/span> [x &lt;span style="color:#ff6ac1">for&lt;/span> x &lt;span style="color:#ff6ac1">in&lt;/span> arr[:&lt;span style="color:#ff6ac1">-&lt;/span>&lt;span style="color:#ff9f43">1&lt;/span>] &lt;span style="color:#ff6ac1">if&lt;/span> x &lt;span style="color:#ff6ac1">&amp;gt;&lt;/span> pivot]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 定义两个进程池，用于并行排序左右子数组&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># with multiprocessing.Pool(processes=2) as pool:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># with multiprocessing.get_context(&amp;#34;spawn&amp;#34;).Pool(processes=2) as pool:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># sorted_left, sorted_right = pool.map(quick_sort, [left, right])&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># AssertionError: daemonic processes are not allowed to have children&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">with&lt;/span> ProcessPoolExecutor(max_workers&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">2&lt;/span>) &lt;span style="color:#ff6ac1">as&lt;/span> executor:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sorted_left, sorted_right &lt;span style="color:#ff6ac1">=&lt;/span> executor&lt;span style="color:#ff6ac1">.&lt;/span>map(quick_sort, [left, right])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> sorted_left &lt;span style="color:#ff6ac1">+&lt;/span> [pivot] &lt;span style="color:#ff6ac1">+&lt;/span> sorted_right
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="原地分区的版本" >
+&lt;div>
+&lt;a href="#%e5%8e%9f%e5%9c%b0%e5%88%86%e5%8c%ba%e7%9a%84%e7%89%88%e6%9c%ac">
+#
+&lt;/a>
+原地分区的版本
+&lt;/div>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> concurrent.futures &lt;span style="color:#ff6ac1">import&lt;/span> ThreadPoolExecutor
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">from&lt;/span> typing &lt;span style="color:#ff6ac1">import&lt;/span> List
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">partition&lt;/span>(arr: List[&lt;span style="color:#ff5c57">int&lt;/span>], low: &lt;span style="color:#ff5c57">int&lt;/span>, high: &lt;span style="color:#ff5c57">int&lt;/span>) &lt;span style="color:#ff6ac1">-&amp;gt;&lt;/span> &lt;span style="color:#ff5c57">int&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pivot &lt;span style="color:#ff6ac1">=&lt;/span> arr[high]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> i &lt;span style="color:#ff6ac1">=&lt;/span> low &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#78787e"># i是较小元素的索引&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">for&lt;/span> j &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(low, high):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> arr[j] &lt;span style="color:#ff6ac1">&amp;lt;=&lt;/span> pivot:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> i &lt;span style="color:#ff6ac1">+=&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> arr[i], arr[j] &lt;span style="color:#ff6ac1">=&lt;/span> arr[j], arr[i]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> arr[i &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>], arr[high] &lt;span style="color:#ff6ac1">=&lt;/span> arr[high], arr[i &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">return&lt;/span> i &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">quicksort&lt;/span>(arr: List[&lt;span style="color:#ff5c57">int&lt;/span>], low: &lt;span style="color:#ff5c57">int&lt;/span>, high: &lt;span style="color:#ff5c57">int&lt;/span>, executor, threshold&lt;span style="color:#ff6ac1">=&lt;/span>&lt;span style="color:#ff9f43">1000&lt;/span>):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> low &lt;span style="color:#ff6ac1">&amp;lt;&lt;/span> high:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 执行分区操作&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pi &lt;span style="color:#ff6ac1">=&lt;/span> partition(arr, low, high)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 如果分区大小大于阈值则并行处理&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">if&lt;/span> (high &lt;span style="color:#ff6ac1">-&lt;/span> low) &lt;span style="color:#ff6ac1">&amp;gt;&lt;/span> threshold:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 提交左右两部分的并行任务&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> left_future &lt;span style="color:#ff6ac1">=&lt;/span> executor&lt;span style="color:#ff6ac1">.&lt;/span>submit(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> quicksort, arr, low, pi &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, executor, threshold
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> right_future &lt;span style="color:#ff6ac1">=&lt;/span> executor&lt;span style="color:#ff6ac1">.&lt;/span>submit(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> quicksort, arr, pi &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, high, executor, threshold
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> )
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 等待任务完成&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> left_future&lt;span style="color:#ff6ac1">.&lt;/span>result()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> right_future&lt;span style="color:#ff6ac1">.&lt;/span>result()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">else&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 小于阈值时直接递归处理&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> quicksort(arr, low, pi &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, executor, threshold)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> quicksort(arr, pi &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, high, executor, threshold)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">def&lt;/span> &lt;span style="color:#57c7ff">parallel_quicksort&lt;/span>(arr: List[&lt;span style="color:#ff5c57">int&lt;/span>]):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#78787e"># 使用ThreadPoolExecutor进行并行化&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ff6ac1">with&lt;/span> ThreadPoolExecutor() &lt;span style="color:#ff6ac1">as&lt;/span> executor:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> quicksort(arr, &lt;span style="color:#ff9f43">0&lt;/span>, &lt;span style="color:#ff5c57">len&lt;/span>(arr) &lt;span style="color:#ff6ac1">-&lt;/span> &lt;span style="color:#ff9f43">1&lt;/span>, executor)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>
