@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Booknotes on fgg blog</title><link>/tags/booknotes/</link><description>fgg blog (Booknotes)</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
+(fmh)</managingEditor><lastBuildDate>Fri, 13 Nov 2020 11:01:51 +0800</lastBuildDate><atom:link href="/tags/booknotes/index.xml" rel="self" type="application/rss+xml"/><item><title>西瓜书_误差逆传播算法(BP)</title><link>/posts/neuralnetworks/xgsbackprop/</link><pubDate>Fri, 13 Nov 2020 11:01:51 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/xgsbackprop/</guid><description>&lt;h2 id="误差逆传播算法error-backpropagation-bp" >
+&lt;div>
+&lt;a href="#%e8%af%af%e5%b7%ae%e9%80%86%e4%bc%a0%e6%92%ad%e7%ae%97%e6%b3%95error-backpropagation-bp">
+#
+&lt;/a>
+误差逆传播算法(error BackPropagation, BP)
+&lt;/div>
+&lt;/h2>
+&lt;p>BP 算法是迄今最成功的神经网络学习算法。现实任务中使用神经网络时，大多是在使用 BP 算法进
+行训练。BP 算法不仅可用于多层前馈神经网络(multi-layer feedforward neural networks)&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>
+，还可以用于其他类型的神经网络，例如训练递归神经网络。但通常说 “BP网络” 时，一般指用 BP
+算法训练的多重前馈神经网络&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>。&lt;/p>
+&lt;h3 id="bp网络及变量符号" >
+&lt;div>
+&lt;a href="#bp%e7%bd%91%e7%bb%9c%e5%8f%8a%e5%8f%98%e9%87%8f%e7%ac%a6%e5%8f%b7">
+##
+&lt;/a>
+BP网络及变量符号
+&lt;/div>
+&lt;/h3>
+&lt;p>给定训练集 $D = {(x_1, y_1), \ldots, (x_m, y_m)}, x_i \in \mathbb{R}^d, y_i \in \mathbb{R}^l$ ，即输入
+示例由 $d$ 个属性描述，输出 $l$ 维实值向量。为便于讨论，图5.7 给出了一个拥有 $d$ 个输入
+神经元、$l$ 个输出神经元、$q$ 个隐层神经元的多层前馈神经网络结构，其中&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>输出层第 $j$ 个神经元的阈值用 $\theta_j$ 表示，隐层第 $h$ 个神经元的阈值用 $\gamma_h$ 表示；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>输入层第 $i$ 个神经元与隐层第 $h$ 个神经元之间的连接权为 $v_{ih}$ ；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>隐层第 $h$ 个神经元与输出层第 $j$ 个神经元之间的连接权为 $w_hj$ ；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>记隐层第 $h$ 个神经元接收到的输入为 $\alpha_h = \sum^d_{i=1} v_{ih} x_i$ ；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>记输出层第 $j$ 个神经元接收到的输入为 $\beta_j = \sum^q_{h=1} w_{hj} b_h $ ，其中，
+$b_h$ 为隐层第 $h$ 个神经元的输出；&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>假设隐层和输出层神经元都使用sigmoid函数&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup> 作为激活函数&lt;sup id="fnref:4">&lt;a href="#fn:4" class="footnote-ref" role="doc-noteref">4&lt;/a>&lt;/sup> 。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img alt="BP network and notations" src="images/xgs_BPnetworks_and_notations.png">&lt;/p>
+&lt;p>对训练例 $(x_k, y_k)$ ，假定神经网络的输出为 $\hat{y}_k = (\hat{y}^k_1, \ldots, \hat{y}^k_l)$ ，即
+$$
+\tag{5.3} \label{eq_y_hat}
+\hat{y}^k_j = f(\beta_j - \theta_j),
+$$
+则网络在 $(x_k, y_k)$ 上均方误差为
+$$
+\tag{5.4}
+E_k = {1 \over 2} \sum^l_{j=1} (\hat{y}^k_j - {y}^k_j)^2 .
+$$
+图5.7的网络中有 $(d + l + 1)q + l$ 个参数需确定：&lt;/p>
+&lt;ul>
+&lt;li>输入层到隐层的 $d \times q$ 个权值；&lt;/li>
+&lt;li>隐层到输出层的 $q \times l$ 个权值;&lt;/li>
+&lt;li>$q$ 个隐层神经元的阈值、$l$ 个输出层神经元的阈值。&lt;/li>
+&lt;/ul>
+&lt;p>BP 是一个迭代学习算法，在迭代的每一轮中采用广义的感知机学习规则&lt;sup id="fnref:5">&lt;a href="#fn:5" class="footnote-ref" role="doc-noteref">5&lt;/a>&lt;/sup> 对参数进行更新估计，
+即任意参数 $v$ 的更新估计式为
+$$
+\tag{5.5}
+v \leftarrow v + \Delta v .
+$$&lt;/p>
+&lt;h3 id="参数的更新" >
+&lt;div>
+&lt;a href="#%e5%8f%82%e6%95%b0%e7%9a%84%e6%9b%b4%e6%96%b0">
+##
+&lt;/a>
+参数的更新
+&lt;/div>
+&lt;/h3>
+&lt;p>以下我们以图5.7中隐层到输出层的连接权 $w_{hj}$ 为例来进行推导。&lt;/p>
+&lt;p>BP 算法基于梯度下降(gradient descent)策略，以目标的的负梯度方向对参数进行调整。对式(5.4)
+的误差 $E_k$ ，给定学习率 $\eta$ ，有
+$$
+\tag{5.6}
+\Delta w_{hj} = - \eta {\partial E_k \over \partial w_{hj}}.
+$$&lt;/p>
+&lt;p>注意&lt;sup id="fnref:6">&lt;a href="#fn:6" class="footnote-ref" role="doc-noteref">6&lt;/a>&lt;/sup>到 $w_{hj}$ 先影响到第 $j$ 个输出层神经元的输入值 $\beta_j$ ，再影响到其输出值
+$\hat{y}^k_j$ ，然后影响到 $E_k$ ，有&lt;/p>
+&lt;p>$$
+\tag{5.7}
+\frac{\partial E_k}{\partial w_{hj}} =
+\frac{\partial E_k}{\partial \hat{y}^k_j}
+\cdot \frac{\partial \hat{y}^k_j}{\partial \beta_j}
+\cdot \frac{\partial \beta_j}{\partial w_{hj}} .
+$$
+根据 $\beta_j$ 的&lt;a href="https://fgg100y.github.io/posts/neuralnetworks/xgsbackprop/###BP网络及变量符号">定义&lt;/a>，显然有
+$$
+\tag{5.8}
+\frac{\partial \beta_j}{\partial w_{hj}} = b_h .
+$$
+sigmoid函数有一个很好的性质：
+$$
+\tag{5.9}
+f&amp;rsquo;(x) = f(x)(1 - f(x)),
+$$
+于是，根据式(5.4)和式(5.3)，有
+$$
+\begin{eqnarray}
+g_j
+&amp;amp;=&amp;amp; - \frac{\partial E_k}{\partial \hat{y}^k_j} \cdot \frac{\partial \hat{y}^k_j}{\partial \beta_j} \\
+&amp;amp;=&amp;amp; - (\hat{y}^k_j - {y}^k_j) f&amp;rsquo;(\beta_j - \theta_j) \\
+\tag{5.10} \label{eq_output_gradient}
+&amp;amp;=&amp;amp; \hat{y}^k_j(1 - \hat{y}^k_j) (\hat{y}^k_j - {y}^k_j) .
+\end{eqnarray}
+$$
+将式(5.10)和(5.8)代入式(5.7)，再代入式(5.6)，就得到了 BP 算法中关于 $w_{hj}$ 的更新公式
+$$
+\tag{5.11} \label{eq_weights_hj}
+\Delta w_{hj} = \eta g_j b_h .
+$$
+类似可得
+$$
+\begin{eqnarray}
+\tag{5.12}
+\Delta \theta_j &amp;amp;=&amp;amp; - \eta g_j, \\
+\tag{5.13}
+\Delta v_{ih} &amp;amp;=&amp;amp; \eta e_h x_i, \\
+\tag{5.14} \label{eq_threshold_hidden}
+\Delta \gamma_h &amp;amp;=&amp;amp; - \eta e_h, \\
+\end{eqnarray}
+$$
+其中
+$$
+\begin{eqnarray}
+e_h
+&amp;amp;=&amp;amp; - \frac{\partial E_k}{\partial b_h} \cdot \frac{\partial b_h}{\partial \alpha_h} \\
+&amp;amp;=&amp;amp; - \sum^l_{j=1} \frac{\partial E_k}{\partial \beta_j} \cdot \frac{\partial \beta_j}{\partial b_h} f&amp;rsquo;(\alpha_h - \gamma_h) \\
+&amp;amp;=&amp;amp; \sum^l_{j=1} w_{hj} g_j f&amp;rsquo;(\alpha_h - \gamma_h) \\
+\tag{5.15} \label{eq_hidden_gradient}
+&amp;amp;=&amp;amp; b_h (1 - b_h) \sum^l_{j=1} w_{hj} g_j .
+\end{eqnarray}
+$$
+学习率 $\eta \in (0, 1)$ 控制着算法每一轮迭代中的更新步长，若太大则容易振荡，太小则收敛速度又会过慢。&lt;/p>
+&lt;p>有时为了做精细调节，可令式(5.11)与(5.12)使用 $\eta_1$ ，式(5.13)与(5.14)使用 $\eta_2$ ，两者未必相等。&lt;/p>
+&lt;h3 id="bp-算法的工作流程" >
+&lt;div>
+&lt;a href="#bp-%e7%ae%97%e6%b3%95%e7%9a%84%e5%b7%a5%e4%bd%9c%e6%b5%81%e7%a8%8b">
+##
+&lt;/a>
+BP 算法的工作流程
+&lt;/div>
+&lt;/h3>
+&lt;p>对每个训练样例，BP 算法执行以下操作：先将输入示例提供给输入层神经元，然后逐层将信号前传，直到产生输出层的结果；然后计算输出层的误差(第4-5行)，再将误差逆向传播至隐层神经元(第6行)，最后根据隐层神经元的误差来对连接权和阈值进行调整(第7行)。该迭代过程循环进行，直到达到某些停止条件为止。&lt;/p>
+&lt;hr>
+&lt;h2 id="bp-算法工作流程" >
+&lt;div>
+&lt;a href="#bp-%e7%ae%97%e6%b3%95%e5%b7%a5%e4%bd%9c%e6%b5%81%e7%a8%8b">
+#
+&lt;/a>
+BP 算法工作流程
+&lt;/div>
+&lt;/h2>
+&lt;p>&lt;strong>输入&lt;/strong>：训练集 $D = {(x_k, y_k)}^m_{k=1}$ ；
+学习率 $\eta$ .&lt;/p>
+&lt;p>&lt;strong>过程&lt;/strong>：&lt;/p>
+&lt;p>1：在 $(0,1)$ 范围内随机初始化网络中所有连接权和阈值&lt;/p>
+&lt;p>2：&lt;strong>repeat&lt;/strong>&lt;/p>
+&lt;p>3: &lt;strong>for all&lt;/strong> $(x_k, y_k) \in D$ &lt;strong>do&lt;/strong>&lt;/p>
+&lt;p>4: 根据当前参数和式($\ref{eq_y_hat}$)计算当前样本的输出 $\hat{y}_k$ ；&lt;/p>
+&lt;p>5: 根据式($\ref{eq_output_gradient}$)计算输出层神经元的梯度项 $g_j$ ；&lt;/p>
+&lt;p>6: 根据式($\ref{eq_hidden_gradient}$)计算隐层神经元的梯度项 $e_h$ ；&lt;/p>
+&lt;p>7: 根据式($\ref{eq_weights_hj}$)-($\ref{eq_threshold_hidden}$)更新连接权 $w_{hj}, v_{ih}$ 与阈值 $\theta_j, \gamma_h$&lt;/p>
+&lt;p>8: &lt;strong>end for&lt;/strong>&lt;/p>
+&lt;p>9: &lt;strong>unitl&lt;/strong> 达到停止条件&lt;/p>
+&lt;h2 id="输出连接权与阈值确定的多层前馈神经网络" >
+&lt;div>
+&lt;a href="#%e8%be%93%e5%87%ba%e8%bf%9e%e6%8e%a5%e6%9d%83%e4%b8%8e%e9%98%88%e5%80%bc%e7%a1%ae%e5%ae%9a%e7%9a%84%e5%a4%9a%e5%b1%82%e5%89%8d%e9%a6%88%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c">
+#
+&lt;/a>
+&lt;strong>输出&lt;/strong>：连接权与阈值确定的多层前馈神经网络
+&lt;/div>
+&lt;/h2>
+&lt;p>&lt;strong>需要注意的是&lt;/strong>，BP 算法的目标是要最小化训练集 $D$ 上的累积误差
+$$
+\tag{5.16}
+E = {1 \over m} \sum^m_{k=1} E_k ,
+$$
+但我们上面介绍的 “标准BP算法” 每次仅针对一个训练样例更新连接权和阈值，也就是说 &lt;code>BP 算法 工作流程&lt;/code> 中算法的更新规则是基于单个的 $E_k$ 推导而得。如果类似地推导出基于累积误差最小
+化的更新规则，就得到了 “累积误差逆传播(accumulated error backpropagation)” 算法。累积BP
+算法与标准BP算法都很常用。一般来说，标准BP算法每次更新只针对单个样例，参数更新得非常频繁，
+而且对不同样例进行更新的效果可能出现 “抵消” 现象。因此，为了达到同样的累积误差极小点，标
+准BP算法往往需要进行更多次数的迭代。累积BP算法直接针对累积误差最小化，它在读取整个训练集
+$D$ 一遍后才对参数进行更新，其参数更新频率低得多。但在很多任务中，累积误差下降到一定程度
+之后，进一步下降会非常缓慢，这时标准BP算法往往会更快获得较好的解，尤其是在训练集 $D$ 非
+常大时更为明显&lt;sup id="fnref:7">&lt;a href="#fn:7" class="footnote-ref" role="doc-noteref">7&lt;/a>&lt;/sup> &lt;sup id="fnref:8">&lt;a href="#fn:8" class="footnote-ref" role="doc-noteref">8&lt;/a>&lt;/sup>。&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>神经网络层级结构的一种，每层神经元与下一层神经元全互连，神经元之间不存在同层连接，也不存在跨层连接。“前馈”并不意味着网络中信号不能向后传，而是指网络拓扑结构上不存在环或回路。&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>The term back-propagation (BP) is often misunderstood as meaning the whole learning algorithm for multi layer neural networks. Actually, back-propagation refers only to the method for computing the gradient, while another algorithm, such SGD, is used to perform learning using this gradient.&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>$\text{sigmoid}(x) = {1 \over 1 + e^{-x}}$ ，对数几率函数是典型的sigmoid函数，它把可能在较大范围内变化的输入值挤压到 $(0,1)$ 输出值范围内，因此有时也称为 “挤压函数(squashing function)”。&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:4">
+&lt;p>激活函数也称为 “响应函数”，理想的激活函数是阶跃函数 $\text{sgn}(x)&lt;em>{x |x &amp;lt; 0} = 0; \text{sgn}(x)&lt;/em>{x |x \ge 0} =1$，它将输入值映射为输出值 &amp;ldquo;0&amp;rdquo; 或 “1”，显然 “1” 对应于神经元兴奋，“0” 对应于神经元兴奋。然而，阶跃函数具有不连续(在零点处)、不光滑等不太友好的性质，因此实际常用sigmoid函数作为激活函数。&amp;#160;&lt;a href="#fnref:4" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:5">
+&lt;p>感知机(Perceptron)由两层神经元组成，输入层接收外界输入信号后传递给输出层，输出层是 M-P 神经元，也称为 “阈值逻辑单元(threshold logic unit)”。感知机的学习规则非常简单，对训练样例 $(x, y)$ ，若当前感知机的输出为 $\hat{y}$ ，则感知机权重将这样调整：$w_i \leftarrow w_i + \Delta w_i$ ，其中 $\Delta w_i = \eta (y - \hat{y}) x_i$ ，其中 $\eta \in (0,1)$ 是学习率(learning rate)。可以看出，若感知机对训练样例 $(x, y)$ 预测正确，即 $\hat{y} = y$ ，则感知机不发生变化，否则将根据错误的程度进行权值调整。&amp;#160;&lt;a href="#fnref:5" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:6">
+&lt;p>这就是 “链式法则”。&amp;#160;&lt;a href="#fnref:6" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:7">
+&lt;p>标准BP算法和累积BP算法的区别类似于随机梯度下降(SGD)与标准梯度下降之间的区别。&amp;#160;&lt;a href="#fnref:7" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:8">
+&lt;p>感知机的参数更新规则和BP算法的参数更新规则式(5.11)-(5.14) 都是基于梯度下降。&amp;#160;&lt;a href="#fnref:8" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item></channel></rss>
