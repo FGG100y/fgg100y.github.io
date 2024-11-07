@@ -1,0 +1,238 @@
+<!doctype html><html lang=zh data-theme><head><meta charset=utf-8><meta name=HandheldFriendly content="True"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=referrer content="no-referrer-when-downgrade"><title>finetune_llm_2 - fgg blog</title>
+<meta name=description content="CN-CLIP 微调 + Swin-V2 魔改（多标签预测）"><link rel=icon type=image/x-icon href=https://fgg100y.github.io/favicon.ico><link rel=apple-touch-icon-precomposed href=https://fgg100y.github.io/favicon.png><style>body{visibility:hidden;opacity:0}</style><noscript><style>body{visibility:visible;opacity:1}</style></noscript><link rel=stylesheet href=/css/style.min.184a655c5ad8596648622468e6696abf0cf0a2cf8266df17b4f7a36fe9c97551.css integrity="sha256-GEplXFrYWWZIYiRo5mlqvwzwos+CZt8XtPejb+nJdVE="><link rel=stylesheet href=/css/style.min.c4c04b3ef88e3d619ad4c7ee5e03048422bc55c4fefdc1f07657c1133670aa22.css integrity="sha256-xMBLPviOPWGa1MfuXgMEhCK8VcT+/cHwdlfBEzZwqiI="><link rel=stylesheet href=/css/style.min.21c5d8fe0a79d623b0adc1ce4bd4f6dd2c05cd939c9aaaa966ba7186b1464f4d.css integrity="sha256-IcXY/gp51iOwrcHOS9T23SwFzZOcmqqpZrpxhrFGT00="><link rel=stylesheet href=/css/style.min.863b4356f5ce53525ab2482f84c47476c4618984b9726e576c244225ebda1bcc.css integrity="sha256-hjtDVvXOU1JaskgvhMR0dsRhiYS5cm5XbCRCJevaG8w=" crossorigin=anonymous><script src=/js/script.min.08f04d96386c73c9bf4d160333f8f448c05a6e01c06770542ee0e013954ce930.js type=text/javascript integrity="sha256-CPBNljhsc8m/TRYDM/j0SMBabgHAZ3BULuDgE5VM6TA="></script><link rel=stylesheet href=/css/custom.css></head><body><a class=skip-main href=#main></a><div class=container><header class=common-header><div class=header-top><div class=header-top-left><h1 class="site-title noselect"><a href=/>fgg blog</a></h1><div class=theme-switcher><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-sun-high"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.828 14.828A4 4 0 109.172 9.172a4 4 0 005.656 5.656z"/><path d="M6.343 17.657l-1.414 1.414"/><path d="M6.343 6.343 4.929 4.929"/><path d="M17.657 6.343l1.414-1.414"/><path d="M17.657 17.657l1.414 1.414"/><path d="M4 12H2"/><path d="M12 4V2"/><path d="M20 12h2"/><path d="M12 20v2"/></svg></span></div><script>const STORAGE_KEY="user-color-scheme",defaultTheme="auto";let currentTheme,switchButton,autoDefinedScheme=window.matchMedia("(prefers-color-scheme: dark)");function switchTheme(){currentTheme=currentTheme==="dark"?"light":"dark",localStorage&&localStorage.setItem(STORAGE_KEY,currentTheme),document.documentElement.setAttribute("data-theme",currentTheme),changeGiscusTheme(currentTheme),document.body.dispatchEvent(new CustomEvent(currentTheme+"-theme-set"))}const autoChangeScheme=e=>{currentTheme=e.matches?"dark":"light",document.documentElement.setAttribute("data-theme",currentTheme),changeGiscusTheme(currentTheme),document.body.dispatchEvent(new CustomEvent(currentTheme+"-theme-set"))};document.addEventListener("DOMContentLoaded",function(){switchButton=document.querySelector(".theme-switcher"),currentTheme=detectCurrentScheme(),currentTheme==="auto"?(autoChangeScheme(autoDefinedScheme),autoDefinedScheme.addListener(autoChangeScheme)):document.documentElement.setAttribute("data-theme",currentTheme),switchButton&&switchButton.addEventListener("click",switchTheme,!1),showContent()});function detectCurrentScheme(){return localStorage!==null&&localStorage.getItem(STORAGE_KEY)?localStorage.getItem(STORAGE_KEY):defaultTheme?defaultTheme:window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}function showContent(){document.body.style.visibility="visible",document.body.style.opacity=1}function changeGiscusTheme(e){function t(e){const t=document.querySelector("iframe.giscus-frame");if(!t)return;t.contentWindow.postMessage({giscus:e},"https://giscus.app")}t({setConfig:{theme:e}})}</script><ul class="social-icons noselect"><li><a href=https://github.com/FGG100y title=Github rel=me><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-github"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></span></a></li><li><a href=/index.xml title=RSS rel=me><span class=inline-svg><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-rss"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 19m-1 0a1 1 0 102 0 1 1 0 10-2 0"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></span></a></li></ul></div><div class=header-top-right></div></div><nav class=noselect><a href=https://fgg100y.github.io/ title>首页</a>
+<a href=https://fgg100y.github.io/posts/ title>归档</a>
+<a href=https://fgg100y.github.io/tags/ title>标签</a>
+<a href=https://fgg100y.github.io/about/ title>关于</a></nav><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"]}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></header><main id=main tabindex=-1><article class="post h-entry"><div class=post-header><header><h1 class="p-name post-title">finetune_llm_2</h1></header><div class="post-info noselect"><div class="post-date dt-published"><time datetime=2024-11-04>2024-11-04</time></div><a class="post-hidden-url u-url" href=/posts/resumeessentials/2024-11-04-finetune_llm_clip/>/posts/resumeessentials/2024-11-04-finetune_llm_clip/</a>
+<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>map[email:1522009317@qq.com name:fmh]</a><div class=post-taxonomies><ul class=post-tags><li><a href=/tags/clip/>#CLIP</a></li><li><a href=/tags/swin-transformer/>#Swin Transformer</a></li></ul></div></div></div><details class="toc noselect"><summary>Table of Contents</summary><div class=inner><nav id=TableOfContents><ul><li><a href=#cn-clip-微调--swin-v2-魔改多标签预测>CN-CLIP 微调 + Swin-V2 魔改（多标签预测）</a></li><li><a href=#clip-基础知识和应用>CLIP 基础知识和应用</a></li><li><a href=#cn-clip的训练微调>CN-CLIP的训练(微调)</a></li><li><a href=#cn-clip-微调细节>CN-CLIP 微调细节</a></li><li><a href=#梯度重计算策略>梯度重计算策略</a></li><li><a href=#flashattention>FlashAttention</a></li><li><a href=#cn-clip微调后的应用>CN-CLIP微调后的应用</a></li><li><a href=#swin-基础知识和应用>Swin 基础知识和应用</a></li><li><a href=#适配多标签预测>适配多标签预测</a></li><li><a href=#长尾分布问题>长尾分布问题</a></li></ul></nav></div></details><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><p>简历中提到对模型进行私域数据微调（finetuning）的，要能够说出所以然来。</p><h2 id=cn-clip-微调--swin-v2-魔改多标签预测><div><a href=#cn-clip-%e5%be%ae%e8%b0%83--swin-v2-%e9%ad%94%e6%94%b9%e5%a4%9a%e6%a0%87%e7%ad%be%e9%a2%84%e6%b5%8b>#
+</a>CN-CLIP 微调 + Swin-V2 魔改（多标签预测）</div></h2><p>CN-CLIP 模型的使用：</p><p>目的：标注本地图像和扩增训练集样本（全手动标注成本高周期长）</p><p>背景：
+领域开源数据集（<a href=https://github.com/iamstarlee/Multi-label-Sewer-Classification%7D>130万样本规模管道缺陷图像数据集</a>）
+的多标签与本项目图像的多标签需要进行对齐，即缺陷类型并非完全一致（开源数据集的标签类型共
+17个，仅有三分之一左右标签与本地数据集标签一致），要利用这个开源数据集，就要先完成标签数
+据的对齐。</p><p>CN-CLIP本身是用CLIP模型在大规模中文语料（约2亿图文对数据）上进行训练得到，本身具备一定的
+跨模态表征能力；应用到领域数据时，只需要在领域图像上进行进一步的微调，可以获得较好的图像
+文本跨模态表征，从而在零样本图像分类任务上具有较高的迁移价值。</p><p>具体到本项目，项目业务需求是能够提供管道图像缺陷的多标签预测，需要从技术层面提供解决方案。
+但多标签图像训练集样本量严重不足，人工标注成本高周期长，需要寻找更经济的训练样本构建途径。
+当时选择的技术路径就是利用CLIP的零样本预测能力+领域开源数据微调来构建本项目的训练数据集，
+再利用开源的图像预训练模型来完成推理。</p><p>为什么不直接基于图片相似度进行多标签赋值？实际上，我们的方案里也包括这部分的工作，但能增
+加的样本量不多。毕竟国内外管道管材等属性以及缺陷类型存在一定差异，直接进行图像相似度的方
+法不能提供很好的效果。</p><h2 id=clip-基础知识和应用><div><a href=#clip-%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e5%92%8c%e5%ba%94%e7%94%a8>#
+</a>CLIP 基础知识和应用</div></h2><p>关于CLIP模型的基础知识，参考<a href=./CLIP%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/index.md>CLIP论文精读笔记</a></p><h2 id=cn-clip的训练微调><div><a href=#cn-clip%e7%9a%84%e8%ae%ad%e7%bb%83%e5%be%ae%e8%b0%83>#
+</a>CN-CLIP的训练(微调)</div></h2><p><a href=https://github.com/OFA-Sys/Chinese-CLIP>CN-CLIP</a>是CLIP模型的中文版本，在大规模中文语料
+（约2亿图文对数据）上进行训练得到，并针对中文领域数据以及在中文数据上实现更好的效果做了
+优化。</p><ul><li>代码组织</li></ul><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>Chinese-CLIP/
+</span></span><span style=display:flex><span>├── run_scripts/
+</span></span><span style=display:flex><span>│   ├── muge_finetune_vit-b-16_rbt-base.sh
+</span></span><span style=display:flex><span>│   ├── flickr30k_finetune_vit-b-16_rbt-base.sh
+</span></span><span style=display:flex><span>│   └── ...             # 更多finetune或评测脚本...
+</span></span><span style=display:flex><span>└── cn_clip/
+</span></span><span style=display:flex><span>    ├── clip/
+</span></span><span style=display:flex><span>    ├── eval/
+</span></span><span style=display:flex><span>    ├── preprocess/
+</span></span><span style=display:flex><span>    └── training/
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>${DATAPATH}
+</span></span><span style=display:flex><span>├── pretrained_weights/ # 存放对应模型ckpt
+</span></span><span style=display:flex><span>├── experiments/
+</span></span><span style=display:flex><span>├── deploy/	            # 用于存放ONNX &amp; TensorRT部署模型
+</span></span><span style=display:flex><span>└── datasets/
+</span></span><span style=display:flex><span>    ├── MUGE/
+</span></span><span style=display:flex><span>    ├── Flickr30k-CN/
+</span></span><span style=display:flex><span>    └── .../            # 更多自定义数据集...
+</span></span></code></pre></div><ul><li>数据集格式预处理</li></ul><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>${DATAPATH}                     # 如：Flickr30k-CN/
+</span></span><span style=display:flex><span>└── datasets/
+</span></span><span style=display:flex><span>    └── ${dataset_name}/
+</span></span><span style=display:flex><span>        ├── train_imgs.tsv      # 图片id &amp; 图片内容
+</span></span><span style=display:flex><span>        ├── train_texts.jsonl   # 文本id &amp; 文本内容，连同匹配的图片id列表
+</span></span><span style=display:flex><span>        ├── valid_imgs.tsv
+</span></span><span style=display:flex><span>        ├── valid_texts.jsonl
+</span></span><span style=display:flex><span>        ├── test_imgs.tsv
+</span></span><span style=display:flex><span>        └── test_texts.jsonl
+</span></span></code></pre></div><p>为保证文件处理效率，我们不是将图片以大量的小文件方式存放，而是将训练/验证/测试图片以
+base64形式分别存放在${split}_imgs.tsv文件中。文件每行表示一张图片，包含图片id（int型）与
+图片base64，以tab隔开，格式如下：</p><pre><code>1000002	/9j/4AAQSkZJ...YQj7314oA//2Q==
+</code></pre><p>文本信息及图文对匹配关系则保存在${split}_texts.jsonl文件。文件每行是一行json，格式如下：</p><pre><code>{&quot;text_id&quot;: 8428, &quot;text&quot;: &quot;高级感托特包斜挎&quot;, &quot;image_ids&quot;: [1076345, 517602]}
+</code></pre><p>对于测试集只有文本，不知道图文对匹配关系的情况，每行的image_ids字段处理为空列表即可，即
+&ldquo;image_ids&rdquo;: []。</p><ul><li>tsv和jsonl文件的序列化
+最后，我们还需要将tsv和jsonl文件一起序列化，转换为内存索引的LMDB数据库文件，方便训练时的
+随机读取:</li></ul><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>python cn_clip<span style=color:#ff6ac1>/</span>preprocess<span style=color:#ff6ac1>/</span>build_lmdb_dataset<span style=color:#ff6ac1>.</span>py \
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>--</span>data_dir <span style=color:#ff5c57>$</span>{DATAPATH}<span style=color:#ff6ac1>/</span>datasets<span style=color:#ff6ac1>/</span><span style=color:#ff5c57>$</span>{dataset_name}
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>--</span>splits train,valid,test
+</span></span></code></pre></div><ul><li>示例
+例如对于MUGE数据集，则${dataset_name}设为MUGE，&ndash;splits指定需要转换的数据集划分，以逗号
+不加空格分隔。转换后，数据集文件夹下会对应增加以下LMDB序列化文件:</li></ul><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext><span style=display:flex><span>${DATAPATH}
+</span></span><span style=display:flex><span>└── datasets/
+</span></span><span style=display:flex><span>    └── ${dataset_name}/
+</span></span><span style=display:flex><span>        └── lmdb/
+</span></span><span style=display:flex><span>            ├── train
+</span></span><span style=display:flex><span>            │   ├── imgs
+</span></span><span style=display:flex><span>            │   └── pairs
+</span></span><span style=display:flex><span>            ├── valid
+</span></span><span style=display:flex><span>            └── test
+</span></span></code></pre></div><h2 id=cn-clip-微调细节><div><a href=#cn-clip-%e5%be%ae%e8%b0%83%e7%bb%86%e8%8a%82>#
+</a>CN-CLIP 微调细节</div></h2><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#78787e># 准备finetune相关配置，详见https://github.com/OFA-Sys/Chinese-CLIP#模型finetune</span>
+</span></span><span style=display:flex><span><span style=color:#78787e># 指定机器数 &amp; 卡数</span>
+</span></span><span style=display:flex><span>GPUS_PER_NODE<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>1</span> <span style=color:#78787e># 卡数</span>
+</span></span><span style=display:flex><span>WORKER_CNT<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>1</span> <span style=color:#78787e># 机器数</span>
+</span></span><span style=display:flex><span>MASTER_ADDR<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;localhost&#34;</span>
+</span></span><span style=display:flex><span>MASTER_PORT<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>8514</span> <span style=color:#78787e># 同台机器同时起多个任务，请分别分配不同的端口号</span>
+</span></span><span style=display:flex><span>RANK<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># 刚刚创建过的目录，存放了预训练参数和预处理好的数据集</span>
+</span></span><span style=display:flex><span>DATAPATH<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;../fmhData&#34;</span>
+</span></span><span style=display:flex><span>DATASET<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;Flickr30k-CN&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># 指定LMDB格式的训练集和验证集路径（存放了LMDB格式的图片和图文对数据）</span>
+</span></span><span style=display:flex><span>train_data<span style=color:#ff6ac1>=</span><span style=color:#5af78e>f</span><span style=color:#5af78e>&#34;</span><span style=color:#5af78e>{</span>DATAPATH<span style=color:#5af78e>}</span><span style=color:#5af78e>/datasets/</span><span style=color:#5af78e>{</span>DATASET<span style=color:#5af78e>}</span><span style=color:#5af78e>/lmdb/train&#34;</span>
+</span></span><span style=display:flex><span>val_data<span style=color:#ff6ac1>=</span><span style=color:#5af78e>f</span><span style=color:#5af78e>&#34;</span><span style=color:#5af78e>{</span>DATAPATH<span style=color:#5af78e>}</span><span style=color:#5af78e>/datasets/</span><span style=color:#5af78e>{</span>DATASET<span style=color:#5af78e>}</span><span style=color:#5af78e>/lmdb/valid&#34;</span>
+</span></span><span style=display:flex><span>num_workers<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>4</span> <span style=color:#78787e># 训练集pytorch dataloader的进程数，设置为&gt;0，以减小训练时读取数据的时间开销</span>
+</span></span><span style=display:flex><span>valid_num_workers<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>4</span> <span style=color:#78787e># 验证集pytorch dataloader的进程数，设置为&gt;0，以减小验证时读取数据的时间开销</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># 指定刚刚下载好的Chinese-CLIP预训练权重的路径</span>
+</span></span><span style=display:flex><span>resume<span style=color:#ff6ac1>=</span><span style=color:#5af78e>f</span><span style=color:#5af78e>&#34;</span><span style=color:#5af78e>{</span>DATAPATH<span style=color:#5af78e>}</span><span style=color:#5af78e>/pretrained_weights/clip_cn_vit-h-14.pt&#34;</span>
+</span></span><span style=display:flex><span>reset_data_offset<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;--reset-data-offset&#34;</span> <span style=color:#78787e># 从头读取训练数据</span>
+</span></span><span style=display:flex><span>reset_optimizer<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;--reset-optimizer&#34;</span> <span style=color:#78787e># 重新初始化AdamW优化器</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># 指定输出相关配置</span>
+</span></span><span style=display:flex><span>batchsize<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>64</span>
+</span></span><span style=display:flex><span>output_base_dir<span style=color:#ff6ac1>=</span><span style=color:#5af78e>f</span><span style=color:#5af78e>&#34;</span><span style=color:#5af78e>{</span>DATAPATH<span style=color:#5af78e>}</span><span style=color:#5af78e>/experiments/&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#78787e>#name=f&#34;flickr30kcn_finetune_vit-l-14_roberta-base_batchsize{batchsize}_1gpu&#34; # finetune超参、日志、ckpt将保存在../datapath/experiments/</span>
+</span></span><span style=display:flex><span>name<span style=color:#ff6ac1>=</span><span style=color:#5af78e>f</span><span style=color:#5af78e>&#34;flickr30kcn_finetune_vit-h-14_roberta-large_batchsize</span><span style=color:#5af78e>{</span>batchsize<span style=color:#5af78e>}</span><span style=color:#5af78e>_1gpu&#34;</span> <span style=color:#78787e># finetune超参、日志、ckpt将保存在../datapath/experiments/</span>
+</span></span><span style=display:flex><span>save_step_frequency<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>999999</span> <span style=color:#78787e># disable it</span>
+</span></span><span style=display:flex><span>save_epoch_frequency<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>1</span> <span style=color:#78787e># 每轮保存一个finetune ckpt</span>
+</span></span><span style=display:flex><span>log_interval<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>10</span> <span style=color:#78787e># 日志打印间隔步数</span>
+</span></span><span style=display:flex><span>report_training_batch_acc<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;--report-training-batch-acc&#34;</span> <span style=color:#78787e># 训练中，报告训练batch的in-batch准确率</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># 指定训练超参数</span>
+</span></span><span style=display:flex><span>context_length<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>52</span> <span style=color:#78787e># 序列长度，这里指定为Chinese-CLIP默认的52</span>
+</span></span><span style=display:flex><span>warmup<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>100</span> <span style=color:#78787e># warmup步数</span>
+</span></span><span style=display:flex><span>batch_size<span style=color:#ff6ac1>=</span>batchsize <span style=color:#78787e># 训练单卡batch size</span>
+</span></span><span style=display:flex><span>valid_batch_size<span style=color:#ff6ac1>=</span>batchsize <span style=color:#78787e># 验证单卡batch size</span>
+</span></span><span style=display:flex><span>lr<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>3e-6</span> <span style=color:#78787e># 学习率，因为这里我们使用的对比学习batch size很小，所以对应的学习率也调低一些</span>
+</span></span><span style=display:flex><span>wd<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>0.001</span> <span style=color:#78787e># weight decay</span>
+</span></span><span style=display:flex><span>max_epochs<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>1</span> <span style=color:#78787e># 训练轮数，也可通过--max-steps指定训练步数</span>
+</span></span><span style=display:flex><span>valid_step_interval<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>1000</span> <span style=color:#78787e># 验证步数间隔</span>
+</span></span><span style=display:flex><span>valid_epoch_interval<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>1</span> <span style=color:#78787e># 验证轮数间隔</span>
+</span></span><span style=display:flex><span><span style=color:#78787e>#vision_model=&#34;ViT-L-14-336&#34; # 指定视觉侧结构为ViT-L/14@336</span>
+</span></span><span style=display:flex><span>vision_model<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;ViT-H-14&#34;</span> <span style=color:#78787e># 指定视觉侧结构为ViT-H/14</span>
+</span></span><span style=display:flex><span><span style=color:#78787e>#text_model=&#34;RoBERTa-wwm-ext-base-chinese&#34; # 指定文本侧结构为RoBERTa-base</span>
+</span></span><span style=display:flex><span>text_model<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;RoBERTa-wwm-ext-large-chinese&#34;</span> <span style=color:#78787e># 指定文本侧结构为RoBERTa-large</span>
+</span></span><span style=display:flex><span>use_augment<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;--use-augment&#34;</span> <span style=color:#78787e># 对图像使用数据增强</span>
+</span></span><span style=display:flex><span>grad_checkpointing<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;--grad-checkpointing&#34;</span> <span style=color:#78787e># 激活重计算策略，用更多训练时间换取更小的显存开销</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>run_command <span style=color:#ff6ac1>=</span> <span style=color:#5af78e>&#34;export PYTHONPATH=$</span><span style=color:#5af78e>{PYTHONPATH}</span><span style=color:#5af78e>:`pwd`/cn_clip;&#34;</span> <span style=color:#ff6ac1>+</span> \
+</span></span><span style=display:flex><span><span style=color:#5af78e>f</span><span style=color:#5af78e>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>python3 -m torch.distributed.run --nproc_per_node=</span><span style=color:#5af78e>{</span>GPUS_PER_NODE<span style=color:#5af78e>}</span><span style=color:#5af78e> --nnodes=</span><span style=color:#5af78e>{</span>WORKER_CNT<span style=color:#5af78e>}</span><span style=color:#5af78e> --node_rank=</span><span style=color:#5af78e>{</span>RANK<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --master_addr=</span><span style=color:#5af78e>{</span>MASTER_ADDR<span style=color:#5af78e>}</span><span style=color:#5af78e> --master_port=</span><span style=color:#5af78e>{</span>MASTER_PORT<span style=color:#5af78e>}</span><span style=color:#5af78e> cn_clip/training/main.py </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --train-data=</span><span style=color:#5af78e>{</span>train_data<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --val-data=</span><span style=color:#5af78e>{</span>val_data<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --num-workers=</span><span style=color:#5af78e>{</span>num_workers<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --valid-num-workers=</span><span style=color:#5af78e>{</span>valid_num_workers<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --resume=</span><span style=color:#5af78e>{</span>resume<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      </span><span style=color:#5af78e>{</span>reset_data_offset<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      </span><span style=color:#5af78e>{</span>reset_optimizer<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --logs=</span><span style=color:#5af78e>{</span>output_base_dir<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --name=</span><span style=color:#5af78e>{</span>name<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --save-step-frequency=</span><span style=color:#5af78e>{</span>save_step_frequency<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --save-epoch-frequency=</span><span style=color:#5af78e>{</span>save_epoch_frequency<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --log-interval=</span><span style=color:#5af78e>{</span>log_interval<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      </span><span style=color:#5af78e>{</span>report_training_batch_acc<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --context-length=</span><span style=color:#5af78e>{</span>context_length<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --warmup=</span><span style=color:#5af78e>{</span>warmup<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --batch-size=</span><span style=color:#5af78e>{</span>batch_size<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --valid-batch-size=</span><span style=color:#5af78e>{</span>valid_batch_size<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --valid-step-interval=</span><span style=color:#5af78e>{</span>valid_step_interval<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --valid-epoch-interval=</span><span style=color:#5af78e>{</span>valid_epoch_interval<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --lr=</span><span style=color:#5af78e>{</span>lr<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --wd=</span><span style=color:#5af78e>{</span>wd<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --max-epochs=</span><span style=color:#5af78e>{</span>max_epochs<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --vision-model=</span><span style=color:#5af78e>{</span>vision_model<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      </span><span style=color:#5af78e>{</span>use_augment<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      </span><span style=color:#5af78e>{</span>grad_checkpointing<span style=color:#5af78e>}</span><span style=color:#5af78e> </span><span style=color:#5af78e>\
+</span></span></span><span style=display:flex><span><span style=color:#5af78e></span><span style=color:#5af78e>      --text-model=</span><span style=color:#5af78e>{</span>text_model<span style=color:#5af78e>}</span><span style=color:#5af78e>
+</span></span></span><span style=display:flex><span><span style=color:#5af78e>&#34;&#34;&#34;</span><span style=color:#ff6ac1>.</span>lstrip()
+</span></span><span style=display:flex><span><span style=color:#ff5c57>print</span>(run_command)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># jupyterlab 执行finetune流程  # torch==2.1.0</span>
+</span></span><span style=display:flex><span><span style=color:#ff5c57>!</span>{run_command}
+</span></span></code></pre></div><h2 id=梯度重计算策略><div><a href=#%e6%a2%af%e5%ba%a6%e9%87%8d%e8%ae%a1%e7%ae%97%e7%ad%96%e7%95%a5>#
+</a>梯度重计算策略</div></h2><p>grad-checkpointing: 使用重计算策略，在前向过程中不保存中间结果，以训练时间换取更小的显存
+开销，适用于显存不足的情况。（store_true参数，直接在脚本中加上&ndash;grad-checkpointing即可，
+目前要求Pytorch>1.8.0）</p><p>实际上<code>torch.utils.checkpoint</code>模块的工作原理可以归结为：通过部分丢弃前向传播的中间激活
+值来减少显存占用，并在反向传播时重新计算这些丢弃的激活值。这种策略在深度学习训练中是可
+行的，因为 PyTorch 的计算图是动态生成的，可以灵活地指定哪些部分的前向传播需要“重计算”。</p><p>关于前向传播、后向传播和计算图的更多内容参考博文<a href=/posts/neuralnetworks/backpropagation/>前向传播_反向传播_计算图</a></p><h2 id=flashattention><div><a href=#flashattention>#
+</a>FlashAttention</div></h2><p>FlashAttention 是一种专为高效计算自注意力机制（Self-Attention）而设计的优化算法，由 Tri
+Dao 等人在 2022 年提出。它能够在不改变自注意力输出结果的前提下，大幅度减少内存占用并加速
+计算，尤其在处理长序列输入时效果显著。FlashAttention 的出现主要是为了解决大模型中自注意
+力计算的显存和计算瓶颈问题，使得训练更高效。</p><p>自注意力机制的核心操作是通过输入序列的查询向量（Q）、键向量（K）和值向量（V）来计算加权
+输出。具体计算步骤如下：</p><ol><li>计算 Q 和 K 的相似度，得到注意力分数矩阵$S=QK^{T}$，这是一个规模为 n×n 的矩阵，其中 n
+是输入序列长度。</li><li>对注意力分数进行<code>Softmax</code>，然后将 Softmax 结果与 矩阵V 相乘，得到输出。</li></ol><p>传统自注意力机制的两个主要问题是：</p><ul><li>显存占用大：需要存储整个 n×n 的注意力分数矩阵，显存需求是二次增长的 O($n^2$)。</li><li>计算开销高：随着输入序列变长，矩阵乘法的计算复杂度也快速增加。</li></ul><p>FlashAttention 的工作流程</p><ul><li>将输入序列分块：将 Q、K 和 V 分成多个较小的子块。</li><li>逐块计算注意力矩阵：按顺序计算每个子块的注意力分数，并在计算过程中逐步更新 Softmax。</li><li>汇总计算结果：对所有子块的计算结果进行汇总，从而得到最终的注意力输出。</li></ul><p>在每个子块的计算中，FlashAttention 会复用 GPU 的高速缓存以减少全局显存访问，这极大地提升
+了性能。</p><p>更多关于FlashAttention的内容可以参考其官网和论文（底层硬件的东西，超出咱的知识范畴咯）。</p><h2 id=cn-clip微调后的应用><div><a href=#cn-clip%e5%be%ae%e8%b0%83%e5%90%8e%e7%9a%84%e5%ba%94%e7%94%a8>#
+</a>CN-CLIP微调后的应用</div></h2><p>借助开源数据集中标注好的多标签样本，CN-CLIP在这样的数据上微调，是为了能够将其用于零样本
+分类预测，
+为本地项目的图像生成标签（亦即用CN-CLIP完成样本多标签标注）。为什么不直接用来进行推理？
+因为效果不佳。为什么效果不佳？我们分析是因为国内国外管道的差异以及拍摄图像的质量差异，导
+致微调的模型没法得到很准确的预测结果（根据<a href=/posts/resumeessentials/2024-08-14-f2-score/>F2-CIW</a>得分衡量）。</p><p>基于CN-CLIP微调的模型来完成项目中最受关注的类别进行标注，结合一定的手工校正，有效降低了
+标注成本。</p><h2 id=swin-基础知识和应用><div><a href=#swin-%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e5%92%8c%e5%ba%94%e7%94%a8>#
+</a>Swin 基础知识和应用</div></h2><p>Swin Transformer 同样是嫌弃 Vision Transformer（ViT）模型(论文：<a href=https://arxiv.org/abs/2010.11929>An Image is Worth 16x16 Words</a>)
+中原始自注意力机制计算复杂度过高而进行的改良。它是从ViT模型演变而来的，将自注意力机制
+（Self-Attention）应用于图像识别任务中，旨在提升对高分辨率图像的处理效率。</p><p>Swin Transformer 的主要特点包括：</p><ul><li><p>分层结构（Hierarchical Architecture）：与传统的 Transformer 不同，Swin Transformer 采用了分层的方式来处理图像。图像在多个尺度上被处理，每一层的特征图尺寸逐渐减小，类似于卷积神经网络（CNN）中的分层结构。这种设计有助于捕捉不同尺度的信息。</p></li><li><p>窗口注意力（Window-based Attention）：Swin Transformer 将图像划分为多个固定大小的窗口，每个窗口内独立应用自注意力。这样可以减少计算复杂度，使模型能够更高效地处理高分辨率图像。</p></li><li><p>跨窗口交互（Shifted Windows Mechanism）：为了实现不同窗口之间的交互，Swin Transformer 使用了“平移窗口”机制。在相邻层中，通过平移窗口的方式，使得每个窗口的边界区域可以共享信息，从而增强了不同区域之间的联系。</p></li><li><p>计算效率高：由于窗口划分和分层结构的使用，Swin Transformer 相比传统的 Vision Transformer 能够在不显著增加计算量的情况下提升对大图像的处理能力。</p></li></ul><p>更多细节参考<a href=./SwinTransformer%E8%AE%BA%E6%96%87%E7%B2%BE%E8%AF%BB%E7%AC%94%E8%AE%B0/index.md>SwinTransformer论文精读笔记</a></p><h2 id=适配多标签预测><div><a href=#%e9%80%82%e9%85%8d%e5%a4%9a%e6%a0%87%e7%ad%be%e9%a2%84%e6%b5%8b>#
+</a>适配多标签预测</div></h2><ul><li><p>单标签分类与多标签分类的区别</p><ul><li><p>单标签分类（Single-label Classification）：模型每次只需要预测一个类别，即图像只属
+于一个类别。例如，猫和狗的分类任务中，图像要么是猫，要么是狗。我们通常使用Softmax
+激活函数，它将所有类别的概率加起来等于1。</p></li><li><p>多标签分类（Multi-label Classification）：图像可能同时属于多个类别，比如一张图片中
+可能同时有“猫”和“狗”。这种情况下，每个类别是独立的，即我们需要判断每个类别的“是否
+存在”而不是“唯一所属”，所以不能使用Softmax。</p></li></ul></li><li><p>使用Sigmoid激活函数扩展多标签分类</p><ul><li><p>输出层结构：传统单标签分类网络的输出层通常是一个大小为类别数的全连接层，例如，如果
+有10个类别，输出层的节点数就是10。但对于多标签分类，我们仍可以使用同样的全连接层，
+只是激活函数和输出方式会不同。</p></li><li><p>激活函数的改变：为了支持多标签分类，我们在输出层中使用Sigmoid激活函数，而不是
+Softmax。
+为什么使用Sigmoid？
+Softmax会将所有类别的输出概率归一化，确保总和为1，适合用于单标签分类。
+Sigmoid则不归一化，它将每个节点的输出映射到0到1之间的概率，每个类别的预测是独立的。
+因此，Sigmoid更适合多标签分类，因为每个类别的概率独立存在，并不需要相加为1。</p></li><li><p>训练过程：
+对于每个类别的预测，使用二元交叉熵损失（Binary Cross-Entropy Loss）来训练模型。
+每个类别的标签都是0或1，表示该类别是否在图像中存在。
+在多标签任务中，每个类别的标签都是独立的（比如[1, 0, 1, 0, &mldr;]，表示不同类别的存
+在与否），所以我们用二元交叉熵损失来计算每个类别的误差。训练过程中，模型会根据每个
+类别的概率输出与真实标签之间的差异调整权重。</p></li></ul></li><li><p><a href=https://arxiv.org/abs/2103.10619>SewerML-dataset CVPR2021</a></p></li></ul><blockquote><p>在这项工作中，我们为基于图像的下水道缺陷分类提供了一个名为Sewer-ML的大型新颖且可公开获
+得的多标签分类数据集。Sewer-ML数据集包含130万张图像，这些图像由来自三个不同公用事业公司
+的专业下水道检查员在九年中标注。</p></blockquote><p>Label Code Description</p><table><thead><tr><th>Code</th><th>Description</th><th>CIW</th></tr></thead><tbody><tr><td>VA</td><td>Water Level (in percentages)</td><td>0.0310</td></tr><tr><td>RB</td><td>Cracks, breaks, and collapses</td><td>1.0000</td></tr><tr><td>OB</td><td>Surface damage</td><td>0.5518</td></tr><tr><td>PF</td><td>Production error</td><td>0.2896</td></tr><tr><td>DE</td><td>Deformation</td><td>0.1622</td></tr><tr><td>FS</td><td>Displaced joint</td><td>0.6419</td></tr><tr><td>IS</td><td>Intruding sealing material</td><td>0.1847</td></tr><tr><td>RO</td><td>Roots</td><td>0.3559</td></tr><tr><td>IN</td><td>Infiltration</td><td>0.3131</td></tr><tr><td>AF</td><td>Settled deposits</td><td>0.0811</td></tr><tr><td>BE</td><td>Attached deposits</td><td>0.2275</td></tr><tr><td>FO</td><td>Obstacle</td><td>0.2477</td></tr><tr><td>GR</td><td>Branch pipe</td><td>0.0901</td></tr><tr><td>PH</td><td>Chiseled connection</td><td>0.4167</td></tr><tr><td>PB</td><td>Drilled connection</td><td>0.4167</td></tr><tr><td>OS</td><td>Lateral reinstatement cuts</td><td>0.9009</td></tr><tr><td>OP</td><td>Connection with transition profile</td><td>0.3829</td></tr><tr><td>OK</td><td>Connection with construction changes</td><td>0.4396</td></tr></tbody></table><p>**CIW(class importance weight)**是事先给定的评估权重，目的是使模型关注那些少见但代价很高
+的缺陷类型。关于标签类别的更多解释，可查看<a href=https://openaccess.thecvf.com/content/CVPR2021/papers/Haurum_Sewer-ML_A_Multi-Label_Sewer_Defect_Classification_Dataset_and_Benchmark_CVPR_2021_paper.pdf>开放访问版本论文</a>。</p><p>这个数据集对于本项目是个巨大助力（利用得当的话），但如前文所述，此数据集没办法直接利用，
+需要做数据和模型层面的调整。</p><p>为了使用swin-transformer进行多标签分类，需要将其分类头输出层进行调整，由（softmax）改为
+（sigmoid），同时损失函数从cross-entropy改变binary-cross-entropy。实际上就是说，原模型是
+预测一个one-hot向量，而多标签分类要求预测一个multi-hot向量，所以改为对每个多标签进行二分
+预测，因此输出层调整为sigmoid+BCE。</p><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>cfgfile <span style=color:#ff6ac1>=</span> <span style=color:#5af78e>&#34;./configs/swinv2_model_eval_config.pkl&#34;</span>  <span style=color:#78787e># eval mode</span>
+</span></span><span style=display:flex><span>pthfile <span style=color:#ff6ac1>=</span> <span style=color:#5af78e>&#34;./models/swinv2/swinv2_base_patch4_window12_192_22k.pth&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#ff6ac1>with</span> <span style=color:#ff5c57>open</span>(cfgfile, <span style=color:#5af78e>&#34;rb&#34;</span>) <span style=color:#ff6ac1>as</span> f:
+</span></span><span style=display:flex><span>    config <span style=color:#ff6ac1>=</span> pickle<span style=color:#ff6ac1>.</span>load(f)
+</span></span><span style=display:flex><span><span style=color:#78787e># conifg.EVAL_MODE == True</span>
+</span></span><span style=display:flex><span><span style=color:#ff6ac1>if</span> config<span style=color:#ff6ac1>.</span>EVAL_MODE <span style=color:#ff6ac1>is</span> <span style=color:#ff6ac1>True</span>:    <span style=color:#78787e># turn-off EVAL mode</span>
+</span></span><span style=display:flex><span>    config<span style=color:#ff6ac1>.</span>defrost()
+</span></span><span style=display:flex><span>    config<span style=color:#ff6ac1>.</span>EVAL_MODE <span style=color:#ff6ac1>=</span> <span style=color:#ff6ac1>False</span>
+</span></span><span style=display:flex><span>    config<span style=color:#ff6ac1>.</span>freeze()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>model <span style=color:#ff6ac1>=</span> build_model(config)
+</span></span><span style=display:flex><span>checkpoint <span style=color:#ff6ac1>=</span> torch<span style=color:#ff6ac1>.</span>load(pthfile, map_location<span style=color:#ff6ac1>=</span><span style=color:#5af78e>&#34;cpu&#34;</span>)
+</span></span><span style=display:flex><span>model<span style=color:#ff6ac1>.</span>load_state_dict(checkpoint[<span style=color:#5af78e>&#34;model&#34;</span>], strict<span style=color:#ff6ac1>=</span><span style=color:#ff6ac1>False</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># Assuming num_labels is the number of classes for the multi-label task</span>
+</span></span><span style=display:flex><span>NUM_LABELS <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>20</span>  <span style=color:#78787e># Adjust this based on your specific task: SewerML dataset</span>
+</span></span><span style=display:flex><span><span style=color:#78787e># Modify the output layer of the SwinV2 model</span>
+</span></span><span style=display:flex><span>model<span style=color:#ff6ac1>.</span>head <span style=color:#ff6ac1>=</span> nn<span style=color:#ff6ac1>.</span>Sequential(
+</span></span><span style=display:flex><span>    nn<span style=color:#ff6ac1>.</span>Linear(model<span style=color:#ff6ac1>.</span>head<span style=color:#ff6ac1>.</span>in_features, NUM_LABELS),
+</span></span><span style=display:flex><span>    nn<span style=color:#ff6ac1>.</span>Sigmoid(),  <span style=color:#78787e># Apply sigmoid for multi-label classification</span>
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># Binary Cross Entropy Loss and Optimizer</span>
+</span></span><span style=display:flex><span>criterion <span style=color:#ff6ac1>=</span> nn<span style=color:#ff6ac1>.</span>BCELoss()  <span style=color:#78787e># Use BCE Loss for multi-label classification</span>
+</span></span><span style=display:flex><span>optimizer <span style=color:#ff6ac1>=</span> torch<span style=color:#ff6ac1>.</span>optim<span style=color:#ff6ac1>.</span>Adam(model<span style=color:#ff6ac1>.</span>parameters(), lr<span style=color:#ff6ac1>=</span><span style=color:#ff9f43>1e-4</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#78787e># Training loop</span>
+</span></span><span style=display:flex><span>num_epochs <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>4</span>  <span style=color:#78787e># Specify the number of epochs</span>
+</span></span><span style=display:flex><span>model<span style=color:#ff6ac1>.</span>to(device)
+</span></span><span style=display:flex><span><span style=color:#ff6ac1>for</span> epoch <span style=color:#ff6ac1>in</span> <span style=color:#ff5c57>range</span>(num_epochs):
+</span></span><span style=display:flex><span>    <span style=color:#ff5c57>print</span>(<span style=color:#5af78e>f</span><span style=color:#5af78e>&#34;Epoch </span><span style=color:#5af78e>{</span>epoch<span style=color:#ff6ac1>+</span><span style=color:#ff9f43>1</span><span style=color:#5af78e>}</span><span style=color:#5af78e>/</span><span style=color:#5af78e>{</span>num_epochs<span style=color:#5af78e>}</span><span style=color:#5af78e>&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#78787e># ....</span>
+</span></span></code></pre></div><h2 id=长尾分布问题><div><a href=#%e9%95%bf%e5%b0%be%e5%88%86%e5%b8%83%e9%97%ae%e9%a2%98>#
+</a>长尾分布问题</div></h2><p>普通的“过采样/欠采样”对多标签样本集效果不佳：1）过采样（保持比例不变）和欠采样都不能增加
+稀有标签的样本，而且欠采样可能会加重不均衡。</p><p>多模型集成：将所有稀少标签样本重组为同一个类别“sp”，在样本量正常的训练集训练模型A，
+当模型A预测新样本为“sp”时，把这个样本进一步输入给模型B进行预测（模型B就是针对稀少标
+签样本训练的模型）。</p></div></article><h3 class="read-next-title noselect"></h3><ul class="read-next-posts noselect"><li><a href=/posts/clipmodel/clipasso/>clipasso</a></li></ul><div class="pagination post-pagination"><div class="left pagination-item disabled"></div><div class="right pagination-item"><a href=/posts/neuralnetworks/backpropagation/>前向传播_反向传播_计算图</a></div></div></main><footer class="common-footer noselect"><ul class=language-select><li>Chinese</li><li><a href=/en/>English</a></li></ul><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div style=display:flex;align-items:center></div><div><a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>map[email:1522009317@qq.com name:fmh]</a></p></footer></div></body></html>

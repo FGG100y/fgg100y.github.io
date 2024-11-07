@@ -75,14 +75,4 @@ $$&lt;/p>
 &lt;p>更好的特征传播（feature propagation）&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h2 id="此残差非彼残差resnet-vs-gdbt" >
-&lt;div>
-&lt;a href="#%e6%ad%a4%e6%ae%8b%e5%b7%ae%e9%9d%9e%e5%bd%bc%e6%ae%8b%e5%b7%aeresnet-vs-gdbt">
-#
-&lt;/a>
-此残差非彼残差（ResNet VS GDBT）
-&lt;/div>
-&lt;/h2>
-&lt;p>GBDT（梯度提升决策树）中的残差（residual）是指预测值与真实值之间的差值。&lt;/p>
-&lt;p>ResNet 中的残差（residual），是神经网络尝试去学习特征图（feature map）的残差（是网络块输出与输入之间的差值）。&lt;/p>
 &lt;p>Paper: &lt;a href="https://arxiv.org/pdf/1512.03385">https://arxiv.org/pdf/1512.03385&lt;/a>&lt;/p></description></item></channel></rss>

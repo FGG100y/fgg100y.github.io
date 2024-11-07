@@ -26,7 +26,7 @@ the gradient from above layer to gamma and beta and all the way back to the inpu
 <a href=https://fgg100y.github.io/posts/ title>归档</a>
 <a href=https://fgg100y.github.io/tags/ title>标签</a>
 <a href=https://fgg100y.github.io/about/ title>关于</a></nav><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"]}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></header><main id=main tabindex=-1><article class="post h-entry"><div class=post-header><header><h1 class="p-name post-title">前向传播_反向传播_计算图</h1></header><div class="post-info noselect"><div class="post-date dt-published"><time datetime=2024-10-31>2024-10-31</time></div><a class="post-hidden-url u-url" href=/posts/neuralnetworks/backpropagation/>/posts/neuralnetworks/backpropagation/</a>
-<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>map[email:1522009317@qq.com name:fmh]</a><div class=post-taxonomies><ul class=post-tags><li><a href=/tags/backprop/>#Backprop</a></li></ul></div></div></div><details class="toc noselect"><summary>Table of Contents</summary><div class=inner><nav id=TableOfContents><ul><li><a href=#前向传播具体计算的内容包括>前向传播具体计算的内容包括：</a></li><li><a href=#故事的另一部分>故事的另一部分</a></li><li><a href=#整个故事框架梯度下降算法和反向传播算法>整个故事框架：梯度下降算法和反向传播算法</a><ul><li><a href=#1-计算损失函数>1. 计算损失函数</a></li><li><a href=#2-反向传播计算损失对权重的梯度>2. 反向传播：计算损失对权重的梯度</a></li><li><a href=#3-梯度下降更新权重>3. 梯度下降更新权重</a></li><li><a href=#4-不同的优化算法>4. 不同的优化算法</a></li><li><a href=#5-迭代更新>5. 迭代更新</a></li></ul></li></ul></nav></div></details><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><ul><li><p>前向传播（forward pass）指的是：按顺序（从输入层到输出层）计算和存储神经网络中每层的结果。</p></li><li><p>反向传播（backward propagation或backpropagation）指的是计算神经网络参数梯度的方法。简
+<a href=https://fgg100y.github.io/ class="p-name p-author post-hidden-author h-card" rel=me>map[email:1522009317@qq.com name:fmh]</a><div class=post-taxonomies><ul class=post-tags><li><a href=/tags/backprop/>#Backprop</a></li></ul></div></div></div><details class="toc noselect"><summary>Table of Contents</summary><div class=inner><nav id=TableOfContents><ul><li><a href=#前向传播具体计算的内容包括>前向传播具体计算的内容包括：</a></li><li><a href=#故事的另一部分>故事的另一部分</a><ul><li><a href=#静态计算图-vs-动态计算图>静态计算图 vs 动态计算图</a></li><li><a href=#funciton-节点>Funciton 节点</a></li><li><a href=#计算图与反向传播>计算图与反向传播</a></li><li><a href=#叶子节点和非叶子节点>叶子节点和非叶子节点</a></li></ul></li><li><a href=#整个故事框架梯度下降算法和反向传播算法>整个故事框架：梯度下降算法和反向传播算法</a><ul><li><a href=#1-计算损失函数>1. 计算损失函数</a></li><li><a href=#2-反向传播计算损失对权重的梯度>2. 反向传播：计算损失对权重的梯度</a></li><li><a href=#3-梯度下降更新权重>3. 梯度下降更新权重</a></li><li><a href=#4-不同的优化算法>4. 不同的优化算法</a></li><li><a href=#5-迭代更新>5. 迭代更新</a></li></ul></li></ul></nav></div></details><script>var toc=document.querySelector(".toc");toc&&toc.addEventListener("click",function(){event.target.tagName!=="A"&&(event.preventDefault(),this.open?(this.open=!1,this.classList.remove("expanded")):(this.open=!0,this.classList.add("expanded")))})</script><div class="content e-content"><ul><li><p>前向传播（forward pass）指的是：按顺序（从输入层到输出层）计算和存储神经网络中每层的结果。</p></li><li><p>反向传播（backward propagation或backpropagation）指的是计算神经网络参数梯度的方法。简
 言之，该方法根据微积分中的链式规则，按相反的顺序从输出层到输入层遍历网络。该算法存储了
 计算某些参数梯度时所需的任何中间变量（偏导数）。</p></li><li><p>计算图：具体直接看实例，图1，图2，图3</p></li></ul><p><strong>问题：前向传播具体是计算什么？存储什么？反向传播怎么计算梯度？</strong></p><p><img alt=forward-pass src=/posts/neuralnetworks/backpropagation/images/d2l-forward-pass.png></p><p>图1（即图4.7.1）来自《动手学深度学习》一书。本节主要内容均来自此书对应章节。
 简单网络（单隐藏层网络）相对应的计算图，其中正方形表示变量，圆圈表示操作符。左下角表示输
@@ -66,7 +66,82 @@ $$</p><p>通常将$J$称为目标函数（objective function）。也就是用�
 （$\frac{\partial z}{\partial x}$），通过链式法则可以快速计算得到节点输入$x$或$y$对损
 失函数$L$的偏导数（如图所示）。这个过程是递归式的。</p><p><strong>反向传播的目的就是计算梯度，而计算梯度就是为了更新权重。</strong></p><p>(注:
 1.针对单隐藏层的反向传播过程的每一步的计算公式细节，请《动手学深度学习》第4章。
-2.如果对理论层面的内容感兴趣可以看看我的<a href=/posts/neuralnetworks/xgsbackprop/>另一个博客</a>，或直接参考“西瓜书<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>”的相关章节)</p><h2 id=整个故事框架梯度下降算法和反向传播算法><div><a href=#%e6%95%b4%e4%b8%aa%e6%95%85%e4%ba%8b%e6%a1%86%e6%9e%b6%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d%e7%ae%97%e6%b3%95%e5%92%8c%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad%e7%ae%97%e6%b3%95>#
+2.如果对理论层面的内容感兴趣可以看看我的<a href=/posts/neuralnetworks/xgsbackprop/>另一个博客</a>，或直接参考“西瓜书<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>”的相关章节)</p><h3 id=静态计算图-vs-动态计算图><div><a href=#%e9%9d%99%e6%80%81%e8%ae%a1%e7%ae%97%e5%9b%be-vs-%e5%8a%a8%e6%80%81%e8%ae%a1%e7%ae%97%e5%9b%be>##
+</a>静态计算图 vs 动态计算图</div></h3><p>在执行前向传播和反向传播时，计算图会帮助管理和追踪各个操作，确保梯度能够顺利传播到每一个
+参数。PyTorch 的计算图之所以被称为 “动态生成的”，是因为它 在每次前向传播时都会重新构建一
+次计算图，而不是像一些静态计算图框架（如 TensorFlow 1.x）那样在训练开始前定义好固定的计
+算图。</p><p>在静态计算图（如 TensorFlow 1.x）中，模型在训练开始前需要构建完整的计算图，整个计算图在
+训练过程中是固定的。优点是执行效率高，因为优化器可以对整个图进行优化。缺点是灵活性差，若
+需要调整模型结构（比如根据条件使用不同的层），则需要重新构建计算图。</p><p>PyTorch 使用的动态计算图（也称为“define-by-run”），在每次前向传播时都会重新构建计算图。
+优点是灵活性高，适合处理结构复杂或变化的网络，例如循环神经网络或条件分支模型。因为每次执
+行前向传播时可以定义不同的操作，使得网络结构可以基于运行时的输入或状态动态调整。缺点是计
+算图的构建可能稍微增加了开销，但这对大部分模型来说影响很小。</p><p><img alt=dynamic_graph src=/posts/neuralnetworks/backpropagation/images/torch%E5%8A%A8%E6%80%81%E5%9B%BE.gif></p><p>Pytorch的计算图由节点和边组成，节点表示张量或者Function，边表示张量和Function之间的依赖
+关系。</p><p>Pytorch的动态计算图的“动态”主要有两重含义：</p><ul><li><p>第一层含义是：计算图的正向传播是立即执行的。无需等待完整的计算图创建完毕，每条语句都会
+在计算图中动态添加节点和边，并立即执行正向传播得到计算结果。</p></li><li><p>第二层含义是：计算图在反向传播后立即销毁。下次调用需要重新构建计算图。如果在程序中使用
+了<code>backward</code>方法执行了反向传播，或者利用<code>torch.autograd.grad</code>方法计算了梯度，那么创建
+的计算图会被立即销毁，释放存储空间，下次调用需要重新创建。</p></li></ul><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#78787e>#计算图在反向传播后立即销毁，</span>
+</span></span><span style=display:flex><span><span style=color:#78787e>#loss.backward(retain_graph = True) # 如果需要保留计算图, 需要设置retain_graph = True</span>
+</span></span><span style=display:flex><span>loss<span style=color:#ff6ac1>.</span>backward()
+</span></span><span style=display:flex><span><span style=color:#78787e>#loss.backward()                    # 否则如果再次执行反向传播将报错</span>
+</span></span></code></pre></div><h3 id=funciton-节点><div><a href=#funciton-%e8%8a%82%e7%82%b9>##
+</a>Funciton 节点</div></h3><p>除了张量节点，计算图中的另外一种节点是Function, 实际上就是 Pytorch中各种对张量操作的函数。</p><p>这些Function和我们Python中的函数有一个较大的区别，那就是它同时包括正向计算逻辑和反向传播
+的逻辑。</p><p>我们可以通过继承torch.autograd.Function来创建这种支持反向传播的Function：</p><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff6ac1>class</span> <span style=color:#f3f99d>MyReLU</span>(torch<span style=color:#ff6ac1>.</span>autograd<span style=color:#ff6ac1>.</span>Function):
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#78787e>#正向传播逻辑，可以用ctx存储一些值，供反向传播使用。</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff9f43>@staticmethod</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>forward</span>(ctx, <span style=color:#ff5c57>input</span>):
+</span></span><span style=display:flex><span>        ctx<span style=color:#ff6ac1>.</span>save_for_backward(<span style=color:#ff5c57>input</span>)
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> <span style=color:#ff5c57>input</span><span style=color:#ff6ac1>.</span>clamp(<span style=color:#ff5c57>min</span><span style=color:#ff6ac1>=</span><span style=color:#ff9f43>0</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#78787e>#反向传播逻辑</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff9f43>@staticmethod</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff6ac1>def</span> <span style=color:#57c7ff>backward</span>(ctx, grad_output):
+</span></span><span style=display:flex><span>        <span style=color:#ff5c57>input</span>, <span style=color:#ff6ac1>=</span> ctx<span style=color:#ff6ac1>.</span>saved_tensors
+</span></span><span style=display:flex><span>        grad_input <span style=color:#ff6ac1>=</span> grad_output<span style=color:#ff6ac1>.</span>clone()
+</span></span><span style=display:flex><span>        grad_input[<span style=color:#ff5c57>input</span> <span style=color:#ff6ac1>&lt;</span> <span style=color:#ff9f43>0</span>] <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>0</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff6ac1>return</span> grad_input
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>relu <span style=color:#ff6ac1>=</span> MyReLU<span style=color:#ff6ac1>.</span>apply <span style=color:#78787e># relu现在也可以具有正向传播和反向传播功能</span>
+</span></span><span style=display:flex><span>Y_hat <span style=color:#ff6ac1>=</span> relu(X<span style=color:#ff9f43>@w.t</span>() <span style=color:#ff6ac1>+</span> b)
+</span></span><span style=display:flex><span>loss <span style=color:#ff6ac1>=</span> torch<span style=color:#ff6ac1>.</span>mean(torch<span style=color:#ff6ac1>.</span>pow(Y_hat<span style=color:#ff6ac1>-</span>Y,<span style=color:#ff9f43>2</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>loss<span style=color:#ff6ac1>.</span>backward()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff5c57>print</span>(Y_hat<span style=color:#ff6ac1>.</span>grad_fn) <span style=color:#78787e># Y_hat的梯度函数即是我们自己所定义的 MyReLU.backward</span>
+</span></span></code></pre></div><h3 id=计算图与反向传播><div><a href=#%e8%ae%a1%e7%ae%97%e5%9b%be%e4%b8%8e%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad>##
+</a>计算图与反向传播</div></h3><p>loss.backward()语句调用后，依次发生以下计算过程。</p><ol><li><p>loss自己的grad梯度赋值为1，即对自身的梯度为1。</p></li><li><p>loss根据其自身梯度以及关联的backward方法，计算出其对应的自变量即y1和y2的梯度，将该值
+赋值到<code>y1.grad</code>和<code>y2.grad</code>。</p></li><li><p>y2和y1根据其自身梯度以及关联的<code>backward</code>方法, 分别计算出其对应的自变量x的梯度，
+<code>x.grad</code>将其收到的多个梯度值<strong>累加</strong>。</p></li></ol><p>注意，1,2,3步骤的求梯度顺序和对多个梯度值的累加规则恰好是求导链式法则的程序表述。</p><p>正因为链式求导法则衍生的梯度累加规则，张量的grad梯度不会自动清零，在需要的时候需要手动置零。</p><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff6ac1>import</span> torch
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>x <span style=color:#ff6ac1>=</span> torch<span style=color:#ff6ac1>.</span>tensor(<span style=color:#ff9f43>3.0</span>,requires_grad<span style=color:#ff6ac1>=</span><span style=color:#ff6ac1>True</span>)
+</span></span><span style=display:flex><span>y1 <span style=color:#ff6ac1>=</span> x <span style=color:#ff6ac1>+</span> <span style=color:#ff9f43>1</span>
+</span></span><span style=display:flex><span>y2 <span style=color:#ff6ac1>=</span> <span style=color:#ff9f43>2</span><span style=color:#ff6ac1>*</span>x
+</span></span><span style=display:flex><span>loss <span style=color:#ff6ac1>=</span> (y1<span style=color:#ff6ac1>-</span>y2)<span style=color:#ff6ac1>**</span><span style=color:#ff9f43>2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>loss<span style=color:#ff6ac1>.</span>backward()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff5c57>print</span>(<span style=color:#5af78e>&#34;loss.grad:&#34;</span>, loss<span style=color:#ff6ac1>.</span>grad)
+</span></span><span style=display:flex><span><span style=color:#ff5c57>print</span>(<span style=color:#5af78e>&#34;y1.grad:&#34;</span>, y1<span style=color:#ff6ac1>.</span>grad)
+</span></span><span style=display:flex><span><span style=color:#ff5c57>print</span>(<span style=color:#5af78e>&#34;y2.grad:&#34;</span>, y2<span style=color:#ff6ac1>.</span>grad)
+</span></span><span style=display:flex><span><span style=color:#ff5c57>print</span>(x<span style=color:#ff6ac1>.</span>grad)
+</span></span></code></pre></div><h3 id=叶子节点和非叶子节点><div><a href=#%e5%8f%b6%e5%ad%90%e8%8a%82%e7%82%b9%e5%92%8c%e9%9d%9e%e5%8f%b6%e5%ad%90%e8%8a%82%e7%82%b9>##
+</a>叶子节点和非叶子节点</div></h3><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>loss<span style=color:#ff6ac1>.</span>backward()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff5c57>print</span>(<span style=color:#5af78e>&#34;loss.grad:&#34;</span>, loss<span style=color:#ff6ac1>.</span>grad)          <span style=color:#78787e># None，预期是tensor(1.0)</span>
+</span></span><span style=display:flex><span><span style=color:#ff5c57>print</span>(<span style=color:#5af78e>&#34;y1.grad:&#34;</span>, y1<span style=color:#ff6ac1>.</span>grad)              <span style=color:#78787e># None，预期是tensor(-4.0)</span>
+</span></span><span style=display:flex><span><span style=color:#ff5c57>print</span>(<span style=color:#5af78e>&#34;y2.grad:&#34;</span>, y2<span style=color:#ff6ac1>.</span>grad)              <span style=color:#78787e># None，预期是tensor(4.0)</span>
+</span></span><span style=display:flex><span><span style=color:#ff5c57>print</span>(x<span style=color:#ff6ac1>.</span>grad)                           <span style=color:#78787e># tensor(4.0)</span>
+</span></span></code></pre></div><p>执行上面代码，我们会发现<code>loss.grad</code>并不是我们期望的1,而是 None。</p><p>类似地<code>y1.grad</code>以及<code>y2.grad</code>也是 None.</p><p>这是为什么呢？这是由于它们不是叶子节点张量。</p><p>反向传播过程中，只有<code>is_leaf=True</code>的叶子节点，需要求导的张量的导数结果才会被最后保留下来。</p><p>那么什么是叶子节点张量呢？叶子节点张量需要满足两个条件。</p><ul><li>叶子节点张量是由用户直接创建的张量，而非由某个<code>Function</code>通过计算得到的张量。</li><li>叶子节点张量的<code>requires_grad</code>属性必须为True.</li></ul><p>Pytorch设计这样的规则主要是为了节约内存或者显存空间，因为几乎所有的时候，用户只会关心他
+自己直接创建的张量的梯度。</p><p>所有依赖于叶子节点张量的张量, 其<code>requires_grad</code>属性必定是True的，但其梯度值只在计算过程
+中被用到，不会最终存储到grad属性中。</p><p>如果需要保留中间计算结果的梯度到grad属性中，可以使用<code>retain_grad</code>方法。
+如果仅仅是为了调试代码查看梯度值，可以利用<code>register_hook</code>打印日志。</p><div class=highlight><pre tabindex=0 style=color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#78787e>#非叶子节点梯度显示控制</span>
+</span></span><span style=display:flex><span>y1<span style=color:#ff6ac1>.</span>register_hook(<span style=color:#ff6ac1>lambda</span> grad: <span style=color:#ff5c57>print</span>(<span style=color:#5af78e>&#39;y1 grad: &#39;</span>, grad))
+</span></span><span style=display:flex><span>y2<span style=color:#ff6ac1>.</span>register_hook(<span style=color:#ff6ac1>lambda</span> grad: <span style=color:#ff5c57>print</span>(<span style=color:#5af78e>&#39;y2 grad: &#39;</span>, grad))
+</span></span><span style=display:flex><span>loss<span style=color:#ff6ac1>.</span>retain_grad()
+</span></span><span style=display:flex><span><span style=color:#78787e>#反向传播</span>
+</span></span><span style=display:flex><span>loss<span style=color:#ff6ac1>.</span>backward()
+</span></span></code></pre></div><p>以上代码片段均来自“eat_pytorch_in_20_days”，更多PyTorch细节，可以参考https://github.com/lyhue1991/eat_pytorch_in_20_days/</p><p>另一个也比较详细讲解动态图求偏导数过程的博客是这个https://yey.world/2020/12/08/Pytorch-04/</p><h2 id=整个故事框架梯度下降算法和反向传播算法><div><a href=#%e6%95%b4%e4%b8%aa%e6%95%85%e4%ba%8b%e6%a1%86%e6%9e%b6%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d%e7%ae%97%e6%b3%95%e5%92%8c%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad%e7%ae%97%e6%b3%95>#
 </a>整个故事框架：梯度下降算法和反向传播算法</div></h2><p>神经网络的权重更新是通过<strong>梯度下降</strong>或其变体算法实现的。梯度下降的核心思想是通过反向传播
 计算出损失函数对每个权重的梯度，然后利用这些梯度信息调整权重，使损失逐步减小（最优化过
 程），从而提高模型的预测能力。以下是权重更新的详细步骤：</p><h3 id=1-计算损失函数><div><a href=#1-%e8%ae%a1%e7%ae%97%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0>##
@@ -89,4 +164,4 @@ $$</p><p>其中：</p><ul><li>$\eta$ 是<strong>学习率</strong>，决定了�
 如$||W||^2$。在物理意义上，$L_2$ 范数表示向量从原点到点$x= [x_1,x_2,…,x_n]$的欧几里得
 距离。&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2><p>矩阵的Frobenius范数（Frobenius Norm）是矩阵的一个范数，用来测量矩阵的大小或总能量。
 对于矩阵A，Frobenius 范数定义为矩阵中所有元素平方和的平方根，也就是可以看作是将矩阵展
-平为一个一维向量后，计算其$L_2$范数的结果。&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3><p>周志华的《机器学习》一书。&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div></article><h3 class="read-next-title noselect"></h3><ul class="read-next-posts noselect"><li><a href=/posts/neuralnetworks/xgsbackprop/>西瓜书_误差逆传播算法(BP)</a></li></ul><div class="pagination post-pagination"><div class="left pagination-item disabled"></div><div class="right pagination-item"><a href=/posts/personals/momentsoflife/2024-10-27-parallel_quicksort/>parallel_quicksort</a></div></div></main><footer class="common-footer noselect"><ul class=language-select><li>Chinese</li><li><a href=/en/>English</a></li></ul><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div style=display:flex;align-items:center></div><div><a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>map[email:1522009317@qq.com name:fmh]</a></p></footer></div></body></html>
+平为一个一维向量后，计算其$L_2$范数的结果。&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3><p>周志华的《机器学习》一书。&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div></article><h3 class="read-next-title noselect"></h3><ul class="read-next-posts noselect"><li><a href=/posts/neuralnetworks/xgsbackprop/>西瓜书_误差逆传播算法(BP)</a></li></ul><div class="pagination post-pagination"><div class="left pagination-item"><a href=/posts/resumeessentials/2024-11-04-finetune_llm_clip/>finetune_llm_2</a></div><div class="right pagination-item"><a href=/posts/personals/momentsoflife/2024-10-27-parallel_quicksort/>parallel_quicksort</a></div></div></main><footer class="common-footer noselect"><ul class=language-select><li>Chinese</li><li><a href=/en/>English</a></li></ul><div class=common-footer-bottom><div style=display:flex;align-items:center;gap:8px>© fmh, 2024</div><div style=display:flex;align-items:center></div><div><a target=_blank rel="noopener noreferrer" href=https://gohugo.io/>Hugo</a>, <a target=_blank rel="noopener noreferrer" href=https://github.com/Junyi-99/hugo-theme-anubis2>Anubis2</a>.<br></div></div><p class="h-card vcard"><a href=https://fgg100y.github.io/ class="p-name u-url url fn" rel=me>map[email:1522009317@qq.com name:fmh]</a></p></footer></div></body></html>
