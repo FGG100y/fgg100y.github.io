@@ -1,5 +1,137 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>fgg blog</title><link>/</link><description>fgg blog</description><generator>Hugo -- gohugo.io</generator><language>zh</language><managingEditor>1522009317@qq.com
-(fmh)</managingEditor><lastBuildDate>Mon, 04 Nov 2024 16:39:22 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>finetune_llm_2</title><link>/posts/resumeessentials/2024-11-04-finetune_llm_clip/</link><pubDate>Mon, 04 Nov 2024 16:39:22 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/resumeessentials/2024-11-04-finetune_llm_clip/</guid><description>&lt;p>简历中提到对模型进行私域数据微调（finetuning）的，要能够说出所以然来。&lt;/p>
+(fmh)</managingEditor><lastBuildDate>Mon, 11 Nov 2024 10:01:25 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>stochastic_gradient_descent_brothers</title><link>/posts/optimazationmethods/sgd/2024-11-11-gradient_descent/</link><pubDate>Mon, 11 Nov 2024 10:01:25 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/optimazationmethods/sgd/2024-11-11-gradient_descent/</guid><description>&lt;h2 id="sgd" >
+&lt;div>
+&lt;a href="#sgd">
+#
+&lt;/a>
+SGD
+&lt;/div>
+&lt;/h2>
+&lt;p>更多理论层面的内容，参考这篇&lt;a href="https://fgg100y.github.io/posts/optimazationmethods/sgd/optimization_algorithms/">读书笔记&lt;/a>，这里的代码片段更多是用于复习概念。&lt;/p>
+&lt;p>SGD只用到一阶导数，使用二阶导数的优化方法可以参考这篇&lt;a href="https://fgg100y.github.io/posts/optimazationmethods/sgd/approximate_second-order_methods/">读书笔记&lt;/a>。&lt;/p>
+&lt;h3 id="vanilla-sgd" >
+&lt;div>
+&lt;a href="#vanilla-sgd">
+##
+&lt;/a>
+vanilla SGD
+&lt;/div>
+&lt;/h3>
+&lt;p>$$
+x_{t+1} = x_t - \alpha \nabla f(x_t)
+$$&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> t &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(num_steps):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dw &lt;span style="color:#ff6ac1">=&lt;/span> compute_gradient(w)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w &lt;span style="color:#ff6ac1">-=&lt;/span> learning_rate &lt;span style="color:#ff6ac1">*&lt;/span> dw
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="sgd--momentum" >
+&lt;div>
+&lt;a href="#sgd--momentum">
+##
+&lt;/a>
+SGD + Momentum
+&lt;/div>
+&lt;/h3>
+&lt;p>但什么是动量（Momentum）呢？可以看这个&lt;a href="https://fgg100y.github.io/posts/optimazationmethods/sgd/2024-06-16-what_is_momentum/">短文&lt;/a>。&lt;/p>
+&lt;p>$$
+v_{t+1} = \rho v_t + \nabla f(x_t) \\
+x_{t+1} = x_t - \alpha v_{t+1}
+$$&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>v &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> t &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(num_steps):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dw &lt;span style="color:#ff6ac1">=&lt;/span> compute_gradient(w)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> v &lt;span style="color:#ff6ac1">=&lt;/span> rho &lt;span style="color:#ff6ac1">*&lt;/span> v &lt;span style="color:#ff6ac1">+&lt;/span> dw
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w &lt;span style="color:#ff6ac1">-=&lt;/span> learning_rate &lt;span style="color:#ff6ac1">*&lt;/span> v
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>or the equivalent:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>v &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> t &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(num_steps):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dw &lt;span style="color:#ff6ac1">=&lt;/span> compute_gradient(w)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> v &lt;span style="color:#ff6ac1">=&lt;/span> rho &lt;span style="color:#ff6ac1">*&lt;/span> v &lt;span style="color:#ff6ac1">-&lt;/span> learning_rate &lt;span style="color:#ff6ac1">*&lt;/span> dw
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w &lt;span style="color:#ff6ac1">+=&lt;/span> v
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="nesterov-momentum" >
+&lt;div>
+&lt;a href="#nesterov-momentum">
+##
+&lt;/a>
+Nesterov Momentum
+&lt;/div>
+&lt;/h3>
+&lt;ul>
+&lt;li>Momentum update: Combine gradient at current point with velocity to get step used to
+update weights&lt;/li>
+&lt;li>Nesterov Momentum: &amp;ldquo;Look ahead&amp;rdquo; to the point where updating using velocity would take
+us; compute gradient there and mix it with velocity to get actual update direction&lt;/li>
+&lt;/ul>
+&lt;p>$$
+\begin{eqnarray}
+v_{t+1} &amp;amp;=&amp;amp; \rho v_t - \alpha \nabla f(x_t + \rho v_t) \\
+x_{t+1} &amp;amp;=&amp;amp; x_t + v_{t+1}
+\end{eqnarray}
+$$
+但是，我们更想要以$x_t, \nabla f(x_t)$的形式进行更新（而不是$\nabla f(x_t + \rho v_t)$），
+因此，通常做法是引入替代变量：&lt;/p>
+&lt;p>$$
+\begin{eqnarray}
+v_{t+1} &amp;amp;=&amp;amp; \rho v_t - \alpha \nabla f(\tilde{x}_t) \\
+\tilde{x}_{t+1} &amp;amp;=&amp;amp; \tilde{x}_t - \rho v_t + (1 + \rho) v_{t+1} \\
+&amp;amp;=&amp;amp; \tilde{x} + v_{t+1} + \rho (v_{t+1} - v_t)
+\end{eqnarray}
+$$&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>v &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> t &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(num_steps):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dw &lt;span style="color:#ff6ac1">=&lt;/span> compute_gradient(w)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> prev_v &lt;span style="color:#ff6ac1">=&lt;/span> v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> v &lt;span style="color:#ff6ac1">=&lt;/span> rho &lt;span style="color:#ff6ac1">*&lt;/span> v &lt;span style="color:#ff6ac1">-&lt;/span> learning_rate &lt;span style="color:#ff6ac1">*&lt;/span> dw
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w &lt;span style="color:#ff6ac1">-=&lt;/span> rho &lt;span style="color:#ff6ac1">*&lt;/span> prev_v &lt;span style="color:#ff6ac1">-&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">+&lt;/span> rho) &lt;span style="color:#ff6ac1">*&lt;/span> v
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="rmsprop-leaky-adagrad" >
+&lt;div>
+&lt;a href="#rmsprop-leaky-adagrad">
+##
+&lt;/a>
+RMSProp: &amp;ldquo;Leaky AdaGrad&amp;rdquo;
+&lt;/div>
+&lt;/h3>
+&lt;ul>
+&lt;li>AdaGrad&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>grad_squared &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> t &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(num_steps):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dw &lt;span style="color:#ff6ac1">=&lt;/span> compute_gradient(w)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> grad_squared &lt;span style="color:#ff6ac1">+=&lt;/span> dw &lt;span style="color:#ff6ac1">*&lt;/span> dw
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w &lt;span style="color:#ff6ac1">-=&lt;/span> learning_rate &lt;span style="color:#ff6ac1">*&lt;/span> dw &lt;span style="color:#ff6ac1">/&lt;/span> (grad_squared&lt;span style="color:#ff6ac1">.&lt;/span>sqrt() &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1e-7&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>RMSProp&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>grad_squared &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> t &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(num_steps):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dw &lt;span style="color:#ff6ac1">=&lt;/span> compute_gradient(w)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> grad_squared &lt;span style="color:#ff6ac1">+=&lt;/span> decay_rate &lt;span style="color:#ff6ac1">*&lt;/span> grad_squared &lt;span style="color:#ff6ac1">+&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> decay_rate) &lt;span style="color:#ff6ac1">*&lt;/span> dw &lt;span style="color:#ff6ac1">*&lt;/span> dw
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w &lt;span style="color:#ff6ac1">-=&lt;/span> learning_rate &lt;span style="color:#ff6ac1">*&lt;/span> dw &lt;span style="color:#ff6ac1">/&lt;/span> (grad_squared&lt;span style="color:#ff6ac1">.&lt;/span>sqrt() &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1e-7&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>Adam: RMSProp + Momentum&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>moment1 &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>moment2 &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> t &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(num_steps):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dw &lt;span style="color:#ff6ac1">=&lt;/span> compute_gradient(w)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> moment1 &lt;span style="color:#ff6ac1">=&lt;/span> beta1 &lt;span style="color:#ff6ac1">*&lt;/span> moment1 &lt;span style="color:#ff6ac1">+&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> beta1) &lt;span style="color:#ff6ac1">*&lt;/span> dw
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> moment2 &lt;span style="color:#ff6ac1">=&lt;/span> beta2 &lt;span style="color:#ff6ac1">*&lt;/span> moment2 &lt;span style="color:#ff6ac1">+&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> beta2) &lt;span style="color:#ff6ac1">*&lt;/span> dw &lt;span style="color:#ff6ac1">*&lt;/span> dw
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w &lt;span style="color:#ff6ac1">-=&lt;/span> learning_rate &lt;span style="color:#ff6ac1">*&lt;/span> moment1 &lt;span style="color:#ff6ac1">/&lt;/span> (moment2&lt;span style="color:#ff6ac1">.&lt;/span>sqrt() &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1e-7&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>在这个&lt;code>Adam&lt;/code>算法版本中，当&lt;code>t=0,beta2=0.999&lt;/code>时，会怎么样？会造成类似&lt;code>1/0&lt;/code>的效果，而在迭代
+的第一步就得到一个巨大的梯度值。这通常不好，需要修正。&lt;/p>
+&lt;ul>
+&lt;li>Bias correction:
+Bias correction for the fact that first and second moment estimates start at zero&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>moment1 &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>moment2 &lt;span style="color:#ff6ac1">=&lt;/span> &lt;span style="color:#ff9f43">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ff6ac1">for&lt;/span> t &lt;span style="color:#ff6ac1">in&lt;/span> &lt;span style="color:#ff5c57">range&lt;/span>(num_steps):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> dw &lt;span style="color:#ff6ac1">=&lt;/span> compute_gradient(w)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> moment1 &lt;span style="color:#ff6ac1">=&lt;/span> beta1 &lt;span style="color:#ff6ac1">*&lt;/span> moment1 &lt;span style="color:#ff6ac1">+&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> beta1) &lt;span style="color:#ff6ac1">*&lt;/span> dw
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> moment2 &lt;span style="color:#ff6ac1">=&lt;/span> beta2 &lt;span style="color:#ff6ac1">*&lt;/span> moment2 &lt;span style="color:#ff6ac1">+&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> beta2) &lt;span style="color:#ff6ac1">*&lt;/span> dw &lt;span style="color:#ff6ac1">*&lt;/span> dw
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> moment1_unbias &lt;span style="color:#ff6ac1">=&lt;/span> moment1 &lt;span style="color:#ff6ac1">/&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> beta1 &lt;span style="color:#ff6ac1">**&lt;/span> t)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> moment2_unbias &lt;span style="color:#ff6ac1">=&lt;/span> moment2 &lt;span style="color:#ff6ac1">/&lt;/span> (&lt;span style="color:#ff9f43">1&lt;/span> &lt;span style="color:#ff6ac1">-&lt;/span> beta2 &lt;span style="color:#ff6ac1">**&lt;/span> t)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> w &lt;span style="color:#ff6ac1">-=&lt;/span> learning_rate &lt;span style="color:#ff6ac1">*&lt;/span> moment1 &lt;span style="color:#ff6ac1">/&lt;/span> (moment2&lt;span style="color:#ff6ac1">.&lt;/span>sqrt() &lt;span style="color:#ff6ac1">+&lt;/span> &lt;span style="color:#ff9f43">1e-7&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>finetune_llm_2</title><link>/posts/resumeessentials/2024-11-04-finetune_llm_clip/</link><pubDate>Mon, 04 Nov 2024 16:39:22 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/resumeessentials/2024-11-04-finetune_llm_clip/</guid><description>&lt;p>简历中提到对模型进行私域数据微调（finetuning）的，要能够说出所以然来。&lt;/p>
 &lt;h2 id="cn-clip-微调--swin-v2-魔改多标签预测" >
 &lt;div>
 &lt;a href="#cn-clip-%e5%be%ae%e8%b0%83--swin-v2-%e9%ad%94%e6%94%b9%e5%a4%9a%e6%a0%87%e7%ad%be%e9%a2%84%e6%b5%8b">
@@ -3829,7 +3961,7 @@ $$&lt;/p>
 &lt;p>更好的特征传播（feature propagation）&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;p>Paper: &lt;a href="https://arxiv.org/pdf/1512.03385">https://arxiv.org/pdf/1512.03385&lt;/a>&lt;/p></description></item><item><title>knowledge_distillation2</title><link>/posts/neuralnetworks/2024-06-28-knowledge_distillation2/</link><pubDate>Fri, 28 Jun 2024 11:25:43 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/2024-06-28-knowledge_distillation2/</guid><description>&lt;h2 id="generalized-knowledge-distillation-gkd" >
+&lt;p>Paper: &lt;a href="https://arxiv.org/pdf/1512.03385">https://arxiv.org/pdf/1512.03385&lt;/a>&lt;/p></description></item><item><title>knowledge_distillation2</title><link>/posts/neuralnetworks/modelcompression/2024-06-28-knowledge_distillation2/</link><pubDate>Fri, 28 Jun 2024 11:25:43 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/modelcompression/2024-06-28-knowledge_distillation2/</guid><description>&lt;h2 id="generalized-knowledge-distillation-gkd" >
 &lt;div>
 &lt;a href="#generalized-knowledge-distillation-gkd">
 #
@@ -3914,7 +4046,7 @@ GKD 技术要点
 师模型的表现。&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;p>参考文献：https://arxiv.org/pdf/2306.13649&lt;/p></description></item><item><title>knowledge_distillation</title><link>/posts/neuralnetworks/2024-06-27-knowledge_distillation/</link><pubDate>Thu, 27 Jun 2024 11:34:18 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/2024-06-27-knowledge_distillation/</guid><description>&lt;p>知识蒸馏（Knowledge Distillation）是一种机器学习技术，它通过将大型、复杂的模型（称为教师
+&lt;p>参考文献：https://arxiv.org/pdf/2306.13649&lt;/p></description></item><item><title>knowledge_distillation</title><link>/posts/neuralnetworks/modelcompression/2024-06-27-knowledge_distillation/</link><pubDate>Thu, 27 Jun 2024 11:34:18 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/modelcompression/2024-06-27-knowledge_distillation/</guid><description>&lt;p>知识蒸馏（Knowledge Distillation）是一种机器学习技术，它通过将大型、复杂的模型（称为教师
 模型，Teacher Model）的知识“蒸馏”到小型、简洁的模型（称为学生模型，Student Model）中，从
 而实现模型压缩和加速，同时尽可能保持原始模型的性能。这一技术使得模型可以在资源有限的设备
 上高效运行，如手机或嵌入式设备。&lt;/p>
@@ -4134,7 +4266,7 @@ NCE是将多分类问题转换为二分类问题（数据样本vs噪声样本）
 $$&lt;/p>
 &lt;/li>
 &lt;/ul>
-&lt;p>&lt;img alt="MoCo" src="https://fgg100y.github.io/posts/neuralnetworks/moco/images/CV-moco_model_query_key_similarity_contrast_loss.png">&lt;/p></description></item><item><title>what_is_Momentum</title><link>/posts/neuralnetworks/2024-06-16-what_is_momentum/</link><pubDate>Sun, 16 Jun 2024 10:35:30 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/neuralnetworks/2024-06-16-what_is_momentum/</guid><description>&lt;p>“动量”简单来说就是：移动加权平均。
+&lt;p>&lt;img alt="MoCo" src="https://fgg100y.github.io/posts/neuralnetworks/moco/images/CV-moco_model_query_key_similarity_contrast_loss.png">&lt;/p></description></item><item><title>what_is_Momentum</title><link>/posts/optimazationmethods/sgd/2024-06-16-what_is_momentum/</link><pubDate>Sun, 16 Jun 2024 10:35:30 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/optimazationmethods/sgd/2024-06-16-what_is_momentum/</guid><description>&lt;p>“动量”简单来说就是：移动加权平均。
 $$
 y_t = m \times y_{t-1} + (1 - m) \times x_t
 $$
@@ -9046,7 +9178,334 @@ for which it is easily seen that $\int p(x)dx = 1$. This gives a model for the d
 &lt;p>18: &lt;strong>end for&lt;/strong>&lt;/p>
 &lt;p>19: &lt;strong>until&lt;/strong> 均值向量均未更新&lt;/p>
 &lt;p>&lt;strong>输出&lt;/strong>: 簇划分 ${C_1, C_2, \ldots, C_k}$&lt;/p>
-&lt;hr></description></item><item><title>Book Notes: clustering methods</title><link>/posts/ml101/clusteringmethods/prototype-based_clustering/</link><pubDate>Sat, 13 Jun 2020 16:11:47 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/ml101/clusteringmethods/prototype-based_clustering/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>注明：
+&lt;hr></description></item><item><title>Book Notes: Optimization algorithms</title><link>/posts/optimazationmethods/sgd/optimization_algorithms/</link><pubDate>Tue, 16 Jun 2020 10:35:30 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/optimazationmethods/sgd/optimization_algorithms/</guid><description>&lt;h1 id="83-basic-algorithms" >
+&lt;div>
+&lt;a href="#83-basic-algorithms">
+##
+&lt;/a>
+8.3 Basic Algorithms
+&lt;/div>
+&lt;/h1>
+&lt;p>Most deep learning algorithms involve optimization of some sort. Optimization refers to the task of either minimizing or maximizing some function $f(x)$ by altering $x$. The function we want to minimize or maximize is called the &lt;strong>objective function&lt;/strong>, or &lt;strong>criterion&lt;/strong>. When we are minimizing it, we may also call it the &lt;strong>cost function&lt;/strong>, &lt;strong>loss function&lt;/strong>, or &lt;strong>error function&lt;/strong>.&lt;/p>
+&lt;p>Suppose we have a function $y = f(x)$, where both $x$ and $y$ are real numbers. The &lt;strong>derivative&lt;/strong> of this function is denoted as $f&amp;rsquo;(x)$ or as $\frac{dx}{dy}$. The derivative $f&amp;rsquo;(x)$ gives the slope of $f(x)$ at the point $x$. In other words, it specifies how to scale a small change in the input to obtain the corresponding change in the output: $f(x + \epsilon) \approx f(x) + \epsilon f&amp;rsquo;(x)$.&lt;/p>
+&lt;p>The derivative is therefore useful for minimizing a function because it tells us how to change x in order to make a small improvement in $y$. For example, we know that $f(x - \epsilon \ \text{sign}(f&amp;rsquo;(x)))$ is less than $f(x)$ for small enough $\epsilon$. We can thus reduce $f(x)$ by moving $x$ in small steps with opposite sign of the derivative. This technique is called &lt;strong>gradient descent&lt;/strong>.&lt;/p>
+&lt;p>&lt;img alt="derivative" src="./images/gradient_descent_using_derivative.png">&lt;/p>
+&lt;blockquote>
+&lt;p>Note that:&lt;/p>
+&lt;p>&lt;strong>6.5 Back-Propagation and Other Differentiation Algorithms&lt;/strong>&lt;/p>
+&lt;p>When we use a feedforward neural network to accept an input $x$ and produce an output $\hat{y}$, information flows forward through the network. The input $x$ provides the initial information that then propagates up to the hidden units at each layer and finally produces $\hat{y}$. This is called &lt;strong>forward propagation&lt;/strong>. During training, forward propagation can continue onward until it produces a scalar cost $J(\theta)$. The &lt;strong>back-propagation&lt;/strong> algorithm, often simply called &lt;strong>backprop&lt;/strong>, allows the information from the cost to then flow backward through the network in order to compute the gradient.&lt;/p>
+&lt;p>Computing an analytical expression for the gradient is straightforward, but numerically evaluating such an expression can be computationally expensive. The back-propagation algorithm does so using a simple and inexpensive procedure.&lt;/p>
+&lt;p>The term back-propagation is often misunderstood as meaning the whole learning algorithm for multi layer neural networks. Actually, back-propagation refers only to the method for computing the gradient, while another algorithm, such SGD, is used to perform learning using this gradient.&lt;/p>
+&lt;p>Furthermore, back-propagation is often misunderstood as being specific to multilayer neural networks, but in principle it can compute derivatives of any function ( for some function, the correct response is to report that the derivative of the function is undefined).&lt;/p>
+&lt;p>Specifically, we will describe how to compute the gradient $\nabla_{x} f(x, y)$ for an arbitrary function $f$, where $x$ is a set of variables whose derivatives are desired, and $y$ is an additional set of variables that are inputs to the function but whose derivatives are not required. In learning algorithms, the gradient we most often require is the gradient of the cost function with respect to the parameters, $\nabla_{\theta} J(\theta)$.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="831-stochastic-gradient-descent" >
+&lt;div>
+&lt;a href="#831-stochastic-gradient-descent">
+#
+&lt;/a>
+8.3.1 Stochastic Gradient Descent
+&lt;/div>
+&lt;/h2>
+&lt;p>SGD and its variants are probably the most used optimization algorithms for machine learning in general and for deep learning in particular. It is possible to obtain an unbiased estimate of the gradient by taking the average gradient on a minibatch of $m$ examples drawn i.i.d from the data-generating distribution.&lt;/p>
+&lt;p>Algorithm 8.1 shows how to follow this estimate of the gradient downhill.&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Algorithm 8.1&lt;/strong> Stochastic gradient descent (SGD) update at training iteration $k$&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Require:&lt;/strong> Learning rate $\epsilon_k$&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Initial parameter $\theta$&lt;/p>
+&lt;pre>&lt;code>**while** stopping criterion not met **do**
+Sample a minibatch of $m$ examples from the training set {$x^{(1)}, \ldots, x^{(m)}$} with corresponding targets $y^{(i)}$
+Compute gradient estimate: $\hat{g} \leftarrow + \frac{1}{m} \nabla_{\theta} \sum_i L(f(x^{(i)}; \theta), y^{(i)})$
+Apply update: $\theta \leftarrow \theta - \epsilon \hat{g}$
+**end while**
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;blockquote>
+&lt;p>Recall that:&lt;/p>
+&lt;p>The cost function used by a machine learning algorithm often decomposes as a sum over training examples of some per-example loss function. For example, the negative conditional log-likelihood of the training data can be written as
+$$
+\tag{5.96}
+J(\theta) = \mathbb{E}&lt;em>{\mathbf{x}, \mathbf{y} \sim \hat{P}&lt;/em>{data}} L(x, y, \theta) = \frac{1}{m} \sum^m_{i=1} L(x^{(i)}, y^{(i)}, \theta),
+$$
+where $L$ is the per-example loss $L(x, y, \theta) = - log \ p(y | x; \theta)$.&lt;/p>
+&lt;p>$\color{Blue}{\textsf{For these additive cost functions, gradient descent requires computing}}$
+$$
+\tag{5.97}
+\nabla_{\theta} J(\theta) = \frac{1}{m} \sum^m_{i=1} \nabla_{\theta} L(x^{(i)}, y^{(i)}, \theta)
+$$
+The computational cost of this operation is $O(m)$. As the training set size grows to billions of examples, the time to take a single gradient step becomes prohibitively long.&lt;/p>
+&lt;p>The insight of SGD is that the gradient is an expectation. The expectation may be approximately estimated using a small set of samples. Specifically, on each step of the algorithm, we can sample a minibatch of $m&amp;rsquo;$ examples, then the estimate of the gradient is formed as
+$$
+\tag{5.98}
+\hat{g} = \frac{1}{m&amp;rsquo;} \sum^{m&amp;rsquo;}&lt;em>{i=1} \nabla&lt;/em>{\theta} L(x^{(i)}, y^{(i)}, \theta)
+$$&lt;/p>
+&lt;/blockquote>
+&lt;p>A crucial parameter for the SGD algorithm is the learning rate. In practice, it is necessary that SGD algorithm to gradually decrease the learning rate over time (Batch gradient descent can use a fixed learning rate), this is because the SGD gradient estimator introduces a source of noise (the random sampling of $m$ training examples) that does not vanish even when we arrive at a minimum. A sufficient condition to guarantee convergence of SGD is that
+$$
+\tag{8.12}
+\sum^{\infin}_{k=1} \epsilon_k = \infin, \ \text{and}
+$$&lt;/p>
+&lt;p>$$
+\tag{8.13}
+\sum^{\infin}_{k=1} \epsilon^2_k &amp;lt; \infin.
+$$&lt;/p>
+&lt;p>In practice, it is common to decay the learning rate linearly until iteration $\tau$:
+$$
+\tag{8.14}
+\epsilon_k = (1 - \alpha)\epsilon_0 + \alpha \epsilon_{\tau}
+$$
+with $\alpha = \frac{k}{\tau}$. After iteration $\tau$, it is common to leave $\epsilon$ constant.&lt;/p>
+&lt;h2 id="832-momentum" >
+&lt;div>
+&lt;a href="#832-momentum">
+#
+&lt;/a>
+8.3.2 Momentum
+&lt;/div>
+&lt;/h2>
+&lt;p>While SGD remains a popular optimization strategy, learning with it can sometimes be slow. The method of momentum is designed to accelerate learning, especially in the face of high curvature, small but consistent gradients, or noisy gradients. The momentum algorithm accumulates an exponentially decaying moving average of past gradients and continues to move in their direction.&lt;/p>
+&lt;p>Formally, the momentum algorithm introduces a variable $v$ that plays the role of velocity &amp;ndash; it is the direction and speed at which the parameters move through parameter space. The velocity is set to an exponentially decaying average of the negative gradient.&lt;/p>
+&lt;p>In the momentum learning algorithm, we assume unit mass, so the velocity vector $v$ may also be regarded as the momentum of the particle (physical analogy, Newton&amp;rsquo;s laws of motion). A hyperparameter $\alpha \in [0, 1)$ determines how quickly the contributions of previous gradients exponentially decay. The update rule is given by
+$$
+\begin{eqnarray}
+\tag{8.15}
+v &amp;amp;\leftarrow&amp;amp; \alpha v - \epsilon \nabla_{\theta} \bigg(\frac{1}{m} \sum^m_{i=1} L(f(x^{(i)}; \theta), y^{(i)}) \bigg), \&lt;/p>
+&lt;p>\tag{8.16}
+\theta &amp;amp;\leftarrow&amp;amp; \theta + v
+\end{eqnarray}
+$$&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Algorithm 8.2&lt;/strong> Stochastic gradient descent (SGD) with momentum&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Require:&lt;/strong> Learning rate $\epsilon$, momentum parameter $\alpha$&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Initial parameter $\theta$, initial velocity $v$&lt;/p>
+&lt;pre>&lt;code>**while** stopping criterion not met **do**
+Sample a minibatch of $m$ examples from the training set {$x^{(1)}, \ldots, x^{(m)}$} with corresponding targets $y^{(i)}$
+Compute gradient estimate: $\hat{g} \leftarrow + \frac{1}{m} \nabla_{\theta} \sum_i L(f(x^{(i)}; \theta), y^{(i)})$
+Compute velocity update: $v \leftarrow \alpha v - \epsilon \hat{g}$
+Apply update: $\theta \leftarrow \theta + v$
+**end while**
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;p>The velocity $v$ accumulates the gradient elements $\nabla_{\theta} (\frac{1}{m} \sum^m_i L(f(x^{(i)}; \theta), y^{(i)}))$. The larger $\alpha$ is relative to $\epsilon$, the more previous gradients affect the current direction.&lt;/p>
+&lt;p>Previously, the size of the step was simply the norm of the gradient multiplied by the learning rate. Now, the size of the step depends on how large and how aligned a &lt;em>sequence&lt;/em> of gradients are. The step size is largest when many successive gradients point in exactly the same direction. If the momentum algorithm always observes gradient $g$, then it will accelerate in the direction of $-g$, until reaching a terminal velocity where the size of each step is
+$$
+\tag{8.17}
+\frac{\epsilon ||g||}{1 - \alpha}.
+$$
+It is thus helpful to think of the momentum hyperparameter in terms of $\frac{1}{1 - \alpha}$. For example, $\alpha = 0.9$ corresponds to multiplying the maximum speed by 10 relative to the gradient descent algorithm.&lt;/p>
+&lt;h2 id="833-nesterov-momentum" >
+&lt;div>
+&lt;a href="#833-nesterov-momentum">
+#
+&lt;/a>
+8.3.3 Nesterov Momentum
+&lt;/div>
+&lt;/h2>
+&lt;p>The update rules in Nesterov momentum algorithm are given by
+$$
+\begin{eqnarray}
+\tag{8.21}
+v &amp;amp;\leftarrow&amp;amp; \alpha v - \epsilon \nabla_{\theta} \bigg(\frac{1}{m} \sum^m_{i=1} L(f(x^{(i)}; \theta + \alpha v), y^{(i)}) \bigg), \&lt;/p>
+&lt;p>\tag{8.22}
+\theta &amp;amp;\leftarrow&amp;amp; \theta + v,
+\end{eqnarray}
+$$&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Algorithm 8.3&lt;/strong> Stochastic gradient descent (SGD) with Nesterov momentum&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Require:&lt;/strong> Learning rate $\epsilon$, momentum parameter $\alpha$&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Initial parameter $\theta$, initial velocity $v$&lt;/p>
+&lt;pre>&lt;code>**while** stopping criterion not met **do**
+Sample a minibatch of $m$ examples from the training set {$x^{(1)}, \ldots, x^{(m)}$} with corresponding targets $y^{(i)}$
+Apply interim update: $\tilde{\theta} \leftarrow \theta + \alpha v$.
+Compute gradient (at interim point): $\hat{g} \leftarrow + \frac{1}{m} \nabla_{\tilde{\theta}} \sum_i L(f(x^{(i)}; \tilde{\theta}), y^{(i)})$.
+Compute velocity update: $v \leftarrow \alpha v - \epsilon \hat{g}$.
+Apply update: $\theta \leftarrow \theta + v$.
+**end while**
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;p>where the parameters $\alpha$ and $\epsilon$ play a similar role as in the standard momentum method. The different between Nesterov momentum and standard momentum is where the gradient is evaluated. With Nesterov momentum, the gradient is evaluated after the current velocity is applied. Thus one can interpret Nesterov momentum as attempting to add a &lt;em>correction factor&lt;/em> to the standard method of momentum.&lt;/p>
+&lt;h1 id="85-algorithms-with-adaptive-learning-rates" >
+&lt;div>
+&lt;a href="#85-algorithms-with-adaptive-learning-rates">
+##
+&lt;/a>
+8.5 Algorithms with Adaptive Learning Rates
+&lt;/div>
+&lt;/h1>
+&lt;p>The learning rate is reliably one of the most difficult to set hyperparameters because it significantly affects model performances. The cost is often highly sensitive to some directions in parameter space and insensitive to others. The momentum algorithm can mitigate these issues somewhat, but it does so at the expense of introducing another hyperparameter. Is there another way?&lt;/p>
+&lt;p>If we believe that the directions of sensitivity are somewhat axis aligned, it can make sense to use a separate learning rate for each parameter and automatically adapt these learning rate throughout the course of learning.&lt;/p>
+&lt;p>The &lt;strong>delta-bar-delta&lt;/strong> algorithm(1988) is an early heuristic approach to adapting individual learning rates for model parameters during training. The approach is based on a simple idea: if the partial derivative of the loss, with respect to a given model parameter, remains the same sign, then the learning rate should increase. If that partial derivative changes sign, then the learning rate should decrease. Of course, this kind of rule can only be applied to full batch optimization.&lt;/p>
+&lt;p>More recently(2016), a number of incremental (or mini batch-based) methods have been introduced that adapt the learning rates of model parameters.&lt;/p>
+&lt;h2 id="851-adagrad" >
+&lt;div>
+&lt;a href="#851-adagrad">
+#
+&lt;/a>
+8.5.1 AdaGrad
+&lt;/div>
+&lt;/h2>
+&lt;hr>
+&lt;p>&lt;strong>Algorithm 8.4&lt;/strong> The AdaGrad algorithm&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Require:&lt;/strong> Global learning rate $\epsilon$&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Initial parameter $\theta$&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Small constant $\delta$, perhaps $10^{-7}$, for numerical stability&lt;/p>
+&lt;pre>&lt;code>Initialize gradient accumulation variable $r = 0$
+**while** stopping criterion not met **do**
+Sample a minibatch of $m$ examples from the training set {$x^{(1)}, \ldots, x^{(m)}$} with corresponding targets $y^{(i)}$.
+Compute gradient estimate: $\hat{g} \leftarrow \frac{1}{m} \nabla_{\theta} \sum_i L(f(x^{(i)}; \theta), y^{(i)})$.
+Accumulate squared gradient: $r \leftarrow r + \hat{g} \odot \hat{g}$
+Compute update: $\Delta \theta \leftarrow -\frac{\epsilon}{\delta + \sqrt{r}} \odot \hat{g}$. (Division and square root applied element-wise)
+Apply update: $\theta \leftarrow \theta + \Delta \theta$.
+**end while**
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;p>The AdaGrad algorithm individually adapts the learning rates of all model parameters by &lt;strong>scaling them inversely proportional to the square root of the sum of all the historical squared values of the gradient&lt;/strong>.&lt;/p>
+&lt;p>The parameters with largest partial derivative of the loss have a correspondingly rapid decrease in their learning rate, while parameters with small partial derivatives have a relatively small decrease in their learning rate. The net effect is greater progress in the more gently sloped directions of parameter space.&lt;/p>
+&lt;p>In the context of convex optimization, the AdaGrad algorithm enjoys some desirable theoretical properties. Empirically, however, for training deep neural network models, the accumulation of squared gradients &lt;em>from the beginning of training&lt;/em> can result in a premature and excessive decrease in the effective learning rate. AdaGrad performs well for some but not all deep learning models.&lt;/p>
+&lt;h2 id="852-rmsprop" >
+&lt;div>
+&lt;a href="#852-rmsprop">
+#
+&lt;/a>
+8.5.2 RMSProp
+&lt;/div>
+&lt;/h2>
+&lt;p>The &lt;strong>RMSProp&lt;/strong> algorithm(2012) modifies AdaGrad to perform better in the nonconvex setting by changing the gradient accumulation into an exponentially weighted moving average. AdaGrad is designed to converge rapidly when applied to a convex function. When applied to a nonconvex function to train a neural network, the learning trajectory may pass through many different structures and eventually arrive at a region that is a locally convex bowl. AdaGrad shrinks the learning rate according to the entire history of the squared gradient and may have made the learning rate too small before arriving at such a convex structure. RMSProp uses an exponentially decaying average to discard history from the extreme past so that it can converge rapidly after finding a convex bowl, as if it were an instance of the AdaGrad algorithm initialized within that bowl.&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Algorithm 8.5&lt;/strong> The RMSProp algorithm&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Require:&lt;/strong> Global learning rate $\epsilon$, decay rate $\rho$&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Initial parameter $\theta$&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Small constant $\delta$, perhaps $10^{-6}$, used to stabilize division by small numbers&lt;/p>
+&lt;pre>&lt;code>Initialize gradient accumulation variable $r = 0$
+**while** stopping criterion not met **do**
+Sample a minibatch of $m$ examples from the training set {$x^{(1)}, \ldots, x^{(m)}$} with corresponding targets $y^{(i)}$.
+Compute gradient estimate: $\hat{g} \leftarrow \frac{1}{m} \nabla_{\theta} \sum_i L(f(x^{(i)}; \theta), y^{(i)})$.
+Accumulate squared gradient: $r \leftarrow \rho r + (1 - \rho)\hat{g} \odot \hat{g}$
+Compute update: $\Delta \theta = -\frac{\epsilon}{\sqrt{\delta + r}} \odot \hat{g}$. ($\frac{1}{\sqrt{\delta + r}}$ applied element-wise)
+Apply update: $\theta \leftarrow \theta + \Delta \theta$.
+**end while**
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;hr>
+&lt;p>&lt;strong>Algorithm 8.6&lt;/strong> The RMSProp algorithm with Nesterov momentum&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Require:&lt;/strong> Global learning rate $\epsilon$, decay rate $\rho$, momentum coefficient $\alpha$&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Initial parameter $\theta$, initial velocity $v$&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Small constant $\delta$, perhaps $10^{-6}$, used to stabilize division by small numbers&lt;/p>
+&lt;pre>&lt;code>Initialize gradient accumulation variable $r = 0$
+**while** stopping criterion not met **do**
+Sample a minibatch of $m$ examples from the training set {$x^{(1)}, \ldots, x^{(m)}$} with corresponding targets $y^{(i)}$.
+Compute interim update: $\tilde{\theta} \leftarrow \theta + \alpha v$.
+Compute gradient (at interim point): $\hat{g} \leftarrow + \frac{1}{m} \nabla_{\tilde{\theta}} \sum_i L(f(x^{(i)}; \tilde{\theta}), y^{(i)})$.
+Accumulate squared gradient: $r \leftarrow \rho r + (1 - \rho)\hat{g} \odot \hat{g}$
+Compute velocity update: $v \leftarrow \alpha v -\frac{\epsilon}{\sqrt{r}} \odot \hat{g}$. ($\frac{1}{\sqrt{r}}$ applied element-wise)
+Apply update: $\theta \leftarrow \theta + v$.
+**end while**
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;p>Compared to AdaGrad, the use of the moving average introduces a new hyperparameter, $\rho$, that controls the length scale of the moving average.&lt;/p>
+&lt;p>Empirically, RMSProp has been shown to be an effective and practical optimization algorithm for deep neural networks ( A go-to optimization methods for deep learning practitioners).&lt;/p>
+&lt;h2 id="adam" >
+&lt;div>
+&lt;a href="#adam">
+#
+&lt;/a>
+Adam
+&lt;/div>
+&lt;/h2>
+&lt;p>&lt;strong>Algorithm 8.7&lt;/strong> The Adam algorithm&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Require:&lt;/strong> Step size $\epsilon$ (Suggested default: 0.001)&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Exponential decay rates for moment estimate, $\rho_1$ and $rho_2$ in $[0, 1)$. (Suggested default: 0.9 and 0.999 respectively)&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Small constant $\delta$, used to stabilize division by small numbers (Suggested default: $10^{-8}$)&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Initial parameters $\theta$&lt;/p>
+&lt;pre>&lt;code>Initialize 1st and 2nd moment variables $s = 0, r = 0$
+Initialize time step $t = 0$
+**while** stopping criterion not met **do**
+Sample a minibatch of $m$ examples from the training set {$x^{(1)}, \ldots, x^{(m)}$} with corresponding targets $y^{(i)}$.
+Compute gradient estimate: $\hat{g} \leftarrow \frac{1}{m} \nabla_{\theta} \sum_i L(f(x^{(i)}; \theta), y^{(i)})$.
+$t \leftarrow t + 1$.
+Update biased first moment estimate: $s \leftarrow \rho_1 s + (1 - \rho_1) \hat{g}$.
+Update biased second moment estimate: $r \leftarrow \rho_2 r + (1 - \rho_2) \hat{g} \odot \hat{g}$.
+Correct bias in first moment: $\hat{s} \leftarrow \frac{s}{1 - \rho_1^t}$.
+Correct bias in first moment: $\hat{r} \leftarrow \frac{r}{1 - \rho_2^t}$.
+Compute update: $\Delta \theta = - \epsilon \frac{\hat{s}}{\delta + \sqrt{\hat{r}}}$. (operations applied element-wise)
+Apply update: $\theta \leftarrow \theta + \Delta \theta$.
+**end while**
+&lt;/code>&lt;/pre>
+&lt;hr></description></item><item><title>Book Notes: second order approximation (1)</title><link>/posts/optimazationmethods/sgd/approximate_second-order_methods/</link><pubDate>Tue, 16 Jun 2020 10:35:30 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/optimazationmethods/sgd/approximate_second-order_methods/</guid><description>&lt;h1 id="approximate-second-order-methods" >
+&lt;div>
+&lt;a href="#approximate-second-order-methods">
+##
+&lt;/a>
+Approximate Second-Order Methods
+&lt;/div>
+&lt;/h1>
+&lt;p>For simplicity of exposition, the only objective function we examine is the empirical risk:
+$$
+\tag{8.25}
+J(\theta) = \mathbb{E}&lt;em>{\mathbf{x, y} \sim \hat{p}&lt;/em>{data}} [L(f(x; \theta), y)] = \frac{1}{m} \sum^m_{i=1} L(f(x^{(i)}; \theta), y^{(i)}).
+$$
+In contrast to first-order methods, second-order methods make use of the second derivatives to improve optimization. The most widely used second-order method is Newton&amp;rsquo;s method.&lt;/p>
+&lt;h2 id="861-newtons-method" >
+&lt;div>
+&lt;a href="#861-newtons-method">
+#
+&lt;/a>
+8.6.1 Newton&amp;rsquo;s Method
+&lt;/div>
+&lt;/h2>
+&lt;p>Newton&amp;rsquo;s method is an optimization scheme based on using a second-order Taylor series expansion to approximate $J(\theta)$ near some point $\theta_0$, ignoring derivatives of higher order:
+$$
+\tag{8.26}
+J(\theta) \approx J(\theta_0) + (\theta - \theta_0)^{\mathsf{T}} \nabla_{\theta} J(\theta_0) + \frac{1}{2} (\theta - \theta_0)^{\mathsf{T}} H (\theta - \theta_0),
+$$
+where $H$ is the Hessian of $J$ with respect to $\theta$ evaluated at $\theta_0$. If we then solve for the critical point of this function, we obtain the Newton parameter update rule:
+$$
+\tag{8.27}
+\theta^* = \theta_0 - H^{-1} \nabla_{\theta} J(\theta_0).
+$$
+Thus for a locally quadratic function (with positive definite $H$), by rescaling the gradient by $H^{-1}$, Newton&amp;rsquo;s method jumps directly to the minimum (NOTE that $\theta^*$ means the $\theta$ which optimizes the $J(\theta)$). If the objective function is convex but not quadratic (there are higher-order terms), this update can be iterated, yielding the training algorithm associated with Newton&amp;rsquo;s method, given in algorithm 8.8.&lt;/p>
+&lt;p>For surfaces that are not quadratic, as long as the Hessian remains positive definite, Newton&amp;rsquo;s method can be applied iteratively. This implies a two-step iterative procedure. First, update or compute the inverse Hessian (i.e., by updating the quadratic approximation). Second, update the parameters according to equation 8.27.&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Algorithm 8.8&lt;/strong> Newton&amp;rsquo;s method with objective $J(\theta) = \frac{1}{m} \sum^m_{i=1} L(f(x^{(i)}; \theta), y^{(i)})$.&lt;/p>
+&lt;hr>
+&lt;p>&lt;strong>Require:&lt;/strong> Initial parameter $\theta_0$&lt;/p>
+&lt;p>&lt;strong>Require:&lt;/strong> Training set of m examples&lt;/p>
+&lt;pre>&lt;code>**while** stopping criterion not met **do**
+Compute gradient: $g \leftarrow \frac{1}{m} \nabla_{\theta} \sum_i L(f(x^{(i)}; \theta), y^{(i)})$.
+Compute Hessian: $H \leftarrow \frac{1}{m} \nabla^2_{\theta} \sum_i L(f(x^{(i)}; \theta), y^{(i)})$.
+Compute Hessian inverse: $H^{-1}$.
+Compute update: $\Delta \theta = - H^{-1}g$.
+Apply update: $\theta = \theta + \Delta \theta$.
+**end while**
+&lt;/code>&lt;/pre>
+&lt;hr>
+&lt;p>In previous section, we discuss how Newton&amp;rsquo;s method is appropriate only when the Hessian is positive definite (No saddle point around). In deep learning, the surface of the objective function is typically nonconvex, with many features, such as saddle points, that are problematic for Newton&amp;rsquo;s method. If the eigenvalues of the Hessian are not all positive, for example, near a saddle point, then Newton&amp;rsquo;s method can actually cause updates to move in the wrong direction. This situation can be avoided by regularizing the Hessian. Common regularization strategies include adding a constant, $\alpha$, along the diagonal of the Hessian. The regularized update becomes
+$$
+\tag{8.28}
+\theta^* = \theta_0 - [H(f(\theta_0)) + \alpha I]^{-1} \nabla_{\theta} J(\theta_0).
+$$
+Beyond the challenge created by certain features of the objective function, such as saddle points, the application of Newton&amp;rsquo;s method for training large neural networks is limited by the significant computational burden it imposes.&lt;/p>
+&lt;blockquote>
+&lt;p>8.2.3&lt;/p>
+&lt;p>For Newton&amp;rsquo;s method, saddle points clearly constitute a problem. Gradient descent is designed to move &amp;ldquo;downhill&amp;rdquo; and is not explicitly designed to seek a critical point. Newton&amp;rsquo;s method, however, is designed to solve for a point where the gradient is zero.&lt;/p>
+&lt;p>The proliferation of saddle points in high-dimensional spaces presumably explains why second-order methods have not succeeded in replacing gradient descent for neural network training. Dauphin et al. (2014) introduced a &lt;strong>saddle-free Newton method&lt;/strong> for second-order optimization and show that it improves significantly over the traditional version. Second-order methods remain difficult to scale to large neural networks, but this saddle-free approach holds promise if it can be scaled.&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="bfgs-l-bfgs-algorithms" >
+&lt;div>
+&lt;a href="#bfgs-l-bfgs-algorithms">
+#
+&lt;/a>
+BFGS, L-BFGS algorithms
+&lt;/div>
+&lt;/h2>
+&lt;p>TODO &amp;hellip;&lt;/p></description></item><item><title>Book Notes: clustering methods</title><link>/posts/ml101/clusteringmethods/prototype-based_clustering/</link><pubDate>Sat, 13 Jun 2020 16:11:47 +0800</pubDate><author>1522009317@qq.com (fmh)</author><guid>/posts/ml101/clusteringmethods/prototype-based_clustering/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#e2e4e5;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>注明：
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>原理部分的内容均来自周志华的西瓜书，真正的大师之作。
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>其他内容来自开源包文档、开源电子书、ipynb文档等。
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="原型聚类" >
